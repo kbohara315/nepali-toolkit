@@ -8,9 +8,6 @@ export function dateToAD(value: Date): ADDate {
   return ad(value.getUTCFullYear(), value.getUTCMonth() + 1, value.getUTCDate());
 }
 
-export const fromDate = dateToAD;
-export const fromUTCDate = dateToAD;
-export const fromDateUTC = dateToAD;
 
 /** Construct an instant at UTC midnight for an AD civil date. */
 export function adToDate(value: ADDateFields): Date {
@@ -21,6 +18,3 @@ export function adToDate(value: ADDateFields): Date {
   return result;
 }
 
-export const toDate = adToDate;
-export const toUTCDate = adToDate;
-export const toDateUTC = adToDate;

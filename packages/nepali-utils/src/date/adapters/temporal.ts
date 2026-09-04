@@ -37,9 +37,6 @@ export function plainDateToAD(value: PlainDateLike): ADDate {
   return ad(value.year, value.month, value.day);
 }
 
-export const fromTemporal = plainDateToAD;
-export const fromPlainDate = plainDateToAD;
-export const fromTemporalPlainDate = plainDateToAD;
 
 function globalTemporal(): TemporalLike {
   const candidate = (globalThis as { Temporal?: TemporalLike }).Temporal;
@@ -66,6 +63,3 @@ export function adToPlainDate(
   return new temporal.PlainDate(date.year, date.month, date.day, 'iso8601');
 }
 
-export const toTemporal = adToPlainDate;
-export const toPlainDate = adToPlainDate;
-export const toTemporalPlainDate = adToPlainDate;

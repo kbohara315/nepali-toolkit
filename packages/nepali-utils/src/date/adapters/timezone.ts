@@ -53,6 +53,3 @@ export function instantToAD(value: Instant, timeZone: string): ADDate {
   return ad(year, month, day);
 }
 
-export const dateInTimeZoneToAD = instantToAD;
-export const fromInstant = instantToAD;
-export const instantToADInTimeZone = instantToAD;
