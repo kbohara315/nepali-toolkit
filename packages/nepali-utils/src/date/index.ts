@@ -86,7 +86,8 @@ export {
   nepaliRelativeLocale,
   relativePhrase,
 } from './relative.js';
-export { range } from './range.js';
+export { maxADYear, maxBSYear, minADYear, minBSYear, range } from './range.js';
+export type { DateMetadata } from './range.js';
 export { locale as englishLocale } from './locale/en.js';
 export { locale as nepaliLocale } from './locale/ne.js';
 export { adToDate, dateToAD } from './adapters/date.js';
