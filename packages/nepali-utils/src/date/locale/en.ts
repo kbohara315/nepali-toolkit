@@ -5,20 +5,9 @@ import {
   formatBS as formatBSValue,
 } from '../format.js';
 
-export const months = [
-  'Baisakh',
-  'Jestha',
-  'Asar',
-  'Shrawan',
-  'Bhadra',
-  'Aswin',
-  'Kartik',
-  'Mangsir',
-  'Poush',
-  'Magh',
-  'Falgun',
-  'Chaitra',
-] as const;
+import { AD_MONTHS_EN, BS_MONTHS_EN } from '../internal/tokens.js';
+
+export const months = BS_MONTHS_EN;
 
 export const weekdays = [
   'Sunday',
@@ -57,20 +46,7 @@ export function formatAD(date: ADDateFields, pattern: string): string {
   return formatADValue(date, pattern, { locale: { months: AD_MONTHS } });
 }
 
-export const AD_MONTHS = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-] as const;
+export const AD_MONTHS = AD_MONTHS_EN;
 
 export function format(date: BSDateFields, pattern: string): string {
   return formatWithLocale(date, pattern, locale);

@@ -3,6 +3,7 @@ import type { ADDate, BSDate } from './types.js';
 import { ParseError } from './errors.js';
 import { toAscii } from '../number/digits.js';
 import type { FormatLocale } from './format.js';
+import { AD_MONTHS_EN, BS_MONTHS_EN, findToken } from './internal/tokens.js';
 
 export interface ParseOptions {
   readonly pattern?: string;
@@ -16,36 +17,6 @@ export interface ParseOptions {
 
 type DateToken = 'YYYY' | 'YY' | 'M' | 'MM' | 'MMMM' | 'D' | 'DD' | 'do';
 const TOKENS: readonly DateToken[] = ['YYYY', 'MMMM', 'YY', 'MM', 'DD', 'do', 'M', 'D'];
-
-const BS_MONTHS_EN = [
-  'Baisakh',
-  'Jestha',
-  'Asar',
-  'Shrawan',
-  'Bhadra',
-  'Aswin',
-  'Kartik',
-  'Mangsir',
-  'Poush',
-  'Magh',
-  'Falgun',
-  'Chaitra',
-] as const;
-
-const AD_MONTHS_EN = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-] as const;
 
 interface Capture {
   readonly token: DateToken;
@@ -61,7 +32,7 @@ function regexLiteral(value: string): string {
 }
 
 function tokenAt(pattern: string, index: number): DateToken | undefined {
-  return TOKENS.find((token) => pattern.startsWith(token, index));
+  return findToken(TOKENS, pattern, index);
 }
 
 function compilePattern(
