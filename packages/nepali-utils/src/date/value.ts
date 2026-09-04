@@ -1,12 +1,15 @@
 import {
   addCivilDays,
   addCivilWeeks,
+  civilDayFromAD,
+  civilDayFromBS,
+  civilDayToAD,
+  civilDayToBS,
   compareCivilDays,
   differenceInCivilDays,
   equalCivilDays,
   weekdayCivilDay,
-} from './internal/civil-day.js';
-import { civilDayFromAD, civilDayFromBS, civilDayToAD, civilDayToBS } from './internal/conversion.js';
+} from './internal/conversion.js';
 import {
   addMonthsAD,
   addMonthsBS,

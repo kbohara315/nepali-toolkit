@@ -9,7 +9,7 @@ import {
   civilDayToBS,
   differenceInCivilDays,
   weekdayCivilDay,
-} from './internal/civil-day.js';
+} from './internal/conversion.js';
 import {
   InvalidArithmeticAmountError,
   InvalidCivilDateError,

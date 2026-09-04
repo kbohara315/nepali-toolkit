@@ -1,6 +1,4 @@
 import { toAscii, toDevanagari } from '../../number/digits.js';
-import { InvalidCivilDateError, InvalidFieldError } from '../errors.js';
-import type { ADDateFields, BSDateFields } from '../types.js';
 
 export const BS_MONTHS_EN = [
   'Baisakh',
@@ -31,20 +29,6 @@ export const AD_MONTHS_EN = [
   'November',
   'December',
 ] as const;
-
-export function assertFields(value: BSDateFields | ADDateFields): void {
-  if (
-    value === null ||
-    typeof value !== 'object' ||
-    !Number.isInteger(value.year) ||
-    !Number.isInteger(value.month) ||
-    !Number.isInteger(value.day)
-  ) {
-    throw new InvalidFieldError('date fields must be integers');
-  }
-  if (value.month < 1 || value.month > 12) throw new InvalidCivilDateError('month out of range');
-  if (value.day < 1 || value.day > 31) throw new InvalidCivilDateError('day out of range');
-}
 
 export function pad(value: number, width: number): string {
   return String(value).padStart(width, '0');
