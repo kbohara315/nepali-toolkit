@@ -100,8 +100,8 @@
     "dist"
   ],
   "scripts": {
-    "generate:date": "node scripts/date/generate-data.mjs",
-    "verify:date": "node scripts/date/verify-data.mjs",
+    "generate:date": "node src/date/scripts/generate-data.mjs",
+    "verify:date": "node src/date/scripts/verify-data.mjs",
     "build": "tsup",
     "test": "vitest run",
     "typecheck": "tsc --noEmit -p tsconfig.json",

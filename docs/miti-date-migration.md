@@ -43,18 +43,20 @@ packages/nepali-utils/
 │   │   ├── relative.ts
 │   │   ├── locale/
 │   │   ├── adapters/
-│   │   └── internal/
+│   │   ├── internal/
+│   │   ├── data/        # patro.json, sources, conformance vectors, provenance
+│   │   ├── scripts/     # generate-data, verify-data
+│   │   └── tests/
 │   └── number/
 │       └── digits.ts
-├── data/
-│   └── date/
-├── scripts/
-│   └── date/
-└── tests/
-    └── date/
+└── scripts/
+    ├── verify-package.mjs
+    └── verify-tree-shaking.mjs
 ```
 
-Exact filenames may remain unchanged during the first migration pass. The important boundary is that Patro, Gregorian day-count, generated data, and conversion internals remain private to `date`.
+All date concerns — code, data, scripts, tests — live inside `src/date/`.
+Package-level `scripts/` holds only package-wide verification. Exact
+filenames may remain unchanged during the first migration pass. The important boundary is that Patro, Gregorian day-count, generated data, and conversion internals remain private to `date`.
 
 ## Source mapping
 
@@ -66,9 +68,9 @@ Exact filenames may remain unchanged during the first migration pass. The import
 | `src/locale/*` | `src/date/locale/` |
 | `src/adapters/*` | `src/date/adapters/` |
 | `src/conversion.ts`, `src/civil-day.ts`, `src/gregorian.ts`, `src/patro.ts` | `src/date/internal/` |
-| `src/generated-data.ts`, `data/**` | `data/date/` (vectors live at `data/date/conformance/golden.json`) |
-| `scripts/generate-data.mjs`, `scripts/verify-data.mjs` | package scripts for date data |
-| date tests | `tests/date/` or equivalent package-local test layout |
+| `src/generated-data.ts`, `data/**` | `src/date/data/` (vectors live at `src/date/data/conformance/golden.json`) |
+| `scripts/generate-data.mjs`, `scripts/verify-data.mjs` | `src/date/scripts/` |
+| date tests | `src/date/tests/` |
 
 ## Numeral extraction
 
