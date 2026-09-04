@@ -23,7 +23,6 @@ export {
 export { formatADDisplay, formatBSDisplay, formatDisplayWithLocale } from './format-display.js';
 export type { DisplayLocale, DisplayOptions } from './format-display.js';
 export { parseAD, parseBS } from './parse.js';
-export { toAscii, toDevanagari } from '../number/digits.js';
 export {
   addDays,
   addDaysAD,

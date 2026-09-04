@@ -109,6 +109,19 @@ import { validateNepaliName } from 'nepali-utils/name';
 
 The package root may expose a small ergonomic set later, but subpaths are the stable size-sensitive contract. Importing one domain must not retain unrelated domains.
 
+## Frozen v1 API surface (date + number only)
+
+The granular date subpaths (`./date/convert`, `./date/value`,
+`./date/arithmetic`, `./date/format`, `./date/format-display`,
+`./date/parse`, `./date/fiscal`, `./date/relative`, `./date/range`,
+`./date/locale/en`, `./date/locale/ne`, `./date/adapters/date`,
+`./date/adapters/temporal`, `./date/adapters/timezone`) are intentionally
+frozen: they mirror the ported module boundaries, each has a packed-consumer
+and bundle-budget entry, and removing any of them is a breaking change.
+No new date subpaths will be added without bundle evidence. Digits are
+available only from `./number` and `./number/digits` — `nepali-utils/date`
+imports the digit primitive internally but does not re-export it.
+
 ## Dependency direction
 
 ```text
