@@ -1,6 +1,6 @@
 # Implementation Plan
 
-Status: blueprint only. No migration or feature implementation has started.
+Status: migration complete. Date behavior preserved; no new features added.
 
 ## Phase 0: Establish the workspace
 
