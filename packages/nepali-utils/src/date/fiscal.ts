@@ -1,4 +1,4 @@
-import { bs } from './types.js';
+import { assertBSDate, bs } from './types.js';
 import type { BSDate, BSDateFields } from './types.js';
 import { monthLength } from './internal/patro.js';
 import { InvalidFiscalYearError } from './errors.js';
@@ -15,16 +15,7 @@ function assertYear(year: number): void {
 }
 
 function validateDate(date: BSDateFields): void {
-  if (
-    date === null ||
-    typeof date !== 'object' ||
-    !Number.isInteger(date.year) ||
-    !Number.isInteger(date.month) ||
-    !Number.isInteger(date.day)
-  ) {
-    throw new TypeError('BS date fields must be integers');
-  }
-  bs(date.year, date.month, date.day);
+  assertBSDate(date);
 }
 
 /** Return the BS year in which the Shrawan-to-Ashadh fiscal year starts. */

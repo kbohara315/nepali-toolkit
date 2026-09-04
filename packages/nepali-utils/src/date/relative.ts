@@ -1,6 +1,7 @@
-import { bs } from './types.js';
+import { assertBSDate, bs } from './types.js';
 import type { BSDate, BSDateFields } from './types.js';
 import { differenceInDaysBS } from './arithmetic.js';
+import { InvalidFieldError } from './errors.js';
 import { toDevanagari } from '../number/digits.js';
 
 export interface RelativeLocale {
@@ -28,6 +29,8 @@ export const nepaliRelativeLocale: RelativeLocale = {
 };
 
 function dayDifference(later: BSDate | BSDateFields, earlier: BSDate | BSDateFields): number {
+  assertBSDate(later);
+  assertBSDate(earlier);
   return differenceInDaysBS(
     bs(later.year, later.month, later.day),
     bs(earlier.year, earlier.month, earlier.day),
@@ -55,7 +58,7 @@ export function formatRelativeDays(
   locale: RelativeLocale = englishRelativeLocale,
 ): string {
   if (!Number.isSafeInteger(delta))
-    throw new TypeError('relative day count must be a safe integer');
+    throw new InvalidFieldError('relative day count must be a safe integer');
   if (delta === 0) return locale.today;
   if (delta === 1) return locale.tomorrow;
   if (delta === -1) return locale.yesterday;
@@ -81,7 +84,7 @@ export function relativePhrase(
     );
   }
   if (!referenceOrLocale || 'today' in referenceOrLocale) {
-    throw new TypeError('a reference date is required');
+    throw new InvalidFieldError('a reference date is required');
   }
   return formatRelativeDays(differenceInDays(deltaOrTarget, referenceOrLocale), locale);
 }
