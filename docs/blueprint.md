@@ -118,7 +118,9 @@ The granular date subpaths (`./date/convert`, `./date/value`,
 `./date/adapters/temporal`, `./date/adapters/timezone`) are intentionally
 frozen: they mirror the ported module boundaries, each has a packed-consumer
 and bundle-budget entry, and removing any of them is a breaking change.
-No new date subpaths will be added without bundle evidence. Digits are
+`./date/range` additionally exports one-liner introspection accessors
+(`minBSYear`, `maxBSYear`, `minADYear`, `maxADYear`) and the `DateMetadata`
+type. No new date subpaths will be added without bundle evidence. Digits are
 available only from `./number` and `./number/digits` — `nepali-utils/date`
 imports the digit primitive internally but does not re-export it.
 

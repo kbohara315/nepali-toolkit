@@ -1,16 +1,12 @@
 import { ad } from '../types.js';
 import type { ADDate } from '../types.js';
 import { InvalidInstantError, InvalidTimeZoneError } from '../errors.js';
+import { toInstantDate } from './instant.js';
 
 export type Instant = Date | number | string;
 
 function asDate(value: Instant): Date {
-  if (typeof value === 'string' && !/(?:Z|[+-]\d{2}:?\d{2})$/i.test(value)) {
-    throw new InvalidInstantError('Instant strings must include an explicit UTC offset');
-  }
-  const date = value instanceof Date ? new Date(value.getTime()) : new Date(value);
-  if (Number.isNaN(date.getTime())) throw new InvalidInstantError('Invalid instant');
-  return date;
+  return toInstantDate(value);
 }
 
 /** Project an instant into an AD date using an explicit IANA timezone. */

@@ -1,12 +1,6 @@
 import { ad } from '../types.js';
 import type { ADDate, ADDateFields } from '../types.js';
-import { InvalidInstantError } from '../errors.js';
-
-function assertValidDate(value: Date): void {
-  if (!(value instanceof Date) || Number.isNaN(value.getTime())) {
-    throw new InvalidInstantError('Invalid JavaScript Date');
-  }
-}
+import { assertValidDate } from './instant.js';
 
 /** Project an instant to its UTC civil date. The host timezone is never consulted. */
 export function dateToAD(value: Date): ADDate {

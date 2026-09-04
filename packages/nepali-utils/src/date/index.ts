@@ -90,6 +90,20 @@ export { maxADYear, maxBSYear, minADYear, minBSYear, range } from './range.js';
 export type { DateMetadata } from './range.js';
 export { locale as englishLocale } from './locale/en.js';
 export { locale as nepaliLocale } from './locale/ne.js';
-export { adToDate, dateToAD } from './adapters/date.js';
-export { adToPlainDate, plainDateToAD } from './adapters/temporal.js';
-export { instantToAD } from './adapters/timezone.js';
+export { adToDate, dateToAD, fromDate, fromDateUTC, fromUTCDate, toDate, toDateUTC, toUTCDate } from './adapters/date.js';
+export {
+  adToPlainDate,
+  fromPlainDate,
+  fromTemporal,
+  fromTemporalPlainDate,
+  plainDateToAD,
+  toPlainDate,
+  toTemporal,
+  toTemporalPlainDate,
+} from './adapters/temporal.js';
+export {
+  dateInTimeZoneToAD,
+  fromInstant,
+  instantToAD,
+  instantToADInTimeZone,
+} from './adapters/timezone.js';
