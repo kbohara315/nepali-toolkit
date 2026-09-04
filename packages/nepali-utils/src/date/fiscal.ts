@@ -27,7 +27,6 @@ export function getFiscalYear(date: BSDateFields): number {
   return date.month >= FISCAL_START_MONTH ? date.year : date.year - 1;
 }
 
-export const fiscalYearOf = getFiscalYear;
 export const fiscalYear = getFiscalYear;
 
 /** The first day of a BS fiscal year, Shrawan 1. */
@@ -42,19 +41,12 @@ export function fiscalYearEnd(year: number): BSDate {
   return bs(year + 1, 3, daysInMonthBS(bs(year + 1, 3, 1)));
 }
 
-export function getFiscalYearStart(year: number): BSDate {
-  return fiscalYearStart(year);
-}
 
-export function getFiscalYearEnd(year: number): BSDate {
-  return fiscalYearEnd(year);
-}
 
 export function fiscalYearInfo(year: number): FiscalYear {
   return { year, start: fiscalYearStart(year), end: fiscalYearEnd(year) };
 }
 
-export const getFiscalYearInfo = fiscalYearInfo;
 
 export function isInFiscalYear(date: BSDateFields, year: number): boolean {
   assertYear(year);
@@ -67,4 +59,3 @@ export function formatFiscalYear(year: number): string {
   return `${year}/${String(Math.abs(year + 1) % 100).padStart(2, '0')}`;
 }
 
-export const fiscalYearLabel = formatFiscalYear;

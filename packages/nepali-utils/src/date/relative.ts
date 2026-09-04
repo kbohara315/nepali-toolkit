@@ -45,8 +45,6 @@ export function differenceInDays(
   return dayDifference(later, earlier);
 }
 
-export const relativeDays = differenceInDays;
-export const relativeDayDifference = differenceInDays;
 
 /** Return `end - start`, named to make argument order explicit at call sites. */
 export function daysBetween(start: BSDate | BSDateFields, end: BSDate | BSDateFields): number {
