@@ -1,7 +1,10 @@
 import { assertBSDate, bs } from './types.js';
 import type { BSDate, BSDateFields } from './types.js';
-import { monthLength } from './internal/patro.js';
+import { daysInMonthBS } from './arithmetic.js';
 import { InvalidFiscalYearError } from './errors.js';
+
+/** BS month index where the Nepali fiscal year starts (Shrawan). */
+const FISCAL_START_MONTH = 4;
 
 export interface FiscalYear {
   readonly year: number;
@@ -21,7 +24,7 @@ function validateDate(date: BSDateFields): void {
 /** Return the BS year in which the Shrawan-to-Ashadh fiscal year starts. */
 export function getFiscalYear(date: BSDateFields): number {
   validateDate(date);
-  return date.month >= 4 ? date.year : date.year - 1;
+  return date.month >= FISCAL_START_MONTH ? date.year : date.year - 1;
 }
 
 export const fiscalYearOf = getFiscalYear;
@@ -30,13 +33,13 @@ export const fiscalYear = getFiscalYear;
 /** The first day of a BS fiscal year, Shrawan 1. */
 export function fiscalYearStart(year: number): BSDate {
   assertYear(year);
-  return bs(year, 4, 1);
+  return bs(year, FISCAL_START_MONTH, 1);
 }
 
 /** The last day of a BS fiscal year, the final day of Ashadh. */
 export function fiscalYearEnd(year: number): BSDate {
   assertYear(year);
-  return bs(year + 1, 3, monthLength(year + 1, 3));
+  return bs(year + 1, 3, daysInMonthBS(bs(year + 1, 3, 1)));
 }
 
 export function getFiscalYearStart(year: number): BSDate {
