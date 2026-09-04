@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import golden from '../../../conformance/golden.json' with { type: 'json' };
+import golden from '../../../data/date/conformance/golden.json' with { type: 'json' };
 import { toAD, toBS } from '../../../src/date/internal/conversion.js';
 
 type Vector = {
@@ -30,7 +30,7 @@ describe('conformance golden vectors', () => {
     expect(trusted.length, 'no trusted conformance vectors yet').toBeGreaterThanOrEqual(0);
     if (trusted.length === 0) {
       console.warn(
-        '[conformance] zero trusted vectors: the gate arms itself once independently cited vectors land in conformance/golden.json.',
+        '[conformance] zero trusted vectors: the gate arms itself once independently cited vectors land in data/date/conformance/golden.json.',
       );
     }
   });

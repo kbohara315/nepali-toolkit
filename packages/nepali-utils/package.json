@@ -7,63 +7,109 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     },
     "./date": {
       "types": "./dist/date/index.d.ts",
-      "import": "./dist/date/index.js"
+      "import": "./dist/date/index.js",
+      "require": "./dist/date/index.cjs"
     },
     "./date/convert": {
       "types": "./dist/date/convert.d.ts",
-      "import": "./dist/date/convert.js"
+      "import": "./dist/date/convert.js",
+      "require": "./dist/date/convert.cjs"
     },
     "./date/value": {
       "types": "./dist/date/value.d.ts",
-      "import": "./dist/date/value.js"
+      "import": "./dist/date/value.js",
+      "require": "./dist/date/value.cjs"
     },
     "./date/arithmetic": {
       "types": "./dist/date/arithmetic.d.ts",
-      "import": "./dist/date/arithmetic.js"
+      "import": "./dist/date/arithmetic.js",
+      "require": "./dist/date/arithmetic.cjs"
     },
     "./date/format": {
       "types": "./dist/date/format.d.ts",
-      "import": "./dist/date/format.js"
+      "import": "./dist/date/format.js",
+      "require": "./dist/date/format.cjs"
+    },
+    "./date/format-display": {
+      "types": "./dist/date/format-display.d.ts",
+      "import": "./dist/date/format-display.js",
+      "require": "./dist/date/format-display.cjs"
     },
     "./date/parse": {
       "types": "./dist/date/parse.d.ts",
-      "import": "./dist/date/parse.js"
+      "import": "./dist/date/parse.js",
+      "require": "./dist/date/parse.cjs"
     },
     "./date/fiscal": {
       "types": "./dist/date/fiscal.d.ts",
-      "import": "./dist/date/fiscal.js"
+      "import": "./dist/date/fiscal.js",
+      "require": "./dist/date/fiscal.cjs"
     },
     "./date/relative": {
       "types": "./dist/date/relative.d.ts",
-      "import": "./dist/date/relative.js"
+      "import": "./dist/date/relative.js",
+      "require": "./dist/date/relative.cjs"
     },
     "./date/range": {
       "types": "./dist/date/range.d.ts",
-      "import": "./dist/date/range.js"
+      "import": "./dist/date/range.js",
+      "require": "./dist/date/range.cjs"
+    },
+    "./date/locale/en": {
+      "types": "./dist/date/locale/en.d.ts",
+      "import": "./dist/date/locale/en.js",
+      "require": "./dist/date/locale/en.cjs"
+    },
+    "./date/locale/ne": {
+      "types": "./dist/date/locale/ne.d.ts",
+      "import": "./dist/date/locale/ne.js",
+      "require": "./dist/date/locale/ne.cjs"
+    },
+    "./date/adapters/date": {
+      "types": "./dist/date/adapters/date.d.ts",
+      "import": "./dist/date/adapters/date.js",
+      "require": "./dist/date/adapters/date.cjs"
+    },
+    "./date/adapters/temporal": {
+      "types": "./dist/date/adapters/temporal.d.ts",
+      "import": "./dist/date/adapters/temporal.js",
+      "require": "./dist/date/adapters/temporal.cjs"
+    },
+    "./date/adapters/timezone": {
+      "types": "./dist/date/adapters/timezone.d.ts",
+      "import": "./dist/date/adapters/timezone.js",
+      "require": "./dist/date/adapters/timezone.cjs"
     },
     "./number": {
       "types": "./dist/number/index.d.ts",
-      "import": "./dist/number/index.js"
+      "import": "./dist/number/index.js",
+      "require": "./dist/number/index.cjs"
     },
     "./number/digits": {
       "types": "./dist/number/digits.d.ts",
-      "import": "./dist/number/digits.js"
+      "import": "./dist/number/digits.js",
+      "require": "./dist/number/digits.cjs"
     }
   },
   "files": [
     "dist"
   ],
   "scripts": {
+    "generate:date": "node scripts/date/generate-data.mjs",
+    "verify:date": "node scripts/date/verify-data.mjs",
     "build": "tsup",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit -p tsconfig.json"
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "verify:package": "npm run build && node scripts/verify-package.mjs && node scripts/verify-tree-shaking.mjs"
   },
   "devDependencies": {
-    "@types/node": "^26.4.1",
+    "@types/node": "^22.0.0",
+    "esbuild": "^0.21.5",
     "tsup": "^8.0.0",
     "typescript": "^5.5.0",
     "vitest": "^2.0.0"

@@ -1,5 +1,5 @@
 import { bs, toAD } from '../../src/date/convert.js';
-import { Miti } from '../../src/date/value.js';
+import { NepaliDate } from '../../src/date/value.js';
 import { addDaysBS } from '../../src/date/arithmetic.js';
 import { parseBS } from '../../src/date/parse.js';
 import { range } from '../../src/date/range.js';
@@ -17,7 +17,7 @@ import { describe, expect, it } from 'vitest';
 describe('packed consumer (all subpaths)', () => {
   it('exercises every published subpath', () => {
     expect(toAD(bs(2082, 4, 7))).toBeDefined();
-    expect(new Miti(2082, 4, 7).toAD()).toBeDefined();
+    expect(new NepaliDate(2082, 4, 7).toAD()).toBeDefined();
     expect(addDaysBS({ year: 2082, month: 4, day: 7 }, 1)).toBeDefined();
     expect(parseBS('2082-04-07')).toBeDefined();
     expect(range.bsStart.year).toBeLessThanOrEqual(2082);

@@ -8,7 +8,7 @@ Header map for contributors. Authority for placement questions is `tests/contrac
 | `tests/contract/`                                                 | Public API / error-shape stability | `errors.test.ts` + `README.md` (contract doc, T01)    |
 | `tests/invariants/`                                               | Round-trip + arithmetic laws       | `public-roundtrip.test.ts`, `arithmetic-laws.test.ts` |
 | `tests/data/`                                                     | Generated data integrity           | `mutation.test.ts`                                    |
-| `tests/*.test.ts` (top level)                                     | Feature/unit coverage per module   | `format.test.ts`, `miti.test.ts`                      |
+| `tests/*.test.ts` (top level)                                     | Feature/unit coverage per module   | `format.test.ts`, `value-internals.test.ts`                      |
 | `tests/package-features.test.ts`, `tests/packed-consumer.test.ts` | Built-package only (needs `dist/`) | excluded from `test:fast`                             |
 
 Placement rule: unit → contract → invariants → data → package, in that priority order.

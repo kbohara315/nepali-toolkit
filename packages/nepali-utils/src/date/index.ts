@@ -12,7 +12,7 @@ export {
   ParseError,
   UnsupportedDateError,
 } from './errors.js';
-export { Miti } from './miti.js';
+export { NepaliDate } from './value.js';
 export {
   englishADLocale,
   englishBSLocale,

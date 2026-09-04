@@ -10,7 +10,7 @@ import {
   weekdayAD,
 } from '../../src/date/arithmetic.js';
 import { ad, bs } from '../../src/date/types.js';
-import { Miti } from '../../src/date/value.js';
+import { NepaliDate } from '../../src/date/value.js';
 
 describe('civil-day arithmetic', () => {
   it('provides functional BS arithmetic', () => {
@@ -25,8 +25,8 @@ describe('civil-day arithmetic', () => {
     expect(weekdayAD(ad(1943, 4, 14))).toBe(3);
   });
 
-  it('keeps Miti immutable and delegates day identity', () => {
-    const start = Miti.fromBS(bs(2000, 1, 1));
+  it('keeps NepaliDate immutable and delegates day identity', () => {
+    const start = NepaliDate.fromBS(bs(2000, 1, 1));
     const next = start.addDays(1);
 
     expect(Object.isFrozen(start)).toBe(true);

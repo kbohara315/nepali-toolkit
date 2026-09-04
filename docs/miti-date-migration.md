@@ -60,13 +60,13 @@ Exact filenames may remain unchanged during the first migration pass. The import
 
 | Current area | Intended destination |
 |---|---|
-| `src/convert.ts`, `src/miti.ts`, `src/arithmetic.ts` | `src/date/` public modules |
+| `src/convert.ts`, `src/miti.ts` (renamed to `value.ts`, class `Miti` renamed to `NepaliDate`), `src/arithmetic.ts` | `src/date/` public modules |
 | `src/format.ts`, `src/format-display.ts`, `src/parse.ts` | `src/date/` public modules |
 | `src/fiscal.ts`, `src/relative.ts`, `src/range.ts` | `src/date/` public modules |
 | `src/locale/*` | `src/date/locale/` |
 | `src/adapters/*` | `src/date/adapters/` |
 | `src/conversion.ts`, `src/civil-day.ts`, `src/gregorian.ts`, `src/patro.ts` | `src/date/internal/` |
-| `src/generated-data.ts`, `data/**`, `conformance/**` | package-level date data/conformance areas |
+| `src/generated-data.ts`, `data/**` | `data/date/` (vectors live at `data/date/conformance/golden.json`) |
 | `scripts/generate-data.mjs`, `scripts/verify-data.mjs` | package scripts for date data |
 | date tests | `tests/date/` or equivalent package-local test layout |
 

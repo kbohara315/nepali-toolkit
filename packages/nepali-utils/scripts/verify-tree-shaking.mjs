@@ -1,0 +1,108 @@
+import { execFileSync } from 'node:child_process';
+import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { gzipSync } from 'node:zlib';
+
+const packageRoot = new URL('../', import.meta.url);
+const fixtureDirectory = new URL('.tmp/tree-shaking/', packageRoot);
+const esbuild = new URL('../../node_modules/.bin/esbuild', import.meta.url);
+const fixtures = {
+  'date-convert':
+    "import { bs, toAD } from 'nepali-utils/date/convert'; console.log(toAD(bs(2082, 4, 7)));\n",
+  'date-value':
+    "import { Miti } from 'nepali-utils/date/value'; console.log(new Miti(2082, 4, 7).toAD());\n",
+  'date-arithmetic':
+    "import { addDaysBS } from 'nepali-utils/date/arithmetic'; console.log(addDaysBS({ year: 2082, month: 4, day: 7 }, 1));\n",
+  'date-parse':
+    "import { parseBS } from 'nepali-utils/date/parse'; console.log(parseBS('2082-04-07'));\n",
+  'date-range':
+    "import { range } from 'nepali-utils/date/range'; console.log(range.bsStart);\n",
+  'date-format':
+    "import { formatBS } from 'nepali-utils/date/format'; console.log(formatBS({ year: 2082, month: 4, day: 7 }, 'YYYY-MM-DD'));\n",
+  'date-format-display':
+    "import { formatBSDisplay } from 'nepali-utils/date/format-display'; console.log(formatBSDisplay({ year: 2082, month: 4, day: 7 }, 'YYYY-MM-DD'));\n",
+  'number-digits':
+    "import { toDevanagari } from 'nepali-utils/number/digits'; console.log(toDevanagari('2082'));\n",
+  'date-locale-en':
+    "import { monthName } from 'nepali-utils/date/locale/en'; console.log(monthName(4));\n",
+  'date-locale-ne':
+    "import { monthName } from 'nepali-utils/date/locale/ne'; console.log(monthName(4));\n",
+  'date-adapter-date':
+    "import { dateToAD } from 'nepali-utils/date/adapters/date'; console.log(dateToAD(new Date(Date.UTC(2025, 7, 6))));\n",
+  'date-adapter-timezone':
+    "import * as tz from 'nepali-utils/date/adapters/timezone'; console.log(Object.keys(tz));\n",
+  'date-fiscal':
+    "import { getFiscalYear } from 'nepali-utils/date/fiscal'; console.log(getFiscalYear({ year: 2082, month: 4, day: 7 }));\n",
+  'date-relative':
+    "import { relativePhrase } from 'nepali-utils/date/relative'; console.log(relativePhrase(1));\n",
+  root: "import { bs, toAD } from 'nepali-utils'; console.log(toAD(bs(2082, 4, 7)));\n",
+};
+
+// Fixtures that must not pull conversion data tables into the bundle.
+const leanFixtures = new Set([
+  'date-format',
+  'date-format-display',
+  'number-digits',
+  'date-locale-en',
+  'date-locale-ne',
+]);
+
+const budgets = {
+  'date-convert': 2560,
+  'date-value': 3.5 * 1024,
+  'date-arithmetic': 3 * 1024,
+  'date-parse': 2816,
+  'date-range': 512,
+  'date-format': 1536,
+  'date-format-display': 2048,
+  'number-digits': 512,
+  'date-locale-en': 1024,
+  'date-locale-ne': 1024,
+  'date-adapter-date': 2048,
+  'date-adapter-timezone': 2048,
+  'date-fiscal': 1536,
+  'date-relative': 2560,
+  root: 7 * 1024,
+};
+
+await mkdir(fixtureDirectory, { recursive: true });
+try {
+  const sizes = new Map();
+  for (const [name, source] of Object.entries(fixtures)) {
+    const input = new URL(`${name}.ts`, fixtureDirectory);
+    const output = new URL(`${name}.js`, fixtureDirectory);
+    await writeFile(input, source);
+    execFileSync(
+      esbuild.pathname,
+      [
+        input.pathname,
+        '--bundle',
+        '--format=esm',
+        '--minify',
+        '--alias:nepali-utils=./dist/index.js',
+        `--outfile=${output.pathname}`,
+      ],
+      { cwd: packageRoot.pathname, stdio: 'ignore' },
+    );
+    const bundled = await readFile(output);
+    sizes.set(name, { raw: bundled.byteLength, gzip: gzipSync(bundled).byteLength });
+    if (leanFixtures.has(name)) {
+      const text = bundled.toString('utf8');
+      if (text.includes('33238') || text.includes('working-2026-08-22')) {
+        throw new Error(`${name} consumer retained conversion data`);
+      }
+    }
+  }
+
+  for (const [name, budget] of Object.entries(budgets)) {
+    if (sizes.get(name).gzip > budget) {
+      throw new Error(`${name} consumer is ${sizes.get(name).gzip} gzip bytes; budget is ${budget}`);
+    }
+  }
+
+  for (const [name, size] of sizes) {
+    console.log(`${name.padEnd(22)} ${size.raw} raw / ${size.gzip} gzip`);
+  }
+  console.log('Tree-shaking checks passed.');
+} finally {
+  await rm(fixtureDirectory, { recursive: true, force: true });
+}

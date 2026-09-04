@@ -29,7 +29,7 @@ function serializeAD(value: ADDate): string {
 }
 
 /** Immutable value for one supported BS/AD civil day. */
-export class Miti {
+export class NepaliDate {
   readonly #civilDay: number;
 
   private constructor(civilDay: number) {
@@ -37,12 +37,12 @@ export class Miti {
     Object.freeze(this);
   }
 
-  static fromBS(value: BSDate): Miti {
-    return new Miti(civilDayFromBS(value));
+  static fromBS(value: BSDate): NepaliDate {
+    return new NepaliDate(civilDayFromBS(value));
   }
 
-  static fromAD(value: ADDate): Miti {
-    return new Miti(civilDayFromAD(value));
+  static fromAD(value: ADDate): NepaliDate {
+    return new NepaliDate(civilDayFromAD(value));
   }
 
   toBS(): BSDate {
@@ -53,23 +53,23 @@ export class Miti {
     return civilDayToAD(this.#civilDay);
   }
 
-  equals(other: Miti): boolean {
+  equals(other: NepaliDate): boolean {
     return equalCivilDays(this.#civilDay, other.#civilDay);
   }
 
-  compare(other: Miti): -1 | 0 | 1 {
+  compare(other: NepaliDate): -1 | 0 | 1 {
     return compareCivilDays(this.#civilDay, other.#civilDay);
   }
 
-  addDays(amount: number): Miti {
-    return new Miti(addCivilDays(this.#civilDay, amount));
+  addDays(amount: number): NepaliDate {
+    return new NepaliDate(addCivilDays(this.#civilDay, amount));
   }
 
-  addWeeks(amount: number): Miti {
-    return new Miti(addCivilWeeks(this.#civilDay, amount));
+  addWeeks(amount: number): NepaliDate {
+    return new NepaliDate(addCivilWeeks(this.#civilDay, amount));
   }
 
-  differenceInDays(other: Miti): number {
+  differenceInDays(other: NepaliDate): number {
     return differenceInCivilDays(this.#civilDay, other.#civilDay);
   }
 
@@ -77,44 +77,44 @@ export class Miti {
     return weekdayCivilDay(this.#civilDay);
   }
 
-  clone(): Miti {
-    return new Miti(this.#civilDay);
+  clone(): NepaliDate {
+    return new NepaliDate(this.#civilDay);
   }
 
-  addMonthsBS(amount: number, options?: MonthArithmeticOptions): Miti {
-    return Miti.fromBS(addMonthsBS(this.toBS(), amount, options));
+  addMonthsBS(amount: number, options?: MonthArithmeticOptions): NepaliDate {
+    return NepaliDate.fromBS(addMonthsBS(this.toBS(), amount, options));
   }
 
-  addYearsBS(amount: number, options?: MonthArithmeticOptions): Miti {
-    return Miti.fromBS(addYearsBS(this.toBS(), amount, options));
+  addYearsBS(amount: number, options?: MonthArithmeticOptions): NepaliDate {
+    return NepaliDate.fromBS(addYearsBS(this.toBS(), amount, options));
   }
 
-  addMonthsAD(amount: number, options?: MonthArithmeticOptions): Miti {
-    return Miti.fromAD(addMonthsAD(this.toAD(), amount, options));
+  addMonthsAD(amount: number, options?: MonthArithmeticOptions): NepaliDate {
+    return NepaliDate.fromAD(addMonthsAD(this.toAD(), amount, options));
   }
 
-  addYearsAD(amount: number, options?: MonthArithmeticOptions): Miti {
-    return Miti.fromAD(addYearsAD(this.toAD(), amount, options));
+  addYearsAD(amount: number, options?: MonthArithmeticOptions): NepaliDate {
+    return NepaliDate.fromAD(addYearsAD(this.toAD(), amount, options));
   }
 
-  startOfMonthBS(): Miti {
+  startOfMonthBS(): NepaliDate {
     const current = this.toBS();
-    return Miti.fromBS({ ...current, day: 1 } as BSDate);
+    return NepaliDate.fromBS({ ...current, day: 1 } as BSDate);
   }
 
-  endOfMonthBS(): Miti {
+  endOfMonthBS(): NepaliDate {
     const current = this.toBS();
-    return Miti.fromBS({ ...current, day: daysInMonthBS(current) } as BSDate);
+    return NepaliDate.fromBS({ ...current, day: daysInMonthBS(current) } as BSDate);
   }
 
-  startOfMonthAD(): Miti {
+  startOfMonthAD(): NepaliDate {
     const current = this.toAD();
-    return Miti.fromAD({ ...current, day: 1 } as ADDate);
+    return NepaliDate.fromAD({ ...current, day: 1 } as ADDate);
   }
 
-  endOfMonthAD(): Miti {
+  endOfMonthAD(): NepaliDate {
     const current = this.toAD();
-    return Miti.fromAD({ ...current, day: daysInMonthAD(current) } as ADDate);
+    return NepaliDate.fromAD({ ...current, day: daysInMonthAD(current) } as ADDate);
   }
 
   serialize(): string {
@@ -127,22 +127,22 @@ export class Miti {
     return `${String(value.year).padStart(4, '0')}-${pad2(value.month)}-${pad2(value.day)}`;
   }
 
-  static fromISO(value: string): Miti {
+  static fromISO(value: string): NepaliDate {
     if (typeof value !== 'string') throw new InvalidFieldError('ISO date must be a string');
     const match = /^([+-]?\d{4,})-(\d{2})-(\d{2})$/.exec(value);
     if (!match) throw new InvalidFieldError('ISO date must be YYYY-MM-DD');
-    return Miti.fromAD(ad(Number(match[1]), Number(match[2]), Number(match[3])));
+    return NepaliDate.fromAD(ad(Number(match[1]), Number(match[2]), Number(match[3])));
   }
 
-  static fromSerial(value: string): Miti {
-    return Miti.fromISO(value);
+  static fromSerial(value: string): NepaliDate {
+    return NepaliDate.fromISO(value);
   }
 
-  static fromBSString(value: string): Miti {
+  static fromBSString(value: string): NepaliDate {
     if (typeof value !== 'string') throw new InvalidFieldError('BS serial must be a string');
     const match = /^([+-]?\d{4,})-(\d{2})-(\d{2})$/.exec(value);
     if (!match) throw new InvalidFieldError('BS serial must be YYYY-MM-DD');
-    return Miti.fromBS(bs(Number(match[1]), Number(match[2]), Number(match[3])));
+    return NepaliDate.fromBS(bs(Number(match[1]), Number(match[2]), Number(match[3])));
   }
 
   toString(): string {
