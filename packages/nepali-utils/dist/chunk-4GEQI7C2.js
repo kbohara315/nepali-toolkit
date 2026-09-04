@@ -1,0 +1,2 @@
+function e(r){if(typeof r=="number"&&!Number.isFinite(r))throw new TypeError("numeral value must be finite");return String(r)}function n(r){return e(r).replace(/[0-9]/g,t=>String.fromCharCode(2406+Number(t)))}function u(r){return e(r).replace(/[\u0966-\u096f]/g,t=>String(t.charCodeAt(0)-2406))}export{n as a,u as b};//# sourceMappingURL=chunk-4GEQI7C2.js.map
+//# sourceMappingURL=chunk-4GEQI7C2.js.map

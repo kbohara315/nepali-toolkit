@@ -1,0 +1,23 @@
+[
+  {
+    "bs": {
+      "year": 2000,
+      "month": 1,
+      "day": 1
+    },
+    "ad": {
+      "year": 1943,
+      "month": 4,
+      "day": 14
+    },
+    "citation": "anchor wip"
+  },
+  {
+    "bs": {
+      "year": 2080,
+      "month": 1,
+      "day": 1
+    },
+    "note": "computed from table"
+  }
+]

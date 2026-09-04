@@ -1,0 +1,2 @@
+export{f as daysBetween,c as differenceInDays,a as englishRelativeLocale,j as formatRelative,g as formatRelativeDays,b as nepaliRelativeLocale,e as relativeDayDifference,d as relativeDays,h as relativePhrase,i as relativePhraseBetween}from'../chunk-6TYLV63R.js';import'../chunk-IL6SUAYF.js';import'../chunk-F7V2DWCM.js';import'../chunk-636K27TQ.js';import'../chunk-4GEQI7C2.js';import'../chunk-U54GDJ5J.js';import'../chunk-O7BEUTCK.js';import'../chunk-4C666HHU.js';//# sourceMappingURL=relative.js.map
+//# sourceMappingURL=relative.js.map

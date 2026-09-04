@@ -1,0 +1,2 @@
+export{e as englishADLocale,d as englishBSLocale,b as formatAD,a as formatBS,c as formatWithLocale}from'../chunk-EEMQ6EVW.js';import'../chunk-4GEQI7C2.js';import'../chunk-U54GDJ5J.js';import'../chunk-4C666HHU.js';//# sourceMappingURL=format.js.map
+//# sourceMappingURL=format.js.map

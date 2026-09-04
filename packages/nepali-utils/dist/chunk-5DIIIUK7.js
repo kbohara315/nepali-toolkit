@@ -1,0 +1,2 @@
+import {a as a$1,b}from'./chunk-4GEQI7C2.js';import {a}from'./chunk-4C666HHU.js';var e={};a(e,{toAscii:()=>b,toDevanagari:()=>a$1});export{e as a};//# sourceMappingURL=chunk-5DIIIUK7.js.map
+//# sourceMappingURL=chunk-5DIIIUK7.js.map
