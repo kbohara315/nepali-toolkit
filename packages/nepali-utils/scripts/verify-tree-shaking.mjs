@@ -22,6 +22,8 @@ const fixtures = {
     "import { formatBSDisplay } from 'nepali-utils/date/format-display'; console.log(formatBSDisplay({ year: 2082, month: 4, day: 7 }, 'YYYY-MM-DD'));\n",
   'number-digits':
     "import { toDevanagari } from 'nepali-utils/number/digits'; console.log(toDevanagari('2082'));\n",
+  number:
+    "import { formatNumber } from 'nepali-utils/number'; console.log(formatNumber('12345678'));\n",
   'date-locale-en':
     "import { monthName } from 'nepali-utils/date/locale/en'; console.log(monthName(4));\n",
   'date-locale-ne':
@@ -42,6 +44,7 @@ const leanFixtures = new Set([
   'date-format',
   'date-format-display',
   'number-digits',
+  'number',
   'date-locale-en',
   'date-locale-ne',
 ]);
@@ -55,6 +58,7 @@ const budgets = {
   'date-format': 1536,
   'date-format-display': 2048,
   'number-digits': 512,
+  number: 1536,
   'date-locale-en': 1024,
   'date-locale-ne': 1024,
   'date-adapter-date': 2048,

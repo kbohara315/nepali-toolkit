@@ -9,6 +9,7 @@
   ],
   "exclude": [
     "**/*.test.ts",
-    "src/date/tests"
+    "src/date/tests",
+    "src/number/tests"
   ]
 }
