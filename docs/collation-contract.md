@@ -102,8 +102,18 @@ Subpath `./collation`, budget 3072 gzip (tables + two paths; adjust only
 with a recorded diff). Isolation: no Patro tokens, no date/currency/land/
 words/number-engine internals.
 
+## Punctuation and whitespace (documented actual behavior)
+
+ZWJ/ZWNJ/ZWSP are stripped before weighting (format controls, no order).
+Danda । and double danda ॥ sort as terminators after all letters
+(`घर < घर। < घर॥`). Space and hyphen-minus carry primary weight in
+code-point order (`कक < "क क" < क-क`) — NOT primary-ignorable as UCA
+would have them. This is a known v1 deviation, pinned by tests in
+`punctuation.test.ts`; revisit only on user evidence.
+
 ## Non-goals (v1)
 
-Case folding rules beyond basic Latin, locale-aware punctuation
-hierarchy, sort-stability beyond `Array.prototype.sort` guarantees,
-collation of non-Devanagari scripts beyond pass-through code-point order.
+Case folding rules beyond basic Latin, UCA-style variable weighting for
+punctuation/whitespace (see above), sort-stability beyond
+`Array.prototype.sort` guarantees, collation of non-Devanagari scripts
+beyond pass-through code-point order.

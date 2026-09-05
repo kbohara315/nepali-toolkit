@@ -10,8 +10,8 @@ import { createNepaliCollator } from '../index.js';
 // the "punctuation is secondary, letters primary" decision in testable form.
 // Hyphen-minus U+002D / space U+0020 likewise get U+E22D / U+E220 weights,
 // which sort AFTER every letter weight — so they are NOT ignorable at
-// primary (CONTRACT-AMENDMENT-NEEDED if the contract ever claims
-// ignorability: actual is कक < 'क-क' and कक < 'क क'). Mixed-script
+// primary (docs/collation-contract.md documents this as the v1 behavior:
+// actual is कक < 'क-क' and कक < 'क क'). Mixed-script
 // sentences: pure-ASCII fast-path keys start with U+0001 while Devanagari
 // keys start at PUA letter weights, and embedded Latin inside a
 // Devanagari string weighs U+E200+cp (above every letter) — so Devanagari
@@ -29,7 +29,7 @@ describe('collation punctuation corpus', () => {
     expect(c.sort(['घर॥', 'घर।', 'घर'])).toEqual(['घर', 'घर।', 'घर॥']);
   });
 
-  it('CONTRACT-AMENDMENT-NEEDED: hyphen-minus is NOT ignorable (कक < क-क)', () => {
+  it('hyphen-minus carries primary weight (कक < क-क), per documented behavior', () => {
     // Actual: '-' U+002D → U+E22D > क U+E02E, so joined sorts first.
     // If the contract is ever amended to make hyphen ignorable at primary
     // with a secondary tiebreak, this test must flip to क-क secondary-after.
@@ -38,7 +38,7 @@ describe('collation punctuation corpus', () => {
     expect(c.compare('क-क', 'कक')).toBe(1);
   });
 
-  it('CONTRACT-AMENDMENT-NEEDED: space is NOT ignorable (कक < "क क")', () => {
+  it('space carries primary weight (कक < "क क"), per documented behavior', () => {
     // Actual: space U+0020 → U+E220 > क U+E02E, so joined sorts first.
     const c = createNepaliCollator({ backend: 'basic' });
     expect(c.compare('कक', 'क क')).toBe(-1);
