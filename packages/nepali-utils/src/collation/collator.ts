@@ -8,6 +8,8 @@ export type CollationOptions = {
   conjuncts?: ConjunctMode;
   numeric?: boolean;
   sensitivity?: 'base' | 'full';
+  /** Skip punctuation/whitespace at primary (default false — v1 weights them). */
+  ignorePunctuation?: boolean;
 };
 
 export type NepaliCollator = {
@@ -23,21 +25,37 @@ function assertString(value: unknown): asserts value is string {
   }
 }
 
+// Trust probe, memoized per Intl identity: steady-state callers pay no
+// re-probe, while a swapped/stubbed `globalThis.Intl` (tests, polyfills)
+// re-probes instead of serving a stale verdict.
+let cachedIntlIdentity: unknown = null;
+let cachedTrust = false;
+let hasTrustCache = false;
+
 function trustIntl(): boolean {
+  const identity = (globalThis as { Intl?: unknown }).Intl;
+  if (hasTrustCache && identity === cachedIntlIdentity) return cachedTrust;
+  let trusted = false;
   try {
-    const Ctor = (globalThis as { Intl?: unknown }).Intl as
+    const Ctor = identity as
       | { Collator?: new (locale: string) => {
           compare(a: string, b: string): number;
           resolvedOptions(): { locale: string };
         } }
       | undefined;
-    if (typeof Ctor?.Collator !== 'function') return false;
-    const collator = new Ctor.Collator('ne-NP');
-    if (!collator.resolvedOptions().locale.startsWith('ne')) return false;
-    return collator.compare('ख', 'क') > 0 && collator.compare('ग', 'ख') > 0;
+    if (typeof Ctor?.Collator === 'function') {
+      const collator = new Ctor.Collator('ne-NP');
+      if (collator.resolvedOptions().locale.startsWith('ne')) {
+        trusted = collator.compare('ख', 'क') > 0 && collator.compare('ग', 'ख') > 0;
+      }
+    }
   } catch {
-    return false;
+    trusted = false;
   }
+  cachedIntlIdentity = identity;
+  cachedTrust = trusted;
+  hasTrustCache = true;
+  return trusted;
 }
 
 export function createNepaliCollator(options: CollationOptions = {}): NepaliCollator {
@@ -45,6 +63,7 @@ export function createNepaliCollator(options: CollationOptions = {}): NepaliColl
   const conjuncts = options.conjuncts ?? 'school';
   const numeric = options.numeric ?? false;
   const sensitivity = options.sensitivity ?? 'base';
+  const ignorePunctuation = options.ignorePunctuation ?? false;
 
   // Contract reading: `Intl` cannot honor `school` conjunct order
   // (CLDR `ne` has no conjunct tailoring), so `auto` + `school` resolves
@@ -56,7 +75,7 @@ export function createNepaliCollator(options: CollationOptions = {}): NepaliColl
   } else if (conjuncts === 'school' && backendOption === 'auto') {
     resolved = 'basic';
   } else {
-    const trusted = trustIntl(); // runs ONCE per collator (cached below)
+    const trusted = trustIntl(); // identity-memoized; probes once per Intl
     if (!trusted && backendOption === 'intl') {
       throw new InvalidCollationError('Requested Intl backend failed the ne-NP trust check');
     }
@@ -67,10 +86,12 @@ export function createNepaliCollator(options: CollationOptions = {}): NepaliColl
     intl = new Ctor.Collator('ne-NP', {
       numeric,
       sensitivity: sensitivity === 'base' ? 'base' : 'variant',
+      ignorePunctuation,
     });
   }
 
-  const keyOf = (value: string): string => buildKey(value, conjuncts, sensitivity, numeric);
+  const keyOf = (value: string): string =>
+    buildKey(value, conjuncts, sensitivity, numeric, { ignorePunctuation });
   const compareKeys = (a: string, b: string): -1 | 0 | 1 => {
     const ka = keyOf(a);
     const kb = keyOf(b);

@@ -21,13 +21,13 @@ const MATRA_VOWEL: Record<string, string> = {
 const LIGHT = new Set(['ं', 'ँ', 'ः']);
 const ASCII = /^[\x00-\x7f]*$/;
 
-// Mirrors the implementation's documented denormalized-ि fixup
-// (contract pitfall: ि+क sorts with कि). Side effect on normal ि-words
-// (कि -> क्ति-like keys) is pinned in edge-words.test.ts, not here.
+// Mirrors the implementation’s guarded preposed-ि fixup: a stray ि swaps
+// past its consonant only when not already preceded by one, so correct
+// ि-words keep [क,इ,…] keys (contract pitfall: ि+क sorts with कि).
 function refKey(s: string): [number, number[]] {
   const t = s
     .normalize('NFC')
-    .replace(/ि([क-ह])/g, '$1ि')
+    .replace(/(^|[^\u0915-\u0939\u0958-\u0961\u094D\u093C])\u093F([\u0915-\u0939\u0958-\u0961])/g, '$1$2\u093F')
     .replace(/[‍‌​]/g, '');
   const w: number[] = [];
   const cps = [...t];
@@ -172,10 +172,10 @@ describe('collation volume: real words', () => {
   // काठमाडौं<काम (ठ<म third unit), काम<कीर्तिपुर (ा<ी), कीर्तिपुर<कृष्ण
   // (ी=ई<ृ=ऋ), कृष्ण<कैलाली (ऋ<ऐ), कैलाली<कोशी (ऐ<ओ), कोशी<कमल
   // (vowel ओ < consonant म), कमल<कर्णाली (म<र), कर्णाली<कलैया (र<ल).
-  // ि-words sort after consonant-second-unit words per the implementation's
-  // ि-shift (pinned in edge-words.test.ts): e.g. वन<विराटनगर (र-shifted
-  // key beats न), बजार after बुटवल. Conjunct words (क्षेत्र/त्रिवेणी/ज्ञान)
-  // trail after ह in school mode.
+  // The preposed-ि fixup is guarded, so correct ि-words key as [क,इ,…]:
+  // जितपुर<जुम्ला, विराटनगर<वीरगञ्ज<वन, सिद्धार्थनगर<सीता<सुदूरपश्चिम,
+  // हिमाल<हतिया. Conjunct words (क्षेत्र/त्रिवेणी/ज्ञान) trail after ह
+  // in school mode.
   const WORDS = [
     'काठमाडौं', 'पोखरा', 'विराटनगर', 'धरान', 'बुटवल', 'हेटौंडा', 'राम',
     'श्याम', 'गीता', 'सीता', 'हरि', 'कृष्ण', 'अर्जुन', 'भीम', 'घर', 'पानी',
@@ -196,15 +196,15 @@ describe('collation volume: real words', () => {
     'उज्यालो', 'उदयपुर', 'ऊन', 'ऋषि', 'एकता', 'एयरपोर्ट', 'ऐना',
     'ओखलढुङ्गा', 'ओजन', 'औरही', 'औषधि', 'काठमाडौं', 'काम', 'कीर्तिपुर',
     'कृष्ण', 'कैलाली', 'कोशी', 'कमल', 'कर्णाली', 'कलैया', 'खाना', 'गीता',
-    'गण्डकी', 'घोराही', 'घर', 'जुम्ला', 'जितपुर', 'जनकपुर', 'टिकापुर',
+    'गण्डकी', 'घोराही', 'घर', 'जितपुर', 'जुम्ला', 'जनकपुर', 'टिकापुर',
     'डडेल्धुरा', 'ढल्केवर', 'तुलसीपुर', 'तराई', 'थाहा', 'दैलेख', 'दमक',
     'धुलिखेल', 'धनकुटा', 'धनगढी', 'धरान', 'नेपाल', 'नेपालगञ्ज', 'नदी',
     'नवलपुर', 'पाँचथर', 'पानी', 'पोखरा', 'पर्वत', 'फूल', 'फलफूल',
     'बागमती', 'बाटो', 'बुटवल', 'बजार', 'बझाङ', 'भीम', 'भोजपुर',
     'भक्तपुर', 'मकवानपुर', 'मधेश', 'यार्सा', 'राम', 'रामेछाप', 'रूख',
-    'लुम्बिनी', 'लमजुङ', 'ललितपुर', 'वीरगञ्ज', 'वन', 'विराटनगर',
-    'शान्ति', 'श्याम', 'षडानन्द', 'सीता', 'सुदूरपश्चिम', 'स्कुल',
-    'सिद्धार्थनगर', 'सप्तरी', 'हेटौंडा', 'हतिया', 'हिमाल', 'हरि',
+    'लुम्बिनी', 'लमजुङ', 'ललितपुर', 'विराटनगर', 'वीरगञ्ज', 'वन',
+    'शान्ति', 'श्याम', 'षडानन्द', 'सिद्धार्थनगर', 'सीता', 'सुदूरपश्चिम',
+    'स्कुल', 'सप्तरी', 'हिमाल', 'हेटौंडा', 'हतिया', 'हरि',
     'क्षेत्र', 'त्रिवेणी', 'ज्ञान',
   ];
 
@@ -236,21 +236,23 @@ describe('collation volume: real words', () => {
 
 describe('collation volume: 92-word per-pair proof (all 91 adjacent pairs)', () => {
   // Each pair below was verified independently with compare() === -1 against
-  // backend 'basic', conjuncts 'school' (scratch /tmp/proof.ts). The comment
-  // on each line names the contract rule that decides it:
+  // backend ‘basic’, conjuncts ‘school’. The comment on each line names the
+  // contract rule that decides it:
   // - "barnamala X<Y @posN": first differing unit, both chart ranks.
-  // - "matra X→V": matra maps to its vowel's weight (contract table).
+  // - "matra X→V": matra maps to its vowel’s weight (contract table).
   // - "light": anusvara/chandrabindu lighter-primary (कं < क analogue).
   // - "prefix": one word is a strict prefix of the next (terminator rule).
   // - "halant-skip": halant carries no weight; decision is between the
   //   surrounding non-halant weights (contract: halant weight-ignored).
-  // - "i-shift": denormalized-ि fixup (ि+C → C+ि) before weighting.
   // - "school": school conjunct contraction weight after ह (contract §).
-  // Cross-checked against Intl.Collator('ne-NP'): 21 disagreements, ALL in
-  // two known-divergence classes — (a) vowel-weight-vs-consonant /
-  // matra-shift ordering (basic sorts post-base-matra and ि-shifted keys
-  // before consonant-second-unit words; Intl uses phonetic vowel order),
-  // (b) school conjuncts after ह (Intl is phonetic). Zero surprises.
+  // Cross-checked against Intl.Collator(‘ne-NP’) on this runtime: remaining
+  // disagreements sit in two known classes — (a) matra-vs-consonant ordering
+  // (basic sorts post-base matras, including pre-base ि, by vowel weight before
+  // any consonant second unit; Intl orders some of these consonant-first, e.g.
+  // वीरगञ्ज/वन, हिमाल/हरि, स्कुल/सप्तरी), (b) school conjuncts after ह (Intl
+  // is phonetic). Pre-base ि needs no special rule: the guarded fixup leaves
+  // correct input alone, so ि-pairs mostly agree with Intl (जितपुर/जुम्ला,
+  // विराटनगर/वीरगञ्ज, सिद्धार्थनगर/सीता).
   const school = () => createNepaliCollator({ backend: 'basic', conjuncts: 'school' });
   const check = (pairs: Array<[string, string, string]>) => {
     const c = school();
@@ -304,8 +306,8 @@ describe('collation volume: 92-word per-pair proof (all 91 adjacent pairs)', () 
       ['गण्डकी', 'घोराही', 'barnamala ग<घ @pos0 (halant in ण्ड skipped: halant-skip)'],
       ['घोराही', 'घर', 'matra ो→ओ(11) < consonant र @pos1 (Intl DIVERGES: known matra class)'],
       ['घर', 'जुम्ला', 'barnamala घ<ज @pos0'],
-      ['जुम्ला', 'जितपुर', 'matra ु→उ(6) < shifted त @pos1 (i-shift: ि+त→त+ि; Intl DIVERGES: known matra class)'],
-      ['जितपुर', 'जनकपुर', 'i-shift: जितपुर keys as ज,त,ि… so barnamala त<न @pos1 (Intl DIVERGES: known matra class)'],
+      ['जितपुर', 'जुम्ला', 'matra ि→इ(4)<ु→उ(6) @pos1'],
+      ['जितपुर', 'जनकपुर', 'matra ि→इ(4) < consonant न @pos1 (Intl DIVERGES: known matra class)'],
       ['जनकपुर', 'टिकापुर', 'barnamala ज<ट @pos0'],
       ['टिकापुर', 'डडेल्धुरा', 'barnamala ट<ड @pos0'],
       ['डडेल्धुरा', 'ढल्केवर', 'barnamala ड<ढ @pos0 (halants skipped)'],
@@ -360,26 +362,27 @@ describe('collation volume: 92-word per-pair proof (all 91 adjacent pairs)', () 
       ['रूख', 'लुम्बिनी', 'barnamala र<ल @pos0'],
       ['लुम्बिनी', 'लमजुङ', 'matra ु→उ(6) < consonant म @pos1 (Intl DIVERGES: known matra class)'],
       ['लमजुङ', 'ललितपुर', 'barnamala म<ल @pos1'],
-      ['ललितपुर', 'वीरगञ्ज', 'barnamala ल<व @pos0'],
+      ['ललितपुर', 'विराटनगर', 'barnamala ल<व @pos0'],
+      ['विराटनगर', 'वीरगञ्ज', 'matra ि→इ(4)<ी→ई(5) @pos1'],
       ['वीरगञ्ज', 'वन', 'matra ी→ई(5) < consonant न @pos1 (Intl DIVERGES: known matra class)'],
-      ['वन', 'विराटनगर', 'barnamala न<र @pos1 (ि-shift: विरा keys as व,र,ि… since ि+र→र+ि; न(34)<र(41) decides)'],
-      ['विराटनगर', 'शान्ति', 'barnamala व<श @pos0 (halant in ट्न skipped)'],
+      ['वन', 'शान्ति', 'barnamala व<श @pos0 (halant in ट्न skipped)'],
       ['शान्ति', 'श्याम', 'matra ा→आ(3) < consonant य @pos1; key शान्ति=श,आ,न… vs श्याम=श,य,आ… (halants skipped)'],
       ['श्याम', 'षडानन्द', 'barnamala श<ष @pos0 (halant in श्य skipped)'],
-      ['षडानन्द', 'सीता', 'barnamala ष<स @pos0'],
+      ['षडानन्द', 'सिद्धार्थनगर', 'barnamala ष<स @pos0'],
+      ['सिद्धार्थनगर', 'सीता', 'matra ि→इ(4)<ी→ई(5) @pos1'],
       ['सीता', 'सुदूरपश्चिम', 'matra ी→ई(5)<ु→उ(6) @pos1'],
-      ['सुदूरपश्चिम', 'स्कुल', 'matra ु→उ(6) < consonant क @pos1; स्कुल=स,क,ु,ल (halant in स्क skipped; Intl DIVERGES: known matra class)'],
-      ['स्कुल', 'सिद्धार्थनगर', 'i-shift: सिद्धा keys as स,द,ि… (ि+द→द+ि) so barnamala क<द @pos1 (Intl DIVERGES: known matra class)'],
-      ['सिद्धार्थनगर', 'सप्तरी', 'barnamala द<प @pos1 (halants in द्ध/प्त skipped; Intl DIVERGES: known matra class)'],
+      ['सुदूरपश्चिम', 'स्कुल', 'matra ु→उ(6) < consonant क @pos1; स्कुल=स,क,ु,ल (halant in स्क skipped)'],
+      ['स्कुल', 'सप्तरी', 'barnamala क<प @pos1 (halants in स्क/प्त skipped; Intl DIVERGES: cluster class)'],
     ]);
   });
 
   it('pairs 86-91: ह-words then school conjuncts after ह', () => {
     check([
-      ['सप्तरी', 'हतिया', 'barnamala स<ह @pos0 (halant in प्त skipped)'],
+      ['सप्तरी', 'हिमाल', 'barnamala स<ह @pos0 (halant in प्त skipped)'],
+      ['हिमाल', 'हेटौंडा', 'matra ि→इ(4)<े→ए(9) @pos1'],
       ['हेटौंडा', 'हतिया', 'matra े→ए(9) < consonant त @pos1 (Intl DIVERGES: known matra class)'],
-      ['हतिया', 'हिमाल', 'barnamala त<म @pos1'],
-      ['हिमाल', 'हरि', 'barnamala म<र @pos1 (ि+म→म+ि shift; Intl DIVERGES: known matra class)'],
+      ['हिमाल', 'हतिया', 'matra ि→इ(4) < consonant त @pos1 (Intl DIVERGES: known matra class)'],
+      ['हिमाल', 'हरि', 'matra ि→इ(4) < consonant र @pos1 (Intl DIVERGES: known matra class)'],
       ['हरि', 'क्षेत्र', 'school: हरि ends in chart weights, क्षेत्र is contraction U+E04F after ह (Intl DIVERGES: known school class, Intl sorts ज्ञ/क्ष phonetically)'],
       ['क्षेत्र', 'त्रिवेणी', 'school: contraction order क्ष(U+E04F)<त्र(U+E050) after ह'],
       ['त्रिवेणी', 'ज्ञान', 'school: contraction order त्र(U+E050)<ज्ञ(U+E051) after ह — NOTE barnamala alone would give ज्ञ(ज…) first; school order decides (Intl DIVERGES: Intl sorts ज्ञ before त्र phonetically, known school class)'],
@@ -404,17 +407,17 @@ describe('collation volume: backend parity', () => {
     expect(basic.sort(AGREE_CORPUS)).toEqual(intl.sort(AGREE_CORPUS));
   });
 
-  it('named divergences: same-initial matra clusters (basic ि-shift vs Intl)', () => {
+  it('named divergences: matra-vs-consonant ordering (basic vs Intl)', () => {
     const basic = createNepaliCollator({ backend: 'basic', conjuncts: 'phonetic' });
     const intl = createNepaliCollator({ backend: 'intl', conjuncts: 'phonetic' });
-    // Basic orders ि-words after consonant-second-unit words (ि-shift);
-    // Intl keeps phonetic vowel order. Each pair asserted by name.
+    // Basic orders matra-words before consonant-second-unit words (matra by
+    // vowel weight); Intl orders some of these pairs consonant-first.
+    // Each pair asserted by name.
     const cases: Array<[string, string, -1 | 1, -1 | 1]> = [
       ['गीता', 'गण्डकी', -1, 1],
       ['घर', 'घोराही', 1, -1],
       ['काठमाडौं', 'कमल', -1, 1],
       ['हिमाल', 'हरि', -1, 1],
-      ['विराटनगर', 'वीरगञ्ज', 1, -1],
       ['बागमती', 'बजार', -1, 1],
       ['नेपाल', 'नदी', -1, 1],
     ];
@@ -427,6 +430,12 @@ describe('collation volume: backend parity', () => {
     expect(intl.compare('कैलाली', 'कोशी')).toBe(-1);
     expect(basic.compare('पोखरा', 'पानी')).toBe(1);
     expect(intl.compare('पोखरा', 'पानी')).toBe(1);
+    // Guarded preposed-ि fixup: basic and Intl agree on ि-words now
+    // (these diverged under the old unguarded shift).
+    expect(basic.compare('विराटनगर', 'वीरगञ्ज')).toBe(-1);
+    expect(intl.compare('विराटनगर', 'वीरगञ्ज')).toBe(-1);
+    expect(basic.compare('जितपुर', 'जुम्ला')).toBe(-1);
+    expect(intl.compare('जितपुर', 'जुम्ला')).toBe(-1);
   });
 
   it('named divergences: school conjuncts, light marks, latin mixing', () => {

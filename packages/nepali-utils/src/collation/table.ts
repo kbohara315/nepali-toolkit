@@ -9,8 +9,11 @@
 //   The terminator is what makes a trailing light mark sort BEFORE the
 //   bare base (कं < क): at the first differing char, light (U+E000)
 //   < terminator (U+E010).
-// - Phonetic conjunct sub-weight: U+E011 (above terminator, below every
-//   base weight), so क < क्ष < ख.
+// - Phonetic conjunct sub-weight: U+E080 (above every base weight), so a
+//   phonetic conjunct sorts after same-initial words but before the next
+//   initial (क < क्ष < ख) — Intl-like at word-initial position. Probed
+//   against Intl.Collator('ne-NP'): 7/8 agreement; known divergence is
+//   medial त्र (basic-phonetic स्तर < सत्र, Intl has सत्र < स्तर).
 // - School conjunct weights: U+E020 + BARNAMALA.length + {0,1,2} for
 //   क्ष, त्र, ज्ञ (after ह).
 // - Digits / other code points (numeric:false): U+E200 + (cp & 0x7FFF)
@@ -19,10 +22,19 @@
 // - Full-sensitivity separators: secondary U+0002, tertiary U+0003
 //   (below every weight char, so a base key is always a strict prefix
 //   of its full key).
+// - ASCII case: A-Z folds to a-z at primary (base ties across case);
+//   the raw form rides at tertiary, so `full` distinguishes case —
+//   same level scheme as nukta. Embedded ASCII in mixed-script strings
+//   folds identically.
+// - `ignorePunctuation` (opt-in): `isIgnorablePunctuation` chars
+//   (space/tab, common punctuation, danda/double-danda) are skipped at
+//   primary. Default false preserves the v1 weighted behavior.
 //
 // NOTE: contract reading — "matra identity already primary" is satisfied
 // because each matra maps to its own vowel's weight (ि→इ vs ी→ई differ
 // at primary); secondary only distinguishes anusvara-type marks.
+
+import { isIgnorablePunctuation, normalizeNepaliText } from './text.js';
 
 export type ConjunctMode = 'school' | 'phonetic';
 
@@ -144,22 +156,32 @@ const codePointWeight = (ch: string): string => {
   return '' + ch;
 };
 
+export type BuildKeyOptions = {
+  /** Skip punctuation/whitespace at primary (default false — v1 weights them). */
+  ignorePunctuation?: boolean;
+};
+
 export function buildKey(
   input: string,
   mode: ConjunctMode,
   sensitivity: 'base' | 'full',
   numeric: boolean,
+  options?: BuildKeyOptions,
 ): string {
+  const ignorePunct = options?.ignorePunctuation === true;
   if (ASCII_PATTERN.test(input)) {
-    if (!numeric) return '' + input;
-    return '' + encodeNumericRuns(input, (s) => s);
+    // ASCII-only: case folds at primary (base ties across case, full keeps
+    // the raw form at tertiary — same level scheme as nukta). toLowerCase
+    // on pure-ASCII input only maps A-Z, so no locale risk.
+    const stripped = ignorePunct
+      ? [...input].filter((ch) => !isIgnorablePunctuation(ch)).join('')
+      : input;
+    const folded = stripped.toLowerCase();
+    const primary = !numeric ? folded : encodeNumericRuns(folded, (s) => s);
+    if (sensitivity === 'base') return '' + primary;
+    return '' + primary + '' + '' + stripped;
   }
-  const text = input
-    .normalize('NFC')
-    // NFC does not reorder a preposed short-i (ि+क is not canonically
-    // equivalent to कि); fix it up so denormalized input sorts with कि.
-    .replace(/ि([क-हक़-ॡ])/g, '$1ि')
-    .replace(/[‍‌​]/g, '');
+  const text = normalizeNepaliText(input);
   const primary: string[] = [];
   const secondary: string[] = [];
   const tertiary: string[] = [];
@@ -177,7 +199,19 @@ export function buildKey(
   };
   let i = 0;
   while (i < chars.length) {
-    const ch = chars[i];
+    const raw = chars[i];
+    if (ignorePunct && isIgnorablePunctuation(raw)) {
+      i += 1;
+      continue;
+    }
+    // ASCII uppercase inside mixed-script strings folds at primary (same
+    // scheme as the ASCII fast path); the raw form is kept at tertiary.
+    let ch = raw;
+    const cp = raw.codePointAt(0) as number;
+    if (cp >= 0x41 && cp <= 0x5a) {
+      ch = String.fromCharCode(cp + 32);
+      if (sensitivity === 'full') tertiary.push(raw);
+    }
     const tri = ch + (chars[i + 1] ?? '') + (chars[i + 2] ?? '');
     const contraction = CONTRACTIONS[tri];
     if (contraction !== undefined) {

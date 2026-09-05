@@ -6,4 +6,17 @@ export type {
   NepaliCollator,
   ResolvedBackend,
 } from './collator.js';
-export type { ConjunctMode } from './table.js';
+export type { BuildKeyOptions, ConjunctMode } from './table.js';
+export {
+  containsDevanagari,
+  countDevanagariChars,
+  countNepaliWords,
+  getNepaliTextStats,
+  isDevanagariOnly,
+  isIgnorablePunctuation,
+  nepaliIncludes,
+  nepaliStartsWith,
+  normalizeNepaliText,
+  stripIgnorablePunctuation,
+} from './text.js';
+export type { NepaliSearchOptions, NepaliTextStats } from './text.js';

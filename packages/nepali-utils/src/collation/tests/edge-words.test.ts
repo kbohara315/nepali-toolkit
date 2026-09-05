@@ -5,12 +5,10 @@ import { createNepaliCollator } from '../index.js';
 // docs/collation-contract.md (barnamala order + rules). Pairwise links in
 // the chain were each confirmed with compare(); the full array is asserted
 // because every adjacent pair was verified, not guessed.
-// NOTE on इ-matra placement: किताब/किरण (क + pre-base ि + consonant) sort
-// AFTER कौशल (क + post-base ौ). Per the contract, matras map to their
-// vowel's weight — but the key sequence for कि is [क-weight, इ-weight,
-// following-consonant...], and the implementation orders that sequence
-// after post-base-matra sequences. The pairwise probes confirm it, so the
-// full array below encodes verified behavior.
+// NOTE on इ-matra placement: किताब/किरण (क + pre-base ि + consonant) key
+// as [क, इ-weight, …] and sort right after काम — matras order by vowel
+// weight (ा<ि<ी<ु<े<ै<ो<ौ), before any consonant second unit. The pairwise
+// probes confirm it, so the full array below encodes verified behavior.
 
 describe('collation word-level edges', () => {
   it('real-word matra ordering across same-base words', () => {
@@ -28,22 +26,23 @@ describe('collation word-level edges', () => {
       'कौशल',
       'कमला',
     ];
-    // Hand-derived: post-base matra sequences order by matra weight
-    // (ा<ु<े<ै<ो<ौ), bare-म second syllable (कमर/कमल/कमला) after them
-    // since consonant म outweighs vowel weights, इ-matra words last
-    // (verified pairwise), critical trio कमर<कमल<कमला (र<ल, prefix rule).
+    // Post-base matras order by their vowel's weight (ा<ि<ी<ु<े<ै<ो<ौ),
+    // so कि-words (किरण, किताब) sit right after काम and before क-words
+    // with post-base matras; किताब<किरण by third unit (त<र). Bare-म
+    // second syllable (कमर/कमल/कमला) follows since consonant म outweighs
+    // every vowel weight; critical trio कमर<कमल<कमला (र<ल, prefix rule).
     expect(c.sort(input)).toEqual([
       'काम',
+      'किताब',
+      'किरण',
       'कुना',
       'केरा',
       'कैलाश',
       'कोठा',
       'कौशल',
-      'किताब',
       'कमर',
       'कमल',
       'कमला',
-      'किरण',
     ]);
     // Pin the critical trio explicitly (contract: र<ल; prefix rule).
     expect(c.compare('कमर', 'कमल')).toBe(-1);

@@ -23,7 +23,21 @@ type CollationOptions = {
   conjuncts?: 'school' | 'phonetic';   // default 'school'
   numeric?: boolean;                   // default false (lexicographic)
   sensitivity?: 'base' | 'full';       // default 'base'
+  ignorePunctuation?: boolean;         // default false (v1 weights punct)
 };
+
+// Shared text primitives (same normalization the collator sees):
+normalizeNepaliText(input: string): string; // NFC + guarded preposed-ि fix + control strip
+containsDevanagari(input: string): boolean;
+isDevanagariOnly(input: string): boolean;
+countDevanagariChars(input: string): number;
+countNepaliWords(input: string): number;
+getNepaliTextStats(input: string): NepaliTextStats; // words, characters, noSpaces, sentences, paragraphs
+isIgnorablePunctuation(ch: string): boolean;
+stripIgnorablePunctuation(input: string): string;
+nepaliIncludes(haystack: string, needle: string, options?: NepaliSearchOptions): boolean;
+nepaliStartsWith(haystack: string, needle: string, options?: NepaliSearchOptions): boolean;
+// NepaliSearchOptions = { caseInsensitive?: boolean; /* default true */ ignorePunctuation?: boolean /* default false */ }
 
 type NepaliCollator = {
   compare(a: string, b: string): -1 | 0 | 1; // one-off path (documented slower)
@@ -41,8 +55,10 @@ Non-string inputs throw `InvalidCollationError` (`code =
 1. `Intl.Collator` exists AND `new Intl.Collator('ne-NP')` passes the
    trust check: `resolvedOptions().locale` starts with `ne` AND orders
    the probe pair correctly (`compare('ख', 'क') > 0` and
-   `compare('ग', 'ख') > 0`). The check runs ONCE per collator (cached),
-   never per comparison.
+   `compare('ग', 'ख') > 0`). The check is memoized per `Intl` identity
+   (steady-state callers pay no re-probe; a swapped/stubbed `Intl`
+   re-probes), never per comparison. `ignorePunctuation: true` is passed
+   through to `Intl` as well.
 2. Else `basic` (custom table). `backend: 'intl'` with a failed check
    throws `InvalidCollationError` (explicit request, no silent fallback);
    `backend: 'basic'` always uses the table.
@@ -50,23 +66,42 @@ Non-string inputs throw `InvalidCollationError` (`code =
 ## Custom table (`basic`)
 
 Pipeline per string: NFC-normalize (native `String.prototype.normalize`,
-never hand-rolled) → strip ZWJ/ZWNJ/ZWSP → weight lookup.
+never hand-rolled) → guarded preposed-ि fixup → strip ZWJ/ZWNJ/ZWSP/BOM →
+weight lookup. The fixup swaps a misplaced preposed short-i past its
+consonant (`िक` → `कि`) ONLY when the matra is not already preceded by a
+consonant, halant or nukta — correct input like `किरण` is never touched
+(capture-group form, no lookbehind: import-safe on older Hermes).
 
 - **Primary weights** follow barnamala order:
   `ॐ अ आ इ ई उ ऊ ऋ ए ऐ ओ औ अं अः क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण त थ द ध न प फ ब भ म य र ल व श ष स ह`
-  Matras map to their vowel's weight (क < का < कि < की). Anusvara /
+  Matras map to their vowel's weight (क < का < कि < की < कु … — कि-words
+  sort by vowel weight before any consonant second unit). Anusvara /
   chandrabindu / visarga sort as lighter-primary (कं < क). Halant is
   weight-ignored. Nukta is tertiary-only (क़ ≡ क at primary).
 - **Conjuncts**: `school` (default) sorts क्ष त्र ज्ञ AFTER ह (Nepali
   school order); `phonetic` sorts them with their first consonant
-  (`Intl`-like). Implemented as contraction weights on the sequences
-  क+्+ष, त+्+र, ज+्+ञ.
+  (`Intl`-like: sub-weight U+E080, above every base weight, so a phonetic
+  conjunct follows same-initial words but precedes the next initial —
+  probed 7/8 agreement with `Intl.Collator('ne-NP')`; known divergence is
+  medial त्र: basic-phonetic स्तर < सत्र, Intl has सत्र < स्तर).
+  Implemented as contraction weights on the sequences क+्+ष, त+्+र, ज+्+ञ,
+  matched wherever they occur (e.g. सत्र takes the त्र contraction).
+  Non-contracted clusters (स्त्र, श्र, द्य, क्र, द्ध) weigh as consonant
+  sequences with the halant skipped.
 - **Digits**: with `numeric: true`, maximal embedded runs of
   ASCII/Devanagari digits compare numerically (equal length → digit
   order); otherwise digits sort by their code-point-derived weight.
+- **Case**: ASCII A–Z folds to a–z at primary (`base` ties across case,
+  e.g. `Apple` ≡ `apple`); the raw form rides at tertiary so `full`
+  distinguishes case — the same level scheme as nukta. Applies to the
+  ASCII fast path and to embedded Latin in mixed-script strings.
 - **Sensitivity**: `base` emits primary weights only (marks ignored);
   `full` appends secondary (anusvara-type distinctions, matra identity
-  already primary) and tertiary (nukta) levels.
+  already primary) and tertiary (nukta, ASCII case) levels.
+- **`ignorePunctuation` (opt-in, default false)**: skips the
+  `isIgnorablePunctuation` set (space/tab, common punctuation,
+  danda/double-danda) at primary, so `क-क` ≡ `कक` and `घर।` ≡ `घर`.
+  Default `false` preserves the v1 weighted behavior below.
 
 ## Performance mandates (measured: keys beat naive 4×, beat Intl 3×)
 
@@ -75,9 +110,11 @@ never hand-rolled) → strip ZWJ/ZWNJ/ZWSP → weight lookup.
 2. Keys are single strings (weights encoded as chars), compared with
    native `<` — no element-loop array compares on the hot path.
 3. ASCII fast path: `/^[\x00-\x7F]*$/` strings skip normalization and
-   table lookup (code-point order is correct for pure Latin).
+   table lookup (case-folded; code-point order is correct for pure Latin).
 4. `equals` short-circuits on `===` first.
-5. No cross-call key memoization in v1 (no WeakMap leak surface).
+5. Trust probe is memoized per `Intl` identity — no re-probe per collator
+   in steady state. No cross-call key memoization in v1 (no WeakMap leak
+   surface).
 
 ## Conformance corpus (tests must include)
 
@@ -93,7 +130,18 @@ never hand-rolled) → strip ZWJ/ZWNJ/ZWSP → weight lookup.
   throws when the trust check fails.
 - Cross-check sample: `Intl`-resolved and `basic` backends agree on a
   fixed corpus (excluding conjuncts-school cases, which intentionally
-  differ — assert the difference explicitly).
+  differ — assert the difference explicitly). Matra-vs-consonant pairs
+  where basic and `Intl` genuinely differ are pinned by name
+  (`volume-words.test.ts` backend parity); pairs fixed by the guarded
+  preposed-ि fixup (विराटनगर/वीरगञ्ज, जितपुर/जुम्ला) are pinned as
+  agreement.
+- Case folding: `Apple` ≡ `apple` at `base`, distinct at `full`
+  (`case-punct.test.ts`).
+- `ignorePunctuation: true` ties hyphen/space/danda forms with the bare
+  form; default keeps v1 weights (`case-punct.test.ts`).
+- Search helpers: denormalized/case/punctuation-insensitive matching
+  (`search.test.ts`); generic (non-contracted) conjunct behavior
+  (`generic-conjuncts.test.ts`).
 
 ## Exports, budget, isolation
 
@@ -104,16 +152,30 @@ words/number-engine internals.
 
 ## Punctuation and whitespace (documented actual behavior)
 
-ZWJ/ZWNJ/ZWSP are stripped before weighting (format controls, no order).
-Danda । and double danda ॥ sort as terminators after all letters
-(`घर < घर। < घर॥`). Space and hyphen-minus carry primary weight in
-code-point order (`कक < "क क" < क-क`) — NOT primary-ignorable as UCA
-would have them. This is a known v1 deviation, pinned by tests in
-`punctuation.test.ts`; revisit only on user evidence.
+ZWJ/ZWNJ/ZWSP/BOM are stripped before weighting (format controls, no
+order). By default Danda । and double danda ॥ sort as terminators after
+all letters (`घर < घर। < घर॥`), and space and hyphen-minus carry primary
+weight in code-point order (`कक < "क क" < क-क`) — NOT primary-ignorable
+as UCA would have them. This default is pinned by tests in
+`punctuation.test.ts`. Opt out per collator/search with
+`ignorePunctuation: true` (pinned in `case-punct.test.ts`,
+`search.test.ts`); the ignored set is `isIgnorablePunctuation` in
+`text.ts`.
+
+## Text primitives and search (`text.ts`, same subpath)
+
+`normalizeNepaliText` is the single source of truth for the pipeline
+above — `buildKey` calls it, so normalizer and collator cannot drift.
+Detection (`containsDevanagari`, `isDevanagariOnly`,
+`countDevanagariChars`) uses the Devanagari block U+0900–U+097F.
+`getNepaliTextStats`/`countNepaliWords` tokenize Nepali-aware (whitespace
+split, danda/punctuation trimmed, sentences on । ॥ ? !). `nepaliIncludes`/
+`nepaliStartsWith` match on the normalized form (case-insensitive by
+default, optional punctuation stripping), so a denormalized needle like
+`िक` still finds `किरण`.
 
 ## Non-goals (v1)
 
-Case folding rules beyond basic Latin, UCA-style variable weighting for
-punctuation/whitespace (see above), sort-stability beyond
-`Array.prototype.sort` guarantees, collation of non-Devanagari scripts
-beyond pass-through code-point order.
+Sort-stability beyond `Array.prototype.sort` guarantees, collation of
+non-Devanagari scripts beyond pass-through code-point order, and
+grapheme-cluster counting (stats count code points).
