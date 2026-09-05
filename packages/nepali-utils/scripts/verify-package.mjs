@@ -16,6 +16,7 @@ const isolated = {
   './land': ['working-2026-08-22', 'YEAR_PATTERN_IDS', 'MONTH_PATTERNS', 'Intl'],
   './words': ['working-2026-08-22', 'YEAR_PATTERN_IDS', 'MONTH_PATTERNS', 'Intl', 'formatNumber', 'formatNPR', 'hillArea', 'fromSquareMetres', 'toDevanagariTables'],
   './collation': ['working-2026-08-22', 'YEAR_PATTERN_IDS', 'MONTH_PATTERNS', "from '../number", "from '../date", "from '../currency", "from '../land", "from '../words", 'toDevanagariTables', 'formatNumber', 'formatNPR', 'hillArea'],
+  './phone': ['working-2026-08-22', 'YEAR_PATTERN_IDS', 'MONTH_PATTERNS', 'Intl', "from '../date", "from '../currency", "from '../land", "from '../words", "from '../collation", 'toDevanagariTables', 'formatNumber', 'formatNPR', 'hillArea', 'MONTH_NAMES'],
   './date/range': ['YEAR_PATTERN_IDS', 'MONTH_PATTERNS'],
   './date/locale/en': ['working-2026-08-22', 'YEAR_PATTERN_IDS'],
   './date/locale/ne': ['working-2026-08-22', 'YEAR_PATTERN_IDS'],

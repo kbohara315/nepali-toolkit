@@ -14,6 +14,7 @@
     "src/currency/tests",
     "src/land/tests",
     "src/words/tests",
-    "src/collation/tests"
+    "src/collation/tests",
+    "src/phone/tests"
   ]
 }

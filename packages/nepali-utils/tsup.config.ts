@@ -24,6 +24,7 @@ export default defineConfig({
     'src/land/index.ts',
     'src/words/index.ts',
     'src/collation/index.ts',
+    'src/phone/index.ts',
   ],
   format: ['esm', 'cjs'],
   outExtension: ({ format }) => (format === 'cjs' ? { js: '.cjs' } : { js: '.js' }),
