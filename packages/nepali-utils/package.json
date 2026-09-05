@@ -94,6 +94,11 @@
       "types": "./dist/number/digits.d.ts",
       "import": "./dist/number/digits.js",
       "require": "./dist/number/digits.cjs"
+    },
+    "./currency": {
+      "types": "./dist/currency/index.d.ts",
+      "import": "./dist/currency/index.js",
+      "require": "./dist/currency/index.cjs"
     }
   },
   "files": [

@@ -24,6 +24,8 @@ const fixtures = {
     "import { toDevanagari } from 'nepali-utils/number/digits'; console.log(toDevanagari('2082'));\n",
   number:
     "import { formatNumber } from 'nepali-utils/number'; console.log(formatNumber('12345678'));\n",
+  currency:
+    "import { formatNPR } from 'nepali-utils/currency'; console.log(formatNPR('12345678.9'));\n",
   'date-locale-en':
     "import { monthName } from 'nepali-utils/date/locale/en'; console.log(monthName(4));\n",
   'date-locale-ne':
@@ -45,6 +47,7 @@ const leanFixtures = new Set([
   'date-format-display',
   'number-digits',
   'number',
+  'currency',
   'date-locale-en',
   'date-locale-ne',
 ]);
@@ -59,6 +62,7 @@ const budgets = {
   'date-format-display': 2048,
   'number-digits': 512,
   number: 1536,
+  currency: 2048,
   'date-locale-en': 1024,
   'date-locale-ne': 1024,
   'date-adapter-date': 2048,

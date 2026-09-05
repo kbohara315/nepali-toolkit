@@ -20,6 +20,7 @@ export default defineConfig({
     'src/date/adapters/timezone.ts',
     'src/number/index.ts',
     'src/number/digits.ts',
+    'src/currency/index.ts',
   ],
   format: ['esm', 'cjs'],
   outExtension: ({ format }) => (format === 'cjs' ? { js: '.cjs' } : { js: '.js' }),
