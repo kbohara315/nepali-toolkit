@@ -1,7 +1,7 @@
 {
   "name": "nepali-utils",
   "version": "0.1.0",
-  "description": "Nepal-focused TypeScript utilities: BS/AD dates and Devanagari digits (currency, land, words, collation, phone, name planned)",
+  "description": "Nepal-focused TypeScript utilities: BS/AD dates, numerals, currency, land, words, collation, phone",
   "type": "module",
   "sideEffects": false,
   "exports": {

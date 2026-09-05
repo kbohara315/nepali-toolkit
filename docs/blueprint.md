@@ -37,8 +37,7 @@ nepali-utils/
 │   │   │   ├── words/
 │   │   │   ├── land/
 │   │   │   ├── collation/
-│   │   │   ├── phone/
-│   │   │   └── name/
+│   │   │   └── phone/
 │   │   ├── package.json
 │   │   └── tsup.config.ts
 │   └── nepali-ui/
@@ -88,9 +87,13 @@ Use an `auto` strategy: a capability-checked `Intl.Collator('ne-NP')` backend wh
 
 Separate normalization, formatting, structural validation, and allocation-aware validation. Normalize ASCII and Devanagari digits. Version any prefix metadata because Nepal's numbering plan can change.
 
-### Name
+### Name — SKIPPED (deliberate)
 
-Perform conservative structural validation and explicit display formatting. Do not infer surname position, caste, ethnicity, gender, or whether a family name is required. Do not automatically split free-form names.
+No name module ships: personal names have no authoritative standard (no
+required family-name position, no closed script set, no inference-safe
+rules), so any validator would either overclaim or be trivially
+`non-empty-string` — neither earns a dependency. Revisit only if a real,
+cited requirement arrives. The `src/name/` placeholder was removed.
 
 ## Public package boundaries
 
@@ -104,7 +107,6 @@ import { numberToNepaliWords } from 'nepali-utils/words';
 import { formatHillArea } from 'nepali-utils/land';
 import { createNepaliCollator } from 'nepali-utils/collation';
 import { validateNepalPhone } from 'nepali-utils/phone';
-import { validateNepaliName } from 'nepali-utils/name';
 ```
 
 The package root may expose a small ergonomic set later, but subpaths are the stable size-sensitive contract. Importing one domain must not retain unrelated domains.
@@ -133,7 +135,6 @@ date           <- nepali-ui date components
 currency       <- nepali-ui NPR input
 land           <- nepali-ui Ropani input
 collation      independent
-name           independent
 phone          <- number/digits only
 ```
 

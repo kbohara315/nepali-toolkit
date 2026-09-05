@@ -60,13 +60,11 @@ Exit condition: every supported magnitude boundary and irregular form has review
 
 Exit condition: limited-ICU/Hermes execution cannot crash and fallback output is stable against a reviewed corpus.
 
-## Phase 6: Add phone and name utilities
+## Phase 6: Add phone utilities (name skipped — see blueprint)
 
 - Define phone normalization and national/international display formats.
 - Separate structural validity from current-prefix allocation validity.
 - Add versioned, cited numbering metadata only if allocation-aware validation ships.
-- Define conservative name normalization, validation, and display contracts.
-- Reject cultural inference and automatic free-form name splitting.
 
 Exit condition: validators expose their certainty and policy boundaries, accept Devanagari input where specified, and do not overclaim identity or allocation correctness.
 
