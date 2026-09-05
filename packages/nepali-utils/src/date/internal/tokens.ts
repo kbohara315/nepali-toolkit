@@ -1,4 +1,24 @@
 import { toAscii, toDevanagari } from '../../number/digits.js';
+import { InvalidFieldError } from '../errors.js';
+import type { ADDateFields, BSDateFields } from '../types.js';
+
+/**
+ * Shape-only field check for display paths: finite integers with month 1–12
+ * and day 1–31. Deliberately NOT full Patro/Gregorian membership — display
+ * bundles must stay free of conversion data (see bundle contract). Full
+ * validity is enforced at construction/conversion boundaries.
+ */
+export function assertDisplayFields(value: BSDateFields | ADDateFields): void {
+  const fields = value as { year?: unknown; month?: unknown; day?: unknown };
+  for (const key of ['year', 'month', 'day'] as const) {
+    if (!Number.isInteger(fields[key])) {
+      throw new InvalidFieldError(`display date ${key} must be an integer`);
+    }
+  }
+  const { month, day } = value;
+  if (month < 1 || month > 12) throw new InvalidFieldError('display month must be 1-12');
+  if (day < 1 || day > 31) throw new InvalidFieldError('display day must be 1-31');
+}
 
 export const BS_MONTHS_EN = [
   'Baisakh',

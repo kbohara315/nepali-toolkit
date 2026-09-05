@@ -1,10 +1,10 @@
 import type { ADDateFields, BSDateFields } from './types.js';
-import { assertADDate, assertBSDate, assertCivilDate } from './types.js';
 import { InvalidFieldError } from './errors.js';
 import {
   AD_MONTHS_EN,
   BS_MONTHS_EN,
   applyNumerals,
+  assertDisplayFields,
   defaultOrdinal,
   formatYear,
   pad,
@@ -52,11 +52,8 @@ function format(
   pattern: string,
   defaultLocale: DisplayLocale,
   localeOrOptions?: DisplayLocale | DisplayOptions,
-  calendar: 'bs' | 'ad' | 'either' = 'either',
 ): string {
-  if (calendar === 'bs') assertBSDate(date);
-  else if (calendar === 'ad') assertADDate(date);
-  else assertCivilDate(date);
+  assertDisplayFields(date);
   if (typeof pattern !== 'string') throw new InvalidFieldError('format pattern must be a string');
 
   const { locale, numerals, weekday } = resolveOptions(localeOrOptions, defaultLocale);
@@ -113,7 +110,7 @@ export function formatBSDisplay(
   pattern: string,
   localeOrOptions?: DisplayLocale | DisplayOptions,
 ): string {
-  return format(date, pattern, DEFAULT_BS_LOCALE, localeOrOptions, 'bs');
+  return format(date, pattern, DEFAULT_BS_LOCALE, localeOrOptions);
 }
 
 /** Format an AD date with display tokens using Gregorian English month names by default. */
@@ -122,7 +119,7 @@ export function formatADDisplay(
   pattern: string,
   localeOrOptions?: DisplayLocale | DisplayOptions,
 ): string {
-  return format(date, pattern, DEFAULT_AD_LOCALE, localeOrOptions, 'ad');
+  return format(date, pattern, DEFAULT_AD_LOCALE, localeOrOptions);
 }
 
 /** Format either date shape with display tokens and an explicitly supplied locale. */

@@ -4,12 +4,12 @@ import { gzipSync } from 'node:zlib';
 
 const packageRoot = new URL('../', import.meta.url);
 const fixtureDirectory = new URL('.tmp/tree-shaking/', packageRoot);
-const esbuild = new URL('../../node_modules/.bin/esbuild', import.meta.url);
+const esbuild = new URL('../node_modules/.bin/esbuild', import.meta.url);
 const fixtures = {
   'date-convert':
     "import { bs, toAD } from 'nepali-utils/date/convert'; console.log(toAD(bs(2082, 4, 7)));\n",
   'date-value':
-    "import { Miti } from 'nepali-utils/date/value'; console.log(new Miti(2082, 4, 7).toAD());\n",
+    "import { NepaliDate } from 'nepali-utils/date/value'; console.log(new NepaliDate(2082, 4, 7).toAD());\n",
   'date-arithmetic':
     "import { addDaysBS } from 'nepali-utils/date/arithmetic'; console.log(addDaysBS({ year: 2082, month: 4, day: 7 }, 1));\n",
   'date-parse':
@@ -71,6 +71,7 @@ try {
     const input = new URL(`${name}.ts`, fixtureDirectory);
     const output = new URL(`${name}.js`, fixtureDirectory);
     await writeFile(input, source);
+    const distDir = new URL('../dist/', import.meta.url).pathname;
     execFileSync(
       esbuild.pathname,
       [
@@ -78,7 +79,7 @@ try {
         '--bundle',
         '--format=esm',
         '--minify',
-        '--alias:nepali-utils=./dist/index.js',
+        `--alias:nepali-utils=${distDir}`,
         `--outfile=${output.pathname}`,
       ],
       { cwd: packageRoot.pathname, stdio: 'ignore' },

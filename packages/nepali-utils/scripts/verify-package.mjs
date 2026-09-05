@@ -30,7 +30,7 @@ for (const [, entry] of entries) {
   await readFile(cjsFile);
 }
 
-const packOutput = execFileSync('pnpm', ['pack', '--ignore-scripts'], {
+const packOutput = execFileSync('npm', ['pack', '--ignore-scripts'], {
   encoding: 'utf8',
   cwd: new URL('../', import.meta.url),
 });
