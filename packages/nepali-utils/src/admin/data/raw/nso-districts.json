@@ -1,0 +1,464 @@
+[
+ {
+  "sn": 1,
+  "en": "TAPLEJUNG",
+  "ne_preeti": "tfKn]h'ª",
+  "code": 101
+ },
+ {
+  "sn": 2,
+  "en": "SANKHUWASABHA",
+  "ne_preeti": ";+v'jf;ef",
+  "code": 102
+ },
+ {
+  "sn": 3,
+  "en": "SOLUKHUMBU",
+  "ne_preeti": ";f]n'v'Da'",
+  "code": 103
+ },
+ {
+  "sn": 4,
+  "en": "OKHALDHUNGA",
+  "ne_preeti": "cf]vn9'Ëf",
+  "code": 104
+ },
+ {
+  "sn": 5,
+  "en": "KHOTANG",
+  "ne_preeti": "vf]6fª",
+  "code": 105
+ },
+ {
+  "sn": 6,
+  "en": "BHOJPUR",
+  "ne_preeti": "ef]hk'/",
+  "code": 106
+ },
+ {
+  "sn": 7,
+  "en": "DHANKUTA",
+  "ne_preeti": "wgs'6f",
+  "code": 107
+ },
+ {
+  "sn": 8,
+  "en": "TERHATHUM",
+  "ne_preeti": "t]x|y'd",
+  "code": 108
+ },
+ {
+  "sn": 9,
+  "en": "PANCHTHAR",
+  "ne_preeti": "kfFry/",
+  "code": 109
+ },
+ {
+  "sn": 10,
+  "en": "ILAM",
+  "ne_preeti": "Onfd",
+  "code": 110
+ },
+ {
+  "sn": 11,
+  "en": "JHAPA",
+  "ne_preeti": "emfkf",
+  "code": 111
+ },
+ {
+  "sn": 12,
+  "en": "MORANG",
+  "ne_preeti": "df]/ª",
+  "code": 112
+ },
+ {
+  "sn": 13,
+  "en": "SUNSARI",
+  "ne_preeti": ";'g;/L",
+  "code": 113
+ },
+ {
+  "sn": 14,
+  "en": "UDAYAPUR",
+  "ne_preeti": "pbok'/",
+  "code": 114
+ },
+ {
+  "sn": 15,
+  "en": "SAPTARI",
+  "ne_preeti": ";Kt/L",
+  "code": 201
+ },
+ {
+  "sn": 16,
+  "en": "SIRAHA",
+  "ne_preeti": "l;/xf",
+  "code": 202
+ },
+ {
+  "sn": 17,
+  "en": "DHANUSA",
+  "ne_preeti": "wg'iff",
+  "code": 203
+ },
+ {
+  "sn": 18,
+  "en": "MAHOTTARI",
+  "ne_preeti": "dxf]Q/L",
+  "code": 204
+ },
+ {
+  "sn": 19,
+  "en": "SARLAHI",
+  "ne_preeti": ";nf{xL",
+  "code": 205
+ },
+ {
+  "sn": 20,
+  "en": "RAUTAHAT ",
+  "ne_preeti": "/f}tx6",
+  "code": 206
+ },
+ {
+  "sn": 21,
+  "en": "BARA",
+  "ne_preeti": "af/f",
+  "code": 207
+ },
+ {
+  "sn": 22,
+  "en": "PARSA",
+  "ne_preeti": "k;f{",
+  "code": 208
+ },
+ {
+  "sn": 23,
+  "en": "DOLAKHA",
+  "ne_preeti": "bf]nvf",
+  "code": 301
+ },
+ {
+  "sn": 24,
+  "en": "SINDHUPALCHOK",
+  "ne_preeti": "l;Gw'kfNrf]s",
+  "code": 302
+ },
+ {
+  "sn": 25,
+  "en": "RASUWA",
+  "ne_preeti": "/;'jf",
+  "code": 303
+ },
+ {
+  "sn": 26,
+  "en": "DHADING",
+  "ne_preeti": "wflbª",
+  "code": 304
+ },
+ {
+  "sn": 27,
+  "en": "NUWAKOT",
+  "ne_preeti": "g'jfsf]6",
+  "code": 305
+ },
+ {
+  "sn": 28,
+  "en": "KATHMANDU",
+  "ne_preeti": "sf7df8f}F",
+  "code": 306
+ },
+ {
+  "sn": 29,
+  "en": "BHAKTAPUR",
+  "ne_preeti": "eQmk'/",
+  "code": 307
+ },
+ {
+  "sn": 30,
+  "en": "LALITPUR",
+  "ne_preeti": "nlntk'/",
+  "code": 308
+ },
+ {
+  "sn": 31,
+  "en": "KAVREPALANCHOK",
+  "ne_preeti": "sfe|]knf~rf]s",
+  "code": 309
+ },
+ {
+  "sn": 32,
+  "en": "RAMECHHAP",
+  "ne_preeti": "/fd]5fk",
+  "code": 310
+ },
+ {
+  "sn": 33,
+  "en": "SINDHULI",
+  "ne_preeti": "l;Gw'nL",
+  "code": 311
+ },
+ {
+  "sn": 34,
+  "en": "MAKWANPUR",
+  "ne_preeti": "dsjfgk'/",
+  "code": 312
+ },
+ {
+  "sn": 35,
+  "en": "CHITAWAN",
+  "ne_preeti": "lrtjg",
+  "code": 313
+ },
+ {
+  "sn": 36,
+  "en": "GORKHA",
+  "ne_preeti": "uf]/vf",
+  "code": 401
+ },
+ {
+  "sn": 37,
+  "en": "MANANG",
+  "ne_preeti": "dgfª",
+  "code": 402
+ },
+ {
+  "sn": 38,
+  "en": "MUSTANG",
+  "ne_preeti": "d':tfª",
+  "code": 403
+ },
+ {
+  "sn": 39,
+  "en": "MYAGDI",
+  "ne_preeti": "DofUbL",
+  "code": 404
+ },
+ {
+  "sn": 40,
+  "en": "KASKI",
+  "ne_preeti": "sf:sL",
+  "code": 405
+ },
+ {
+  "sn": 41,
+  "en": "LAMJUNG",
+  "ne_preeti": "ndh'ª",
+  "code": 406
+ },
+ {
+  "sn": 42,
+  "en": "TANAHU",
+  "ne_preeti": "tgx'F",
+  "code": 407
+ },
+ {
+  "sn": 43,
+  "en": "NAWALPARASI EAST",
+  "ne_preeti": "gjnk/f;L --ab{3f6 ;':tf\nk\"j{_\n",
+  "code": 408
+ },
+ {
+  "sn": 44,
+  "en": "SYANGJA",
+  "ne_preeti": ":ofªhf",
+  "code": 409
+ },
+ {
+  "sn": 45,
+  "en": "PARBAT",
+  "ne_preeti": "kj{t",
+  "code": 410
+ },
+ {
+  "sn": 46,
+  "en": "BAGLUNG",
+  "ne_preeti": "afun'ª",
+  "code": 411
+ },
+ {
+  "sn": 47,
+  "en": "RUKUM EAST",
+  "ne_preeti": "?s'd -k\"jL{ efu_",
+  "code": 501
+ },
+ {
+  "sn": 48,
+  "en": "ROLPA",
+  "ne_preeti": "/f]Nkf",
+  "code": 502
+ },
+ {
+  "sn": 49,
+  "en": "PYUTHAN",
+  "ne_preeti": "Ko\"7fg",
+  "code": 503
+ },
+ {
+  "sn": 50,
+  "en": "GULMI",
+  "ne_preeti": "u'NdL",
+  "code": 504
+ },
+ {
+  "sn": 51,
+  "en": "ARGHAKHANCHI",
+  "ne_preeti": "c3f{vfFrL",
+  "code": 505
+ },
+ {
+  "sn": 52,
+  "en": "PALPA",
+  "ne_preeti": "kfNkf",
+  "code": 506
+ },
+ {
+  "sn": 53,
+  "en": "NAWALPARASI WEST",
+  "ne_preeti": "gjnk/f;L -ab{3f6 ;':tf\nklZrd_\n",
+  "code": 507
+ },
+ {
+  "sn": 54,
+  "en": "RUPANDEHI",
+  "ne_preeti": "?kGb]xL",
+  "code": 508
+ },
+ {
+  "sn": 55,
+  "en": "KAPILBASTU",
+  "ne_preeti": "slknj:t'",
+  "code": 509
+ },
+ {
+  "sn": 56,
+  "en": "DANG",
+  "ne_preeti": "bfª",
+  "code": 510
+ },
+ {
+  "sn": 57,
+  "en": "BANKE",
+  "ne_preeti": "afFs]",
+  "code": 511
+ },
+ {
+  "sn": 58,
+  "en": "BARDIYA",
+  "ne_preeti": "alb{of",
+  "code": 512
+ },
+ {
+  "sn": 59,
+  "en": "DOLPA",
+  "ne_preeti": "8f]Nkf",
+  "code": 601
+ },
+ {
+  "sn": 60,
+  "en": "MUGU",
+  "ne_preeti": "d'u'",
+  "code": 602
+ },
+ {
+  "sn": 61,
+  "en": "HUMLA",
+  "ne_preeti": "x'Dnf",
+  "code": 603
+ },
+ {
+  "sn": 62,
+  "en": "JUMLA",
+  "ne_preeti": "h'Dnf",
+  "code": 604
+ },
+ {
+  "sn": 63,
+  "en": "KALIKOT",
+  "ne_preeti": "sflnsf]6",
+  "code": 605
+ },
+ {
+  "sn": 64,
+  "en": "DAILEKH",
+  "ne_preeti": "b}n]v",
+  "code": 606
+ },
+ {
+  "sn": 65,
+  "en": "JAJARKOT",
+  "ne_preeti": "hfh/sf]6",
+  "code": 607
+ },
+ {
+  "sn": 66,
+  "en": "RUKUM WEST",
+  "ne_preeti": "?s'd -klZrd efu_",
+  "code": 608
+ },
+ {
+  "sn": 67,
+  "en": "SALYAN",
+  "ne_preeti": ";Nofg",
+  "code": 609
+ },
+ {
+  "sn": 68,
+  "en": "SURKHET",
+  "ne_preeti": ";'v]{t",
+  "code": 610
+ },
+ {
+  "sn": 69,
+  "en": "BAJURA",
+  "ne_preeti": "afh'/f",
+  "code": 701
+ },
+ {
+  "sn": 70,
+  "en": "BAJHANG",
+  "ne_preeti": "aemfª",
+  "code": 702
+ },
+ {
+  "sn": 71,
+  "en": "DARCHULA",
+  "ne_preeti": "bfr'{nf",
+  "code": 703
+ },
+ {
+  "sn": 72,
+  "en": "BAITADI",
+  "ne_preeti": "a}t8L",
+  "code": 704
+ },
+ {
+  "sn": 73,
+  "en": "DADELDHURA",
+  "ne_preeti": "8F8]nw'/f",
+  "code": 705
+ },
+ {
+  "sn": 74,
+  "en": "DOTI",
+  "ne_preeti": "8f]6L",
+  "code": 706
+ },
+ {
+  "sn": 75,
+  "en": "ACHHAM",
+  "ne_preeti": "c5fd",
+  "code": 707
+ },
+ {
+  "sn": 76,
+  "en": "KAILALI",
+  "ne_preeti": "s}nfnL",
+  "code": 708
+ },
+ {
+  "sn": 77,
+  "en": "KANCHANPUR",
+  "ne_preeti": "s~rgk'/",
+  "code": 709
+ }
+]

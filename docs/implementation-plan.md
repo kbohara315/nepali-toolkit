@@ -87,6 +87,20 @@ Exit condition: every published subpath has package, type, bundle-isolation, and
 
 This phase is intentionally outside the utility implementation blueprint.
 
+## Phase 9: Add admin hierarchy (official data only)
+
+- Transcribe provinces, districts, palikas, and ward counts from GoN
+  sources only (NSO geographical codes, NSO census portal, MoFAGA);
+  no third-party datasets, no hand-written names.
+- Keep `scripts/generate-admin.mjs` reproducible from
+  `src/admin/data/raw/*.json` with asserted joins; record vintages,
+  canonical rules, and inter-source variants in PROVENANCE.md.
+- Expose lookups, bilingual search, hierarchy resolution, and ward
+  validation through `nepali-utils/admin` with a measured bundle budget.
+
+Exit condition: 7/77/753/6743 pinned by tests, every code resolves
+through the hierarchy, and regeneration is byte-deterministic.
+
 ## Cross-cutting release gates
 
 Every public domain must have:

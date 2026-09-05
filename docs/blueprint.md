@@ -38,6 +38,7 @@ nepali-utils/
 │   │   │   ├── land/
 │   │   │   ├── collation/
 │   │   │   └── phone/
+│   │   │   └── admin/
 │   │   ├── package.json
 │   │   └── tsup.config.ts
 │   └── nepali-ui/
@@ -87,6 +88,18 @@ Use an `auto` strategy: a capability-checked `Intl.Collator('ne-NP')` backend wh
 
 Separate normalization, formatting, structural validation, and allocation-aware validation. Normalize ASCII and Devanagari digits. Version any prefix metadata because Nepal's numbering plan can change.
 
+### Admin
+
+Ship Nepal's federal hierarchy as versioned official data, never hand-written
+names: 7 provinces, 77 districts, 753 palikas (NSO geographical codes),
+6,743 wards (NSO census counts). Codes are strings; ward validity is
+range-based (`1..wards`). Postal codes follow the GPO scheme and are
+derived, not stored: palika pin = 5-digit code, ward pin = code +
+zero-padded ward (`1010101`–`1010107`). Transcription sources, canonical rules, and
+known inter-source variants live in `src/admin/data/PROVENANCE.md`;
+`pnpm generate:admin` must stay reproducible from `src/admin/data/raw/`.
+No capitals, coordinates, postal codes, or population in v1.
+
 ### Name — SKIPPED (deliberate)
 
 No name module ships: personal names have no authoritative standard (no
@@ -107,6 +120,7 @@ import { numberToNepaliWords } from 'nepali-utils/words';
 import { formatHillArea } from 'nepali-utils/land';
 import { createNepaliCollator } from 'nepali-utils/collation';
 import { validateNepalPhone } from 'nepali-utils/phone';
+import { getPalika, isValidWard } from 'nepali-utils/admin';
 ```
 
 The package root may expose a small ergonomic set later, but subpaths are the stable size-sensitive contract. Importing one domain must not retain unrelated domains.
@@ -136,6 +150,7 @@ currency       <- nepali-ui NPR input
 land           <- nepali-ui Ropani input
 collation      independent
 phone          <- number/digits only
+admin          independent (self-contained; shares no code with collation)
 ```
 
 No utility domain may depend on React, React Native, Expo, browser globals, or Node.js APIs.

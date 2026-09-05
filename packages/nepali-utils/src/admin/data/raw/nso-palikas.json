@@ -1,0 +1,4520 @@
+[
+ {
+  "dist": "Taplejung",
+  "en": "Phaktanlung Rural Municipality",
+  "ne": "फक्ताङ्लुङ्ग गाउँपालिका",
+  "code": 10101
+ },
+ {
+  "dist": "Taplejung",
+  "en": "Mikwakhola Rural Municipality",
+  "ne": "मिक्वाखोला गाउँपालिका",
+  "code": 10102
+ },
+ {
+  "dist": "Taplejung",
+  "en": "Meringden Rural Municipality",
+  "ne": "मेरिङ्गदेन गाउँपालिका",
+  "code": 10103
+ },
+ {
+  "dist": "Taplejung",
+  "en": "Maiwakhola Rural Municipality",
+  "ne": "मैवाखोला गाउँपालिका",
+  "code": 10104
+ },
+ {
+  "dist": "Taplejung",
+  "en": "Aatharai Tribeni Rural Municipality",
+  "ne": "आठराई त्रिवेणी गाउँपालिका",
+  "code": 10105
+ },
+ {
+  "dist": "Taplejung",
+  "en": "Phungling Urban Municipality",
+  "ne": "फुङलिङ्ग नगरपालिका",
+  "code": 10106
+ },
+ {
+  "dist": "Taplejung",
+  "en": "Pathivara Yangwarak Rural Municipality",
+  "ne": "पाथीभरा याङवरक गाउँपालिका",
+  "code": 10107
+ },
+ {
+  "dist": "Taplejung",
+  "en": "Sirijanga Rural Municipality",
+  "ne": "सिरीजङ्गा गाउंपालिका",
+  "code": 10108
+ },
+ {
+  "dist": "Taplejung",
+  "en": "Sidingba Rural Municipality",
+  "ne": "सिदिङ्गवा गाउँपालिका",
+  "code": 10109
+ },
+ {
+  "dist": "Sankhuwasabha",
+  "en": "Bhotkhola Rural Municipality",
+  "ne": "भोटखोला गाउँपालिका",
+  "code": 10201
+ },
+ {
+  "dist": "Sankhuwasabha",
+  "en": "Makalu Rural Municipality",
+  "ne": "मकालु गाउँपालिका",
+  "code": 10202
+ },
+ {
+  "dist": "Sankhuwasabha",
+  "en": "Silichong Rural Municipality",
+  "ne": "सिलीचोङ गाउँपालिका",
+  "code": 10203
+ },
+ {
+  "dist": "Sankhuwasabha",
+  "en": "Chichila Rural Municipality",
+  "ne": "चिचिला गाउँपालिका",
+  "code": 10204
+ },
+ {
+  "dist": "Sankhuwasabha",
+  "en": "Sabhapokhari Rural Municipality",
+  "ne": "सभापोखरी गाउँपालिका",
+  "code": 10205
+ },
+ {
+  "dist": "Sankhuwasabha",
+  "en": "Khandabari Urban Municipality",
+  "ne": "खाँदबारी नगरपालिका",
+  "code": 10206
+ },
+ {
+  "dist": "Sankhuwasabha",
+  "en": "Panchakhapan Urban Municipality",
+  "ne": "पाँचखपन नगरपालिका",
+  "code": 10207
+ },
+ {
+  "dist": "Sankhuwasabha",
+  "en": "Chainapur Urban Municipality",
+  "ne": "चैनपुर नगरपालिका",
+  "code": 10208
+ },
+ {
+  "dist": "Sankhuwasabha",
+  "en": "Madi Urban Municipality",
+  "ne": "मादी नगरपालिका",
+  "code": 10209
+ },
+ {
+  "dist": "Sankhuwasabha",
+  "en": "Dharmadevi Urban Municipality",
+  "ne": "धर्मदेवी नगरपालिका",
+  "code": 10210
+ },
+ {
+  "dist": "Solukhumbu",
+  "en": "Khumbu Pasanglhamu Rural Municipality",
+  "ne": "खुम्बु पासाङल्हामु गाउँपालिका",
+  "code": 10301
+ },
+ {
+  "dist": "Solukhumbu",
+  "en": "Mahakulung Rural Municipality",
+  "ne": "माहाकुलुङ गाउँपालिका",
+  "code": 10302
+ },
+ {
+  "dist": "Solukhumbu",
+  "en": "Sotang Rural Municipality",
+  "ne": "सोताङ गाउँपालिका",
+  "code": 10303
+ },
+ {
+  "dist": "Solukhumbu",
+  "en": "Mapya Dudhkoshi Rural Municipality",
+  "ne": "माप्य दुधकोशी गाउँपालिका",
+  "code": 10304
+ },
+ {
+  "dist": "Solukhumbu",
+  "en": "Thulung Dudhkoshi Rural Municipality",
+  "ne": "थुलुङ दुधकोशी गाउँपालिका",
+  "code": 10305
+ },
+ {
+  "dist": "Solukhumbu",
+  "en": "Necha Salyan Rural Municipality",
+  "ne": "नेचासल्यान गाउँपालिका",
+  "code": 10306
+ },
+ {
+  "dist": "Solukhumbu",
+  "en": "Solu Dhudhakunda Urban Municipality",
+  "ne": "सोलुदुधकुण्ड नगरपालिका",
+  "code": 10307
+ },
+ {
+  "dist": "Solukhumbu",
+  "en": "Likhu Pike Rural Municipality",
+  "ne": "लिखु पिके गाउँपालिका",
+  "code": 10308
+ },
+ {
+  "dist": "Okhaldhunga",
+  "en": "Chishankhu Gadhi Rural Municipality",
+  "ne": "चिशंखुगढी गाउँपालिका",
+  "code": 10401
+ },
+ {
+  "dist": "Okhaldhunga",
+  "en": "Siddhicharan Urban Municipality",
+  "ne": "सिद्धिचरण नगरपालिका",
+  "code": 10402
+ },
+ {
+  "dist": "Okhaldhunga",
+  "en": "Molung Rural Municipality",
+  "ne": "मोलुङ्ग गाउँपालिका",
+  "code": 10403
+ },
+ {
+  "dist": "Okhaldhunga",
+  "en": "Khiji Demba Rural Municipality",
+  "ne": "खिजीदेम्बा गाउँपालिका",
+  "code": 10404
+ },
+ {
+  "dist": "Okhaldhunga",
+  "en": "Likhu Rural Municipality",
+  "ne": "लिखु गाउँपालिका",
+  "code": 10405
+ },
+ {
+  "dist": "Okhaldhunga",
+  "en": "Champadevi Rural Municipality",
+  "ne": "चम्पादेवी गाउँपालिका",
+  "code": 10406
+ },
+ {
+  "dist": "Okhaldhunga",
+  "en": "Sunkoshi Rural Municipality",
+  "ne": "सुनकोशी गाउँपालिका",
+  "code": 10407
+ },
+ {
+  "dist": "Okhaldhunga",
+  "en": "Manebhanjyang Rural Municipality",
+  "ne": "मानेभन्ज्याङ्ग गाउँपालिका",
+  "code": 10408
+ },
+ {
+  "dist": "Khotang",
+  "en": "Kepilasgadhi Rural Municipality",
+  "ne": "केपिलासगढी गाउँपालिका",
+  "code": 10501
+ },
+ {
+  "dist": "Khotang",
+  "en": "Aiselukharka Rural Municipality",
+  "ne": "ऐसेलुखर्क गाउँपालिका",
+  "code": 10502
+ },
+ {
+  "dist": "Khotang",
+  "en": "Rawa Besi Rural Municipality",
+  "ne": "रावा बेसी गाउँपालिका",
+  "code": 10503
+ },
+ {
+  "dist": "Khotang",
+  "en": "Halesi Tuwachung Urban Municipality",
+  "ne": "हलेसी तुवाचुङ नगरपालिका",
+  "code": 10504
+ },
+ {
+  "dist": "Khotang",
+  "en": "Diktel Rupakot Majhuwagadhi Urban Municipality",
+  "ne": "दिक्तेल रुपाकोट मझुवागढी नगरपालिका",
+  "code": 10505
+ },
+ {
+  "dist": "Khotang",
+  "en": "Sakela Rural Municipality",
+  "ne": "साकेला गाउँपालिका",
+  "code": 10506
+ },
+ {
+  "dist": "Khotang",
+  "en": "Diprung Chuichumma Rural Municipality",
+  "ne": "दिप्रुङ चुइचुम्मा गाउँपालिका",
+  "code": 10507
+ },
+ {
+  "dist": "Khotang",
+  "en": "Khotehang Rural Municipality",
+  "ne": "खोटेहाङ गाउँपालिका",
+  "code": 10508
+ },
+ {
+  "dist": "Khotang",
+  "en": "Jante Dhunga Rural Municipality",
+  "ne": "जन्तेढुङ्गा गाउँपालिका",
+  "code": 10509
+ },
+ {
+  "dist": "Khotang",
+  "en": "Baraha Pokhari Rural Municipality",
+  "ne": "बराहपोखरी गाउँपालिका",
+  "code": 10510
+ },
+ {
+  "dist": "Bhojpur",
+  "en": "Shadananda Urban Municipality",
+  "ne": "षडानन्द नगरपालिका",
+  "code": 10601
+ },
+ {
+  "dist": "Bhojpur",
+  "en": "Salpa Silichho Rural Municipality",
+  "ne": "साल्पासिलिछो गाउँपालिका",
+  "code": 10602
+ },
+ {
+  "dist": "Bhojpur",
+  "en": "Temkemaiyum Rural Municipality",
+  "ne": "टेम्केमैयुङ गाउँपालिका",
+  "code": 10603
+ },
+ {
+  "dist": "Bhojpur",
+  "en": "Bhojpur Urban Municipality",
+  "ne": "भोजपुर नगरपालिका",
+  "code": 10604
+ },
+ {
+  "dist": "Bhojpur",
+  "en": "Arun Rural Municipality",
+  "ne": "अरुण गाउँपालिका",
+  "code": 10605
+ },
+ {
+  "dist": "Bhojpur",
+  "en": "Pauwa Dunma Rural Municipality",
+  "ne": "पौवा दुङ्मा गाउँपालिका",
+  "code": 10606
+ },
+ {
+  "dist": "Bhojpur",
+  "en": "Ramprasad Rai Rural Municipality",
+  "ne": "रामप्रसाद राई गाउँपालिका",
+  "code": 10607
+ },
+ {
+  "dist": "Bhojpur",
+  "en": "Hatuwagadhi Rural Municipality",
+  "ne": "हतुवागढी गाउँपालिका",
+  "code": 10608
+ },
+ {
+  "dist": "Bhojpur",
+  "en": "Aamchowk Rural Municipality",
+  "ne": "आमचोक गाउँपालिका",
+  "code": 10609
+ },
+ {
+  "dist": "Dhankuta",
+  "en": "Mahalaxmi Urban Municipality",
+  "ne": "महालक्ष्मी नगरपालिका",
+  "code": 10701
+ },
+ {
+  "dist": "Dhankuta",
+  "en": "Pakhribas Urban Municipality",
+  "ne": "पाख्रिबास नगरपालिका",
+  "code": 10702
+ },
+ {
+  "dist": "Dhankuta",
+  "en": "Chhathar Jorpati Rural Municipality",
+  "ne": "छथर जोरपाटी गाउँपालिका",
+  "code": 10703
+ },
+ {
+  "dist": "Dhankuta",
+  "en": "Dhankuta Urban Municipality",
+  "ne": "धनकुटा नगरपालिका",
+  "code": 10704
+ },
+ {
+  "dist": "Dhankuta",
+  "en": "Shahidbhumi Rural Municipality",
+  "ne": "सहिदभूमि गाउँपालिका",
+  "code": 10705
+ },
+ {
+  "dist": "Dhankuta",
+  "en": "Sangurigadhi Rural Municipality",
+  "ne": "साँगुरीगढी गाउँपालिका",
+  "code": 10706
+ },
+ {
+  "dist": "Dhankuta",
+  "en": "Chaubise Rural Municipality",
+  "ne": "चौविसे गाउँपालिका",
+  "code": 10707
+ },
+ {
+  "dist": "Terhathum",
+  "en": "Aatharai Rural Municipality",
+  "ne": "आठराई गाउँपालिका",
+  "code": 10801
+ },
+ {
+  "dist": "Terhathum",
+  "en": "Phedap Rural Municipality",
+  "ne": "फेदाप गाउँपालिका",
+  "code": 10802
+ },
+ {
+  "dist": "Terhathum",
+  "en": "Menchhayayem Rural Municipality",
+  "ne": "मेन्छयायेम गाउँपालिका",
+  "code": 10803
+ },
+ {
+  "dist": "Terhathum",
+  "en": "Myanglung Urban Municipality",
+  "ne": "म्याङ्गलुङ्ग नगरपालिका",
+  "code": 10804
+ },
+ {
+  "dist": "Terhathum",
+  "en": "Laligurans Urban Municipality",
+  "ne": "लालीगुराँस नगरपालिका",
+  "code": 10805
+ },
+ {
+  "dist": "Terhathum",
+  "en": "Chhathar Rural Municipality",
+  "ne": "छथर गाउँपालिका",
+  "code": 10806
+ },
+ {
+  "dist": "Panchthar",
+  "en": "Yangbarak Rural Municipality",
+  "ne": "याङवरक गाउँपालिका",
+  "code": 10901
+ },
+ {
+  "dist": "Panchthar",
+  "en": "Hilihan Rural Municipality",
+  "ne": "हिलिहाङ्ग गाउँपालिका",
+  "code": 10902
+ },
+ {
+  "dist": "Panchthar",
+  "en": "Falelung Rural Municipality",
+  "ne": "फालेलुङ  गाउँपालिका",
+  "code": 10903
+ },
+ {
+  "dist": "Panchthar",
+  "en": "Phidim Urban Municipality",
+  "ne": "फिदिम नगरपालिका",
+  "code": 10904
+ },
+ {
+  "dist": "Panchthar",
+  "en": "Falgunanda Rural Municipality",
+  "ne": "फाल्गुनन्द गाउँपालिका",
+  "code": 10905
+ },
+ {
+  "dist": "Panchthar",
+  "en": "Kummayak Rural Municipality",
+  "ne": "कुम्मायक गाउँपालिका",
+  "code": 10906
+ },
+ {
+  "dist": "Panchthar",
+  "en": "Tumbewa Rural Municipality",
+  "ne": "तुम्बेवा गाउँपालिका",
+  "code": 10907
+ },
+ {
+  "dist": "Panchthar",
+  "en": "Miklajung Rural Municipality",
+  "ne": "मिक्लाजुङ गाउँपालिका",
+  "code": 10908
+ },
+ {
+  "dist": "Ilam",
+  "en": "Mai Jogmai Rural Municipality",
+  "ne": "माई जोगमाई गाउँपालिका",
+  "code": 11001
+ },
+ {
+  "dist": "Ilam",
+  "en": "Sandakpur Rural Municipality",
+  "ne": "सन्दकपुर गाउँपालिका",
+  "code": 11002
+ },
+ {
+  "dist": "Ilam",
+  "en": "Illam Urban Municipality",
+  "ne": "ईलाम नगरपालिका",
+  "code": 11003
+ },
+ {
+  "dist": "Ilam",
+  "en": "Deumai Urban Municipality",
+  "ne": "देउमाई नगरपालिका",
+  "code": 11004
+ },
+ {
+  "dist": "Ilam",
+  "en": "Fakfokathum Rural Municipality",
+  "ne": "फाकफोकथुम गाउँपालिका",
+  "code": 11005
+ },
+ {
+  "dist": "Ilam",
+  "en": "Mangsebung Rural Municipality",
+  "ne": "माङसेबुङ गाउँपालिका",
+  "code": 11006
+ },
+ {
+  "dist": "Ilam",
+  "en": "Chulachuli Rural Municipality",
+  "ne": "चुलाचुली गाउँपालिका",
+  "code": 11007
+ },
+ {
+  "dist": "Ilam",
+  "en": "Mai Urban Municipality",
+  "ne": "माई नगरपालिका",
+  "code": 11008
+ },
+ {
+  "dist": "Ilam",
+  "en": "Suryodaya Urban Municipality",
+  "ne": "सूर्योदय नगरपालिका",
+  "code": 11009
+ },
+ {
+  "dist": "Ilam",
+  "en": "Rong Rural Municipality",
+  "ne": "रोङ गाउँपालिका",
+  "code": 11010
+ },
+ {
+  "dist": "Jhapa",
+  "en": "Mechinagar Urban Municipality",
+  "ne": "मेचीनगर नगरपालिका",
+  "code": 11101
+ },
+ {
+  "dist": "Jhapa",
+  "en": "Buddhashanti Rural Municipality",
+  "ne": "बुद्धशान्ति गाउँपालिका",
+  "code": 11102
+ },
+ {
+  "dist": "Jhapa",
+  "en": "Arjundhara Urban Municipality",
+  "ne": "अर्जुनधारा नगरपालिका",
+  "code": 11103
+ },
+ {
+  "dist": "Jhapa",
+  "en": "Kankai Urban Municipality",
+  "ne": "कन्काई नगरपालिका",
+  "code": 11104
+ },
+ {
+  "dist": "Jhapa",
+  "en": "Shivasatakshi Urban Municipality",
+  "ne": "शिवसताक्षी नगरपालिका",
+  "code": 11105
+ },
+ {
+  "dist": "Jhapa",
+  "en": "Kamal Rural Municipality",
+  "ne": "कमल गाउँपालिका",
+  "code": 11106
+ },
+ {
+  "dist": "Jhapa",
+  "en": "Damak Urban Municipality",
+  "ne": "दमक नगरपालिका",
+  "code": 11107
+ },
+ {
+  "dist": "Jhapa",
+  "en": "Gauradaha Urban Municipality",
+  "ne": "गौरादह नगरपालिका",
+  "code": 11108
+ },
+ {
+  "dist": "Jhapa",
+  "en": "Gauriganj Rural Municipality",
+  "ne": "गौरिगञ्ज गाउँपालिका",
+  "code": 11109
+ },
+ {
+  "dist": "Jhapa",
+  "en": "Jhapa Rural Municipality",
+  "ne": "झापा गाउँपालिका",
+  "code": 11110
+ },
+ {
+  "dist": "Jhapa",
+  "en": "Barhadashi Rural Municipality",
+  "ne": "बाह्रदशी गाउँपालिका",
+  "code": 11111
+ },
+ {
+  "dist": "Jhapa",
+  "en": "Birtamod Urban Municipality",
+  "ne": "बिर्तामोड नगरपालिका",
+  "code": 11112
+ },
+ {
+  "dist": "Jhapa",
+  "en": "Haldibari Rural Municipality",
+  "ne": "हल्दीबारी गाउँपालिका",
+  "code": 11113
+ },
+ {
+  "dist": "Jhapa",
+  "en": "Bhadrapur Urban Municipality",
+  "ne": "भद्रपुर नगरपालिका",
+  "code": 11114
+ },
+ {
+  "dist": "Jhapa",
+  "en": "Kachanakawal Rural Municipality",
+  "ne": "कचनकवल गाउँपालिका",
+  "code": 11115
+ },
+ {
+  "dist": "Morang",
+  "en": "Miklajung Rural Municipality",
+  "ne": "मिक्लाजुङ गाउँपालिका",
+  "code": 11201
+ },
+ {
+  "dist": "Morang",
+  "en": "Letang Urban Municipality",
+  "ne": "लेटाङ नगरपालिका",
+  "code": 11202
+ },
+ {
+  "dist": "Morang",
+  "en": "Kerabari Rural Municipality",
+  "ne": "केराबारी गाउँपालिका",
+  "code": 11203
+ },
+ {
+  "dist": "Morang",
+  "en": "Sundarharaicha Urban Municipality",
+  "ne": "सुन्दरहरैंचा नगरपालिका",
+  "code": 11204
+ },
+ {
+  "dist": "Morang",
+  "en": "Belbari Urban Municipality",
+  "ne": "बेलबारी नगरपालिका",
+  "code": 11205
+ },
+ {
+  "dist": "Morang",
+  "en": "Kanepokhari Rural Municipality",
+  "ne": "कानेपोखरी गाउँपालिका",
+  "code": 11206
+ },
+ {
+  "dist": "Morang",
+  "en": "Pathari Shanishchare Urban Municipality",
+  "ne": "पथरी शनिश्चरे नगरपालिका",
+  "code": 11207
+ },
+ {
+  "dist": "Morang",
+  "en": "Urlabari Urban Municipality",
+  "ne": "उर्लाबारी नगरपालिका",
+  "code": 11208
+ },
+ {
+  "dist": "Morang",
+  "en": "Ratuwamai Urban Municipality",
+  "ne": "रतुवामाई नगरपालिका",
+  "code": 11209
+ },
+ {
+  "dist": "Morang",
+  "en": "Sunwarshi Urban Municipality",
+  "ne": "सुनवर्षी नगरपालिका",
+  "code": 11210
+ },
+ {
+  "dist": "Morang",
+  "en": "Rangeli Urban Municipality",
+  "ne": "रंगेली नगरपालिका",
+  "code": 11211
+ },
+ {
+  "dist": "Morang",
+  "en": "Gramthan Rural Municipality",
+  "ne": "ग्रामथान गाउँपालिका",
+  "code": 11212
+ },
+ {
+  "dist": "Morang",
+  "en": "Budhiganga Rural Municipality",
+  "ne": "बुढीगंगा गाउँपालिका",
+  "code": 11213
+ },
+ {
+  "dist": "Morang",
+  "en": "Biratnagar Metropolitian City",
+  "ne": "बिराटनगर महानगरपालिका",
+  "code": 11214
+ },
+ {
+  "dist": "Morang",
+  "en": "Katahari Rural Municipality",
+  "ne": "कटहरी गाउँपालिका",
+  "code": 11215
+ },
+ {
+  "dist": "Morang",
+  "en": "Dhanapalthan Rural Municipality",
+  "ne": "धनपालथान गाउँपालिका",
+  "code": 11216
+ },
+ {
+  "dist": "Morang",
+  "en": "Jahada Rural Municipality",
+  "ne": "जहदा गाउँपालिका",
+  "code": 11217
+ },
+ {
+  "dist": "Sunsari",
+  "en": "Dharan Sub-Metropolitian City",
+  "ne": "धरान उपमहानगरपालिका",
+  "code": 11301
+ },
+ {
+  "dist": "Sunsari",
+  "en": "Barahachhetra Urban Municipality",
+  "ne": "बराहक्षेत्र नगरपालिका",
+  "code": 11302
+ },
+ {
+  "dist": "Sunsari",
+  "en": "Koshi Rural Municipality",
+  "ne": "कोशी गाउँपालिका",
+  "code": 11303
+ },
+ {
+  "dist": "Sunsari",
+  "en": "Bhokraha Narsingh Rural Municipality",
+  "ne": "भोक्राहा नरसिंह गाउँपालिका",
+  "code": 11304
+ },
+ {
+  "dist": "Sunsari",
+  "en": "Ramdhuni Urban Municipality",
+  "ne": "रामधुनी नगरपालिका",
+  "code": 11305
+ },
+ {
+  "dist": "Sunsari",
+  "en": "Itahari Sub-Metropolitian City",
+  "ne": "ईटहरी उपमहानगरपालिका",
+  "code": 11306
+ },
+ {
+  "dist": "Sunsari",
+  "en": "Duhabi Urban Municipality",
+  "ne": "दुहबी नगरपालिका",
+  "code": 11307
+ },
+ {
+  "dist": "Sunsari",
+  "en": "Gadhi Rural Municipality",
+  "ne": "गढी गाउँपालिका",
+  "code": 11308
+ },
+ {
+  "dist": "Sunsari",
+  "en": "Inaruwa Urban Municipality",
+  "ne": "इनरुवा नगरपालिका",
+  "code": 11309
+ },
+ {
+  "dist": "Sunsari",
+  "en": "Harinagar Rural Municipality",
+  "ne": "हरिनगर गाउँपालिका",
+  "code": 11310
+ },
+ {
+  "dist": "Sunsari",
+  "en": "Dewangunj Rural Municipality",
+  "ne": "देवानगन्ज गाउँपालिका",
+  "code": 11311
+ },
+ {
+  "dist": "Sunsari",
+  "en": "Barju Rural Municipality",
+  "ne": "बर्जु गाउँपालिका",
+  "code": 11312
+ },
+ {
+  "dist": "Udayapur",
+  "en": "Belaka Urban Municipality",
+  "ne": "बेलका नगरपालिका",
+  "code": 11401
+ },
+ {
+  "dist": "Udayapur",
+  "en": "Chaudandigadhi Urban Municipality",
+  "ne": "चौदण्डीगढी नगरपालिका",
+  "code": 11402
+ },
+ {
+  "dist": "Udayapur",
+  "en": "Triyuga Urban Municipality",
+  "ne": "त्रियुगा नगरपालिका",
+  "code": 11403
+ },
+ {
+  "dist": "Udayapur",
+  "en": "Rautamai Rural Municipality",
+  "ne": "रौतामाई गाउँपालिका",
+  "code": 11404
+ },
+ {
+  "dist": "Udayapur",
+  "en": "Limchungbung Rural Municipality",
+  "ne": " लिम्चुङबुङ  गाउँपालिका",
+  "code": 11405
+ },
+ {
+  "dist": "Udayapur",
+  "en": "Tapli Rural Municipality",
+  "ne": "ताप्ली गाउँपालिका",
+  "code": 11406
+ },
+ {
+  "dist": "Udayapur",
+  "en": "Katari Urban Municipality",
+  "ne": "कटारी नगरपालिका",
+  "code": 11407
+ },
+ {
+  "dist": "Udayapur",
+  "en": "Udayapurgadhi Rural Municipality",
+  "ne": "उदयपुरगढी गाउँपालिका",
+  "code": 11408
+ },
+ {
+  "dist": "Saptari",
+  "en": "Saptakoshi Urban Municipality",
+  "ne": "सप्तकोशी नगरपालिका",
+  "code": 20101
+ },
+ {
+  "dist": "Saptari",
+  "en": "Kanchanrup Urban Municipality",
+  "ne": "कन्चनरुप नगरपालिका",
+  "code": 20102
+ },
+ {
+  "dist": "Saptari",
+  "en": "Agnisair Krishna Sabaran Rural Municipality",
+  "ne": "अग्निसाइर कृष्ण सवरन गाउँपालिका",
+  "code": 20103
+ },
+ {
+  "dist": "Saptari",
+  "en": "Rupani Rural Municipality",
+  "ne": "रुपनी गाउँपालिका",
+  "code": 20104
+ },
+ {
+  "dist": "Saptari",
+  "en": "Shambhunath Urban Municipality",
+  "ne": "शम्भुनाथ नगरपालिका",
+  "code": 20105
+ },
+ {
+  "dist": "Saptari",
+  "en": "Khadak Urban Municipality",
+  "ne": "खडक नगरपालिका",
+  "code": 20106
+ },
+ {
+  "dist": "Saptari",
+  "en": "Surunga Urban Municipality",
+  "ne": "सुरुङ्गा नगरपालिका",
+  "code": 20107
+ },
+ {
+  "dist": "Saptari",
+  "en": "Balan-Bihul Rural Municipality",
+  "ne": "बलान बिहुल गाउँपालिका",
+  "code": 20108
+ },
+ {
+  "dist": "Saptari",
+  "en": "Bode Barsain Urban Municipality",
+  "ne": "बोदेबरसाईन नगरपालिका",
+  "code": 20109
+ },
+ {
+  "dist": "Saptari",
+  "en": "Dakneshwori Urban Municipality",
+  "ne": "डाक्नेश्वरी नगरपालिका",
+  "code": 20110
+ },
+ {
+  "dist": "Saptari",
+  "en": "Rajgadh Rural Municipality",
+  "ne": "राजगढ गाउँपालिका",
+  "code": 20111
+ },
+ {
+  "dist": "Saptari",
+  "en": "Bishnupur Rural Municipality",
+  "ne": "बिष्णुपुर गाउँपालिका",
+  "code": 20112
+ },
+ {
+  "dist": "Saptari",
+  "en": "Rajbiraj Urban Municipality",
+  "ne": "राजविराज नगरपालिका",
+  "code": 20113
+ },
+ {
+  "dist": "Saptari",
+  "en": "Mahadewa Rural Municipality",
+  "ne": "महादेवा गाउँपालिका",
+  "code": 20114
+ },
+ {
+  "dist": "Saptari",
+  "en": "Tirahut Rural Municipality",
+  "ne": "तिरहुत गाउँपालिका",
+  "code": 20115
+ },
+ {
+  "dist": "Saptari",
+  "en": "Hanumannagar Kankalini Urban Municipality",
+  "ne": "हनुमाननगर कङ्कालिनी नगरपालिका",
+  "code": 20116
+ },
+ {
+  "dist": "Saptari",
+  "en": "Tilathi Koiladi Rural Municipality",
+  "ne": "तिलाठी कोईलाडी गाउँपालिका",
+  "code": 20117
+ },
+ {
+  "dist": "Saptari",
+  "en": "Chhinnamasta Rural Municipality",
+  "ne": "छिन्नमस्ता गाउँपालिका",
+  "code": 20118
+ },
+ {
+  "dist": "Siraha",
+  "en": "Lahan Urban Municipality",
+  "ne": "लहान नगरपालिका",
+  "code": 20201
+ },
+ {
+  "dist": "Siraha",
+  "en": "Dhangadhimai Urban Municipality",
+  "ne": "धनगढीमाई नगरपालिका",
+  "code": 20202
+ },
+ {
+  "dist": "Siraha",
+  "en": "Golbazar Urban Municipality",
+  "ne": "गोलबजार नगरपालिका",
+  "code": 20203
+ },
+ {
+  "dist": "Siraha",
+  "en": "Mirchaiya Urban Municipality",
+  "ne": "मिर्चेया नगरपालिका",
+  "code": 20204
+ },
+ {
+  "dist": "Siraha",
+  "en": "Karjanha Urban Municipality",
+  "ne": "कर्जन्हा नगरपालिका",
+  "code": 20205
+ },
+ {
+  "dist": "Siraha",
+  "en": "Kalyanpur Urban Municipality",
+  "ne": "कल्याणपुर नगरपालिका",
+  "code": 20206
+ },
+ {
+  "dist": "Siraha",
+  "en": "Naraha Rural Municipality",
+  "ne": "नरहा गाउँपालिका",
+  "code": 20207
+ },
+ {
+  "dist": "Siraha",
+  "en": "Bishnupur Rural Municipality",
+  "ne": "बिष्णुपुर गाउँपालिका",
+  "code": 20208
+ },
+ {
+  "dist": "Siraha",
+  "en": "Arnama Rural Municipality",
+  "ne": "अर्नमा गाउँपालिका",
+  "code": 20209
+ },
+ {
+  "dist": "Siraha",
+  "en": "Sukhipur Urban Municipality",
+  "ne": "सुखीपुर नगरपालिका",
+  "code": 20210
+ },
+ {
+  "dist": "Siraha",
+  "en": "Laxmipur Patari Rural Municipality",
+  "ne": "लक्ष्मीपुर पतारी गाउँपालिका",
+  "code": 20211
+ },
+ {
+  "dist": "Siraha",
+  "en": "Sakhuwa Nankarkatti Rural Municipality",
+  "ne": "सखुवानान्कारकट्टी गाउँपालिका",
+  "code": 20212
+ },
+ {
+  "dist": "Siraha",
+  "en": "Bhagawanpur Rural Municipality",
+  "ne": "भगवानपुर गाउँपालिका",
+  "code": 20213
+ },
+ {
+  "dist": "Siraha",
+  "en": "Nawarajpur Rural Municipality",
+  "ne": "नवराजपुर गाउँपालिका",
+  "code": 20214
+ },
+ {
+  "dist": "Siraha",
+  "en": "Bariyarpatti Rural Municipality",
+  "ne": "बरियारपट्टी गाउँपालिका",
+  "code": 20215
+ },
+ {
+  "dist": "Siraha",
+  "en": "Aurahi Rural Municipality",
+  "ne": "औरही गाउँपालिका",
+  "code": 20216
+ },
+ {
+  "dist": "Siraha",
+  "en": "Siraha Urban Municipality",
+  "ne": "सिराहा नगरपालिका",
+  "code": 20217
+ },
+ {
+  "dist": "Dhanusa",
+  "en": "Ganeshman Charnath Urban Municipality",
+  "ne": "गणेशमान चारनाथ नगरपालिका",
+  "code": 20301
+ },
+ {
+  "dist": "Dhanusa",
+  "en": "Dhanushadham Urban Municipality",
+  "ne": "धनुषाधाम नगरपालिका",
+  "code": 20302
+ },
+ {
+  "dist": "Dhanusa",
+  "en": "Mithila Urban Municipality",
+  "ne": "मिथिला नगरपालिका",
+  "code": 20303
+ },
+ {
+  "dist": "Dhanusa",
+  "en": "Bateshwor Rural Municipality",
+  "ne": "बटेश्वर गाउँपालिका",
+  "code": 20304
+ },
+ {
+  "dist": "Dhanusa",
+  "en": "Chhireshwornath Urban Municipality",
+  "ne": "क्षिरेश्वरनाथ नगरपालिका",
+  "code": 20305
+ },
+ {
+  "dist": "Dhanusa",
+  "en": "Laxminiya Rural Municipality",
+  "ne": "लक्ष्मीनिया गाउँपालिका",
+  "code": 20306
+ },
+ {
+  "dist": "Dhanusa",
+  "en": "Mithila Bihari Urban Municipality",
+  "ne": "मिथिला बिहारी नगरपालिका",
+  "code": 20307
+ },
+ {
+  "dist": "Dhanusa",
+  "en": "Hansapur Urban Municipality",
+  "ne": "हंसपुर नगरपालिका",
+  "code": 20308
+ },
+ {
+  "dist": "Dhanusa",
+  "en": "Sabaila Urban Municipality",
+  "ne": "सबैला नगरपालिका",
+  "code": 20309
+ },
+ {
+  "dist": "Dhanusa",
+  "en": "Shahidnagar Urban Municipality",
+  "ne": "शहीदनगर नगरपालिका",
+  "code": 20310
+ },
+ {
+  "dist": "Dhanusa",
+  "en": "Kamala Urban Municipality",
+  "ne": "कमला नगरपालिका",
+  "code": 20311
+ },
+ {
+  "dist": "Dhanusa",
+  "en": "Janak Nandini Rural Municipality",
+  "ne": "जनक नन्दिनी गाउँपालिका",
+  "code": 20312
+ },
+ {
+  "dist": "Dhanusa",
+  "en": "Bideha Urban Municipality",
+  "ne": "बिदेह नगरपालिका",
+  "code": 20313
+ },
+ {
+  "dist": "Dhanusa",
+  "en": "Aurahi Rural Municipality",
+  "ne": "औरही गाउँपालिका",
+  "code": 20314
+ },
+ {
+  "dist": "Dhanusa",
+  "en": "Janakpurdham Sub-Metropolitian City",
+  "ne": "जनकपुरधाम उपमहानगरपालिका",
+  "code": 20315
+ },
+ {
+  "dist": "Dhanusa",
+  "en": "Dhanauji Rural Municipality",
+  "ne": "धनौजी गाउँपालिका",
+  "code": 20316
+ },
+ {
+  "dist": "Dhanusa",
+  "en": "Nagarain Urban Municipality",
+  "ne": "नगराइन नगरपालिका",
+  "code": 20317
+ },
+ {
+  "dist": "Dhanusa",
+  "en": "Mukhiyapatti Musaharmiya Rural Municipality",
+  "ne": "मुखियापट्टी मुसहरमिया गाउँपालिका",
+  "code": 20318
+ },
+ {
+  "dist": "Mahottari",
+  "en": "Bardibas Urban Municipality",
+  "ne": "बर्दिबास नगरपालिका",
+  "code": 20401
+ },
+ {
+  "dist": "Mahottari",
+  "en": "Gaushala Urban Municipality",
+  "ne": "गौशाला नगरपालिका",
+  "code": 20402
+ },
+ {
+  "dist": "Mahottari",
+  "en": "Sonama Rural Municipality",
+  "ne": "सोनमा गाउँपालिका",
+  "code": 20403
+ },
+ {
+  "dist": "Mahottari",
+  "en": "Aurahi Urban Municipality",
+  "ne": "औरही नगरपालिका",
+  "code": 20404
+ },
+ {
+  "dist": "Mahottari",
+  "en": "Bhangaha Urban Municipality",
+  "ne": "भँगाहा नगरपालिका",
+  "code": 20405
+ },
+ {
+  "dist": "Mahottari",
+  "en": "Loharpatti Urban Municipality",
+  "ne": "लोहरपट्टी नगरपालिका",
+  "code": 20406
+ },
+ {
+  "dist": "Mahottari",
+  "en": "Balawa Urban Municipality",
+  "ne": "बलवा नगरपालिका",
+  "code": 20407
+ },
+ {
+  "dist": "Mahottari",
+  "en": "Ram Gopalpur Urban Municipality",
+  "ne": "राम गोपालपुर नगरपालिका",
+  "code": 20408
+ },
+ {
+  "dist": "Mahottari",
+  "en": "Samsi Rural Municipality",
+  "ne": "साम्सी गाउँपालिका",
+  "code": 20409
+ },
+ {
+  "dist": "Mahottari",
+  "en": "Manara Shisawa Urban Municipality",
+  "ne": "मनरा शिसवा नगरपालिका",
+  "code": 20410
+ },
+ {
+  "dist": "Mahottari",
+  "en": "Ekadara Rural Municipality",
+  "ne": "एकडारा गाउँपालिका",
+  "code": 20411
+ },
+ {
+  "dist": "Mahottari",
+  "en": "Mahottari Rural Municipality",
+  "ne": "महोत्तरी गाउँपालिका",
+  "code": 20412
+ },
+ {
+  "dist": "Mahottari",
+  "en": "Pipara Rural Municipality",
+  "ne": "पिपरा गाउँपालिका",
+  "code": 20413
+ },
+ {
+  "dist": "Mahottari",
+  "en": "Matihani Urban Municipality",
+  "ne": "मटिहानी नगरपालिका",
+  "code": 20414
+ },
+ {
+  "dist": "Mahottari",
+  "en": "Jaleshwor Urban Municipality",
+  "ne": "जलेश्वर नगरपालिका",
+  "code": 20415
+ },
+ {
+  "dist": "Sarlahi",
+  "en": "Lalbandi Urban Municipality",
+  "ne": "लालबन्दी नगरपालिका",
+  "code": 20501
+ },
+ {
+  "dist": "Sarlahi",
+  "en": "Hariwan Urban Municipality",
+  "ne": "हरिवन नगरपालिका",
+  "code": 20502
+ },
+ {
+  "dist": "Sarlahi",
+  "en": "Bagmati Urban Municipality",
+  "ne": "बागमती नगरपालिका",
+  "code": 20503
+ },
+ {
+  "dist": "Sarlahi",
+  "en": "Barahathawa Urban Municipality",
+  "ne": "बरहथवा नगरपालिका",
+  "code": 20504
+ },
+ {
+  "dist": "Sarlahi",
+  "en": "Haripur Urban Municipality",
+  "ne": "हरिपुर नगरपालिका",
+  "code": 20505
+ },
+ {
+  "dist": "Sarlahi",
+  "en": "Ishworpur Urban Municipality",
+  "ne": "ईश्वरपुर नगरपालिका",
+  "code": 20506
+ },
+ {
+  "dist": "Sarlahi",
+  "en": "Haripurwa Urban Municipality",
+  "ne": "हरिपुर्वा नगरपालिका",
+  "code": 20507
+ },
+ {
+  "dist": "Sarlahi",
+  "en": "Parsa Rural Municipality",
+  "ne": "पर्सा गाउँपालिका",
+  "code": 20508
+ },
+ {
+  "dist": "Sarlahi",
+  "en": "Brahmapuri Rural Municipality",
+  "ne": "ब्रह्मपुरी गाउँपालिका",
+  "code": 20509
+ },
+ {
+  "dist": "Sarlahi",
+  "en": "Chandranagar Rural Municipality",
+  "ne": "चन्द्रनगर गाउँपालिका",
+  "code": 20510
+ },
+ {
+  "dist": "Sarlahi",
+  "en": "Kabilashi Urban Municipality",
+  "ne": "कविलासी नगरपालिका",
+  "code": 20511
+ },
+ {
+  "dist": "Sarlahi",
+  "en": "Chakraghatta Rural Municipality",
+  "ne": "चक्रघट्टा गाउँपालिका",
+  "code": 20512
+ },
+ {
+  "dist": "Sarlahi",
+  "en": "Basbariya Rural Municipality",
+  "ne": "बसबरिया गाउँपालिका",
+  "code": 20513
+ },
+ {
+  "dist": "Sarlahi",
+  "en": "Dhanakaul Rural Municipality",
+  "ne": "धनकौल गाउँपालिका",
+  "code": 20514
+ },
+ {
+  "dist": "Sarlahi",
+  "en": "Ramnagar Rural Municipality",
+  "ne": "रामनगर गाउँपालिका",
+  "code": 20515
+ },
+ {
+  "dist": "Sarlahi",
+  "en": "Balara Urban Municipality",
+  "ne": "बलरा नगरपालिका",
+  "code": 20516
+ },
+ {
+  "dist": "Sarlahi",
+  "en": "Godaita Urban Municipality",
+  "ne": "गोडैटा नगरपालिका",
+  "code": 20517
+ },
+ {
+  "dist": "Sarlahi",
+  "en": "Bishnu Rural Municipality",
+  "ne": "विष्णु गाउँपालिका",
+  "code": 20518
+ },
+ {
+  "dist": "Sarlahi",
+  "en": "Kaudena Rural Municipality",
+  "ne": "कौडेना गाउँपालिका",
+  "code": 20519
+ },
+ {
+  "dist": "Sarlahi",
+  "en": "Malangawa Urban Municipality",
+  "ne": "मलंगवा नगरपालिका",
+  "code": 20520
+ },
+ {
+  "dist": "Rautahat",
+  "en": "Chandrapur Urban Municipality",
+  "ne": "चन्द्रपुर नगरपालिका",
+  "code": 20601
+ },
+ {
+  "dist": "Rautahat",
+  "en": "Gujara Urban Municipality",
+  "ne": "गुजरा नगरपालिका",
+  "code": 20602
+ },
+ {
+  "dist": "Rautahat",
+  "en": "Phatuwa Bijayapur Urban Municipality",
+  "ne": "फतुवा बिजयपुर नगरपालिका",
+  "code": 20603
+ },
+ {
+  "dist": "Rautahat",
+  "en": "Katahariya Urban Municipality",
+  "ne": "कटहरिया नगरपालिका",
+  "code": 20604
+ },
+ {
+  "dist": "Rautahat",
+  "en": "Brindaban Urban Municipality",
+  "ne": "बृन्दावन नगरपालिका",
+  "code": 20605
+ },
+ {
+  "dist": "Rautahat",
+  "en": "Gadhimai Urban Municipality",
+  "ne": "गढीमाई नगरपालिका",
+  "code": 20606
+ },
+ {
+  "dist": "Rautahat",
+  "en": "Madhav Narayan Urban Municipality",
+  "ne": "माधव नारायण नगरपालिका",
+  "code": 20607
+ },
+ {
+  "dist": "Rautahat",
+  "en": "Garuda Urban Municipality",
+  "ne": "गरुडा नगरपालिका",
+  "code": 20608
+ },
+ {
+  "dist": "Rautahat",
+  "en": "Dewahi Gonahi Urban Municipality",
+  "ne": "देवाही गोनाही नगरपालिका",
+  "code": 20609
+ },
+ {
+  "dist": "Rautahat",
+  "en": "Maulapur Urban Municipality",
+  "ne": "मौलापुर नगरपालिका",
+  "code": 20610
+ },
+ {
+  "dist": "Rautahat",
+  "en": "Boudhimai Urban Municipality",
+  "ne": "बौधीमाई नगरपालिका",
+  "code": 20611
+ },
+ {
+  "dist": "Rautahat",
+  "en": "Paroha Urban Municipality",
+  "ne": "परोहा नगरपालिका",
+  "code": 20612
+ },
+ {
+  "dist": "Rautahat",
+  "en": "Rajpur Urban Municipality",
+  "ne": "राजपुर नगरपालिका",
+  "code": 20613
+ },
+ {
+  "dist": "Rautahat",
+  "en": "Yamunamai Rural Municipality",
+  "ne": "यमुनामाई गाउँपालिका",
+  "code": 20614
+ },
+ {
+  "dist": "Rautahat",
+  "en": "Durga Bhagawati Rural Municipality",
+  "ne": "दुर्गा भगवती गाउँपालिका",
+  "code": 20615
+ },
+ {
+  "dist": "Rautahat",
+  "en": "Rajdevi Urban Municipality",
+  "ne": "राजदेवी नगरपालिका",
+  "code": 20616
+ },
+ {
+  "dist": "Rautahat",
+  "en": "Gaur Urban Municipality",
+  "ne": "गौर नगरपालिका",
+  "code": 20617
+ },
+ {
+  "dist": "Rautahat",
+  "en": "Ishanath Urban Municipality",
+  "ne": "ईशनाथ नगरपालिका",
+  "code": 20618
+ },
+ {
+  "dist": "Bara",
+  "en": "Nijagadh Urban Municipality",
+  "ne": "निजगढ नगरपालिका",
+  "code": 20701
+ },
+ {
+  "dist": "Bara",
+  "en": "Kolhabi Urban Municipality",
+  "ne": "कोल्हवी नगरपालिका",
+  "code": 20702
+ },
+ {
+  "dist": "Bara",
+  "en": "Jitpur Simara Sub-Metropolitian City",
+  "ne": "जीतपुर सिमरा उपमहानगरपालिका",
+  "code": 20703
+ },
+ {
+  "dist": "Bara",
+  "en": "Parawanipur Rural Municipality",
+  "ne": "परवानीपुर गाउँपालिका",
+  "code": 20704
+ },
+ {
+  "dist": "Bara",
+  "en": "Prasauni Rural Municipality",
+  "ne": "प्रसौनी गाउँपालिका",
+  "code": 20705
+ },
+ {
+  "dist": "Bara",
+  "en": "Bishrampur Rural Municipality",
+  "ne": "विश्रामपुर गाउँपालिका",
+  "code": 20706
+ },
+ {
+  "dist": "Bara",
+  "en": "Pheta Rural Municipality",
+  "ne": "फेटा गाउँपालिका",
+  "code": 20707
+ },
+ {
+  "dist": "Bara",
+  "en": "Kalaiya Sub-Metropolitian City",
+  "ne": "कलैया उपमहानगरपालिका",
+  "code": 20708
+ },
+ {
+  "dist": "Bara",
+  "en": "Karaiyamai Rural Municipality",
+  "ne": "करैयामाई गाउँपालिका",
+  "code": 20709
+ },
+ {
+  "dist": "Bara",
+  "en": "Baragadhi Rural Municipality",
+  "ne": "बारागढी गाउँपालिका",
+  "code": 20710
+ },
+ {
+  "dist": "Bara",
+  "en": "Aadarsha Kotwal Rural Municipality",
+  "ne": "आदर्श कोटवाल गाउँपालिका",
+  "code": 20711
+ },
+ {
+  "dist": "Bara",
+  "en": "Simroungadh Urban Municipality",
+  "ne": "सिम्रौनगढ नगरपालिका",
+  "code": 20712
+ },
+ {
+  "dist": "Bara",
+  "en": "Pacharauta Urban Municipality",
+  "ne": "पचरौता नगरपालिका",
+  "code": 20713
+ },
+ {
+  "dist": "Bara",
+  "en": "Mahagadhimai Urban Municipality",
+  "ne": "महागढीमाई नगरपालिका",
+  "code": 20714
+ },
+ {
+  "dist": "Bara",
+  "en": "Devtal Rural Municipality",
+  "ne": "देवताल गाउँपालिका",
+  "code": 20715
+ },
+ {
+  "dist": "Bara",
+  "en": "Subarna Rural Municipality",
+  "ne": "सुवर्ण गाउँपालिका",
+  "code": 20716
+ },
+ {
+  "dist": "Parsa",
+  "en": "Thori Rural Municipality",
+  "ne": "ठोरी (सुवर्णपुर) गाउँपालिका",
+  "code": 20801
+ },
+ {
+  "dist": "Parsa",
+  "en": "Jirabhawani Rural Municipality",
+  "ne": "जिराभवानी गाउँपालिका",
+  "code": 20802
+ },
+ {
+  "dist": "Parsa",
+  "en": "Jagarnathpur Rural Municipality",
+  "ne": "जगरनाथपुर गाउँपालिका",
+  "code": 20803
+ },
+ {
+  "dist": "Parsa",
+  "en": "Paterwa Sugauli Rural Municipality",
+  "ne": "पटेर्वा सुगौली गाउँपालिका",
+  "code": 20804
+ },
+ {
+  "dist": "Parsa",
+  "en": "Sakhuwa Prasauni Rural Municipality",
+  "ne": "सखुवा प्रसौनी गाउँपालिका",
+  "code": 20805
+ },
+ {
+  "dist": "Parsa",
+  "en": "Parsagadhi Urban Municipality",
+  "ne": "पर्सागढी नगरपालिका",
+  "code": 20806
+ },
+ {
+  "dist": "Parsa",
+  "en": "Birgunj Metropolitian City",
+  "ne": "बिरगन्ज महानगरपालिका",
+  "code": 20807
+ },
+ {
+  "dist": "Parsa",
+  "en": "Bahudarmai Urban Municipality",
+  "ne": "बहुदरमाई नगरपालिका",
+  "code": 20808
+ },
+ {
+  "dist": "Parsa",
+  "en": "Pokhariya Urban Municipality",
+  "ne": "पोखरिया नगरपालिका",
+  "code": 20809
+ },
+ {
+  "dist": "Parsa",
+  "en": "Kalikamai Rural Municipality",
+  "ne": "कालिकामाई गाउँपालिका",
+  "code": 20810
+ },
+ {
+  "dist": "Parsa",
+  "en": "Dhobini Rural Municipality",
+  "ne": "धोबीनी गाउँपालिका",
+  "code": 20811
+ },
+ {
+  "dist": "Parsa",
+  "en": "Chhipaharmai Rural Municipality",
+  "ne": "छिपहरमाई गाउँपालिका",
+  "code": 20812
+ },
+ {
+  "dist": "Parsa",
+  "en": "Pakaha Mainpur Rural Municipality",
+  "ne": "पकाहा मैनपुर गाउँपालिका",
+  "code": 20813
+ },
+ {
+  "dist": "Parsa",
+  "en": "Bindabasini Rural Municipality",
+  "ne": "बिन्दवासिनी गाउँपालिका",
+  "code": 20814
+ },
+ {
+  "dist": "Dolakha",
+  "en": "Gaurishankar Rural Municipality",
+  "ne": "गौरिशंकर गाउँपालिका",
+  "code": 30101
+ },
+ {
+  "dist": "Dolakha",
+  "en": "Bigu Rural Municipality",
+  "ne": "बिगु गाउँपालिका",
+  "code": 30102
+ },
+ {
+  "dist": "Dolakha",
+  "en": "Kalinchowk Rural Municipality",
+  "ne": "कालिन्चोक गाउँपालिका",
+  "code": 30103
+ },
+ {
+  "dist": "Dolakha",
+  "en": "Baiteshwor Rural Municipality",
+  "ne": "बैतेश्वर  गाउँपालिका",
+  "code": 30104
+ },
+ {
+  "dist": "Dolakha",
+  "en": "Jiri Urban Municipality",
+  "ne": "जिरी नगरपालिका",
+  "code": 30105
+ },
+ {
+  "dist": "Dolakha",
+  "en": "Tamakoshi Rural Municipality",
+  "ne": "तामाकोशी गाउँपालिका",
+  "code": 30106
+ },
+ {
+  "dist": "Dolakha",
+  "en": "Melung Rural Municipality",
+  "ne": "मेलुङ्ग गाउँपालिका",
+  "code": 30107
+ },
+ {
+  "dist": "Dolakha",
+  "en": "Shailung Rural Municipality",
+  "ne": "शैलुड० गाउँपालिका",
+  "code": 30108
+ },
+ {
+  "dist": "Dolakha",
+  "en": "Bhimeshwor Urban Municipality",
+  "ne": "भिमेश्वर नगरपालिका",
+  "code": 30109
+ },
+ {
+  "dist": "Sindhupalchok",
+  "en": "Bhotekoshi Rural Municipality",
+  "ne": "भोटेकोशी गाउँपालिका",
+  "code": 30201
+ },
+ {
+  "dist": "Sindhupalchok",
+  "en": "Jugal Rural Municipality",
+  "ne": "जुगल गाउँपालिका",
+  "code": 30202
+ },
+ {
+  "dist": "Sindhupalchok",
+  "en": "Panchpokhari Thangpal Rural Municipality",
+  "ne": "पाँचपोखरी थाड०पाल गाउँपालिका",
+  "code": 30203
+ },
+ {
+  "dist": "Sindhupalchok",
+  "en": "Helambu Rural Municipality",
+  "ne": "हेलम्बु गाउँपालिका",
+  "code": 30204
+ },
+ {
+  "dist": "Sindhupalchok",
+  "en": "Melanchi Urban Municipality",
+  "ne": "मेलम्ची नगरपालिका",
+  "code": 30205
+ },
+ {
+  "dist": "Sindhupalchok",
+  "en": "Indrawoti Rural Municipality",
+  "ne": "ईन्द्रावती गाउँपालिका",
+  "code": 30206
+ },
+ {
+  "dist": "Sindhupalchok",
+  "en": "Choutara Sangachowkgadhi Urban Municipality",
+  "ne": "चौतारा साँगाचोकगढी नगरपालिका",
+  "code": 30207
+ },
+ {
+  "dist": "Sindhupalchok",
+  "en": "Balephi Rural Municipality",
+  "ne": "बलेफी गाउँपालिका",
+  "code": 30208
+ },
+ {
+  "dist": "Sindhupalchok",
+  "en": "Bahrabise Urban Municipality",
+  "ne": "बाह्रबिसे नगरपालिका",
+  "code": 30209
+ },
+ {
+  "dist": "Sindhupalchok",
+  "en": "Tripurasundari Rural Municipality",
+  "ne": "त्रिपुरासुन्दरी गाउँपालिका",
+  "code": 30210
+ },
+ {
+  "dist": "Sindhupalchok",
+  "en": "Lisankhu Pakhar Rural Municipality",
+  "ne": "लिसंखु पाखर गाउँपालिका",
+  "code": 30211
+ },
+ {
+  "dist": "Sindhupalchok",
+  "en": "Sunkoshi Rural Municipality",
+  "ne": "सुनकोशी गाउँपालिका",
+  "code": 30212
+ },
+ {
+  "dist": "Rasuwa",
+  "en": "Gosaikunda Rural Municipality",
+  "ne": "गोसाईकुण्ड गाउँपालिका",
+  "code": 30301
+ },
+ {
+  "dist": "Rasuwa",
+  "en": "Aamachhodingmo Rural Municipality",
+  "ne": "आमाछोदिङमो गाउँपालिका",
+  "code": 30302
+ },
+ {
+  "dist": "Rasuwa",
+  "en": "Uttargaya Rural Municipality",
+  "ne": "उत्तरगया गाउँपालिका",
+  "code": 30303
+ },
+ {
+  "dist": "Rasuwa",
+  "en": "Shuva Kalika Rural Municipality",
+  "ne": "शुभ कालीका गाउँपालिका",
+  "code": 30304
+ },
+ {
+  "dist": "Rasuwa",
+  "en": "Naukunda Rural Municipality",
+  "ne": "नौकुण्ड गाउँपालिका",
+  "code": 30305
+ },
+ {
+  "dist": "Dhading",
+  "en": "Rubi Valley Rural Municipality",
+  "ne": "रुबी भ्याली गाउँपालिका",
+  "code": 30401
+ },
+ {
+  "dist": "Dhading",
+  "en": "Khaniyabas Rural Municipality",
+  "ne": "खनियाबास गाउँपालिका",
+  "code": 30402
+ },
+ {
+  "dist": "Dhading",
+  "en": "Ganga Jamuna Rural Municipality",
+  "ne": "गंङ्गा जमुना गाउँपालिका",
+  "code": 30403
+ },
+ {
+  "dist": "Dhading",
+  "en": "Tripurasundari Rural Municipality",
+  "ne": "त्रिपुरासुन्दरी गाउँपालिका",
+  "code": 30404
+ },
+ {
+  "dist": "Dhading",
+  "en": "Netrawati Dabjong Rural Municipality",
+  "ne": "नेत्रावती डबजोङ गाउँपालिका",
+  "code": 30405
+ },
+ {
+  "dist": "Dhading",
+  "en": "Nilkhantha Urban Municipality",
+  "ne": "नीलकण्ठ नगरपालिका",
+  "code": 30406
+ },
+ {
+  "dist": "Dhading",
+  "en": "Jwalamukhi Rural Municipality",
+  "ne": "ज्वालामुखी गाउँपालिका",
+  "code": 30407
+ },
+ {
+  "dist": "Dhading",
+  "en": "Siddhalek Rural Municipality",
+  "ne": "सिद्धलेक गाउँपालिका",
+  "code": 30408
+ },
+ {
+  "dist": "Dhading",
+  "en": "Benighat Rorang Rural Municipality",
+  "ne": "बेनीघाट रोराङ्ग गाउँपालिका",
+  "code": 30409
+ },
+ {
+  "dist": "Dhading",
+  "en": "Gajuri Rural Municipality",
+  "ne": "गजुरी गाउँपालिका",
+  "code": 30410
+ },
+ {
+  "dist": "Dhading",
+  "en": "Galchhi Rural Municipality",
+  "ne": "गल्छी गाउँपालिका",
+  "code": 30411
+ },
+ {
+  "dist": "Dhading",
+  "en": "Thakre Rural Municipality",
+  "ne": "थाक्रे गाउँपालिका",
+  "code": 30412
+ },
+ {
+  "dist": "Dhading",
+  "en": "Dhunibenshi Urban Municipality",
+  "ne": "धुनीबेंशी नगरपालिका",
+  "code": 30413
+ },
+ {
+  "dist": "Nuwakot",
+  "en": "Dupcheshwor Rural Municipality",
+  "ne": "दुप्चेश्वर गाउँपालिका",
+  "code": 30501
+ },
+ {
+  "dist": "Nuwakot",
+  "en": "Tadi Rural Municipality",
+  "ne": "तादी गाउँपालिका",
+  "code": 30502
+ },
+ {
+  "dist": "Nuwakot",
+  "en": "Suryagadhi Rural Municipality",
+  "ne": "सुर्यगढी गाउँपालिका",
+  "code": 30503
+ },
+ {
+  "dist": "Nuwakot",
+  "en": "Bidur Urban Municipality",
+  "ne": "बिदुर नगरपालिका",
+  "code": 30504
+ },
+ {
+  "dist": "Nuwakot",
+  "en": "Kispang Rural Municipality",
+  "ne": "किस्पाङ्ग गाउँपालिका",
+  "code": 30505
+ },
+ {
+  "dist": "Nuwakot",
+  "en": "Myagang Rural Municipality",
+  "ne": "म्यगङ गाउँपालिका",
+  "code": 30506
+ },
+ {
+  "dist": "Nuwakot",
+  "en": "Tarakeshwor Rural Municipality",
+  "ne": "तारकेश्वर गाउँपालिका",
+  "code": 30507
+ },
+ {
+  "dist": "Nuwakot",
+  "en": "Belkotgadhi Urban Municipality",
+  "ne": "बेलकोटगढी नगरपालिका",
+  "code": 30508
+ },
+ {
+  "dist": "Nuwakot",
+  "en": "Likhu Rural Municipality",
+  "ne": "लिखु गाउँपालिका",
+  "code": 30509
+ },
+ {
+  "dist": "Nuwakot",
+  "en": "Panchakanya Rural Municipality",
+  "ne": "पन्चकन्या गाउँपालिका",
+  "code": 30510
+ },
+ {
+  "dist": "Nuwakot",
+  "en": "Shivapuri Rural Municipality",
+  "ne": "शिवपुरी गाउँपालिका",
+  "code": 30511
+ },
+ {
+  "dist": "Nuwakot",
+  "en": "Kakani Rural Municipality",
+  "ne": "ककनी गाउँपालिका",
+  "code": 30512
+ },
+ {
+  "dist": "Kathmandu",
+  "en": "Shankharapur Urban Municipality",
+  "ne": "शंङ्खरापुर नगरपालिका",
+  "code": 30601
+ },
+ {
+  "dist": "Kathmandu",
+  "en": "Kageshwori Manahara Urban Municipality",
+  "ne": "कागेश्वरी मनहरा नगरपालिका",
+  "code": 30602
+ },
+ {
+  "dist": "Kathmandu",
+  "en": "Gokarneshwor Urban Municipality",
+  "ne": "गोकर्णेश्वर नगरपालिका",
+  "code": 30603
+ },
+ {
+  "dist": "Kathmandu",
+  "en": "Budhanilkhantha Urban Municipality",
+  "ne": "बुढानिलकण्ठ नगरपालिका",
+  "code": 30604
+ },
+ {
+  "dist": "Kathmandu",
+  "en": "Tokha Urban Municipality",
+  "ne": "टोखा नगरपालिका",
+  "code": 30605
+ },
+ {
+  "dist": "Kathmandu",
+  "en": "Tarakeshwor Urban Municipality",
+  "ne": "तारकेश्वर नगरपालिका",
+  "code": 30606
+ },
+ {
+  "dist": "Kathmandu",
+  "en": "Nagarjun Urban Municipality",
+  "ne": "नागार्जुन नगरपालिका",
+  "code": 30607
+ },
+ {
+  "dist": "Kathmandu",
+  "en": "Kathmandu Metropolitian City",
+  "ne": "काठमाण्डौ महानगरपालिका",
+  "code": 30608
+ },
+ {
+  "dist": "Kathmandu",
+  "en": "Kirtipur Urban Municipality",
+  "ne": "किर्तिपुर नगरपालिका",
+  "code": 30609
+ },
+ {
+  "dist": "Kathmandu",
+  "en": "Chandragiri Urban Municipality",
+  "ne": "चन्द्रागिरी नगरपालिका",
+  "code": 30610
+ },
+ {
+  "dist": "Kathmandu",
+  "en": "Dakshinkali Urban Municipality",
+  "ne": "दक्षिणकाली नगरपालिका",
+  "code": 30611
+ },
+ {
+  "dist": "Bhaktapur",
+  "en": "Changunarayan Urban Municipality",
+  "ne": "चाँगुनारायण नगरपालिका",
+  "code": 30701
+ },
+ {
+  "dist": "Bhaktapur",
+  "en": "Bhaktapur Urban Municipality",
+  "ne": "भक्तपुर नगरपालिका",
+  "code": 30702
+ },
+ {
+  "dist": "Bhaktapur",
+  "en": "Madhyapur Thimi Urban Municipality",
+  "ne": "मध्यपुर थिमी नगरपालिका",
+  "code": 30703
+ },
+ {
+  "dist": "Bhaktapur",
+  "en": "Suryabinayak Urban Municipality",
+  "ne": "सूर्यविनायक नगरपालिका",
+  "code": 30704
+ },
+ {
+  "dist": "Lalitpur",
+  "en": "Mahalaxmi Urban Municipality",
+  "ne": "महालक्ष्मी नगरपालिका",
+  "code": 30801
+ },
+ {
+  "dist": "Lalitpur",
+  "en": "Lalitpur Metropolitian City",
+  "ne": "ललितपुर महानगरपालिका",
+  "code": 30802
+ },
+ {
+  "dist": "Lalitpur",
+  "en": "Godawari Urban Municipality",
+  "ne": "गोदावरी नगरपालिका",
+  "code": 30803
+ },
+ {
+  "dist": "Lalitpur",
+  "en": "Konjyosom Rural Municipality",
+  "ne": "कोन्ज्योसोम गाउँपालिका",
+  "code": 30804
+ },
+ {
+  "dist": "Lalitpur",
+  "en": "Mahankal Rural Municipality",
+  "ne": "महाङ्काल गाउँपालिका",
+  "code": 30805
+ },
+ {
+  "dist": "Lalitpur",
+  "en": "Bagmati Rural Municipality",
+  "ne": "बाग्मती गाउँपालिका",
+  "code": 30806
+ },
+ {
+  "dist": "Kavrepalanchok",
+  "en": "Chauri Deurali Rural Municipality",
+  "ne": "चौरीदेउराली गाउँपालिका",
+  "code": 30901
+ },
+ {
+  "dist": "Kavrepalanchok",
+  "en": "Bhumlu Rural Municipality",
+  "ne": "भुम्लु गाउँपालिका",
+  "code": 30902
+ },
+ {
+  "dist": "Kavrepalanchok",
+  "en": "Mandan Deupur Urban Municipality",
+  "ne": "मण्डन देउपुर नगरपालिका",
+  "code": 30903
+ },
+ {
+  "dist": "Kavrepalanchok",
+  "en": "Banepa Urban Municipality",
+  "ne": "बनेपा नगरपालिका",
+  "code": 30904
+ },
+ {
+  "dist": "Kavrepalanchok",
+  "en": "Dhulikhel Urban Municipality",
+  "ne": "धुलिखेल नगरपालिका",
+  "code": 30905
+ },
+ {
+  "dist": "Kavrepalanchok",
+  "en": "Panchkhal Urban Municipality",
+  "ne": "पाँचखाल नगरपालिका",
+  "code": 30906
+ },
+ {
+  "dist": "Kavrepalanchok",
+  "en": "Temal Rural Municipality",
+  "ne": "तेमाल गाउँपालिका",
+  "code": 30907
+ },
+ {
+  "dist": "Kavrepalanchok",
+  "en": "Namobuddha Urban Municipality",
+  "ne": "नमोबुद्ध नगरपालिका",
+  "code": 30908
+ },
+ {
+  "dist": "Kavrepalanchok",
+  "en": "Panauti Urban Municipality",
+  "ne": "पनौती नगरपालिका",
+  "code": 30909
+ },
+ {
+  "dist": "Kavrepalanchok",
+  "en": "Bethanchowk Rural Municipality",
+  "ne": "बेथानचोक गाउँपालिका",
+  "code": 30910
+ },
+ {
+  "dist": "Kavrepalanchok",
+  "en": "Roshi Rural Municipality",
+  "ne": "रोशी गाउँपालिका",
+  "code": 30911
+ },
+ {
+  "dist": "Kavrepalanchok",
+  "en": "Mahabharat Rural Municipality",
+  "ne": "महाभारत गाउँपालिका",
+  "code": 30912
+ },
+ {
+  "dist": "Kavrepalanchok",
+  "en": "Khanikhola Rural Municipality",
+  "ne": "खानीखोला गाउँपालिका",
+  "code": 30913
+ },
+ {
+  "dist": "Ramechhap",
+  "en": "Umakunda Rural Municipality",
+  "ne": "उमाकुण्ड गाउँपालिका",
+  "code": 31001
+ },
+ {
+  "dist": "Ramechhap",
+  "en": "Gokulganga Rural Municipality",
+  "ne": "गोकुलगङ्गा गाउँपालिका",
+  "code": 31002
+ },
+ {
+  "dist": "Ramechhap",
+  "en": "Likhu Tamakoshi Rural Municipality",
+  "ne": "लिखु तामाकोशी गाउँपालिका",
+  "code": 31003
+ },
+ {
+  "dist": "Ramechhap",
+  "en": "Ramechhap Urban Municipality",
+  "ne": "रामेछाप नगरपालिका",
+  "code": 31004
+ },
+ {
+  "dist": "Ramechhap",
+  "en": "Manthali  Urban Municipality",
+  "ne": "मन्थली नगरपालिका",
+  "code": 31005
+ },
+ {
+  "dist": "Ramechhap",
+  "en": "Khandadevi Rural Municipality",
+  "ne": "खाँडादेवी गाउँपालिका",
+  "code": 31006
+ },
+ {
+  "dist": "Ramechhap",
+  "en": "Doramba Rural Municipality",
+  "ne": "दोरम्बा गाउँपालिका",
+  "code": 31007
+ },
+ {
+  "dist": "Ramechhap",
+  "en": "Sunapati Rural Municipality",
+  "ne": "सुनापती गाउँपालिका",
+  "code": 31008
+ },
+ {
+  "dist": "Sindhuli",
+  "en": "Dudhouli Urban Municipality",
+  "ne": "दुधौली नगरपालिका",
+  "code": 31101
+ },
+ {
+  "dist": "Sindhuli",
+  "en": "Phikkal Rural Municipality",
+  "ne": "फिक्कल गाउँपालिका",
+  "code": 31102
+ },
+ {
+  "dist": "Sindhuli",
+  "en": "Tinpatan Rural Municipality",
+  "ne": "तीनपाटन गाउँपालिका",
+  "code": 31103
+ },
+ {
+  "dist": "Sindhuli",
+  "en": "Golanjor Rural Municipality",
+  "ne": "गोलन्जोर गाउँपालिका",
+  "code": 31104
+ },
+ {
+  "dist": "Sindhuli",
+  "en": "Kamalamai Urban Municipality",
+  "ne": "कमलामाई नगरपालिका",
+  "code": 31105
+ },
+ {
+  "dist": "Sindhuli",
+  "en": "Sunkoshi Rural Municipality",
+  "ne": "सुनकोशी गाउँपालिका",
+  "code": 31106
+ },
+ {
+  "dist": "Sindhuli",
+  "en": "Ghyanglekha Rural Municipality",
+  "ne": "ध्याङलेख गाउँपालिका",
+  "code": 31107
+ },
+ {
+  "dist": "Sindhuli",
+  "en": "Marin Rural Municipality",
+  "ne": "मरिण गाउँपालिका",
+  "code": 31108
+ },
+ {
+  "dist": "Sindhuli",
+  "en": "Hariharpurgaghi Rural Municipality",
+  "ne": "हरिहरपुरगढी गाउँपालिका",
+  "code": 31109
+ },
+ {
+  "dist": "Makwanpur",
+  "en": "Indrasarowar Rural Municipality",
+  "ne": "ईन्द्रसरोवर गाउँपालिका",
+  "code": 31201
+ },
+ {
+  "dist": "Makwanpur",
+  "en": "Thaha Urban Municipality",
+  "ne": "थाहा नगरपालिका",
+  "code": 31202
+ },
+ {
+  "dist": "Makwanpur",
+  "en": "Kailash Rural Municipality",
+  "ne": "कैलाश गाउँपालिका",
+  "code": 31203
+ },
+ {
+  "dist": "Makwanpur",
+  "en": "Raksirang Rural Municipality",
+  "ne": "राक्सिराङ्ग गाउँपालिका",
+  "code": 31204
+ },
+ {
+  "dist": "Makwanpur",
+  "en": "Manahari Rural Municipality",
+  "ne": "मनहरी गाउँपालिका",
+  "code": 31205
+ },
+ {
+  "dist": "Makwanpur",
+  "en": "Hetauda Sub-Metropolitian City",
+  "ne": "हेटौडा उपमहानगरपालिका",
+  "code": 31206
+ },
+ {
+  "dist": "Makwanpur",
+  "en": "Bhimphedi Rural Municipality",
+  "ne": "भिमफेदी गाउँपालिका",
+  "code": 31207
+ },
+ {
+  "dist": "Makwanpur",
+  "en": "Makawanpurgadhi Rural Municipality",
+  "ne": "मकवानपुरगढी गाउँपालिका",
+  "code": 31208
+ },
+ {
+  "dist": "Makwanpur",
+  "en": "Bakaiya Rural Municipality",
+  "ne": "बकैया गाउँपालिका",
+  "code": 31209
+ },
+ {
+  "dist": "Makwanpur",
+  "en": "Bagmati Rural Municipality",
+  "ne": "बाग्मती गाउँपालिका",
+  "code": 31210
+ },
+ {
+  "dist": "Chitawan",
+  "en": "Rapti Urban Municipality",
+  "ne": "राप्ती नगरपालिका",
+  "code": 31301
+ },
+ {
+  "dist": "Chitawan",
+  "en": "Kalika Urban Municipality",
+  "ne": "कालिका नगरपालिका",
+  "code": 31302
+ },
+ {
+  "dist": "Chitawan",
+  "en": "Ichchha Kamana Rural Municipality",
+  "ne": "इच्छाकामना गाउँपालिका",
+  "code": 31303
+ },
+ {
+  "dist": "Chitawan",
+  "en": "Bharatpur Metropolitian City",
+  "ne": "भरतपुर महानगरपालिका",
+  "code": 31304
+ },
+ {
+  "dist": "Chitawan",
+  "en": "Ratnanagar Urban Municipality",
+  "ne": "रत्ननगर नगरपालिका",
+  "code": 31305
+ },
+ {
+  "dist": "Chitawan",
+  "en": "Khairahani Urban Municipality",
+  "ne": "खैरहनी नगरपालिका",
+  "code": 31306
+ },
+ {
+  "dist": "Chitawan",
+  "en": "Madi Urban Municipality",
+  "ne": "मादी नगरपालिका",
+  "code": 31307
+ },
+ {
+  "dist": "Gorkha",
+  "en": "Chumanubri Rural Municipality",
+  "ne": "चुमनुब्री गाउँपालिका",
+  "code": 40101
+ },
+ {
+  "dist": "Gorkha",
+  "en": "Ajirkot Rural Municipality",
+  "ne": "अजिरकोट गाउँपालिका",
+  "code": 40102
+ },
+ {
+  "dist": "Gorkha",
+  "en": "Barpak Sulikot Rural Municipality",
+  "ne": "बारपाक सुलिकोट गाउँपालिका",
+  "code": 40103
+ },
+ {
+  "dist": "Gorkha",
+  "en": "Dharche Rural Municipality",
+  "ne": "धार्चे गाउँपालिका",
+  "code": 40104
+ },
+ {
+  "dist": "Gorkha",
+  "en": "Aarughat Rural Municipality",
+  "ne": "आरुघाट गाउँपालिका",
+  "code": 40105
+ },
+ {
+  "dist": "Gorkha",
+  "en": "Bhimsenthapa Rural Municipality",
+  "ne": "भिमसेनथापा गाउँपालिका",
+  "code": 40106
+ },
+ {
+  "dist": "Gorkha",
+  "en": "Siranchowk Rural Municipality",
+  "ne": "सिरानचोक गाउँपालिका",
+  "code": 40107
+ },
+ {
+  "dist": "Gorkha",
+  "en": "Palungtar Urban Municipality",
+  "ne": "पालुङ्गटार नगरपालिका",
+  "code": 40108
+ },
+ {
+  "dist": "Gorkha",
+  "en": "Gorkha Urban Municipality",
+  "ne": "गोरखा नगरपालिका",
+  "code": 40109
+ },
+ {
+  "dist": "Gorkha",
+  "en": "Shahid Lakhan Rural Municipality",
+  "ne": "शहीद लखन गाउँपालिका",
+  "code": 40110
+ },
+ {
+  "dist": "Gorkha",
+  "en": "Gandaki Rural Municipality",
+  "ne": "गण्डकी गाउँपालिका",
+  "code": 40111
+ },
+ {
+  "dist": "Manang",
+  "en": "Narpa Bhumi Rural Municipality",
+  "ne": "नार्पा भूमि गाउँपालिका",
+  "code": 40201
+ },
+ {
+  "dist": "Manang",
+  "en": "Manang Ngisyang Rural Municipality",
+  "ne": "मनाङ ङिस्याङ गाउँपालिका",
+  "code": 40202
+ },
+ {
+  "dist": "Manang",
+  "en": "Chame Rural Municipality",
+  "ne": "चामे गाउँपालिका",
+  "code": 40203
+ },
+ {
+  "dist": "Manang",
+  "en": "Nason Rural Municipality",
+  "ne": "नासोँ गाउँपालिका",
+  "code": 40204
+ },
+ {
+  "dist": "Mustang",
+  "en": "Lo Ghekar Damodarkunda Rural Municipality",
+  "ne": "लो-घेकर दामोदरकुण्ड गाउँपालिका",
+  "code": 40301
+ },
+ {
+  "dist": "Mustang",
+  "en": "Gharpajhong Rural Municipality",
+  "ne": "घरपझोङ गाउँपालिका",
+  "code": 40302
+ },
+ {
+  "dist": "Mustang",
+  "en": "Varagung Muktichhetra Rural Municipality",
+  "ne": "वारागुङ मुक्तिक्षेत्र गाउँपालिका",
+  "code": 40303
+ },
+ {
+  "dist": "Mustang",
+  "en": "Lomanthang Rural Municipality",
+  "ne": "लोमन्थाङ गाउँपालिका",
+  "code": 40304
+ },
+ {
+  "dist": "Mustang",
+  "en": "Thasang Rural Municipality",
+  "ne": "थासाङ गाउँपालिका",
+  "code": 40305
+ },
+ {
+  "dist": "Myagdi",
+  "en": "Annapurna Rural Municipality",
+  "ne": "अन्नपूर्ण गाउँपालिका",
+  "code": 40401
+ },
+ {
+  "dist": "Myagdi",
+  "en": "Raghuganga Rural Municipality",
+  "ne": "रघुगंगा गाउँपालिका",
+  "code": 40402
+ },
+ {
+  "dist": "Myagdi",
+  "en": "Dhawalagiri Rural Municipality",
+  "ne": "धवलागिरी गाउँपालिका",
+  "code": 40403
+ },
+ {
+  "dist": "Myagdi",
+  "en": "Malika Rural Municipality",
+  "ne": "मालिका गाउँपालिका",
+  "code": 40404
+ },
+ {
+  "dist": "Myagdi",
+  "en": "Mangala Rural Municipality",
+  "ne": "मंगला गाउँपालिका",
+  "code": 40405
+ },
+ {
+  "dist": "Myagdi",
+  "en": "Beni Urban Municipality",
+  "ne": "बेनी नगरपालिका",
+  "code": 40406
+ },
+ {
+  "dist": "Kaski",
+  "en": "Madi Rural Municipality",
+  "ne": "मादी गाउँपालिका",
+  "code": 40501
+ },
+ {
+  "dist": "Kaski",
+  "en": "Machhapuchchhre Rural Municipality",
+  "ne": "माछापुच्छ्र्े गाउँपालिका",
+  "code": 40502
+ },
+ {
+  "dist": "Kaski",
+  "en": "Annapurna Rural Municipality",
+  "ne": "अन्नपूर्ण गाउँपालिका",
+  "code": 40503
+ },
+ {
+  "dist": "Kaski",
+  "en": "Pokhara Metropolitian City",
+  "ne": "पोखरा महानगरपालिका",
+  "code": 40504
+ },
+ {
+  "dist": "Kaski",
+  "en": "Rupa Rural Municipality",
+  "ne": "रूपा गाउँपालिका",
+  "code": 40505
+ },
+ {
+  "dist": "Lamjung",
+  "en": "Dordi Rural Municipality",
+  "ne": "दोर्दी गाउँपालिका",
+  "code": 40601
+ },
+ {
+  "dist": "Lamjung",
+  "en": "Marshyangdi Rural Municipality",
+  "ne": "मस्र्याङ्गदी गाउँपालिका",
+  "code": 40602
+ },
+ {
+  "dist": "Lamjung",
+  "en": "Kwhola Sothar Rural Municipality",
+  "ne": "क्ब्होलासोथार गाउँपालिका",
+  "code": 40603
+ },
+ {
+  "dist": "Lamjung",
+  "en": "Madhya Nepal Urban Municipality",
+  "ne": "मध्यनेपाल नगरपालिका",
+  "code": 40604
+ },
+ {
+  "dist": "Lamjung",
+  "en": "Bensi Shahar Urban Municipality",
+  "ne": "बेंसीशहर नगरापालिका",
+  "code": 40605
+ },
+ {
+  "dist": "Lamjung",
+  "en": "Sundarbazar Urban Municipality",
+  "ne": "सुन्दरबजार नगरपालिका",
+  "code": 40606
+ },
+ {
+  "dist": "Lamjung",
+  "en": "Rainas Urban Municipality",
+  "ne": "राईनास नगरपालिका",
+  "code": 40607
+ },
+ {
+  "dist": "Lamjung",
+  "en": "Dudhapokhari Rural Municipality",
+  "ne": "दुधपोखरी गाउँपालिका",
+  "code": 40608
+ },
+ {
+  "dist": "Tanahu",
+  "en": "Bhanu Urban Municipality",
+  "ne": "भानु नगरपालिका",
+  "code": 40701
+ },
+ {
+  "dist": "Tanahu",
+  "en": "Byas Urban Municipality",
+  "ne": "ब्यास नगरपालिका",
+  "code": 40702
+ },
+ {
+  "dist": "Tanahu",
+  "en": "Myagde Rural Municipality",
+  "ne": "म्याग्दे गाउँपालिका",
+  "code": 40703
+ },
+ {
+  "dist": "Tanahu",
+  "en": "Shuklagandaki Urban Municipality",
+  "ne": "शुक्लागण्डकी नगरपालिका",
+  "code": 40704
+ },
+ {
+  "dist": "Tanahu",
+  "en": "Bhimad Urban Municipality",
+  "ne": "भिमाद नगरपालिका",
+  "code": 40705
+ },
+ {
+  "dist": "Tanahu",
+  "en": "Ghiring Rural Municipality",
+  "ne": "घिरिङ्ग गाउँपालिका",
+  "code": 40706
+ },
+ {
+  "dist": "Tanahu",
+  "en": "Rhishing Rural Municipality",
+  "ne": "ऋषिङ्ग गाउँपालिका",
+  "code": 40707
+ },
+ {
+  "dist": "Tanahu",
+  "en": "Devghat Rural Municipality",
+  "ne": "देवघाट गाउँपालिका",
+  "code": 40708
+ },
+ {
+  "dist": "Tanahu",
+  "en": "Bandipur Rural Municipality",
+  "ne": "बन्दिपुर गाउँपालिका",
+  "code": 40709
+ },
+ {
+  "dist": "Tanahu",
+  "en": "Aanbu Khaireni Rural Municipality",
+  "ne": "आँबुखैरेनी गाउँपालिका",
+  "code": 40710
+ },
+ {
+  "dist": "Nawalparasi (East)",
+  "en": "Gaidakot Urban Municipality",
+  "ne": "गैडाकोट नगरपालिका",
+  "code": 40801
+ },
+ {
+  "dist": "Nawalparasi (East)",
+  "en": "Bulingtar Rural Municipality",
+  "ne": "बुलिङ्गटार गाउँपालिका",
+  "code": 40802
+ },
+ {
+  "dist": "Nawalparasi (East)",
+  "en": "Baudikali Rural Municipality",
+  "ne": "बौदीकाली गाउँपालिका",
+  "code": 40803
+ },
+ {
+  "dist": "Nawalparasi (East)",
+  "en": "Hupsekot Rural Municipality",
+  "ne": "हुप्सेकोट गाउँपालिका",
+  "code": 40804
+ },
+ {
+  "dist": "Nawalparasi (East)",
+  "en": "Devchuli Urban Municipality",
+  "ne": "देवचुली नगरपालिका",
+  "code": 40805
+ },
+ {
+  "dist": "Nawalparasi (East)",
+  "en": "Kawasoti Urban Municipality",
+  "ne": "कावासोती नगरपालिका",
+  "code": 40806
+ },
+ {
+  "dist": "Nawalparasi (East)",
+  "en": "Madhya Bindu Urban Municipality",
+  "ne": "मध्यबिन्दु नगरपालिका",
+  "code": 40807
+ },
+ {
+  "dist": "Nawalparasi (East)",
+  "en": "Binayi Tribeni Rural Municipality",
+  "ne": "बिनयी त्रिवेणी गाउँपालिका",
+  "code": 40808
+ },
+ {
+  "dist": "Syangja",
+  "en": "Putalibazar Urban Municipality",
+  "ne": "पुतलीबजार नगरपालिका",
+  "code": 40901
+ },
+ {
+  "dist": "Syangja",
+  "en": "Phedikhola Rural Municipality",
+  "ne": "फेदीखोला गाउँपालिका",
+  "code": 40902
+ },
+ {
+  "dist": "Syangja",
+  "en": "Aandhikhola Rural Municipality",
+  "ne": "आँधिखोला गाउँपालिका",
+  "code": 40903
+ },
+ {
+  "dist": "Syangja",
+  "en": "Arjun Choupari Rural Municipality",
+  "ne": "अर्जुनचौपारी गाउँपालिका",
+  "code": 40904
+ },
+ {
+  "dist": "Syangja",
+  "en": "Bhirkot Urban Municipality",
+  "ne": "भीरकोट नगरपालिका",
+  "code": 40905
+ },
+ {
+  "dist": "Syangja",
+  "en": "Biruwa Rural Municipality",
+  "ne": "बिरुवा गाउँपालिका",
+  "code": 40906
+ },
+ {
+  "dist": "Syangja",
+  "en": "Harinas Rural Municipality",
+  "ne": "हरिनास गाउँपालिका",
+  "code": 40907
+ },
+ {
+  "dist": "Syangja",
+  "en": "Chapakot Urban Municipality",
+  "ne": "चापाकोट नगरपालिका",
+  "code": 40908
+ },
+ {
+  "dist": "Syangja",
+  "en": "Walling Urban Municipality",
+  "ne": "वालिङ्ग नगरपालिका",
+  "code": 40909
+ },
+ {
+  "dist": "Syangja",
+  "en": "Galyang Urban Municipality",
+  "ne": "गल्याङ नगरपालिका",
+  "code": 40910
+ },
+ {
+  "dist": "Syangja",
+  "en": "Kaligandaki Rural Municipality",
+  "ne": "कालीगण्डकी गाउँपालिका",
+  "code": 40911
+ },
+ {
+  "dist": "Parbat",
+  "en": "Modi Rural Municipality",
+  "ne": "मोदी गाउँपालिका",
+  "code": 41001
+ },
+ {
+  "dist": "Parbat",
+  "en": "Jaljala Rural Municipality",
+  "ne": "जलजला गाउँपालिका",
+  "code": 41002
+ },
+ {
+  "dist": "Parbat",
+  "en": "Kushma Urban Municipality",
+  "ne": "कुश्मा नगरपालिका",
+  "code": 41003
+ },
+ {
+  "dist": "Parbat",
+  "en": "Phalebas Urban Municipality",
+  "ne": "फलेबास नगरपालिका",
+  "code": 41004
+ },
+ {
+  "dist": "Parbat",
+  "en": "Mahashila Rural Municipality",
+  "ne": "महाशिला गाउँपालिका",
+  "code": 41005
+ },
+ {
+  "dist": "Parbat",
+  "en": "Bihadi Rural Municipality",
+  "ne": "बिहादी गाउँपालिका",
+  "code": 41006
+ },
+ {
+  "dist": "Parbat",
+  "en": "Paiyu Rural Municipality",
+  "ne": "पैयुं गाउँपालिका",
+  "code": 41007
+ },
+ {
+  "dist": "Baglung",
+  "en": "Baglung Urban Municipality",
+  "ne": "बाग्लुङ्ग नगरपालिका",
+  "code": 41101
+ },
+ {
+  "dist": "Baglung",
+  "en": "Kathekhola Rural Municipality",
+  "ne": "काठेखोला गाउँपालिका",
+  "code": 41102
+ },
+ {
+  "dist": "Baglung",
+  "en": "Tarakhola Rural Municipality",
+  "ne": "ताराखोला गाउँपालिका",
+  "code": 41103
+ },
+ {
+  "dist": "Baglung",
+  "en": "Tamankhola Rural Municipality",
+  "ne": "तमानखोला गाउँपालिका",
+  "code": 41104
+ },
+ {
+  "dist": "Baglung",
+  "en": "Dhorpatan Urban Municipality",
+  "ne": "ढोरपाटन नगरपालिका",
+  "code": 41105
+ },
+ {
+  "dist": "Baglung",
+  "en": "Nisikhola Rural Municipality",
+  "ne": "निसीखोला गाउँपालिका",
+  "code": 41106
+ },
+ {
+  "dist": "Baglung",
+  "en": "Badigad Rural Municipality",
+  "ne": "बडिगाड गाउँपालिका",
+  "code": 41107
+ },
+ {
+  "dist": "Baglung",
+  "en": "Galkot Urban Municipality",
+  "ne": "गल्कोट नगरपालिका",
+  "code": 41108
+ },
+ {
+  "dist": "Baglung",
+  "en": "Bareng Rural Municipality",
+  "ne": "बरेङ गाउँपालिका",
+  "code": 41109
+ },
+ {
+  "dist": "Baglung",
+  "en": "Jaimuni Urban Municipality",
+  "ne": "जैमुनी नगरपालिका",
+  "code": 41110
+ },
+ {
+  "dist": "Rukum (East)",
+  "en": "Putha Uttanganga Rural Municipality",
+  "ne": "पुथा उत्तरगंगा गाउँपालिका",
+  "code": 50101
+ },
+ {
+  "dist": "Rukum (East)",
+  "en": "Sisne Rural Municipality",
+  "ne": "सिस्ने गाउँपालिका",
+  "code": 50102
+ },
+ {
+  "dist": "Rukum (East)",
+  "en": "Bhoome Rural Municipality",
+  "ne": "भूमे गाउँपालिका",
+  "code": 50103
+ },
+ {
+  "dist": "Rolpa",
+  "en": "Sunchhahari Rural Municipality",
+  "ne": "सुनछहरी गाउँपालिका",
+  "code": 50201
+ },
+ {
+  "dist": "Rolpa",
+  "en": "Thawang Rural Municipality",
+  "ne": "थबाङ्ग गाउँपालिका",
+  "code": 50202
+ },
+ {
+  "dist": "Rolpa",
+  "en": "Pariwartan Rural Municipality",
+  "ne": "परिवर्तन गाउँपालिका",
+  "code": 50203
+ },
+ {
+  "dist": "Rolpa",
+  "en": "Gangadev Rural Municipality",
+  "ne": "गंगादेव गाउँपालिका",
+  "code": 50204
+ },
+ {
+  "dist": "Rolpa",
+  "en": "Madi Rural Municipality",
+  "ne": "मादी गाउँपालिका",
+  "code": 50205
+ },
+ {
+  "dist": "Rolpa",
+  "en": "Tribeni Rural Municipality",
+  "ne": "त्रिवेणी गाउँपालिका",
+  "code": 50206
+ },
+ {
+  "dist": "Rolpa",
+  "en": "Rolpa Urban Municipality",
+  "ne": "रोल्पा नगरपालिका",
+  "code": 50207
+ },
+ {
+  "dist": "Rolpa",
+  "en": "Runtigadhi Rural Municipality",
+  "ne": "रुन्टीगढी गाउँपालिका",
+  "code": 50208
+ },
+ {
+  "dist": "Rolpa",
+  "en": "Sunil Smriti Rural Municipality",
+  "ne": "सुनिल स्मृति गाउँपालिका",
+  "code": 50209
+ },
+ {
+  "dist": "Rolpa",
+  "en": "Lungri Rural Municipality",
+  "ne": "लुङ्ग्री गाउँपालिका",
+  "code": 50210
+ },
+ {
+  "dist": "Pyuthan",
+  "en": "Gaumukhi Rural Municipality",
+  "ne": "गौमुखी गाउँपालिका",
+  "code": 50301
+ },
+ {
+  "dist": "Pyuthan",
+  "en": "Naubahini Rural Municipality",
+  "ne": "नौबहिनी गाउँपालिका",
+  "code": 50302
+ },
+ {
+  "dist": "Pyuthan",
+  "en": "Jhimaruk Rural Municipality",
+  "ne": "झिमरुक गाउँपालिका",
+  "code": 50303
+ },
+ {
+  "dist": "Pyuthan",
+  "en": "Pyuthan Urban Municipality",
+  "ne": "प्यूठान नगरपालिका",
+  "code": 50304
+ },
+ {
+  "dist": "Pyuthan",
+  "en": "Sworgadwari Urban Municipality",
+  "ne": "स्वर्गद्धारी नगरपालिका",
+  "code": 50305
+ },
+ {
+  "dist": "Pyuthan",
+  "en": "Mandavi Rural Municipality",
+  "ne": "माण्डवी गाउँपालिका",
+  "code": 50306
+ },
+ {
+  "dist": "Pyuthan",
+  "en": "Mallarani Rural Municipality",
+  "ne": "मल्लरानी गाउँपालिका",
+  "code": 50307
+ },
+ {
+  "dist": "Pyuthan",
+  "en": "Aairawati Rural Municipality",
+  "ne": "ऐरावती गाउँपालिका",
+  "code": 50308
+ },
+ {
+  "dist": "Pyuthan",
+  "en": "Sarumarani Rural Municipality",
+  "ne": "सरुमारानी गाउँपालिका",
+  "code": 50309
+ },
+ {
+  "dist": "Gulmi",
+  "en": "Kali Gandaki Rural Municipality",
+  "ne": "कालिगण्डकी गाउँपालिका",
+  "code": 50401
+ },
+ {
+  "dist": "Gulmi",
+  "en": "Satyawoti Rural Municipality",
+  "ne": "सत्यवती गाउँपालिका",
+  "code": 50402
+ },
+ {
+  "dist": "Gulmi",
+  "en": "Chandrakot Rural Municipality",
+  "ne": "चन्द्रकोट गाउँपालिका",
+  "code": 50403
+ },
+ {
+  "dist": "Gulmi",
+  "en": "Musikot Urban Municipality",
+  "ne": "मुसिकोट नगरपालिका",
+  "code": 50404
+ },
+ {
+  "dist": "Gulmi",
+  "en": "Isma Rural Municipality",
+  "ne": "ईस्मा गाउँपालिका",
+  "code": 50405
+ },
+ {
+  "dist": "Gulmi",
+  "en": "Malika Rural Municipality",
+  "ne": "मालिका गाउँपालिका",
+  "code": 50406
+ },
+ {
+  "dist": "Gulmi",
+  "en": "Madane Rural Municipality",
+  "ne": "मदाने गाउँपालिका",
+  "code": 50407
+ },
+ {
+  "dist": "Gulmi",
+  "en": "Dhurkot Rural Municipality",
+  "ne": "धुर्कोट गाउँपालिका",
+  "code": 50408
+ },
+ {
+  "dist": "Gulmi",
+  "en": "Resunga Urban Municipality",
+  "ne": "रेसुङ्गा नगरपालिका",
+  "code": 50409
+ },
+ {
+  "dist": "Gulmi",
+  "en": "Gulmi Durbar Rural Municipality",
+  "ne": "गुल्मी दरबार गाउँपालिका",
+  "code": 50410
+ },
+ {
+  "dist": "Gulmi",
+  "en": "Chhatrakot Rural Municipality",
+  "ne": "छत्रकोट गाउँपालिका",
+  "code": 50411
+ },
+ {
+  "dist": "Gulmi",
+  "en": "Ruruchhetra Rural Municipality",
+  "ne": "रुरुक्षेत्र गाउँपालिका",
+  "code": 50412
+ },
+ {
+  "dist": "Arghakhanchi",
+  "en": "Chhatradev Rural Municipality",
+  "ne": "छत्रदेव गाउँपालिका",
+  "code": 50501
+ },
+ {
+  "dist": "Arghakhanchi",
+  "en": "Malarani Rural Municipality",
+  "ne": "मालारानी गाउँपालिका",
+  "code": 50502
+ },
+ {
+  "dist": "Arghakhanchi",
+  "en": "Bhumikasthan Urban Municipality",
+  "ne": "भुमिकास्थान नगरपालिका",
+  "code": 50503
+ },
+ {
+  "dist": "Arghakhanchi",
+  "en": "Sandhikharka Urban Municipality",
+  "ne": "सन्धिखर्क नगरपालिका",
+  "code": 50504
+ },
+ {
+  "dist": "Arghakhanchi",
+  "en": "Panini Rural Municipality",
+  "ne": "पाणिनी गाउँपालिका",
+  "code": 50505
+ },
+ {
+  "dist": "Arghakhanchi",
+  "en": "Shitaganga Urban Municipality",
+  "ne": "शितगंगा नगरपालिका",
+  "code": 50506
+ },
+ {
+  "dist": "Palpa",
+  "en": "Rampur Urban Municipality",
+  "ne": "रामपुर नगरपालिका",
+  "code": 50601
+ },
+ {
+  "dist": "Palpa",
+  "en": "Purbakhola Rural Municipality",
+  "ne": "पुर्वखोला गाउँपालिका",
+  "code": 50602
+ },
+ {
+  "dist": "Palpa",
+  "en": "Rambha Rural Municipality",
+  "ne": "रम्भा गाउँपालिका",
+  "code": 50603
+ },
+ {
+  "dist": "Palpa",
+  "en": "Baganaskali Rural Municipality",
+  "ne": "बगनासकाली गाउँपालिका",
+  "code": 50604
+ },
+ {
+  "dist": "Palpa",
+  "en": "Tansen Urban Municipality",
+  "ne": "तानसेन नगरपालिका",
+  "code": 50605
+ },
+ {
+  "dist": "Palpa",
+  "en": "Ribdikot Rural Municipality",
+  "ne": "रिब्दीकोट गाउँपालिका",
+  "code": 50606
+ },
+ {
+  "dist": "Palpa",
+  "en": "Rainadevi Chhahara Rural Municipality",
+  "ne": "रैनादेवी छहरा गाउँपालिका",
+  "code": 50607
+ },
+ {
+  "dist": "Palpa",
+  "en": "Tinau Rural Municipality",
+  "ne": "तिनाउ गाउँपालिका",
+  "code": 50608
+ },
+ {
+  "dist": "Palpa",
+  "en": "Mathagadhi Rural Municipality",
+  "ne": "माथागढी गाउँपालिका",
+  "code": 50609
+ },
+ {
+  "dist": "Palpa",
+  "en": "Nisdi Rural Municipality",
+  "ne": "निस्दी गाउँपालिका",
+  "code": 50610
+ },
+ {
+  "dist": "Nawalparasi (West)",
+  "en": "Bardaghat Urban Municipality",
+  "ne": "बर्दघाट नगरपालिका",
+  "code": 50701
+ },
+ {
+  "dist": "Nawalparasi (West)",
+  "en": "Sunawal Urban Municipality",
+  "ne": "सुनवल नगरपालिका",
+  "code": 50702
+ },
+ {
+  "dist": "Nawalparasi (West)",
+  "en": "Ramgram Urban Municipality",
+  "ne": "रामग्राम नगरपालिका",
+  "code": 50703
+ },
+ {
+  "dist": "Nawalparasi (West)",
+  "en": "Palhinandan Rural Municipality",
+  "ne": "पाल्हीनन्दन गाउँपालिका",
+  "code": 50704
+ },
+ {
+  "dist": "Nawalparasi (West)",
+  "en": "Sarawal Rural Municipality",
+  "ne": "सरावल गाउँपालिका",
+  "code": 50705
+ },
+ {
+  "dist": "Nawalparasi (West)",
+  "en": "Pratapapur Rural Municipality",
+  "ne": "प्रतापपुर गाउँपालिका",
+  "code": 50706
+ },
+ {
+  "dist": "Nawalparasi (West)",
+  "en": "Susta Rural Municipality",
+  "ne": "सुस्ता गाउँपालिका",
+  "code": 50707
+ },
+ {
+  "dist": "Rupandehi",
+  "en": "Devdaha Urban Municipality",
+  "ne": "देबदह नगरपालिका",
+  "code": 50801
+ },
+ {
+  "dist": "Rupandehi",
+  "en": "Butwal Sub-Metropolitian City",
+  "ne": "बुटवल उपमहानगरपालिका",
+  "code": 50802
+ },
+ {
+  "dist": "Rupandehi",
+  "en": "Sainamaina Urban Municipality",
+  "ne": "सैनामैना नगरपालिका",
+  "code": 50803
+ },
+ {
+  "dist": "Rupandehi",
+  "en": "Kanchan Rural Municipality",
+  "ne": "कञ्चन गाउँपालिका",
+  "code": 50804
+ },
+ {
+  "dist": "Rupandehi",
+  "en": "Gaidahawa Rural Municipality",
+  "ne": "गैडहवा गाउँपालिका",
+  "code": 50805
+ },
+ {
+  "dist": "Rupandehi",
+  "en": "Suddhodhan Rural Municipality",
+  "ne": "सुद्धोधन गाउँपालिका",
+  "code": 50806
+ },
+ {
+  "dist": "Rupandehi",
+  "en": "Siyari Rural Municipality",
+  "ne": "सियारी गाउँपालिका",
+  "code": 50807
+ },
+ {
+  "dist": "Rupandehi",
+  "en": "Tilottama Urban Municipality",
+  "ne": "तिलोत्तमा नगरापालिका",
+  "code": 50808
+ },
+ {
+  "dist": "Rupandehi",
+  "en": "Om Satiya Rural Municipality",
+  "ne": "ओमसतिया गाउँपालिका",
+  "code": 50809
+ },
+ {
+  "dist": "Rupandehi",
+  "en": "Rohini Rural Municipality",
+  "ne": "रोहिणी गाउँपालिका",
+  "code": 50810
+ },
+ {
+  "dist": "Rupandehi",
+  "en": "Siddharthanagar Urban Municipality",
+  "ne": "सिद्धार्थनगर नगरपालिका",
+  "code": 50811
+ },
+ {
+  "dist": "Rupandehi",
+  "en": "Mayadevi Rural Municipality",
+  "ne": "मायादेवी गाउँपालिका",
+  "code": 50812
+ },
+ {
+  "dist": "Rupandehi",
+  "en": "Lumbini Sanskritik Urban Municipality",
+  "ne": "लुम्बिनी साँस्कृतिक नगरपालिका",
+  "code": 50813
+ },
+ {
+  "dist": "Rupandehi",
+  "en": "Kotahimai Rural Municipality",
+  "ne": "कोटहीमाई गाउँपालिका",
+  "code": 50814
+ },
+ {
+  "dist": "Rupandehi",
+  "en": "Sammarimai Rural Municipality",
+  "ne": "सम्मरीमाई गाउँपालिका",
+  "code": 50815
+ },
+ {
+  "dist": "Rupandehi",
+  "en": "Marchawari Rural Municipality",
+  "ne": "मर्चवारी गाउँपालिका",
+  "code": 50816
+ },
+ {
+  "dist": "Kapilbastu",
+  "en": "Banganga Urban Municipality",
+  "ne": "बाणगंगा नगरपालिका",
+  "code": 50901
+ },
+ {
+  "dist": "Kapilbastu",
+  "en": "Buddhabhumi Urban Municipality",
+  "ne": "बुद्धभूमी नगरपालिका",
+  "code": 50902
+ },
+ {
+  "dist": "Kapilbastu",
+  "en": "Shivaraj Urban Municipality",
+  "ne": "शिवराज नगरपालिका",
+  "code": 50903
+ },
+ {
+  "dist": "Kapilbastu",
+  "en": "Bijayanagar Rural Municipality",
+  "ne": "बिजयनगर गाउँपालिका",
+  "code": 50904
+ },
+ {
+  "dist": "Kapilbastu",
+  "en": "Krishnanagar Urban Municipality",
+  "ne": "कृष्णनगर नगरपालिका",
+  "code": 50905
+ },
+ {
+  "dist": "Kapilbastu",
+  "en": "Maharajganj Urban Municipality",
+  "ne": "महाराजगन्ज नगरपालिका",
+  "code": 50906
+ },
+ {
+  "dist": "Kapilbastu",
+  "en": "Kapilbastu Urban Municipality",
+  "ne": "कपिलबस्तु नगरपालिका",
+  "code": 50907
+ },
+ {
+  "dist": "Kapilbastu",
+  "en": "Yasodhara Rural Municipality",
+  "ne": "यसोधरा गाउँपालिका",
+  "code": 50908
+ },
+ {
+  "dist": "Kapilbastu",
+  "en": "Mayadevi Rural Municipality",
+  "ne": "मायादेवी गाउँपालिका",
+  "code": 50909
+ },
+ {
+  "dist": "Kapilbastu",
+  "en": "Shuddhodhan Rural Municipality",
+  "ne": "शुद्धोधन गाउँपालिका",
+  "code": 50910
+ },
+ {
+  "dist": "Dang",
+  "en": "Bangalachuli Rural Municipality",
+  "ne": "बंगलाचुली गाउँपालिका",
+  "code": 51001
+ },
+ {
+  "dist": "Dang",
+  "en": "Ghorahi Sub-Metropolitian City",
+  "ne": "घोराही उपमहानगरपालिका",
+  "code": 51002
+ },
+ {
+  "dist": "Dang",
+  "en": "Tulsipur Sub-Metropolitian City",
+  "ne": "तुल्सीपुर उपमहानगरपालिका",
+  "code": 51003
+ },
+ {
+  "dist": "Dang",
+  "en": "Shantinagar Rural Municipality",
+  "ne": "शान्तिनगर गाउँपालिका",
+  "code": 51004
+ },
+ {
+  "dist": "Dang",
+  "en": "Babai Rural Municipality",
+  "ne": "बबई गाउँपालिका",
+  "code": 51005
+ },
+ {
+  "dist": "Dang",
+  "en": "Dangisharan Rural Municipality",
+  "ne": "दंगीशरण गाउँपालिका",
+  "code": 51006
+ },
+ {
+  "dist": "Dang",
+  "en": "Lamahi Urban Municipality",
+  "ne": "लमही नगरपालिका",
+  "code": 51007
+ },
+ {
+  "dist": "Dang",
+  "en": "Rapti Rural Municipality",
+  "ne": "राप्ती गाउँपालिका",
+  "code": 51008
+ },
+ {
+  "dist": "Dang",
+  "en": "Gadhawa Rural Municipality",
+  "ne": "गढवा गाउँपालिका",
+  "code": 51009
+ },
+ {
+  "dist": "Dang",
+  "en": "Rajpur Rural Municipality",
+  "ne": "राजपुर गाउँपालिका",
+  "code": 51010
+ },
+ {
+  "dist": "Banke",
+  "en": "Rapti Sonari Rural Municipality",
+  "ne": "राप्ती सोनारी गाउँपालिका",
+  "code": 51101
+ },
+ {
+  "dist": "Banke",
+  "en": "Kohalpur Urban Municipality",
+  "ne": "कोहलपुर नगरपालिका",
+  "code": 51102
+ },
+ {
+  "dist": "Banke",
+  "en": "Baijanath Rural Municipality",
+  "ne": "बैजनाथ गाउँपालिका",
+  "code": 51103
+ },
+ {
+  "dist": "Banke",
+  "en": "Khajura Rural Municipality",
+  "ne": "खजुरा गाउँपालिका",
+  "code": 51104
+ },
+ {
+  "dist": "Banke",
+  "en": "Janaki Rural Municipality",
+  "ne": "जानकी गाउँपालिका",
+  "code": 51105
+ },
+ {
+  "dist": "Banke",
+  "en": "Nepalganj Sub-Metropolitian City",
+  "ne": "नेपालगञ्ज उपमहानगरपालिका",
+  "code": 51106
+ },
+ {
+  "dist": "Banke",
+  "en": "Duduwa Rural Municipality",
+  "ne": "डुडुवा गाउँपालिका",
+  "code": 51107
+ },
+ {
+  "dist": "Banke",
+  "en": "Narainapur Rural Municipality",
+  "ne": "नरैनापुर गाउँपालिका",
+  "code": 51108
+ },
+ {
+  "dist": "Bardiya",
+  "en": "Bansgadhi Urban Municipality",
+  "ne": "बाँसगढी नगरपालिका",
+  "code": 51201
+ },
+ {
+  "dist": "Bardiya",
+  "en": "Barbardiya Urban Municipality",
+  "ne": "बारबर्दिया नगरपालिका",
+  "code": 51202
+ },
+ {
+  "dist": "Bardiya",
+  "en": "Thakurbaba Urban Municipality",
+  "ne": "ठाकुरबाबा नगरपालिका",
+  "code": 51203
+ },
+ {
+  "dist": "Bardiya",
+  "en": "Geruwa Rural Municipality",
+  "ne": "गेरुवा गाउँपालिका",
+  "code": 51204
+ },
+ {
+  "dist": "Bardiya",
+  "en": "Rajapur Urban Municipality",
+  "ne": "राजापुर नगरपालिका",
+  "code": 51205
+ },
+ {
+  "dist": "Bardiya",
+  "en": "Madhuwan Urban Municipality",
+  "ne": "मधुवन नगरपालिका",
+  "code": 51206
+ },
+ {
+  "dist": "Bardiya",
+  "en": "Gulariya Urban Municipality",
+  "ne": "गुलरीया नगरपालिका",
+  "code": 51207
+ },
+ {
+  "dist": "Bardiya",
+  "en": "Badhaiyatal Rural Municipality",
+  "ne": "बढैयाताल गाउँपालिका",
+  "code": 51208
+ },
+ {
+  "dist": "Dolpa",
+  "en": "Dolpo Buddha Rural Municipality",
+  "ne": "डोल्पो बुद्ध गाउँपालिका",
+  "code": 60101
+ },
+ {
+  "dist": "Dolpa",
+  "en": "Shey Phoksundo Rural Municipality",
+  "ne": "शे फोक्सुण्डो गाउँपालिका",
+  "code": 60102
+ },
+ {
+  "dist": "Dolpa",
+  "en": "Jagadulla Rural Municipality",
+  "ne": "जगदुल्ला गाउँपालिका",
+  "code": 60103
+ },
+ {
+  "dist": "Dolpa",
+  "en": "Mudkechula Rural Municipality",
+  "ne": "मुड्केचुला गाउँपालिका",
+  "code": 60104
+ },
+ {
+  "dist": "Dolpa",
+  "en": "Tripurasundari Urban Municipality",
+  "ne": "त्रिपुरासुन्दरी नगरपालिका",
+  "code": 60105
+ },
+ {
+  "dist": "Dolpa",
+  "en": "Thulibheri Urban Municipality",
+  "ne": "ठुलीभेरी नगरपालिका",
+  "code": 60106
+ },
+ {
+  "dist": "Dolpa",
+  "en": "Kaike Rural Municipality",
+  "ne": "काइके गाउँपालिका",
+  "code": 60107
+ },
+ {
+  "dist": "Dolpa",
+  "en": "Chharka Tangsong Rural Municipality",
+  "ne": "छार्का ताङसोङ गाउँपालिका",
+  "code": 60108
+ },
+ {
+  "dist": "Mugu",
+  "en": "Mugumakarmarog Rural Municipality",
+  "ne": "मुगुमकार्मारोग गाउँपालिका",
+  "code": 60201
+ },
+ {
+  "dist": "Mugu",
+  "en": "Chhayanath Rara Urban Municipality",
+  "ne": "छायाँनाथ रारा नगरपालिका",
+  "code": 60202
+ },
+ {
+  "dist": "Mugu",
+  "en": "Soru Rural Municipality",
+  "ne": "सोरु गाउँपालिका",
+  "code": 60203
+ },
+ {
+  "dist": "Mugu",
+  "en": "Khatyad Rural Municipality",
+  "ne": "खत्याड गाउँपालिका",
+  "code": 60204
+ },
+ {
+  "dist": "Humla",
+  "en": "Chankheli Rural Municipality",
+  "ne": "चंखेली गाउँपालिका",
+  "code": 60301
+ },
+ {
+  "dist": "Humla",
+  "en": "Kharpunath Rural Municipality",
+  "ne": "खार्पुनाथ गाउँपालिका",
+  "code": 60302
+ },
+ {
+  "dist": "Humla",
+  "en": "Simkot Rural Municipality",
+  "ne": "सिमकोट गाउँपालिका",
+  "code": 60303
+ },
+ {
+  "dist": "Humla",
+  "en": "Namkha Rural Municipality",
+  "ne": "नाम्खा गाउँपालिका",
+  "code": 60304
+ },
+ {
+  "dist": "Humla",
+  "en": "Sarkegad Rural Municipality",
+  "ne": "सर्केगाड गाउँपालिका",
+  "code": 60305
+ },
+ {
+  "dist": "Humla",
+  "en": "Adanchuli Rural Municipality",
+  "ne": "अदानचुली गाउँपालिका",
+  "code": 60306
+ },
+ {
+  "dist": "Humla",
+  "en": "Tanjakot Rural Municipality",
+  "ne": "ताँजाकोट गाउँपालिका",
+  "code": 60307
+ },
+ {
+  "dist": "Jumla",
+  "en": "Patarasi Rural Municipality",
+  "ne": "पातारासी गाउँपालिका",
+  "code": 60401
+ },
+ {
+  "dist": "Jumla",
+  "en": "Kanaka Sundari Rural Municipality",
+  "ne": "कनका सुन्दरी गाउँपालिका",
+  "code": 60402
+ },
+ {
+  "dist": "Jumla",
+  "en": "Sinja Rural Municipality",
+  "ne": "सिंजा गाउँपालिका",
+  "code": 60403
+ },
+ {
+  "dist": "Jumla",
+  "en": "Chandannath Urban Municipality",
+  "ne": "चन्दननाथ नगरपालिका",
+  "code": 60404
+ },
+ {
+  "dist": "Jumla",
+  "en": "Guthichaur Rural Municipality",
+  "ne": "गुठिचौर गाउँपालिका",
+  "code": 60405
+ },
+ {
+  "dist": "Jumla",
+  "en": "Tatopani Rural Municipality",
+  "ne": "तातोपानी गाउँपालिका",
+  "code": 60406
+ },
+ {
+  "dist": "Jumla",
+  "en": "Tila Rural Municipality",
+  "ne": "तिला गाउँपालिका",
+  "code": 60407
+ },
+ {
+  "dist": "Jumla",
+  "en": "Hima Rural Municipality",
+  "ne": "हिमा गाउँपालिका",
+  "code": 60408
+ },
+ {
+  "dist": "Kalikot",
+  "en": "Palata Rural Municipality",
+  "ne": "पलाता गाउँपालिका",
+  "code": 60501
+ },
+ {
+  "dist": "Kalikot",
+  "en": "Pachal Jharana Rural Municipality",
+  "ne": "पचाल झरना गाउँपालिका",
+  "code": 60502
+ },
+ {
+  "dist": "Kalikot",
+  "en": "Raskot Urban Municipality",
+  "ne": "रास्कोट नगरपालिका",
+  "code": 60503
+ },
+ {
+  "dist": "Kalikot",
+  "en": "Sanni Tribeni Rural Municipality",
+  "ne": "सान्नी त्रिवेणी गाउँपालिका",
+  "code": 60504
+ },
+ {
+  "dist": "Kalikot",
+  "en": "Naraharinath Rural Municipality",
+  "ne": "नरहरिनाथ गाउँपालिका",
+  "code": 60505
+ },
+ {
+  "dist": "Kalikot",
+  "en": "Khandachakra Urban Municipality",
+  "ne": "खाँडाचक्र नगरपालिका",
+  "code": 60506
+ },
+ {
+  "dist": "Kalikot",
+  "en": "Tilagupha Urban Municipality",
+  "ne": "तिलागुफा नगरपालिका",
+  "code": 60507
+ },
+ {
+  "dist": "Kalikot",
+  "en": "Mahawai Rural Municipality",
+  "ne": "महावै गाउँपालिका",
+  "code": 60508
+ },
+ {
+  "dist": "Kalikot",
+  "en": "Shuva Kalika Rural Municipality",
+  "ne": "शुभ कालीका गाउँपालिका",
+  "code": 60509
+ },
+ {
+  "dist": "Dailekh",
+  "en": "Naumule Rural Municipality",
+  "ne": "नौमुले गाउँपालिका",
+  "code": 60601
+ },
+ {
+  "dist": "Dailekh",
+  "en": "Mahabu Rural Municipality",
+  "ne": "महाबु गाउँपालिका",
+  "code": 60602
+ },
+ {
+  "dist": "Dailekh",
+  "en": "Bhairabi Rural Municipality",
+  "ne": "भैरवी गाउँपालिका",
+  "code": 60603
+ },
+ {
+  "dist": "Dailekh",
+  "en": "Thantikandh Rural Municipality",
+  "ne": "ठाँटीकाँध गाउँपालिका",
+  "code": 60604
+ },
+ {
+  "dist": "Dailekh",
+  "en": "Aathbis Urban Municipality",
+  "ne": "आठबीस नगरपालिका",
+  "code": 60605
+ },
+ {
+  "dist": "Dailekh",
+  "en": "Chamunda Bindrasaini Urban Municipality",
+  "ne": "चामुण्डा बिन्द्रासैनी नगरपालिका",
+  "code": 60606
+ },
+ {
+  "dist": "Dailekh",
+  "en": "Dullu Urban Municipality",
+  "ne": "दुल्लु नगरपालिका",
+  "code": 60607
+ },
+ {
+  "dist": "Dailekh",
+  "en": "Narayan Urban Municipality",
+  "ne": "नारायण नगरपालिका",
+  "code": 60608
+ },
+ {
+  "dist": "Dailekh",
+  "en": "Bhagawatimai Rural Municipality",
+  "ne": "भगवतीमाई गाउँपालिका",
+  "code": 60609
+ },
+ {
+  "dist": "Dailekh",
+  "en": "Dungeshwor Rural Municipality",
+  "ne": "डुङ्गेश्वर गाउँपालिका",
+  "code": 60610
+ },
+ {
+  "dist": "Dailekh",
+  "en": "Gurans Rural Municipality",
+  "ne": "गुराँस गाउँपालिका",
+  "code": 60611
+ },
+ {
+  "dist": "Jajarkot",
+  "en": "Barekot Rural Municipality",
+  "ne": "बारेकोट गाउँपालिका",
+  "code": 60701
+ },
+ {
+  "dist": "Jajarkot",
+  "en": "Kushe Rural Municipality",
+  "ne": "कुशे गाउँपालिका",
+  "code": 60702
+ },
+ {
+  "dist": "Jajarkot",
+  "en": "Junichande Rural Municipality",
+  "ne": "जुनीचाँदे गाउँपालिका",
+  "code": 60703
+ },
+ {
+  "dist": "Jajarkot",
+  "en": "Chhedagad Urban Municipality",
+  "ne": "छेडागाड नगरपालिका",
+  "code": 60704
+ },
+ {
+  "dist": "Jajarkot",
+  "en": "Shivalaya Rural Municipality",
+  "ne": "शिवालय गाउँपालिका",
+  "code": 60705
+ },
+ {
+  "dist": "Jajarkot",
+  "en": "Bheri Malika Urban Municipality",
+  "ne": "भेरीमालिका नगरपालिका",
+  "code": 60706
+ },
+ {
+  "dist": "Jajarkot",
+  "en": "Nalgad Urban Municipality",
+  "ne": "नलगाड नगरपालिका",
+  "code": 60707
+ },
+ {
+  "dist": "Rukum (West)",
+  "en": "Aathabisakot Urban Municipality",
+  "ne": "आठबिसकोट नगरपालिका",
+  "code": 60801
+ },
+ {
+  "dist": "Rukum (West)",
+  "en": "Sanibheri Rural Municipality",
+  "ne": "सानीभेरी गाउँपालिका",
+  "code": 60802
+ },
+ {
+  "dist": "Rukum (West)",
+  "en": "Banphikot Rural Municipality",
+  "ne": "बाँफिकोट गाउँपालिका",
+  "code": 60803
+ },
+ {
+  "dist": "Rukum (West)",
+  "en": "Musikot Urban Municipality",
+  "ne": "मुसिकोट नगरपालिका",
+  "code": 60804
+ },
+ {
+  "dist": "Rukum (West)",
+  "en": "Tribeni Rural Municipality",
+  "ne": "त्रिवेणी गाउँपालिका",
+  "code": 60805
+ },
+ {
+  "dist": "Rukum (West)",
+  "en": "Chaurjahari Urban Municipality",
+  "ne": "चौरजहारी नगरपालिका",
+  "code": 60806
+ },
+ {
+  "dist": "Salyan",
+  "en": "Darma Rural Municipality",
+  "ne": "दार्मा गाउँपालिका",
+  "code": 60901
+ },
+ {
+  "dist": "Salyan",
+  "en": "Kumakh Rural Municipality",
+  "ne": "कुमाख गाउँपालिका",
+  "code": 60902
+ },
+ {
+  "dist": "Salyan",
+  "en": "Banagad Kupinde Urban Municipality",
+  "ne": "बनगाड कुपिण्डे नगरपालिका",
+  "code": 60903
+ },
+ {
+  "dist": "Salyan",
+  "en": "Siddha Kumakh Rural Municipality",
+  "ne": "सिद्ध कुमाख गाउँपालिका",
+  "code": 60904
+ },
+ {
+  "dist": "Salyan",
+  "en": "Bagachour Urban Municipality",
+  "ne": "बागचौर नगरपालिका",
+  "code": 60905
+ },
+ {
+  "dist": "Salyan",
+  "en": "Chhatreshwori Rural Municipality",
+  "ne": "छत्रेश्वरी गाउँपालिका",
+  "code": 60906
+ },
+ {
+  "dist": "Salyan",
+  "en": "Sharada Urban Municipality",
+  "ne": "शारदा नगरपालिका",
+  "code": 60907
+ },
+ {
+  "dist": "Salyan",
+  "en": "Kalimati Rural Municipality",
+  "ne": "कालिमाटी गाउँपालिका",
+  "code": 60908
+ },
+ {
+  "dist": "Salyan",
+  "en": "Tribeni Rural Municipality",
+  "ne": "त्रिवेणी गाउँपालिका",
+  "code": 60909
+ },
+ {
+  "dist": "Salyan",
+  "en": "Kapurkot Rural Municipality",
+  "ne": "कपुरकोट गाउँपालिका",
+  "code": 60910
+ },
+ {
+  "dist": "Surkhet",
+  "en": "Simta Rural Municipality",
+  "ne": "सिम्ता गाउँपालिका",
+  "code": 61001
+ },
+ {
+  "dist": "Surkhet",
+  "en": "Chingad Rural Municipality",
+  "ne": "चिङ्गगाड गाउँपालिका",
+  "code": 61002
+ },
+ {
+  "dist": "Surkhet",
+  "en": "Lekabeshi Urban Municipality",
+  "ne": "लेकबेशी नगरपालिका",
+  "code": 61003
+ },
+ {
+  "dist": "Surkhet",
+  "en": "Gurbhakot Urban Municipality",
+  "ne": "गुर्भाकोट नगरपालिका",
+  "code": 61004
+ },
+ {
+  "dist": "Surkhet",
+  "en": "Bheriganga Urban Municipality",
+  "ne": "भेरीगंगा नगरपालिका",
+  "code": 61005
+ },
+ {
+  "dist": "Surkhet",
+  "en": "Birendranagar Urban Municipality",
+  "ne": "बीरेन्द्रनगर नगरपालिका",
+  "code": 61006
+ },
+ {
+  "dist": "Surkhet",
+  "en": "Barahatal Rural Municipality",
+  "ne": "बराहताल गाउँपालिका",
+  "code": 61007
+ },
+ {
+  "dist": "Surkhet",
+  "en": "Panchapuri Urban Municipality",
+  "ne": "पञ्चपुरी नगरपालिका",
+  "code": 61008
+ },
+ {
+  "dist": "Surkhet",
+  "en": "Chaukune Rural Municipality",
+  "ne": "चौकुने गाउँपालिका",
+  "code": 61009
+ },
+ {
+  "dist": "Bajura",
+  "en": "Himali Rural Municipality",
+  "ne": "हिमाली गाउँपालिका",
+  "code": 70101
+ },
+ {
+  "dist": "Bajura",
+  "en": "Gaumul Rural Municipality",
+  "ne": "गौमुल गाउँपालिका",
+  "code": 70102
+ },
+ {
+  "dist": "Bajura",
+  "en": "Budhinanda Urban Municipality",
+  "ne": "बुढीनन्दा नगरपालिका",
+  "code": 70103
+ },
+ {
+  "dist": "Bajura",
+  "en": "Swamikartik Khapar Rural Municipality",
+  "ne": "स्वामीकार्तिक खापर गाउँपालिका",
+  "code": 70104
+ },
+ {
+  "dist": "Bajura",
+  "en": "Jagannath Rural Municipality",
+  "ne": "जगन्‍नाथ गाउँपालिका",
+  "code": 70105
+ },
+ {
+  "dist": "Bajura",
+  "en": "Badimalika Urban Municipality",
+  "ne": "बडिमालिका नगरपालिका",
+  "code": 70106
+ },
+ {
+  "dist": "Bajura",
+  "en": "Khaptad Chhededaha Rural Municipality",
+  "ne": "खप्तड छेडेदह गाउँपालिका",
+  "code": 70107
+ },
+ {
+  "dist": "Bajura",
+  "en": "Budhiganga Urban Municipality",
+  "ne": "बुढीगंगा नगरपालिका",
+  "code": 70108
+ },
+ {
+  "dist": "Bajura",
+  "en": "Tribeni Urban Municipality",
+  "ne": "त्रिवेणी नगरपालिका",
+  "code": 70109
+ },
+ {
+  "dist": "Bajhang",
+  "en": "Saipal Rural Municipality",
+  "ne": "साइपाल गाउँपालिका",
+  "code": 70201
+ },
+ {
+  "dist": "Bajhang",
+  "en": "Bungal Urban Municipality",
+  "ne": "बुंगल नगरपालिका",
+  "code": 70202
+ },
+ {
+  "dist": "Bajhang",
+  "en": "Surma Rural Municipality",
+  "ne": "सूर्मा गाउँपालिका",
+  "code": 70203
+ },
+ {
+  "dist": "Bajhang",
+  "en": "Talkot Rural Municipality",
+  "ne": "तालकोट गाउँपालिका",
+  "code": 70204
+ },
+ {
+  "dist": "Bajhang",
+  "en": "Masta Rural Municipality",
+  "ne": "मष्टा गाउँपालिका",
+  "code": 70205
+ },
+ {
+  "dist": "Bajhang",
+  "en": "Jayaprithbi Urban Municipality",
+  "ne": "जयपृथ्वी नगरपालिका",
+  "code": 70206
+ },
+ {
+  "dist": "Bajhang",
+  "en": "Chhabis Pathibhara Rural Municipality",
+  "ne": "छबिस पाथिभरा गाउँपालिका",
+  "code": 70207
+ },
+ {
+  "dist": "Bajhang",
+  "en": "Durgathali Rural Municipality",
+  "ne": "दुर्गाथली गाउँपालिका",
+  "code": 70208
+ },
+ {
+  "dist": "Bajhang",
+  "en": "Kedarsyun Rural Municipality",
+  "ne": "केदारस्युँ गाउँपालिका",
+  "code": 70209
+ },
+ {
+  "dist": "Bajhang",
+  "en": "Bitthadchir Rural Municipality",
+  "ne": "बित्थडचिर गाउँपालिका",
+  "code": 70210
+ },
+ {
+  "dist": "Bajhang",
+  "en": "Thalara Rural Municipality",
+  "ne": "थलारा गाउँपालिका",
+  "code": 70211
+ },
+ {
+  "dist": "Bajhang",
+  "en": "Khaptad Chhanna Rural Municipality",
+  "ne": "खप्तडछान्ना गाउँपालिका",
+  "code": 70212
+ },
+ {
+  "dist": "Darchula",
+  "en": "Byas Rural Municipality",
+  "ne": "ब्याँस गाउँपालिका",
+  "code": 70301
+ },
+ {
+  "dist": "Darchula",
+  "en": "Duhun Rural Municipality",
+  "ne": "दुहुँ गाउँपालिका",
+  "code": 70302
+ },
+ {
+  "dist": "Darchula",
+  "en": "Mahakali Urban Municipality",
+  "ne": "महाकाली नगरपालिका",
+  "code": 70303
+ },
+ {
+  "dist": "Darchula",
+  "en": "Naugad  Rural Municipality",
+  "ne": "नौगाड गाउँपालिका",
+  "code": 70304
+ },
+ {
+  "dist": "Darchula",
+  "en": "Apihimal Rural Municipality",
+  "ne": "अपिहिमाल गाउँपालिका",
+  "code": 70305
+ },
+ {
+  "dist": "Darchula",
+  "en": "Marma Rural Municipality",
+  "ne": "मार्मा गाउँपालिका",
+  "code": 70306
+ },
+ {
+  "dist": "Darchula",
+  "en": "Shailyashikhar Urban Municipality",
+  "ne": "शैल्यशिखर नगरपालिका",
+  "code": 70307
+ },
+ {
+  "dist": "Darchula",
+  "en": "Malikarjun Rural Municipality",
+  "ne": "मालिकार्जुन गाउँपालिका",
+  "code": 70308
+ },
+ {
+  "dist": "Darchula",
+  "en": "Lekam Rural Municipality",
+  "ne": "लेकम गाउँपालिका",
+  "code": 70309
+ },
+ {
+  "dist": "Baitadi",
+  "en": "Dilasaini Rural Municipality",
+  "ne": "डीलासैनी गाउँपालिका",
+  "code": 70401
+ },
+ {
+  "dist": "Baitadi",
+  "en": "Dogada Kedar Rural Municipality",
+  "ne": "दोगडाकेदार गाउँपालिका",
+  "code": 70402
+ },
+ {
+  "dist": "Baitadi",
+  "en": "Puchaundi Urban Municipality",
+  "ne": "पुचौंडी नगरपालिका",
+  "code": 70403
+ },
+ {
+  "dist": "Baitadi",
+  "en": "Surnaya Rural Municipality",
+  "ne": "सुर्नया गाउँपालिका",
+  "code": 70404
+ },
+ {
+  "dist": "Baitadi",
+  "en": "Dasharathchand Urban Municipality",
+  "ne": "दशरथचन्द नगरपालिका",
+  "code": 70405
+ },
+ {
+  "dist": "Baitadi",
+  "en": "Pancheshwor Rural Municipality",
+  "ne": "पन्चेश्वर गाउँपालिका",
+  "code": 70406
+ },
+ {
+  "dist": "Baitadi",
+  "en": "Shivanath Rural Municipality",
+  "ne": "शिवनाथ गाउँपालिका",
+  "code": 70407
+ },
+ {
+  "dist": "Baitadi",
+  "en": "Melauli Urban Municipality",
+  "ne": "मेलौली नगरपालिका",
+  "code": 70408
+ },
+ {
+  "dist": "Baitadi",
+  "en": "Patan Urban Municipality",
+  "ne": "पाटन नगरपालिका",
+  "code": 70409
+ },
+ {
+  "dist": "Baitadi",
+  "en": "Sigas Rural Municipality",
+  "ne": "सिगास गाउँपालिका",
+  "code": 70410
+ },
+ {
+  "dist": "Dadeldhura",
+  "en": "Nawadurga Rural Municipality",
+  "ne": "नवदुर्गा गाउँपालिका",
+  "code": 70501
+ },
+ {
+  "dist": "Dadeldhura",
+  "en": "Amargadhi Urban Municipality",
+  "ne": "अमरगढी नगरपालिका",
+  "code": 70502
+ },
+ {
+  "dist": "Dadeldhura",
+  "en": "Ajayameru Rural Municipality",
+  "ne": "अजयमेरु गाउँपालिका",
+  "code": 70503
+ },
+ {
+  "dist": "Dadeldhura",
+  "en": "Bhageshwor Rural Municipality",
+  "ne": "भागेश्वर गाउँपालिका",
+  "code": 70504
+ },
+ {
+  "dist": "Dadeldhura",
+  "en": "Parashuram Urban Municipality",
+  "ne": "परशुराम नगरपालिका",
+  "code": 70505
+ },
+ {
+  "dist": "Dadeldhura",
+  "en": "Aalital Rural Municipality",
+  "ne": "आलिताल गाउँपालिका",
+  "code": 70506
+ },
+ {
+  "dist": "Dadeldhura",
+  "en": "Ganyapdhura Rural Municipality",
+  "ne": "गन्यापधुरा गाउँपालिका",
+  "code": 70507
+ },
+ {
+  "dist": "Doti",
+  "en": "Purbichouki Rural Municipality",
+  "ne": "पुर्विचौकी गाउँपालिका",
+  "code": 70601
+ },
+ {
+  "dist": "Doti",
+  "en": "Sayal Rural Municipality",
+  "ne": "सायल गाउँपालिका",
+  "code": 70602
+ },
+ {
+  "dist": "Doti",
+  "en": "Aadarsha Rural Municipality",
+  "ne": "आदर्श गाउँपालिका",
+  "code": 70603
+ },
+ {
+  "dist": "Doti",
+  "en": "Shikhar Urban Municipality",
+  "ne": "शिखर नगरपालिका",
+  "code": 70604
+ },
+ {
+  "dist": "Doti",
+  "en": "Dipayal Silgadhi Urban Municipality",
+  "ne": "दिपायल सिलगढी नगरपालिका",
+  "code": 70605
+ },
+ {
+  "dist": "Doti",
+  "en": "K.I. Singh Rural Municipality",
+  "ne": "के.आई.सिं. गाउँपालिका",
+  "code": 70606
+ },
+ {
+  "dist": "Doti",
+  "en": "Bogatan Phudsil Rural Municipality",
+  "ne": "बोगटान फुड्सिल गाउँपालिका",
+  "code": 70607
+ },
+ {
+  "dist": "Doti",
+  "en": "Badi Kedar Rural Municipality",
+  "ne": "बडीकेदार गाउँपालिका",
+  "code": 70608
+ },
+ {
+  "dist": "Doti",
+  "en": "Jorayal Rural Municipality",
+  "ne": "जोरायल गाउँपालिका",
+  "code": 70609
+ },
+ {
+  "dist": "Achham",
+  "en": "Panchdebal Binayak Urban Municipality",
+  "ne": "पंचदेवल बिनायक नगरपालिका",
+  "code": 70701
+ },
+ {
+  "dist": "Achham",
+  "en": "Ramaroshan Rural Municipality",
+  "ne": "रामारोशन गाउँपालिका",
+  "code": 70702
+ },
+ {
+  "dist": "Achham",
+  "en": "Mellekh Rural Municipality",
+  "ne": "मेल्लेख गाउँपालिका",
+  "code": 70703
+ },
+ {
+  "dist": "Achham",
+  "en": "Sanphebagar Urban Municipality",
+  "ne": "साँफेबगर नगरपालिका",
+  "code": 70704
+ },
+ {
+  "dist": "Achham",
+  "en": "Chaurpati Rural Municipality",
+  "ne": "चौरपाटी गाउँपालिका",
+  "code": 70705
+ },
+ {
+  "dist": "Achham",
+  "en": "Mangalsen Urban Municipality",
+  "ne": "मंगलसेन नगरपालिका",
+  "code": 70706
+ },
+ {
+  "dist": "Achham",
+  "en": "Bannigadhi Jayagadh Rural Municipality",
+  "ne": "बान्नीगढी जयगढ गाउँपालिका",
+  "code": 70707
+ },
+ {
+  "dist": "Achham",
+  "en": "Kamal bazar Urban Municipality",
+  "ne": "कमलबजार नगरपालिका",
+  "code": 70708
+ },
+ {
+  "dist": "Achham",
+  "en": "Dhakari Rural Municipality",
+  "ne": "ढकारी गाउँपालिका",
+  "code": 70709
+ },
+ {
+  "dist": "Achham",
+  "en": "Turmakhand Rural Municipality",
+  "ne": "तुर्माखाँद गाउँपालिका",
+  "code": 70710
+ },
+ {
+  "dist": "Kailali",
+  "en": "Mohanyal Rural Municipality",
+  "ne": "मोहन्याल गाउँपालिका",
+  "code": 70801
+ },
+ {
+  "dist": "Kailali",
+  "en": "Chure Rural Municipality",
+  "ne": "चुरे गाउँपालिका",
+  "code": 70802
+ },
+ {
+  "dist": "Kailali",
+  "en": "Godawari Urban Municipality",
+  "ne": "गोदावरी नगरपालिका",
+  "code": 70803
+ },
+ {
+  "dist": "Kailali",
+  "en": "Gauriganga Urban Municipality",
+  "ne": "गौरीगंगा नगरपालिका",
+  "code": 70804
+ },
+ {
+  "dist": "Kailali",
+  "en": "Ghodaghodi Urban Municipality",
+  "ne": "घोडाघोडी नगरपालिका",
+  "code": 70805
+ },
+ {
+  "dist": "Kailali",
+  "en": "Bardagoriya Rural Municipality",
+  "ne": "बर्दगोरिया गाउँपालिका",
+  "code": 70806
+ },
+ {
+  "dist": "Kailali",
+  "en": "Lamki Chuha Urban Municipality",
+  "ne": "लम्कि चुहा नगरपालिका",
+  "code": 70807
+ },
+ {
+  "dist": "Kailali",
+  "en": "Janaki Rural Municipality",
+  "ne": "जानकी गाउँपालिका",
+  "code": 70808
+ },
+ {
+  "dist": "Kailali",
+  "en": "Joshipur Rural Municipality",
+  "ne": "जोशीपुर गाउँपालिका",
+  "code": 70809
+ },
+ {
+  "dist": "Kailali",
+  "en": "Tikapur Urban Municipality",
+  "ne": "टिकापुर नगरपालिका",
+  "code": 70810
+ },
+ {
+  "dist": "Kailali",
+  "en": "Bhajani Urban Municipality",
+  "ne": "भजनी नगरपालिका",
+  "code": 70811
+ },
+ {
+  "dist": "Kailali",
+  "en": "Kailari Rural Municipality",
+  "ne": "कैलारी गाउँपालिका",
+  "code": 70812
+ },
+ {
+  "dist": "Kailali",
+  "en": "Dhangadhi Sub-Metropolitian City",
+  "ne": "धनगढी उपमहानगरपालिका",
+  "code": 70813
+ },
+ {
+  "dist": "Kanchanpur",
+  "en": "Krishnapur Urban Municipality",
+  "ne": "कृष्णपुर नगरपालिका",
+  "code": 70901
+ },
+ {
+  "dist": "Kanchanpur",
+  "en": "Shuklaphanta Urban Municipality",
+  "ne": "शुक्लाफाँटा नगरपालिका",
+  "code": 70902
+ },
+ {
+  "dist": "Kanchanpur",
+  "en": "Bedkot Urban Municipality",
+  "ne": "बेदकोट नगरपालिका",
+  "code": 70903
+ },
+ {
+  "dist": "Kanchanpur",
+  "en": "Bhimdatta Urban Municipality",
+  "ne": "भिमदत्त नगरपालिका",
+  "code": 70904
+ },
+ {
+  "dist": "Kanchanpur",
+  "en": "Mahakali Urban Municipality",
+  "ne": "महाकाली नगरपालिका",
+  "code": 70905
+ },
+ {
+  "dist": "Kanchanpur",
+  "en": "Laljhadi Rural Municipality",
+  "ne": "लालझाडी गाउँपालिका",
+  "code": 70906
+ },
+ {
+  "dist": "Kanchanpur",
+  "en": "Punarbas Urban Municipality",
+  "ne": "पुनर्वास नगरपालिका",
+  "code": 70907
+ },
+ {
+  "dist": "Kanchanpur",
+  "en": "Belouri Urban Municipality",
+  "ne": "बेलौरी नगरपालिका",
+  "code": 70908
+ },
+ {
+  "dist": "Kanchanpur",
+  "en": "Beldandi Rural Municipality",
+  "ne": "बेलडाँडी गाउँपालिका",
+  "code": 70909
+ }
+]

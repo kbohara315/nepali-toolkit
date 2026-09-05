@@ -1,0 +1,4520 @@
+[
+ [
+  1,
+  1,
+  "Phaktanlung Gaunpalika",
+  7
+ ],
+ [
+  1,
+  2,
+  "Mikwakhola Gaunpalika",
+  5
+ ],
+ [
+  1,
+  3,
+  "Meringden Gaunpalika",
+  6
+ ],
+ [
+  1,
+  4,
+  "Maiwakhola Gaunpalika",
+  6
+ ],
+ [
+  1,
+  5,
+  "Aatharai Tribeni Gaunpalika",
+  5
+ ],
+ [
+  1,
+  6,
+  "Phungling Municipality",
+  11
+ ],
+ [
+  1,
+  7,
+  "Pathivara Yangwarak Gaunpalika",
+  6
+ ],
+ [
+  1,
+  8,
+  "Sirijanga Gaunpalika",
+  8
+ ],
+ [
+  1,
+  9,
+  "Sidingba Gaunpalika",
+  7
+ ],
+ [
+  2,
+  1,
+  "Bhotkhola Gaunpalika",
+  5
+ ],
+ [
+  2,
+  2,
+  "Makalu Gaunpalika",
+  6
+ ],
+ [
+  2,
+  3,
+  "Silichong Gaunpalika",
+  5
+ ],
+ [
+  2,
+  4,
+  "Chichila Gaunpalika",
+  5
+ ],
+ [
+  2,
+  5,
+  "Sabhapokhari Gaunpalika",
+  6
+ ],
+ [
+  2,
+  6,
+  "Khandabari Municipality",
+  11
+ ],
+ [
+  2,
+  7,
+  "Panchakhapan Municipality",
+  9
+ ],
+ [
+  2,
+  8,
+  "Chainapur Municipality",
+  11
+ ],
+ [
+  2,
+  9,
+  "Madi Municipality",
+  9
+ ],
+ [
+  2,
+  10,
+  "Dharmadevi Municipality",
+  9
+ ],
+ [
+  3,
+  1,
+  "Khumbu Pasanglhamu Gaunpalika",
+  5
+ ],
+ [
+  3,
+  2,
+  "Mahakulung Gaunpalika",
+  5
+ ],
+ [
+  3,
+  3,
+  "Sotang Gaunpalika",
+  5
+ ],
+ [
+  3,
+  4,
+  "Mapya Dudhkoshi Gaunpalika",
+  7
+ ],
+ [
+  3,
+  5,
+  "Thulung Dudhkoshi Gaunpalika",
+  9
+ ],
+ [
+  3,
+  6,
+  "Necha Salyan Gaunpalika",
+  5
+ ],
+ [
+  3,
+  7,
+  "Solu Dhudhakunda Municipality",
+  11
+ ],
+ [
+  3,
+  8,
+  "Likhu Pike Gaunpalika",
+  5
+ ],
+ [
+  4,
+  1,
+  "Chishankhu Gadhi Gaunpalika",
+  8
+ ],
+ [
+  4,
+  2,
+  "Siddhicharan Municipality",
+  12
+ ],
+ [
+  4,
+  3,
+  "Molung Gaunpalika",
+  8
+ ],
+ [
+  4,
+  4,
+  "Khiji Demba Gaunpalika",
+  9
+ ],
+ [
+  4,
+  5,
+  "Likhu Gaunpalika",
+  9
+ ],
+ [
+  4,
+  6,
+  "Champadevi Gaunpalika",
+  10
+ ],
+ [
+  4,
+  7,
+  "Sunkoshi Gaunpalika",
+  10
+ ],
+ [
+  4,
+  8,
+  "Manebhanjyang Gaunpalika",
+  9
+ ],
+ [
+  5,
+  1,
+  "Kepilasgadhi Gaunpalika",
+  7
+ ],
+ [
+  5,
+  2,
+  "Aiselukharka Gaunpalika",
+  7
+ ],
+ [
+  5,
+  3,
+  "Rawa Besi Gaunpalika",
+  6
+ ],
+ [
+  5,
+  4,
+  "Halesi Tuwachung Municipality",
+  11
+ ],
+ [
+  5,
+  5,
+  "Diktel Rupakot Majhuwagadhi Municipality",
+  15
+ ],
+ [
+  5,
+  6,
+  "Sakela Gaunpalika",
+  5
+ ],
+ [
+  5,
+  7,
+  "Diprung Chuichumma Gaunpalika",
+  7
+ ],
+ [
+  5,
+  8,
+  "Khotehang Gaunpalika",
+  9
+ ],
+ [
+  5,
+  9,
+  "Jante Dhunga Gaunpalika",
+  6
+ ],
+ [
+  5,
+  10,
+  "Baraha Pokhari Gaunpalika",
+  6
+ ],
+ [
+  6,
+  1,
+  "Shadananda Municipality",
+  14
+ ],
+ [
+  6,
+  2,
+  "Salpa Silichho Gaunpalika",
+  6
+ ],
+ [
+  6,
+  3,
+  "Temkemaiyum Gaunpalika",
+  9
+ ],
+ [
+  6,
+  4,
+  "Bhojpur Municipality",
+  12
+ ],
+ [
+  6,
+  5,
+  "Arun Gaunpalika",
+  7
+ ],
+ [
+  6,
+  6,
+  "Pauwa Dunma Gaunpalika",
+  6
+ ],
+ [
+  6,
+  7,
+  "Ramprasad Rai Gaunpalika",
+  8
+ ],
+ [
+  6,
+  8,
+  "Hatuwagadhi Gaunpalika",
+  9
+ ],
+ [
+  6,
+  9,
+  "Aamchowk Gaunpalika",
+  10
+ ],
+ [
+  7,
+  1,
+  "Mahalaxmi Municipality",
+  9
+ ],
+ [
+  7,
+  2,
+  "Pakhribas Municipality",
+  10
+ ],
+ [
+  7,
+  3,
+  "Chhathar Jorpati Gaunpalika",
+  6
+ ],
+ [
+  7,
+  4,
+  "Dhankuta Municipality",
+  10
+ ],
+ [
+  7,
+  5,
+  "Shahidbhumi Gaunpalika",
+  7
+ ],
+ [
+  7,
+  6,
+  "Sangurigadhi Gaunpalika",
+  10
+ ],
+ [
+  7,
+  7,
+  "Chaubise Gaunpalika",
+  8
+ ],
+ [
+  8,
+  1,
+  "Aatharai Gaunpalika",
+  7
+ ],
+ [
+  8,
+  2,
+  "Phedap Gaunpalika",
+  5
+ ],
+ [
+  8,
+  3,
+  "Menchhayayem Gaunpalika",
+  6
+ ],
+ [
+  8,
+  4,
+  "Myanglung Municipality",
+  10
+ ],
+ [
+  8,
+  5,
+  "Laligurans Municipality",
+  9
+ ],
+ [
+  8,
+  6,
+  "Chhathar Gaunpalika",
+  6
+ ],
+ [
+  9,
+  1,
+  "Yangbarak Gaunpalika",
+  6
+ ],
+ [
+  9,
+  2,
+  "Hilihan Gaunpalika",
+  7
+ ],
+ [
+  9,
+  3,
+  "Falelung Gaunpalika",
+  8
+ ],
+ [
+  9,
+  4,
+  "Phidim Municipality",
+  14
+ ],
+ [
+  9,
+  5,
+  "Falgunanda Gaunpalika",
+  7
+ ],
+ [
+  9,
+  6,
+  "Kummayak Gaunpalika",
+  5
+ ],
+ [
+  9,
+  7,
+  "Tumbewa Gaunpalika",
+  5
+ ],
+ [
+  9,
+  8,
+  "Miklajung Gaunpalika",
+  8
+ ],
+ [
+  10,
+  1,
+  "Mai Jogmai Gaunpalika",
+  6
+ ],
+ [
+  10,
+  2,
+  "Sandakpur Gaunpalika",
+  5
+ ],
+ [
+  10,
+  3,
+  "Illam Municipality",
+  12
+ ],
+ [
+  10,
+  4,
+  "Deumai Municipality",
+  9
+ ],
+ [
+  10,
+  5,
+  "Fakfokathum Gaunpalika",
+  7
+ ],
+ [
+  10,
+  6,
+  "Mangsebung Gaunpalika",
+  6
+ ],
+ [
+  10,
+  7,
+  "Chulachuli Gaunpalika",
+  6
+ ],
+ [
+  10,
+  8,
+  "Mai Municipality",
+  10
+ ],
+ [
+  10,
+  9,
+  "Suryodaya Municipality",
+  14
+ ],
+ [
+  10,
+  10,
+  "Rong Gaunpalika",
+  6
+ ],
+ [
+  11,
+  1,
+  "Mechinagar Municipality",
+  15
+ ],
+ [
+  11,
+  2,
+  "Buddhashanti Gaunpalika",
+  7
+ ],
+ [
+  11,
+  3,
+  "Arjundhara Municipality",
+  11
+ ],
+ [
+  11,
+  4,
+  "Kankai Municipality",
+  9
+ ],
+ [
+  11,
+  5,
+  "Shivasatakshi Municipality",
+  11
+ ],
+ [
+  11,
+  6,
+  "Kamal Gaunpalika",
+  7
+ ],
+ [
+  11,
+  7,
+  "Damak Municipality",
+  10
+ ],
+ [
+  11,
+  8,
+  "Gauradaha Municipality",
+  9
+ ],
+ [
+  11,
+  9,
+  "Gauriganj Gaunpalika",
+  6
+ ],
+ [
+  11,
+  10,
+  "Jhapa Gaunpalika",
+  7
+ ],
+ [
+  11,
+  11,
+  "Barhadashi Gaunpalika",
+  7
+ ],
+ [
+  11,
+  12,
+  "Birtamod Municipality",
+  10
+ ],
+ [
+  11,
+  13,
+  "Haldibari Gaunpalika",
+  5
+ ],
+ [
+  11,
+  14,
+  "Bhadrapur Municipality",
+  10
+ ],
+ [
+  11,
+  15,
+  "Kachanakawal Gaunpalika",
+  7
+ ],
+ [
+  12,
+  1,
+  "Miklajung Gaunpalika",
+  9
+ ],
+ [
+  12,
+  2,
+  "Letang Municipality",
+  9
+ ],
+ [
+  12,
+  3,
+  "Kerabari Gaunpalika",
+  10
+ ],
+ [
+  12,
+  4,
+  "Sundarharaicha Municipality",
+  12
+ ],
+ [
+  12,
+  5,
+  "Belbari Municipality",
+  11
+ ],
+ [
+  12,
+  6,
+  "Kanepokhari Gaunpalika",
+  7
+ ],
+ [
+  12,
+  7,
+  "Pathari Shanishchare Municipality",
+  10
+ ],
+ [
+  12,
+  8,
+  "Urlabari Municipality",
+  9
+ ],
+ [
+  12,
+  9,
+  "Ratuwamai Municipality",
+  10
+ ],
+ [
+  12,
+  10,
+  "Sunwarshi Municipality",
+  9
+ ],
+ [
+  12,
+  11,
+  "Rangeli Municipality",
+  9
+ ],
+ [
+  12,
+  12,
+  "Gramthan Gaunpalika",
+  7
+ ],
+ [
+  12,
+  13,
+  "Budhiganga Gaunpalika",
+  7
+ ],
+ [
+  12,
+  14,
+  "Biratnagar Metropolitian City",
+  19
+ ],
+ [
+  12,
+  15,
+  "Katahari Gaunpalika",
+  7
+ ],
+ [
+  12,
+  16,
+  "Dhanapalthan Gaunpalika",
+  7
+ ],
+ [
+  12,
+  17,
+  "Jahada Gaunpalika",
+  7
+ ],
+ [
+  13,
+  1,
+  "Dharan Sub-Metropolitian City",
+  20
+ ],
+ [
+  13,
+  2,
+  "Barahachhetra Municipality",
+  11
+ ],
+ [
+  13,
+  3,
+  "Koshi Gaunpalika",
+  8
+ ],
+ [
+  13,
+  4,
+  "Bhokraha Narsingh Gaunpalika",
+  8
+ ],
+ [
+  13,
+  5,
+  "Ramdhuni Municipality",
+  9
+ ],
+ [
+  13,
+  6,
+  "Itahari Sub-Metropolitian City",
+  20
+ ],
+ [
+  13,
+  7,
+  "Duhabi Municipality",
+  12
+ ],
+ [
+  13,
+  8,
+  "Gadhi Gaunpalika",
+  6
+ ],
+ [
+  13,
+  9,
+  "Inaruwa Municipality",
+  10
+ ],
+ [
+  13,
+  10,
+  "Harinagar Gaunpalika",
+  7
+ ],
+ [
+  13,
+  11,
+  "Dewangunj Gaunpalika",
+  7
+ ],
+ [
+  13,
+  12,
+  "Barju Gaunpalika",
+  6
+ ],
+ [
+  14,
+  1,
+  "Belaka Municipality",
+  9
+ ],
+ [
+  14,
+  2,
+  "Chaudandigadhi Municipality",
+  10
+ ],
+ [
+  14,
+  3,
+  "Triyuga Municipality",
+  16
+ ],
+ [
+  14,
+  4,
+  "Rautamai Gaunpalika",
+  8
+ ],
+ [
+  14,
+  5,
+  "Limchunbung Gaunpalika",
+  5
+ ],
+ [
+  14,
+  6,
+  "Tapli Gaunpalika",
+  5
+ ],
+ [
+  14,
+  7,
+  "Katari Municipality",
+  14
+ ],
+ [
+  14,
+  8,
+  "Udayapurgadhi Gaunpalika",
+  8
+ ],
+ [
+  15,
+  1,
+  "Saptakoshi Municipality",
+  11
+ ],
+ [
+  15,
+  2,
+  "Kanchanrup Municipality",
+  12
+ ],
+ [
+  15,
+  3,
+  "Agnisair Krishna Sabaran Gaunpalika",
+  6
+ ],
+ [
+  15,
+  4,
+  "Rupani Gaunpalika",
+  6
+ ],
+ [
+  15,
+  5,
+  "Shambhunath Municipality",
+  12
+ ],
+ [
+  15,
+  6,
+  "Khadak Municipality",
+  11
+ ],
+ [
+  15,
+  7,
+  "Surunga Municipality",
+  11
+ ],
+ [
+  15,
+  8,
+  "Balan-Bihul Gaunpalika",
+  6
+ ],
+ [
+  15,
+  9,
+  "Bode Barsain Municipality",
+  10
+ ],
+ [
+  15,
+  10,
+  "Dakneshwori Municipality",
+  10
+ ],
+ [
+  15,
+  11,
+  "Rajgadh Gaunpalika",
+  6
+ ],
+ [
+  15,
+  12,
+  "Bishnupur Gaunpalika",
+  7
+ ],
+ [
+  15,
+  13,
+  "Rajbiraj Municipality",
+  16
+ ],
+ [
+  15,
+  14,
+  "Mahadewa Gaunpalika",
+  6
+ ],
+ [
+  15,
+  15,
+  "Tirahut Gaunpalika",
+  5
+ ],
+ [
+  15,
+  16,
+  "Hanumannagar Kankalini Municipality",
+  14
+ ],
+ [
+  15,
+  17,
+  "Tilathi Koiladi Gaunpalika",
+  8
+ ],
+ [
+  15,
+  18,
+  "Chhinnamasta Gaunpalika",
+  7
+ ],
+ [
+  16,
+  1,
+  "Lahan Municipality",
+  24
+ ],
+ [
+  16,
+  2,
+  "Dhangadhimai Municipality",
+  14
+ ],
+ [
+  16,
+  3,
+  "Golbazar Municipality",
+  13
+ ],
+ [
+  16,
+  4,
+  "Mirchaiya Municipality",
+  12
+ ],
+ [
+  16,
+  5,
+  "Karjanha Municipality",
+  11
+ ],
+ [
+  16,
+  6,
+  "Kalyanpur Municipality",
+  12
+ ],
+ [
+  16,
+  7,
+  "Naraha Gaunpalika",
+  5
+ ],
+ [
+  16,
+  8,
+  "Bishnupur Gaunpalika",
+  5
+ ],
+ [
+  16,
+  9,
+  "Arnama Gaunpalika",
+  5
+ ],
+ [
+  16,
+  10,
+  "Sukhipur Municipality",
+  10
+ ],
+ [
+  16,
+  11,
+  "Laxmipur Patari Gaunpalika",
+  6
+ ],
+ [
+  16,
+  12,
+  "Sakhuwa Nankarkatti Gaunpalika",
+  5
+ ],
+ [
+  16,
+  13,
+  "Bhagawanpur Gaunpalika",
+  5
+ ],
+ [
+  16,
+  14,
+  "Nawarajpur Gaunpalika",
+  5
+ ],
+ [
+  16,
+  15,
+  "Bariyarpatti Gaunpalika",
+  5
+ ],
+ [
+  16,
+  16,
+  "Aurahi Gaunpalika",
+  5
+ ],
+ [
+  16,
+  17,
+  "Siraha Municipality",
+  22
+ ],
+ [
+  17,
+  1,
+  "Ganeshman Charnath Municipality",
+  11
+ ],
+ [
+  17,
+  2,
+  "Dhanushadham Municipality",
+  9
+ ],
+ [
+  17,
+  3,
+  "Mithila Municipality",
+  11
+ ],
+ [
+  17,
+  4,
+  "Bateshwor Gaunpalika",
+  5
+ ],
+ [
+  17,
+  5,
+  "Chhireshwornath Municipality",
+  10
+ ],
+ [
+  17,
+  6,
+  "Laxminiya Gaunpalika",
+  7
+ ],
+ [
+  17,
+  7,
+  "Mithila Bihari Municipality",
+  10
+ ],
+ [
+  17,
+  8,
+  "Hansapur Municipality",
+  9
+ ],
+ [
+  17,
+  9,
+  "Sabaila Municipality",
+  13
+ ],
+ [
+  17,
+  10,
+  "Shahidnagar Municipality",
+  9
+ ],
+ [
+  17,
+  11,
+  "Kamala Municipality",
+  9
+ ],
+ [
+  17,
+  12,
+  "Janak Nandini Gaunpalika",
+  6
+ ],
+ [
+  17,
+  13,
+  "Bideha Municipality",
+  9
+ ],
+ [
+  17,
+  14,
+  "Aurahi Gaunpalika",
+  6
+ ],
+ [
+  17,
+  15,
+  "Janakpurdham Sub-Metropolitian City",
+  25
+ ],
+ [
+  17,
+  16,
+  "Dhanauji Gaunpalika",
+  5
+ ],
+ [
+  17,
+  17,
+  "Nagarain Municipality",
+  9
+ ],
+ [
+  17,
+  18,
+  "Mukhiyapatti Musaharmiya Gaunpalika",
+  6
+ ],
+ [
+  18,
+  1,
+  "Bardibas Municipality",
+  14
+ ],
+ [
+  18,
+  2,
+  "Gaushala Municipality",
+  12
+ ],
+ [
+  18,
+  3,
+  "Sonama Gaunpalika",
+  8
+ ],
+ [
+  18,
+  4,
+  "Aurahi Municipality",
+  9
+ ],
+ [
+  18,
+  5,
+  "Bhangaha Municipality",
+  9
+ ],
+ [
+  18,
+  6,
+  "Loharpatti Municipality",
+  9
+ ],
+ [
+  18,
+  7,
+  "Balawa Municipality",
+  11
+ ],
+ [
+  18,
+  8,
+  "Ram Gopalpur Municipality",
+  9
+ ],
+ [
+  18,
+  9,
+  "Samsi Gaunpalika",
+  7
+ ],
+ [
+  18,
+  10,
+  "Manara Shisawa Municipality",
+  10
+ ],
+ [
+  18,
+  11,
+  "Ekadara Gaunpalika",
+  6
+ ],
+ [
+  18,
+  12,
+  "Mahottari Gaunpalika",
+  6
+ ],
+ [
+  18,
+  13,
+  "Pipara Gaunpalika",
+  7
+ ],
+ [
+  18,
+  14,
+  "Matihani Municipality",
+  9
+ ],
+ [
+  18,
+  15,
+  "Jaleshwor Municipality",
+  12
+ ],
+ [
+  19,
+  1,
+  "Lalbandi Municipality",
+  17
+ ],
+ [
+  19,
+  2,
+  "Hariwan Municipality",
+  11
+ ],
+ [
+  19,
+  3,
+  "Bagmati Municipality",
+  12
+ ],
+ [
+  19,
+  4,
+  "Barahathawa Municipality",
+  18
+ ],
+ [
+  19,
+  5,
+  "Haripur Municipality",
+  9
+ ],
+ [
+  19,
+  6,
+  "Ishworpur Municipality",
+  15
+ ],
+ [
+  19,
+  7,
+  "Haripurwa Municipality",
+  9
+ ],
+ [
+  19,
+  8,
+  "Parsa Gaunpalika",
+  6
+ ],
+ [
+  19,
+  9,
+  "Brahmapuri Gaunpalika",
+  7
+ ],
+ [
+  19,
+  10,
+  "Chandranagar Gaunpalika",
+  7
+ ],
+ [
+  19,
+  11,
+  "Kabilashi Municipality",
+  10
+ ],
+ [
+  19,
+  12,
+  "Chakraghatta Gaunpalika",
+  9
+ ],
+ [
+  19,
+  13,
+  "Basbariya Gaunpalika",
+  6
+ ],
+ [
+  19,
+  14,
+  "Dhanakaul Gaunpalika",
+  7
+ ],
+ [
+  19,
+  15,
+  "Ramnagar Gaunpalika",
+  7
+ ],
+ [
+  19,
+  16,
+  "Balara Municipality",
+  11
+ ],
+ [
+  19,
+  17,
+  "Godaita Municipality",
+  12
+ ],
+ [
+  19,
+  18,
+  "Bishnu Gaunpalika",
+  8
+ ],
+ [
+  19,
+  19,
+  "Kaudena Gaunpalika",
+  7
+ ],
+ [
+  19,
+  20,
+  "Malangawa Municipality",
+  12
+ ],
+ [
+  20,
+  1,
+  "Chandrapur Municipality",
+  10
+ ],
+ [
+  20,
+  2,
+  "Gujara Municipality",
+  9
+ ],
+ [
+  20,
+  3,
+  "Phatuwa Bijayapur Municipality",
+  11
+ ],
+ [
+  20,
+  4,
+  "Katahariya Municipality",
+  9
+ ],
+ [
+  20,
+  5,
+  "Brindaban Municipality",
+  9
+ ],
+ [
+  20,
+  6,
+  "Gadhimai Municipality",
+  9
+ ],
+ [
+  20,
+  7,
+  "Madhav Narayan Municipality",
+  9
+ ],
+ [
+  20,
+  8,
+  "Garuda Municipality",
+  9
+ ],
+ [
+  20,
+  9,
+  "Dewahi Gonahi Municipality",
+  9
+ ],
+ [
+  20,
+  10,
+  "Maulapur Municipality",
+  9
+ ],
+ [
+  20,
+  11,
+  "Boudhimai Municipality",
+  9
+ ],
+ [
+  20,
+  12,
+  "Paroha Municipality",
+  9
+ ],
+ [
+  20,
+  13,
+  "Rajpur Municipality",
+  9
+ ],
+ [
+  20,
+  14,
+  "Yamunamai Gaunpalika",
+  5
+ ],
+ [
+  20,
+  15,
+  "Durga Bhagawati Gaunpalika",
+  5
+ ],
+ [
+  20,
+  16,
+  "Rajdevi Municipality",
+  9
+ ],
+ [
+  20,
+  17,
+  "Gaur Municipality",
+  9
+ ],
+ [
+  20,
+  18,
+  "Ishanath Municipality",
+  9
+ ],
+ [
+  21,
+  1,
+  "Nijagadh Municipality",
+  13
+ ],
+ [
+  21,
+  2,
+  "Kolhabi Municipality",
+  11
+ ],
+ [
+  21,
+  3,
+  "Jitpur Simara Sub-Metropolitian City",
+  24
+ ],
+ [
+  21,
+  4,
+  "Parawanipur Gaunpalika",
+  5
+ ],
+ [
+  21,
+  5,
+  "Prasauni Gaunpalika",
+  7
+ ],
+ [
+  21,
+  6,
+  "Bishrampur Gaunpalika",
+  5
+ ],
+ [
+  21,
+  7,
+  "Pheta Gaunpalika",
+  7
+ ],
+ [
+  21,
+  8,
+  "Kalaiya Sub-Metropolitian City",
+  27
+ ],
+ [
+  21,
+  9,
+  "Karaiyamai Gaunpalika",
+  8
+ ],
+ [
+  21,
+  10,
+  "Baragadhi Gaunpalika",
+  6
+ ],
+ [
+  21,
+  11,
+  "Aadarsha Kotwal Gaunpalika",
+  8
+ ],
+ [
+  21,
+  12,
+  "Simroungadh Municipality",
+  11
+ ],
+ [
+  21,
+  13,
+  "Pacharauta Municipality",
+  9
+ ],
+ [
+  21,
+  14,
+  "Mahagadhimai Municipality",
+  11
+ ],
+ [
+  21,
+  15,
+  "Devtal Gaunpalika",
+  7
+ ],
+ [
+  21,
+  16,
+  "Subarna Gaunpalika",
+  8
+ ],
+ [
+  22,
+  1,
+  "Thori Gaunpalika",
+  5
+ ],
+ [
+  22,
+  2,
+  "Jirabhawani Gaunpalika",
+  5
+ ],
+ [
+  22,
+  3,
+  "Jagarnathpur Gaunpalika",
+  6
+ ],
+ [
+  22,
+  4,
+  "Paterwa Sugauli Gaunpalika",
+  5
+ ],
+ [
+  22,
+  5,
+  "Sakhuwa Prasauni Gaunpalika",
+  6
+ ],
+ [
+  22,
+  6,
+  "Parsagadhi Municipality",
+  9
+ ],
+ [
+  22,
+  7,
+  "Birgunj Metropolitian City",
+  32
+ ],
+ [
+  22,
+  8,
+  "Bahudarmai Municipality",
+  9
+ ],
+ [
+  22,
+  9,
+  "Pokhariya Municipality",
+  10
+ ],
+ [
+  22,
+  10,
+  "Kalikamai Gaunpalika",
+  5
+ ],
+ [
+  22,
+  11,
+  "Dhobini Gaunpalika",
+  5
+ ],
+ [
+  22,
+  12,
+  "Chhipaharmai Gaunpalika",
+  5
+ ],
+ [
+  22,
+  13,
+  "Pakaha Mainpur Gaunpalika",
+  5
+ ],
+ [
+  22,
+  14,
+  "Bindabasini Gaunpalika",
+  5
+ ],
+ [
+  23,
+  1,
+  "Gaurishankar Gaunpalika",
+  9
+ ],
+ [
+  23,
+  2,
+  "Bigu Gaunpalika",
+  8
+ ],
+ [
+  23,
+  3,
+  "Kalinchowk Gaunpalika",
+  9
+ ],
+ [
+  23,
+  4,
+  "Baiteshwor Gaunpalika",
+  8
+ ],
+ [
+  23,
+  5,
+  "Jiri Municipality",
+  9
+ ],
+ [
+  23,
+  6,
+  "Tamakoshi Gaunpalika",
+  7
+ ],
+ [
+  23,
+  7,
+  "Melung Gaunpalika",
+  7
+ ],
+ [
+  23,
+  8,
+  "Shailung Gaunpalika",
+  8
+ ],
+ [
+  23,
+  9,
+  "Bhimeshwor Municipality",
+  9
+ ],
+ [
+  24,
+  1,
+  "Bhotekoshi Gaunpalika",
+  5
+ ],
+ [
+  24,
+  2,
+  "Jugal Gaunpalika",
+  7
+ ],
+ [
+  24,
+  3,
+  "Panchpokhari Thangpal Gaunpalika",
+  8
+ ],
+ [
+  24,
+  4,
+  "Helambu Gaunpalika",
+  7
+ ],
+ [
+  24,
+  5,
+  "Melanchi Municipality",
+  13
+ ],
+ [
+  24,
+  6,
+  "Indrawoti Gaunpalika",
+  12
+ ],
+ [
+  24,
+  7,
+  "Choutara Sangachowkgadhi Municipality",
+  14
+ ],
+ [
+  24,
+  8,
+  "Balephi Gaunpalika",
+  8
+ ],
+ [
+  24,
+  9,
+  "Bahrabise Municipality",
+  9
+ ],
+ [
+  24,
+  10,
+  "Tripurasundari Gaunpalika",
+  6
+ ],
+ [
+  24,
+  11,
+  "Lisankhu Pakhar Gaunpalika",
+  7
+ ],
+ [
+  24,
+  12,
+  "Sunkoshi Gaunpalika",
+  7
+ ],
+ [
+  25,
+  1,
+  "Gosaikunda Gaunpalika",
+  6
+ ],
+ [
+  25,
+  2,
+  "Aamachhodingmo Gaunpalika",
+  5
+ ],
+ [
+  25,
+  3,
+  "Uttargaya Gaunpalika",
+  5
+ ],
+ [
+  25,
+  4,
+  "Kalika Gaunpalika",
+  5
+ ],
+ [
+  25,
+  5,
+  "Naukunda Gaunpalika",
+  6
+ ],
+ [
+  26,
+  1,
+  "Rubi Valley Gaunpalika",
+  6
+ ],
+ [
+  26,
+  2,
+  "Khaniyabas Gaunpalika",
+  5
+ ],
+ [
+  26,
+  3,
+  "Ganga Jamuna Gaunpalika",
+  7
+ ],
+ [
+  26,
+  4,
+  "Tripurasundari Gaunpalika",
+  7
+ ],
+ [
+  26,
+  5,
+  "Netrawati Dabjong Gaunpalika",
+  5
+ ],
+ [
+  26,
+  6,
+  "Nilkhantha Municipality",
+  14
+ ],
+ [
+  26,
+  7,
+  "Jwalamukhi Gaunpalika",
+  7
+ ],
+ [
+  26,
+  8,
+  "Siddhalek Gaunpalika",
+  7
+ ],
+ [
+  26,
+  9,
+  "Benighat Rorang Gaunpalika",
+  10
+ ],
+ [
+  26,
+  10,
+  "Gajuri Gaunpalika",
+  8
+ ],
+ [
+  26,
+  11,
+  "Galchhi Gaunpalika",
+  8
+ ],
+ [
+  26,
+  12,
+  "Thakre Gaunpalika",
+  11
+ ],
+ [
+  26,
+  13,
+  "Dhunibenshi Municipality",
+  9
+ ],
+ [
+  27,
+  1,
+  "Dupcheshwor Gaunpalika",
+  7
+ ],
+ [
+  27,
+  2,
+  "Tadi Gaunpalika",
+  6
+ ],
+ [
+  27,
+  3,
+  "Suryagadhi Gaunpalika",
+  5
+ ],
+ [
+  27,
+  4,
+  "Bidur Municipality",
+  13
+ ],
+ [
+  27,
+  5,
+  "Kispang Gaunpalika",
+  5
+ ],
+ [
+  27,
+  6,
+  "Myagang Gaunpalika",
+  6
+ ],
+ [
+  27,
+  7,
+  "Tarakeshwor Gaunpalika",
+  6
+ ],
+ [
+  27,
+  8,
+  "Belkotgadhi Municipality",
+  13
+ ],
+ [
+  27,
+  9,
+  "Likhu Gaunpalika",
+  6
+ ],
+ [
+  27,
+  10,
+  "Panchakanya Gaunpalika",
+  5
+ ],
+ [
+  27,
+  11,
+  "Shivapuri Gaunpalika",
+  8
+ ],
+ [
+  27,
+  12,
+  "Kakani Gaunpalika",
+  8
+ ],
+ [
+  28,
+  1,
+  "Shankharapur Municipality",
+  9
+ ],
+ [
+  28,
+  2,
+  "Kageshwori Manahara Municipality",
+  9
+ ],
+ [
+  28,
+  3,
+  "Gokarneshwor Municipality",
+  9
+ ],
+ [
+  28,
+  4,
+  "Budhanilkhantha Municipality",
+  13
+ ],
+ [
+  28,
+  5,
+  "Tokha Municipality",
+  11
+ ],
+ [
+  28,
+  6,
+  "Tarakeshwor Municipality",
+  11
+ ],
+ [
+  28,
+  7,
+  "Nagarjun Municipality",
+  10
+ ],
+ [
+  28,
+  8,
+  "Kathmandu Metropolitian City",
+  32
+ ],
+ [
+  28,
+  9,
+  "Kirtipur Municipality",
+  10
+ ],
+ [
+  28,
+  10,
+  "Chandragiri Municipality",
+  15
+ ],
+ [
+  28,
+  11,
+  "Dakshinkali Municipality",
+  9
+ ],
+ [
+  29,
+  1,
+  "Changunarayan Municipality",
+  9
+ ],
+ [
+  29,
+  2,
+  "Bhaktapur Municipality",
+  10
+ ],
+ [
+  29,
+  3,
+  "Madhyapur Thimi Municipality",
+  9
+ ],
+ [
+  29,
+  4,
+  "Suryabinayak Municipality",
+  10
+ ],
+ [
+  30,
+  1,
+  "Mahalaxmi Municipality",
+  10
+ ],
+ [
+  30,
+  2,
+  "Lalitpur Metropolitian City",
+  29
+ ],
+ [
+  30,
+  3,
+  "Godawari Municipality",
+  14
+ ],
+ [
+  30,
+  4,
+  "Konjyosom Gaunpalika",
+  5
+ ],
+ [
+  30,
+  5,
+  "Mahankal Gaunpalika",
+  6
+ ],
+ [
+  30,
+  6,
+  "Bagmati Gaunpalika",
+  7
+ ],
+ [
+  31,
+  1,
+  "Chauri Deurali Gaunpalika",
+  9
+ ],
+ [
+  31,
+  2,
+  "Bhumlu Gaunpalika",
+  10
+ ],
+ [
+  31,
+  3,
+  "Mandan Deupur Municipality",
+  12
+ ],
+ [
+  31,
+  4,
+  "Banepa Municipality",
+  14
+ ],
+ [
+  31,
+  5,
+  "Dhulikhel Municipality",
+  12
+ ],
+ [
+  31,
+  6,
+  "Panchkhal Municipality",
+  13
+ ],
+ [
+  31,
+  7,
+  "Temal Gaunpalika",
+  9
+ ],
+ [
+  31,
+  8,
+  "Namobuddha Municipality",
+  11
+ ],
+ [
+  31,
+  9,
+  "Panauti Municipality",
+  12
+ ],
+ [
+  31,
+  10,
+  "Bethanchowk Gaunpalika",
+  6
+ ],
+ [
+  31,
+  11,
+  "Roshi Gaunpalika",
+  12
+ ],
+ [
+  31,
+  12,
+  "Mahabharat Gaunpalika",
+  8
+ ],
+ [
+  31,
+  13,
+  "Khanikhola Gaunpalika",
+  7
+ ],
+ [
+  32,
+  1,
+  "Umakunda Gaunpalika",
+  7
+ ],
+ [
+  32,
+  2,
+  "Gokulganga Gaunpalika",
+  6
+ ],
+ [
+  32,
+  3,
+  "Likhu Tamakoshi Gaunpalika",
+  7
+ ],
+ [
+  32,
+  4,
+  "Ramechhap Municipality",
+  9
+ ],
+ [
+  32,
+  5,
+  "Manthali  Municipality",
+  14
+ ],
+ [
+  32,
+  6,
+  "Khandadevi Gaunpalika",
+  9
+ ],
+ [
+  32,
+  7,
+  "Doramba Gaunpalika",
+  7
+ ],
+ [
+  32,
+  8,
+  "Sunapati Gaunpalika",
+  5
+ ],
+ [
+  33,
+  1,
+  "Dudhouli Municipality",
+  14
+ ],
+ [
+  33,
+  2,
+  "Phikkal Gaunpalika",
+  6
+ ],
+ [
+  33,
+  3,
+  "Tinpatan Gaunpalika",
+  11
+ ],
+ [
+  33,
+  4,
+  "Golanjor Gaunpalika",
+  7
+ ],
+ [
+  33,
+  5,
+  "Kamalamai Municipality",
+  14
+ ],
+ [
+  33,
+  6,
+  "Sunkoshi Gaunpalika",
+  7
+ ],
+ [
+  33,
+  7,
+  "Ghyanglekha Gaunpalika",
+  5
+ ],
+ [
+  33,
+  8,
+  "Marin Gaunpalika",
+  7
+ ],
+ [
+  33,
+  9,
+  "Hariharpurgaghi Gaunpalika",
+  8
+ ],
+ [
+  34,
+  1,
+  "Indrasarowar Gaunpalika",
+  5
+ ],
+ [
+  34,
+  2,
+  "Thaha Municipality",
+  12
+ ],
+ [
+  34,
+  3,
+  "Kailash Gaunpalika",
+  10
+ ],
+ [
+  34,
+  4,
+  "Raksirang Gaunpalika",
+  9
+ ],
+ [
+  34,
+  5,
+  "Manahari Gaunpalika",
+  9
+ ],
+ [
+  34,
+  6,
+  "Hetauda Sub-Metropolitian City",
+  19
+ ],
+ [
+  34,
+  7,
+  "Bhimphedi Gaunpalika",
+  9
+ ],
+ [
+  34,
+  8,
+  "Makawanpurgadhi Gaunpalika",
+  8
+ ],
+ [
+  34,
+  9,
+  "Bakaiya Gaunpalika",
+  12
+ ],
+ [
+  34,
+  10,
+  "Bagmati Gaunpalika",
+  9
+ ],
+ [
+  35,
+  1,
+  "Rapti Municipality",
+  13
+ ],
+ [
+  35,
+  2,
+  "Kalika Municipality",
+  11
+ ],
+ [
+  35,
+  3,
+  "Ichchha Kamana Gaunpalika",
+  7
+ ],
+ [
+  35,
+  4,
+  "Bharatpur Metropolitian City",
+  29
+ ],
+ [
+  35,
+  5,
+  "Ratnanagar Municipality",
+  16
+ ],
+ [
+  35,
+  6,
+  "Khairahani Municipality",
+  13
+ ],
+ [
+  35,
+  7,
+  "Madi Municipality",
+  9
+ ],
+ [
+  36,
+  1,
+  "Chumanubri Gaunpalika",
+  7
+ ],
+ [
+  36,
+  2,
+  "Ajirkot Gaunpalika",
+  5
+ ],
+ [
+  36,
+  3,
+  "Barpak Sulikot Gaunpalika",
+  8
+ ],
+ [
+  36,
+  4,
+  "Dharche Gaunpalika",
+  7
+ ],
+ [
+  36,
+  5,
+  "Aarughat Gaunpalika",
+  10
+ ],
+ [
+  36,
+  6,
+  "Bhimsenthapa Gaunpalika",
+  8
+ ],
+ [
+  36,
+  7,
+  "Siranchowk Gaunpalika",
+  8
+ ],
+ [
+  36,
+  8,
+  "Palungtar Municipality",
+  10
+ ],
+ [
+  36,
+  9,
+  "Gorkha Municipality",
+  14
+ ],
+ [
+  36,
+  10,
+  "Shahid Lakhan Gaunpalika",
+  9
+ ],
+ [
+  36,
+  11,
+  "Gandaki Gaunpalika",
+  8
+ ],
+ [
+  37,
+  1,
+  "Narpa Bhumi Gaunpalika",
+  5
+ ],
+ [
+  37,
+  2,
+  "Manang Ngisyang Gaunpalika",
+  9
+ ],
+ [
+  37,
+  3,
+  "Chame Gaunpalika",
+  5
+ ],
+ [
+  37,
+  4,
+  "Nason Gaunpalika",
+  9
+ ],
+ [
+  38,
+  1,
+  "Lo Ghekar Damodarkunda Gaunpalika",
+  5
+ ],
+ [
+  38,
+  2,
+  "Gharpajhong Gaunpalika",
+  5
+ ],
+ [
+  38,
+  3,
+  "Varagung Muktichhetra Gaunpalika",
+  5
+ ],
+ [
+  38,
+  4,
+  "Lomanthang Gaunpalika",
+  5
+ ],
+ [
+  38,
+  5,
+  "Thasang Gaunpalika",
+  5
+ ],
+ [
+  39,
+  1,
+  "Annapurna Gaunpalika",
+  8
+ ],
+ [
+  39,
+  2,
+  "Raghuganga Gaunpalika",
+  8
+ ],
+ [
+  39,
+  3,
+  "Dhawalagiri Gaunpalika",
+  7
+ ],
+ [
+  39,
+  4,
+  "Malika Gaunpalika",
+  7
+ ],
+ [
+  39,
+  5,
+  "Mangala Gaunpalika",
+  5
+ ],
+ [
+  39,
+  6,
+  "Beni Municipality",
+  10
+ ],
+ [
+  40,
+  1,
+  "Madi Gaunpalika",
+  12
+ ],
+ [
+  40,
+  2,
+  "Machhapuchchhre Gaunpalika",
+  9
+ ],
+ [
+  40,
+  3,
+  "Annapurna Gaunpalika",
+  11
+ ],
+ [
+  40,
+  4,
+  "Pokhara Metropolitian City",
+  33
+ ],
+ [
+  40,
+  5,
+  "Rupa Gaunpalika",
+  7
+ ],
+ [
+  41,
+  1,
+  "Dordi Gaunpalika",
+  9
+ ],
+ [
+  41,
+  2,
+  "Marshyangdi Gaunpalika",
+  9
+ ],
+ [
+  41,
+  3,
+  "Kwhola Sothar Gaunpalika",
+  9
+ ],
+ [
+  41,
+  4,
+  "Madhya Nepal Municipality",
+  10
+ ],
+ [
+  41,
+  5,
+  "Bensishahar Municipality",
+  11
+ ],
+ [
+  41,
+  6,
+  "Sundarbazar Municipality",
+  11
+ ],
+ [
+  41,
+  7,
+  "Rainas Municipality",
+  10
+ ],
+ [
+  41,
+  8,
+  "Dudhapokhari Gaunpalika",
+  6
+ ],
+ [
+  42,
+  1,
+  "Bhanu Municipality",
+  13
+ ],
+ [
+  42,
+  2,
+  "Byas Municipality",
+  14
+ ],
+ [
+  42,
+  3,
+  "Myagde Gaunpalika",
+  7
+ ],
+ [
+  42,
+  4,
+  "Shuklagandaki Municipality",
+  12
+ ],
+ [
+  42,
+  5,
+  "Bhimad Municipality",
+  9
+ ],
+ [
+  42,
+  6,
+  "Ghiring Gaunpalika",
+  5
+ ],
+ [
+  42,
+  7,
+  "Rhishing Gaunpalika",
+  8
+ ],
+ [
+  42,
+  8,
+  "Devghat Gaunpalika",
+  5
+ ],
+ [
+  42,
+  9,
+  "Bandipur Gaunpalika",
+  6
+ ],
+ [
+  42,
+  10,
+  "Aanbu Khaireni Gaunpalika",
+  6
+ ],
+ [
+  43,
+  1,
+  "Gaidakot Municipality",
+  18
+ ],
+ [
+  43,
+  2,
+  "Bulingtar Gaunpalika",
+  6
+ ],
+ [
+  43,
+  3,
+  "Baudikali Gaunpalika",
+  6
+ ],
+ [
+  43,
+  4,
+  "Hupsekot Gaunpalika",
+  6
+ ],
+ [
+  43,
+  5,
+  "Devchuli Municipality",
+  17
+ ],
+ [
+  43,
+  6,
+  "Kawasoti Municipality",
+  17
+ ],
+ [
+  43,
+  7,
+  "Madhya Bindu Municipality",
+  15
+ ],
+ [
+  43,
+  8,
+  "Binayi Tribeni Gaunpalika",
+  7
+ ],
+ [
+  44,
+  1,
+  "Putalibazar Municipality",
+  14
+ ],
+ [
+  44,
+  2,
+  "Phedikhola Gaunpalika",
+  5
+ ],
+ [
+  44,
+  3,
+  "Aandhikhola Gaunpalika",
+  6
+ ],
+ [
+  44,
+  4,
+  "Arjun Choupari Gaunpalika",
+  6
+ ],
+ [
+  44,
+  5,
+  "Bhirkot Municipality",
+  9
+ ],
+ [
+  44,
+  6,
+  "Biruwa Gaunpalika",
+  8
+ ],
+ [
+  44,
+  7,
+  "Harinas Gaunpalika",
+  7
+ ],
+ [
+  44,
+  8,
+  "Chapakot Municipality",
+  10
+ ],
+ [
+  44,
+  9,
+  "Walling Municipality",
+  14
+ ],
+ [
+  44,
+  10,
+  "Galyang Municipality",
+  11
+ ],
+ [
+  44,
+  11,
+  "Kaligandaki Gaunpalika",
+  7
+ ],
+ [
+  45,
+  1,
+  "Modi Gaunpalika",
+  8
+ ],
+ [
+  45,
+  2,
+  "Jaljala Gaunpalika",
+  9
+ ],
+ [
+  45,
+  3,
+  "Kushma Municipality",
+  14
+ ],
+ [
+  45,
+  4,
+  "Phalebas Municipality",
+  11
+ ],
+ [
+  45,
+  5,
+  "Mahashila Gaunpalika",
+  6
+ ],
+ [
+  45,
+  6,
+  "Bihadi Gaunpalika",
+  6
+ ],
+ [
+  45,
+  7,
+  "Paiyu Gaunpalika",
+  7
+ ],
+ [
+  46,
+  1,
+  "Baglung Municipality",
+  14
+ ],
+ [
+  46,
+  2,
+  "Kathekhola Gaunpalika",
+  8
+ ],
+ [
+  46,
+  3,
+  "Tarakhola Gaunpalika",
+  5
+ ],
+ [
+  46,
+  4,
+  "Tamankhola Gaunpalika",
+  6
+ ],
+ [
+  46,
+  5,
+  "Dhorpatan Municipality",
+  9
+ ],
+ [
+  46,
+  6,
+  "Nisikhola Gaunpalika",
+  7
+ ],
+ [
+  46,
+  7,
+  "Badigad Gaunpalika",
+  10
+ ],
+ [
+  46,
+  8,
+  "Galkot Municipality",
+  11
+ ],
+ [
+  46,
+  9,
+  "Bareng Gaunpalika",
+  5
+ ],
+ [
+  46,
+  10,
+  "Jaimuni Municipality",
+  10
+ ],
+ [
+  47,
+  1,
+  "Putha Uttanganga Gaunpalika",
+  14
+ ],
+ [
+  47,
+  2,
+  "Sisne Gaunpalika",
+  8
+ ],
+ [
+  47,
+  3,
+  "Bhoome Gaunpalika",
+  9
+ ],
+ [
+  48,
+  1,
+  "Sunchhahari Gaunpalika",
+  7
+ ],
+ [
+  48,
+  2,
+  "Thawang Gaunpalika",
+  5
+ ],
+ [
+  48,
+  3,
+  "Pariwartan Gaunpalika",
+  6
+ ],
+ [
+  48,
+  4,
+  "Gangadev Gaunpalika",
+  7
+ ],
+ [
+  48,
+  5,
+  "Madi Gaunpalika",
+  6
+ ],
+ [
+  48,
+  6,
+  "Tribeni Gaunpalika",
+  7
+ ],
+ [
+  48,
+  7,
+  "Rolpa Municipality",
+  10
+ ],
+ [
+  48,
+  8,
+  "Runtigadhi Gaunpalika",
+  9
+ ],
+ [
+  48,
+  9,
+  "Sunil Smriti Gaunpalika",
+  8
+ ],
+ [
+  48,
+  10,
+  "Lungri Gaunpalika",
+  7
+ ],
+ [
+  49,
+  1,
+  "Gaumukhi Gaunpalika",
+  7
+ ],
+ [
+  49,
+  2,
+  "Naubahini Gaunpalika",
+  8
+ ],
+ [
+  49,
+  3,
+  "Jhimaruk Gaunpalika",
+  8
+ ],
+ [
+  49,
+  4,
+  "Pyuthan Municipality",
+  10
+ ],
+ [
+  49,
+  5,
+  "Sworgadwari Municipality",
+  9
+ ],
+ [
+  49,
+  6,
+  "Mandavi Gaunpalika",
+  5
+ ],
+ [
+  49,
+  7,
+  "Mallarani Gaunpalika",
+  5
+ ],
+ [
+  49,
+  8,
+  "Aairawati Gaunpalika",
+  6
+ ],
+ [
+  49,
+  9,
+  "Sarumarani Gaunpalika",
+  6
+ ],
+ [
+  50,
+  1,
+  "Kali Gandaki Gaunpalika",
+  7
+ ],
+ [
+  50,
+  2,
+  "Satyawoti Gaunpalika",
+  8
+ ],
+ [
+  50,
+  3,
+  "Chandrakot Gaunpalika",
+  8
+ ],
+ [
+  50,
+  4,
+  "Musikot Municipality",
+  9
+ ],
+ [
+  50,
+  5,
+  "Isma Gaunpalika",
+  6
+ ],
+ [
+  50,
+  6,
+  "Malika Gaunpalika",
+  8
+ ],
+ [
+  50,
+  7,
+  "Madane Gaunpalika",
+  7
+ ],
+ [
+  50,
+  8,
+  "Dhurkot Gaunpalika",
+  7
+ ],
+ [
+  50,
+  9,
+  "Resunga Municipality",
+  14
+ ],
+ [
+  50,
+  10,
+  "Gulmi Durbar Gaunpalika",
+  7
+ ],
+ [
+  50,
+  11,
+  "Chhatrakot Gaunpalika",
+  6
+ ],
+ [
+  50,
+  12,
+  "Ruruchhetra Gaunpalika",
+  6
+ ],
+ [
+  51,
+  1,
+  "Chhatradev Gaunpalika",
+  8
+ ],
+ [
+  51,
+  2,
+  "Malarani Gaunpalika",
+  9
+ ],
+ [
+  51,
+  3,
+  "Bhumikasthan Municipality",
+  10
+ ],
+ [
+  51,
+  4,
+  "Sandhikharka Municipality",
+  12
+ ],
+ [
+  51,
+  5,
+  "Panini Gaunpalika",
+  8
+ ],
+ [
+  51,
+  6,
+  "Shitaganga Municipality",
+  14
+ ],
+ [
+  52,
+  1,
+  "Rampur Municipality",
+  10
+ ],
+ [
+  52,
+  2,
+  "Purbakhola Gaunpalika",
+  6
+ ],
+ [
+  52,
+  3,
+  "Rambha Gaunpalika",
+  5
+ ],
+ [
+  52,
+  4,
+  "Baganaskali Gaunpalika",
+  9
+ ],
+ [
+  52,
+  5,
+  "Tansen Municipality",
+  14
+ ],
+ [
+  52,
+  6,
+  "Ribdikot Gaunpalika",
+  8
+ ],
+ [
+  52,
+  7,
+  "Rainadevi Chhahara Gaunpalika",
+  8
+ ],
+ [
+  52,
+  8,
+  "Tinau Gaunpalika",
+  6
+ ],
+ [
+  52,
+  9,
+  "Mathagadhi Gaunpalika",
+  8
+ ],
+ [
+  52,
+  10,
+  "Nisdi Gaunpalika",
+  7
+ ],
+ [
+  53,
+  1,
+  "Bardaghat Municipality",
+  16
+ ],
+ [
+  53,
+  2,
+  "Sunawal Municipality",
+  13
+ ],
+ [
+  53,
+  3,
+  "Ramgram Municipality",
+  18
+ ],
+ [
+  53,
+  4,
+  "Palhinandan Gaunpalika",
+  6
+ ],
+ [
+  53,
+  5,
+  "Sarawal Gaunpalika",
+  7
+ ],
+ [
+  53,
+  6,
+  "Pratapapur Gaunpalika",
+  9
+ ],
+ [
+  53,
+  7,
+  "Susta Gaunpalika",
+  5
+ ],
+ [
+  54,
+  1,
+  "Devdaha Municipality",
+  12
+ ],
+ [
+  54,
+  2,
+  "Butwal Sub-Metropolitian City",
+  19
+ ],
+ [
+  54,
+  3,
+  "Sainamaina Municipality",
+  11
+ ],
+ [
+  54,
+  4,
+  "Kanchan Gaunpalika",
+  5
+ ],
+ [
+  54,
+  5,
+  "Gaidahawa Gaunpalika",
+  9
+ ],
+ [
+  54,
+  6,
+  "Suddhodhan Gaunpalika",
+  7
+ ],
+ [
+  54,
+  7,
+  "Siyari Gaunpalika",
+  7
+ ],
+ [
+  54,
+  8,
+  "Tilottama Municipality",
+  17
+ ],
+ [
+  54,
+  9,
+  "Om Satiya Gaunpalika",
+  6
+ ],
+ [
+  54,
+  10,
+  "Rohini Gaunpalika",
+  7
+ ],
+ [
+  54,
+  11,
+  "Siddharthanagar Municipality",
+  13
+ ],
+ [
+  54,
+  12,
+  "Mayadevi Gaunpalika",
+  8
+ ],
+ [
+  54,
+  13,
+  "Lumbini Sanskritik Municipality",
+  13
+ ],
+ [
+  54,
+  14,
+  "Kotahimai Gaunpalika",
+  7
+ ],
+ [
+  54,
+  15,
+  "Sammarimai Gaunpalika",
+  7
+ ],
+ [
+  54,
+  16,
+  "Marchawari Gaunpalika",
+  7
+ ],
+ [
+  55,
+  1,
+  "Banganga Municipality",
+  11
+ ],
+ [
+  55,
+  2,
+  "Buddhabhumi Municipality",
+  10
+ ],
+ [
+  55,
+  3,
+  "Shivaraj Municipality",
+  11
+ ],
+ [
+  55,
+  4,
+  "Bijayanagar Gaunpalika",
+  7
+ ],
+ [
+  55,
+  5,
+  "Krishnanagar Municipality",
+  12
+ ],
+ [
+  55,
+  6,
+  "Maharajganj Municipality",
+  11
+ ],
+ [
+  55,
+  7,
+  "Kapilbastu Municipality",
+  12
+ ],
+ [
+  55,
+  8,
+  "Yasodhara Gaunpalika",
+  8
+ ],
+ [
+  55,
+  9,
+  "Mayadevi Gaunpalika",
+  8
+ ],
+ [
+  55,
+  10,
+  "Shuddhodhan Gaunpalika",
+  6
+ ],
+ [
+  56,
+  1,
+  "Bangalachuli Gaunpalika",
+  8
+ ],
+ [
+  56,
+  2,
+  "Ghorahi Sub-Metropolitian City",
+  19
+ ],
+ [
+  56,
+  3,
+  "Tulsipur Sub-Metropolitian City",
+  19
+ ],
+ [
+  56,
+  4,
+  "Shantinagar Gaunpalika",
+  7
+ ],
+ [
+  56,
+  5,
+  "Babai Gaunpalika",
+  7
+ ],
+ [
+  56,
+  6,
+  "Dangisharan Gaunpalika",
+  7
+ ],
+ [
+  56,
+  7,
+  "Lamahi Municipality",
+  9
+ ],
+ [
+  56,
+  8,
+  "Rapti Gaunpalika",
+  9
+ ],
+ [
+  56,
+  9,
+  "Gadhawa Gaunpalika",
+  8
+ ],
+ [
+  56,
+  10,
+  "Rajpur Gaunpalika",
+  7
+ ],
+ [
+  57,
+  1,
+  "Rapti Sonari Gaunpalika",
+  9
+ ],
+ [
+  57,
+  2,
+  "Kohalpur Municipality",
+  15
+ ],
+ [
+  57,
+  3,
+  "Baijanath Gaunpalika",
+  8
+ ],
+ [
+  57,
+  4,
+  "Khajura Gaunpalika",
+  8
+ ],
+ [
+  57,
+  5,
+  "Janaki Gaunpalika",
+  6
+ ],
+ [
+  57,
+  6,
+  "Nepalganj Sub-Metropolitian City",
+  23
+ ],
+ [
+  57,
+  7,
+  "Duduwa Gaunpalika",
+  6
+ ],
+ [
+  57,
+  8,
+  "Narainapur Gaunpalika",
+  6
+ ],
+ [
+  58,
+  1,
+  "Bansgadhi Municipality",
+  9
+ ],
+ [
+  58,
+  2,
+  "Barbardiya Municipality",
+  11
+ ],
+ [
+  58,
+  3,
+  "Thakurbaba Municipality",
+  9
+ ],
+ [
+  58,
+  4,
+  "Geruwa Gaunpalika",
+  6
+ ],
+ [
+  58,
+  5,
+  "Rajapur Municipality",
+  10
+ ],
+ [
+  58,
+  6,
+  "Madhuwan Municipality",
+  9
+ ],
+ [
+  58,
+  7,
+  "Gulariya Municipality",
+  12
+ ],
+ [
+  58,
+  8,
+  "Badhaiyatal Gaunpalika",
+  9
+ ],
+ [
+  59,
+  1,
+  "Dolpo Buddha Gaunpalika",
+  6
+ ],
+ [
+  59,
+  2,
+  "Shey Phoksundo Gaunpalika",
+  9
+ ],
+ [
+  59,
+  3,
+  "Jagadulla Gaunpalika",
+  6
+ ],
+ [
+  59,
+  4,
+  "Mudkechula Gaunpalika",
+  9
+ ],
+ [
+  59,
+  5,
+  "Tripurasundari Municipality",
+  11
+ ],
+ [
+  59,
+  6,
+  "Thulibheri Municipality",
+  11
+ ],
+ [
+  59,
+  7,
+  "Kaike Gaunpalika",
+  7
+ ],
+ [
+  59,
+  8,
+  "Chharka Tangsong Gaunpalika",
+  6
+ ],
+ [
+  60,
+  1,
+  "Mugumakarmarog Gaunpalika",
+  9
+ ],
+ [
+  60,
+  2,
+  "Chhayanath Rara Municipality",
+  14
+ ],
+ [
+  60,
+  3,
+  "Soru Gaunpalika",
+  11
+ ],
+ [
+  60,
+  4,
+  "Khatyad Gaunpalika",
+  11
+ ],
+ [
+  61,
+  1,
+  "Chankheli Gaunpalika",
+  6
+ ],
+ [
+  61,
+  2,
+  "Kharpunath Gaunpalika",
+  5
+ ],
+ [
+  61,
+  3,
+  "Simkot Gaunpalika",
+  8
+ ],
+ [
+  61,
+  4,
+  "Namkha Gaunpalika",
+  6
+ ],
+ [
+  61,
+  5,
+  "Sarkegad Gaunpalika",
+  8
+ ],
+ [
+  61,
+  6,
+  "Adanchuli Gaunpalika",
+  6
+ ],
+ [
+  61,
+  7,
+  "Tanjakot Gaunpalika",
+  5
+ ],
+ [
+  62,
+  1,
+  "Patarasi Gaunpalika",
+  7
+ ],
+ [
+  62,
+  2,
+  "Kanaka Sundari Gaunpalika",
+  8
+ ],
+ [
+  62,
+  3,
+  "Sinja Gaunpalika",
+  6
+ ],
+ [
+  62,
+  4,
+  "Chandannath Municipality",
+  10
+ ],
+ [
+  62,
+  5,
+  "Guthichaur Gaunpalika",
+  5
+ ],
+ [
+  62,
+  6,
+  "Tatopani Gaunpalika",
+  8
+ ],
+ [
+  62,
+  7,
+  "Tila Gaunpalika",
+  9
+ ],
+ [
+  62,
+  8,
+  "Hima Gaunpalika",
+  7
+ ],
+ [
+  63,
+  1,
+  "Palata Gaunpalika",
+  9
+ ],
+ [
+  63,
+  2,
+  "Pachal Jharana Gaunpalika",
+  9
+ ],
+ [
+  63,
+  3,
+  "Raskot Municipality",
+  9
+ ],
+ [
+  63,
+  4,
+  "Sanni Tribeni Gaunpalika",
+  9
+ ],
+ [
+  63,
+  5,
+  "Naraharinath Gaunpalika",
+  9
+ ],
+ [
+  63,
+  6,
+  "Khandachakra Municipality",
+  11
+ ],
+ [
+  63,
+  7,
+  "Tilagupha Municipality",
+  11
+ ],
+ [
+  63,
+  8,
+  "Mahawai Gaunpalika",
+  7
+ ],
+ [
+  63,
+  9,
+  "Shuva Kalika Gaunpalika",
+  8
+ ],
+ [
+  64,
+  1,
+  "Naumule Gaunpalika",
+  8
+ ],
+ [
+  64,
+  2,
+  "Mahabu Gaunpalika",
+  6
+ ],
+ [
+  64,
+  3,
+  "Bhairabi Gaunpalika",
+  7
+ ],
+ [
+  64,
+  4,
+  "Thantikandh Gaunpalika",
+  6
+ ],
+ [
+  64,
+  5,
+  "Aathbis Municipality",
+  9
+ ],
+ [
+  64,
+  6,
+  "Chamunda Bindrasaini Municipality",
+  9
+ ],
+ [
+  64,
+  7,
+  "Dullu Municipality",
+  13
+ ],
+ [
+  64,
+  8,
+  "Narayan Municipality",
+  11
+ ],
+ [
+  64,
+  9,
+  "Bhagawatimai Gaunpalika",
+  7
+ ],
+ [
+  64,
+  10,
+  "Dungeshwor Gaunpalika",
+  6
+ ],
+ [
+  64,
+  11,
+  "Gurans Gaunpalika",
+  8
+ ],
+ [
+  65,
+  1,
+  "Barekot Gaunpalika",
+  9
+ ],
+ [
+  65,
+  2,
+  "Kuse Gaunpalika",
+  9
+ ],
+ [
+  65,
+  3,
+  "Junichande Gaunpalika",
+  11
+ ],
+ [
+  65,
+  4,
+  "Chhedagad Municipality",
+  13
+ ],
+ [
+  65,
+  5,
+  "Shivalaya Gaunpalika",
+  9
+ ],
+ [
+  65,
+  6,
+  "Bheri Malika Municipality",
+  13
+ ],
+ [
+  65,
+  7,
+  "Nalgad Municipality",
+  13
+ ],
+ [
+  66,
+  1,
+  "Aathabisakot Municipality",
+  14
+ ],
+ [
+  66,
+  2,
+  "Sanibheri Gaunpalika",
+  11
+ ],
+ [
+  66,
+  3,
+  "Banphikot Gaunpalika",
+  10
+ ],
+ [
+  66,
+  4,
+  "Musikot Municipality",
+  14
+ ],
+ [
+  66,
+  5,
+  "Tribeni Gaunpalika",
+  10
+ ],
+ [
+  66,
+  6,
+  "Chaurjahari Municipality",
+  14
+ ],
+ [
+  67,
+  1,
+  "Darma Gaunpalika",
+  6
+ ],
+ [
+  67,
+  2,
+  "Kumakh Gaunpalika",
+  7
+ ],
+ [
+  67,
+  3,
+  "Banagad Kupinde Municipality",
+  12
+ ],
+ [
+  67,
+  4,
+  "Siddha Kumakh Gaunpalika",
+  5
+ ],
+ [
+  67,
+  5,
+  "Bagachour Municipality",
+  12
+ ],
+ [
+  67,
+  6,
+  "Chhatreshwori Gaunpalika",
+  7
+ ],
+ [
+  67,
+  7,
+  "Sharada Municipality",
+  15
+ ],
+ [
+  67,
+  8,
+  "Kalimati Gaunpalika",
+  7
+ ],
+ [
+  67,
+  9,
+  "Tribeni Gaunpalika",
+  6
+ ],
+ [
+  67,
+  10,
+  "Kapurkot Gaunpalika",
+  6
+ ],
+ [
+  68,
+  1,
+  "Simta Gaunpalika",
+  9
+ ],
+ [
+  68,
+  2,
+  "Chingad Gaunpalika",
+  6
+ ],
+ [
+  68,
+  3,
+  "Lekabeshi Municipality",
+  10
+ ],
+ [
+  68,
+  4,
+  "Gurbhakot Municipality",
+  14
+ ],
+ [
+  68,
+  5,
+  "Bheriganga Municipality",
+  13
+ ],
+ [
+  68,
+  6,
+  "Birendranagar Municipality",
+  16
+ ],
+ [
+  68,
+  7,
+  "Barahatal Gaunpalika",
+  10
+ ],
+ [
+  68,
+  8,
+  "Panchapuri Municipality",
+  11
+ ],
+ [
+  68,
+  9,
+  "Chaukune Gaunpalika",
+  10
+ ],
+ [
+  69,
+  1,
+  "Himali Gaunpalika",
+  7
+ ],
+ [
+  69,
+  2,
+  "Gaumul Gaunpalika",
+  6
+ ],
+ [
+  69,
+  3,
+  "Budhinanda Municipality",
+  10
+ ],
+ [
+  69,
+  4,
+  "Swamikartik Khapar Gaunpalika",
+  5
+ ],
+ [
+  69,
+  5,
+  "Jagannath Gaunpalika",
+  6
+ ],
+ [
+  69,
+  6,
+  "Badimalika Municipality",
+  9
+ ],
+ [
+  69,
+  7,
+  "Khaptad Chhededaha Gaunpalika",
+  7
+ ],
+ [
+  69,
+  8,
+  "Budhiganga Municipality",
+  10
+ ],
+ [
+  69,
+  9,
+  "Tribeni Municipality",
+  9
+ ],
+ [
+  70,
+  1,
+  "Saipal Gaunpalika",
+  5
+ ],
+ [
+  70,
+  2,
+  "Bungal Municipality",
+  11
+ ],
+ [
+  70,
+  3,
+  "Surma Gaunpalika",
+  5
+ ],
+ [
+  70,
+  4,
+  "Talkot Gaunpalika",
+  7
+ ],
+ [
+  70,
+  5,
+  "Masta Gaunpalika",
+  7
+ ],
+ [
+  70,
+  6,
+  "Jayaprithbi Municipality",
+  11
+ ],
+ [
+  70,
+  7,
+  "Chhabis Pathibhara Gaunpalika",
+  7
+ ],
+ [
+  70,
+  8,
+  "Durgathali Gaunpalika",
+  7
+ ],
+ [
+  70,
+  9,
+  "Kedarsyun Gaunpalika",
+  9
+ ],
+ [
+  70,
+  10,
+  "Bitthadchir Gaunpalika",
+  9
+ ],
+ [
+  70,
+  11,
+  "Thalara Gaunpalika",
+  9
+ ],
+ [
+  70,
+  12,
+  "Khaptad Chhanna Gaunpalika",
+  7
+ ],
+ [
+  71,
+  1,
+  "Byas Gaunpalika",
+  6
+ ],
+ [
+  71,
+  2,
+  "Duhun Gaunpalika",
+  5
+ ],
+ [
+  71,
+  3,
+  "Mahakali Municipality",
+  9
+ ],
+ [
+  71,
+  4,
+  "Naugad  Gaunpalika",
+  6
+ ],
+ [
+  71,
+  5,
+  "Apihimal Gaunpalika",
+  6
+ ],
+ [
+  71,
+  6,
+  "Marma Gaunpalika",
+  6
+ ],
+ [
+  71,
+  7,
+  "Shailyashikhar Municipality",
+  9
+ ],
+ [
+  71,
+  8,
+  "Malikarjun Gaunpalika",
+  8
+ ],
+ [
+  71,
+  9,
+  "Lekam Gaunpalika",
+  6
+ ],
+ [
+  72,
+  1,
+  "Dilasaini Gaunpalika",
+  7
+ ],
+ [
+  72,
+  2,
+  "Dogada Kedar Gaunpalika",
+  8
+ ],
+ [
+  72,
+  3,
+  "Puchaundi Municipality",
+  10
+ ],
+ [
+  72,
+  4,
+  "Surnaya Gaunpalika",
+  8
+ ],
+ [
+  72,
+  5,
+  "Dasharathchand Municipality",
+  11
+ ],
+ [
+  72,
+  6,
+  "Pancheshwor Gaunpalika",
+  6
+ ],
+ [
+  72,
+  7,
+  "Shivanath Gaunpalika",
+  6
+ ],
+ [
+  72,
+  8,
+  "Melauli Municipality",
+  9
+ ],
+ [
+  72,
+  9,
+  "Patan Municipality",
+  10
+ ],
+ [
+  72,
+  10,
+  "Sigas Gaunpalika",
+  9
+ ],
+ [
+  73,
+  1,
+  "Nawadurga Gaunpalika",
+  5
+ ],
+ [
+  73,
+  2,
+  "Amargadhi Municipality",
+  11
+ ],
+ [
+  73,
+  3,
+  "Ajayameru Gaunpalika",
+  6
+ ],
+ [
+  73,
+  4,
+  "Bhageshwor Gaunpalika",
+  5
+ ],
+ [
+  73,
+  5,
+  "Parashuram Municipality",
+  12
+ ],
+ [
+  73,
+  6,
+  "Aalital Gaunpalika",
+  8
+ ],
+ [
+  73,
+  7,
+  "Ganyapdhura Gaunpalika",
+  5
+ ],
+ [
+  74,
+  1,
+  "Purbichouki Gaunpalika",
+  7
+ ],
+ [
+  74,
+  2,
+  "Sayal Gaunpalika",
+  6
+ ],
+ [
+  74,
+  3,
+  "Aadarsha Gaunpalika",
+  7
+ ],
+ [
+  74,
+  4,
+  "Shikhar Municipality",
+  11
+ ],
+ [
+  74,
+  5,
+  "Dipayal Silgadhi Municipality",
+  9
+ ],
+ [
+  74,
+  6,
+  "K.I. Singh Gaunpalika",
+  7
+ ],
+ [
+  74,
+  7,
+  "Bogatan Phudsil Gaunpalika",
+  7
+ ],
+ [
+  74,
+  8,
+  "Badi Kedar Gaunpalika",
+  5
+ ],
+ [
+  74,
+  9,
+  "Jorayal Gaunpalika",
+  6
+ ],
+ [
+  75,
+  1,
+  "Panchdebal Binayak Municipality",
+  9
+ ],
+ [
+  75,
+  2,
+  "Ramaroshan Gaunpalika",
+  7
+ ],
+ [
+  75,
+  3,
+  "Mellekh Gaunpalika",
+  8
+ ],
+ [
+  75,
+  4,
+  "Sanphebagar Municipality",
+  14
+ ],
+ [
+  75,
+  5,
+  "Chaurpati Gaunpalika",
+  7
+ ],
+ [
+  75,
+  6,
+  "Mangalsen Municipality",
+  14
+ ],
+ [
+  75,
+  7,
+  "Bannigadhi Jayagadh Gaunpalika",
+  6
+ ],
+ [
+  75,
+  8,
+  "Kamal bazar Municipality",
+  10
+ ],
+ [
+  75,
+  9,
+  "Dhakari Gaunpalika",
+  8
+ ],
+ [
+  75,
+  10,
+  "Turmakhand Gaunpalika",
+  8
+ ],
+ [
+  76,
+  1,
+  "Mohanyal Gaunpalika",
+  7
+ ],
+ [
+  76,
+  2,
+  "Chure Gaunpalika",
+  6
+ ],
+ [
+  76,
+  3,
+  "Godawari Municipality",
+  12
+ ],
+ [
+  76,
+  4,
+  "Gauriganga Municipality",
+  11
+ ],
+ [
+  76,
+  5,
+  "Ghodaghodi Municipality",
+  12
+ ],
+ [
+  76,
+  6,
+  "Bardagoriya Gaunpalika",
+  6
+ ],
+ [
+  76,
+  7,
+  "Lamki Chuha Municipality",
+  10
+ ],
+ [
+  76,
+  8,
+  "Janaki Gaunpalika",
+  9
+ ],
+ [
+  76,
+  9,
+  "Joshipur Gaunpalika",
+  7
+ ],
+ [
+  76,
+  10,
+  "Tikapur Municipality",
+  9
+ ],
+ [
+  76,
+  11,
+  "Bhajani Municipality",
+  9
+ ],
+ [
+  76,
+  12,
+  "Kailari Gaunpalika",
+  9
+ ],
+ [
+  76,
+  13,
+  "Dhangadhi Sub-Metropolitian City",
+  19
+ ],
+ [
+  77,
+  1,
+  "Krishnapur Municipality",
+  9
+ ],
+ [
+  77,
+  2,
+  "Shuklaphanta Municipality",
+  12
+ ],
+ [
+  77,
+  3,
+  "Bedkot Municipality",
+  10
+ ],
+ [
+  77,
+  4,
+  "Bhimdatta Municipality",
+  19
+ ],
+ [
+  77,
+  5,
+  "Dodhara Chandani Municipality",
+  10
+ ],
+ [
+  77,
+  6,
+  "Laljhadi Gaunpalika",
+  6
+ ],
+ [
+  77,
+  7,
+  "Punarbas Municipality",
+  11
+ ],
+ [
+  77,
+  8,
+  "Belouri Municipality",
+  10
+ ],
+ [
+  77,
+  9,
+  "Beldandi Gaunpalika",
+  5
+ ]
+]

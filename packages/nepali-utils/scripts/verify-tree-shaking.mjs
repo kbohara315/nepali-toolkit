@@ -33,6 +33,8 @@ const fixtures = {
     "import { createNepaliCollator } from 'nepali-utils/collation'; console.log(createNepaliCollator().sort(['ख', 'क', 'ग']));\n",
   phone:
     "import { parseNepalPhone, formatNepalPhone } from 'nepali-utils/phone'; console.log(formatNepalPhone(parseNepalPhone('+977 981-2345678')));\n",
+  admin:
+    "import { getPalika, isValidWard } from 'nepali-utils/admin'; console.log(getPalika('10106'), isValidWard('10106', 5));\n",
   'date-locale-en':
     "import { monthName } from 'nepali-utils/date/locale/en'; console.log(monthName(4));\n",
   'date-locale-ne':
@@ -75,6 +77,7 @@ const budgets = {
   words: 4096,
   collation: 3072,
   phone: 2048,
+  admin: 24 * 1024,
   'date-locale-en': 1024,
   'date-locale-ne': 1024,
   'date-adapter-date': 2048,
