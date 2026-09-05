@@ -49,11 +49,20 @@ teraiArea({ bigha?, kattha?, dhur? }): Area
 ## Conversions (exact decimal strings, never float)
 
 ```ts
-tostringSquareMetres(area): string   // exact, e.g. '508.72'
-toSquareFeet(area): string           // exact, e.g. '5476'
+toSquareMetres(area): string   // exact, e.g. '508.72'
+toSquareFeet(area): string     // published-figure exact (see note below)
 fromSquareMetres(value: NumeralInput): Area
 fromSquareFeet(value: NumeralInput): Area
 ```
+
+NOTE on `toSquareFeet`: the two published figures are mutually rounded
+(508.72 m² = 5,475.82 sq ft, not 5,476; 6,772.63 m² = 72,899.98 sq ft,
+not 72,900), so no single linear map reproduces both published integers.
+`toSquareFeet` therefore uses each system's published relation for areas
+exact in that system's ladder (hill-ladder-exact → 1 Ropani = 5,476 sq ft;
+Terai-ladder-exact → 1 Bigha = 72,900 sq ft; everything else → the Ropani
+figure, up to 12 fraction digits, half-up). Deterministic and documented;
+revisit only with a more authoritative citation.
 
 `from*` accepts ASCII/Devanagari decimal strings (reuse the number
 engine's exact parser — import from `../../number/grouping.js`, do NOT
