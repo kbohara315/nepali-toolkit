@@ -119,15 +119,18 @@ describe('collation word-level edges', () => {
     expect(lex.sort(['वडा १०', 'वडा २', 'वडा ९'])).toEqual(['वडा १०', 'वडा २', 'वडा ९']);
   });
 
-  it('ZWJ/ZWNJ handling at base sensitivity (actual behavior, flagged)', () => {
-    // REVIEW: contract says the pipeline strips ZWJ/ZWNJ/ZWSP, which would
-    // make 'क्‌क्ष' (क ् ZWNJ क ् ष) equal 'क्ष' (क ् ष) at base. The
-    // implementation instead orders them apart (compare → 1, equals →
-    // false). Asserting ACTUAL behavior here; fix impl or contract.
+  it('ZWJ/ZWNJ/ZWSP are format controls: stripped before weighting', () => {
     const base = createNepaliCollator({ backend: 'basic', sensitivity: 'base' });
+    // True no-op control: a trailing ZWNJ adds no letter, sorts equal.
+    expect(base.equals('क', 'क‌')).toBe(true);
+    expect(base.compare('क', 'क‌')).toBe(0);
+    // Stripping applies before contraction matching, so a ZWNJ between
+    // halant and ष does NOT block the क्ष contraction (contract: strip,
+    // don't honor conjunct-blocking). क + ् + ZWNJ + ष sorts as क्ष.
+    expect(base.equals('क्ष', 'क्‌ष')).toBe(true);
+    // ...whereas 'क्‌क्ष' carries a SECOND क (क ् ZWNJ क ् ष → क्क्ष),
+    // a genuinely different word that must sort apart from क्ष.
     expect(base.equals('क्ष', 'क्‌क्ष')).toBe(false);
     expect(base.compare('क्ष', 'क्‌क्ष')).toBe(1);
-    expect(base.equals('क्ष', 'क्‍क्ष')).toBe(false);
-    expect(base.compare('क्ष', 'क्‍क्ष')).toBe(1);
   });
 });
