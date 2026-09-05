@@ -25,7 +25,7 @@ Exit condition: old and migrated test vectors produce identical results, generat
 ## Phase 2: Build the number foundation
 
 - Extract the existing ASCII/Devanagari digit mapping into the number domain without changing date formatting behavior.
-- Specify deterministic Indian grouping, signs, decimal input, fraction digits, and rounding.
+- Specify deterministic Nepali grouping, signs, decimal input, fraction digits, and rounding.
 - Support precision-safe decimal strings and appropriate `bigint` operations.
 - Establish shared conventions used by currency, words, land, and phone without creating a broad internal dependency.
 
@@ -43,7 +43,7 @@ Exit condition: precision and boundary tests pass, `formatNPR` meets its recorde
 
 ## Phase 4: Add words
 
-- Resolve the Nepali versus English-Indian API naming before coding.
+- Resolve the Nepali versus English API naming before coding (public wording is Nepali grouping/lakh-crore throughout; the CLDR "Indian numbering system" name appears only in an internal maintainer note, if at all).
 - Freeze supported magnitudes, zero, negatives, decimals, currency minor units, conjunctions, and spelling policy.
 - Build a reviewed conformance corpus for irregular Nepali number words.
 - Keep word tables out of number-only and currency-format-only bundles.

@@ -13,13 +13,21 @@ export function formatNumber(
   options?: NumberFormatOptions,
 ): string {
   if (typeof value === 'bigint') {
-    const min = options?.minimumFractionDigits ?? 0;
-    const max = options?.maximumFractionDigits ?? 3;
-    if (min !== 0 || max !== 0) {
+    // Absent options mean "integer, no fractions" — only an explicitly
+    // requested nonzero fraction digit count is a caller error.
+    if (
+      (options?.minimumFractionDigits ?? 0) !== 0 ||
+      (options?.maximumFractionDigits ?? 0) !== 0
+    ) {
       throw new InvalidNumberError(
         'Bigint values are integers; fraction digits must be zero',
       );
     }
+    return formatExactDecimal(toExactDecimal(value), {
+      ...options,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    });
   }
   return formatExactDecimal(toExactDecimal(value), options);
 }

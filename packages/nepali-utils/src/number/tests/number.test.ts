@@ -96,8 +96,12 @@ describe('formatNumber exactness and signs', () => {
     ).toBe('1,23,45,67,89,01,23,45,67,89,01,23,45,67,890');
   });
 
-  it('rejects fraction options for bigint', () => {
-    throwsInvalid(() => formatNumber(10n));
+  it('formats plain bigint as an integer, rejects explicit fraction options', () => {
+    expect(formatNumber(10n)).toBe('10');
+    expect(
+      formatNumber(10n, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+    ).toBe('10');
+    throwsInvalid(() => formatNumber(10n, { minimumFractionDigits: 1 }));
     throwsInvalid(() =>
       formatNumber(10n, { minimumFractionDigits: 0, maximumFractionDigits: 2 }),
     );

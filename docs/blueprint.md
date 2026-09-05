@@ -61,7 +61,7 @@ The current Patro dataset is functional but still requires the publication-level
 
 ### Number
 
-Provide ASCII/Devanagari digit conversion and deterministic Indian grouping. Formatting must work without `Intl`. Decimal strings and `bigint` should be supported where precision matters.
+Provide ASCII/Devanagari digit conversion and deterministic Nepali grouping (lakh/crore). Formatting must work without `Intl`. Decimal strings and `bigint` should be supported where precision matters.
 
 ### Currency
 
@@ -69,7 +69,7 @@ Provide deterministic NPR formatting over the number primitives. Symbol (`रु
 
 ### Words
 
-Provide number and NPR amount-to-words behavior only after freezing language, scale, range, decimal, negative-number, and spelling policies. APIs must distinguish Nepali-language output from English output using the Indian numbering system.
+Provide number and NPR amount-to-words behavior only after freezing language, scale, range, decimal, negative-number, and spelling policies. APIs must distinguish Nepali-language output from English output using the Nepali (lakh/crore) numbering system.
 
 ### Land
 
