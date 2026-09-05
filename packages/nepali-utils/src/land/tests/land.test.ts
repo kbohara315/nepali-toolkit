@@ -3,10 +3,12 @@ import { InvalidNumberError } from '../../number/errors.js';
 import {
   formatHillArea,
   formatTeraiArea,
+  fromSquareCentimetres,
   fromSquareFeet,
   fromSquareMetres,
   hillArea,
   teraiArea,
+  toSquareCentimetres,
   toSquareFeet,
   toSquareMetres,
 } from '../index.js';
@@ -147,5 +149,51 @@ describe('land from* conversions', () => {
   it('rounds half-up to whole µm²', () => {
     expect(fromSquareMetres('0.0000000000005').um2).toBe(1n);
     expect(fromSquareMetres('0.0000000000004').um2).toBe(0n);
+  });
+});
+
+describe('land square centimetres', () => {
+  it('converts exactly', () => {
+    expect(toSquareCentimetres(hillArea({ ropani: 1 }))).toBe('5087200');
+    expect(toSquareCentimetres(teraiArea({ bigha: 1 }))).toBe('67726300');
+    expect(toSquareCentimetres(hillArea({ daam: 1 }))).toBe('19871.875');
+  });
+
+  it('round-trips', () => {
+    expect(toSquareCentimetres(fromSquareCentimetres('5087200'))).toBe('5087200');
+    expect(fromSquareCentimetres('5087200').um2).toBe(hillArea({ ropani: 1 }).um2);
+    expect(fromSquareCentimetres('५०८७२००').um2).toBe(hillArea({ ropani: 1 }).um2);
+  });
+});
+
+describe('land english output', () => {
+  it('renders long english labels', () => {
+    expect(
+      formatHillArea(hillArea({ ropani: 2, aana: 3, paisa: 1, daam: 2 }), {
+        language: 'en',
+        numerals: 'ascii',
+      }),
+    ).toBe('2 Ropani 3 Aana 1 Paisa 2 Daam');
+    expect(
+      formatTeraiArea(teraiArea({ bigha: 1, kattha: 2, dhur: 3 }), {
+        language: 'en',
+        numerals: 'ascii',
+      }),
+    ).toBe('1 Bigha 2 Kattha 3 Dhur');
+  });
+
+  it('renders short english labels', () => {
+    expect(
+      formatHillArea(hillArea({ ropani: 1 }), { language: 'en', numerals: 'ascii', style: 'short' }),
+    ).toBe('1 R');
+    expect(
+      formatTeraiArea(teraiArea({ bigha: 1 }), { language: 'en', numerals: 'ascii', style: 'short' }),
+    ).toBe('1 B');
+  });
+
+  it('rejects unknown language', () => {
+    expect(() => formatHillArea(hillArea({ ropani: 1 }), { language: 'fr' as 'ne' })).toThrow(
+      InvalidAreaError,
+    );
   });
 });

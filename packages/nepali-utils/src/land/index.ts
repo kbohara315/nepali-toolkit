@@ -1,10 +1,12 @@
 export {
   formatHillArea,
   formatTeraiArea,
+  fromSquareCentimetres,
   fromSquareFeet,
   fromSquareMetres,
   hillArea,
   teraiArea,
+  toSquareCentimetres,
   toSquareFeet,
   toSquareMetres,
 } from './area.js';

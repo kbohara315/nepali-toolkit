@@ -49,9 +49,11 @@ teraiArea({ bigha?, kattha?, dhur? }): Area
 ## Conversions (exact decimal strings, never float)
 
 ```ts
-toSquareMetres(area): string   // exact, e.g. '508.72'
-toSquareFeet(area): string     // published-figure exact (see note below)
+toSquareMetres(area): string      // exact, e.g. '508.72'
+toSquareCentimetres(area): string // exact, e.g. '5087200'
+toSquareFeet(area): string        // published-figure exact (see note below)
 fromSquareMetres(value: NumeralInput): Area
+fromSquareCentimetres(value: NumeralInput): Area
 fromSquareFeet(value: NumeralInput): Area
 ```
 
@@ -78,6 +80,7 @@ type AreaFormatOptions = {
   numerals?: 'ascii' | 'devanagari'; // default 'devanagari'
   style?: 'long' | 'short';          // default 'long'
   omitZero?: boolean;                // default true
+  language?: 'ne' | 'en';            // default 'ne'
 };
 ```
 
@@ -86,6 +89,10 @@ type AreaFormatOptions = {
   full precision. Document this on both functions.
 - Long Nepali labels: रोपनी/आना/पैसा/दाम, बिघा/कट्ठा/धुर.
   Short labels: रो/आ/पै/दा, बि/क/ध.
+- English labels (`language: 'en'`): Ropani/Aana/Paisa/Daam,
+  Bigha/Kattha/Dhur; short: R/A/P/D, B/K/D. Numerals default stays
+  `devanagari` in both languages — pass `numerals: 'ascii'` explicitly
+  for fully Latin output.
 - `omitZero: true` drops zero-valued units (but renders `० दाम` /
   `० धुर` for a zero area rather than an empty string).
 - Cross-system display (hill area shown as Bigha-Kattha-Dhur) is exact-area
@@ -93,7 +100,8 @@ type AreaFormatOptions = {
 
 ## Exports (`nepali-utils/land`)
 
-`hillArea`, `teraiArea`, `toSquareMetres`, `toSquareFeet`,
+`hillArea`, `teraiArea`, `toSquareMetres`, `toSquareCentimetres`,
+`toSquareFeet`,
 `fromSquareMetres`, `fromSquareFeet`, `formatHillArea`,
 `formatTeraiArea`, `InvalidAreaError`, `Area` + option types. Subpath
 `./land`, budget 2048 gzip, isolation: no Patro tokens, no `Intl`, no

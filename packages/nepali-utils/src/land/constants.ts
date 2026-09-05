@@ -9,6 +9,9 @@
 /** Square micrometres (µm²) per square metre. */
 export const UM2_PER_SQ_M = 1_000_000_000_000n;
 
+/** Square micrometres (µm²) per square centimetre. */
+export const UM2_PER_SQ_CM = 100_000_000n;
+
 /** Square micrometres (µm²) per Ropani (508.72 m²). */
 export const UM2_PER_ROPANI = 508_720_000_000_000n;
 

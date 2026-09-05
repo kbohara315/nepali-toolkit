@@ -16,6 +16,7 @@ import {
   UM2_PER_KATTHA,
   UM2_PER_PAISA,
   UM2_PER_ROPANI,
+  UM2_PER_SQ_CM,
   UM2_PER_SQ_M,
 } from './constants.js';
 import { InvalidAreaError } from './errors.js';
@@ -40,6 +41,7 @@ export type AreaFormatOptions = {
   numerals?: 'ascii' | 'devanagari';
   style?: 'long' | 'short';
   omitZero?: boolean;
+  language?: 'ne' | 'en';
 };
 
 function fail(detail: string): never {
@@ -87,6 +89,15 @@ export function toSquareMetres(area: Area): string {
   const rem = area.um2 % UM2_PER_SQ_M;
   if (rem === 0n) return int.toString();
   const frac = rem.toString().padStart(12, '0').replace(/0+$/, '');
+  return `${int.toString()}.${frac}`;
+}
+
+/** Exact square centimetres as a decimal string (never binary float). */
+export function toSquareCentimetres(area: Area): string {
+  const int = area.um2 / UM2_PER_SQ_CM;
+  const rem = area.um2 % UM2_PER_SQ_CM;
+  if (rem === 0n) return int.toString();
+  const frac = rem.toString().padStart(8, '0').replace(/0+$/, '');
   return `${int.toString()}.${frac}`;
 }
 
@@ -147,6 +158,11 @@ export function fromSquareMetres(value: NumeralInput): Area {
   return { um2: fromDecimalToUm2(value, UM2_PER_SQ_M, 1n) };
 }
 
+/** Parse square centimetres (ASCII/Devanagari decimal) to an Area, half-up rounded to whole µm². */
+export function fromSquareCentimetres(value: NumeralInput): Area {
+  return { um2: fromDecimalToUm2(value, UM2_PER_SQ_CM, 1n) };
+}
+
 /**
  * Parse square feet (ASCII/Devanagari decimal) to an Area, half-up rounded to
  * whole µm². Uses the hill published relation (1 Ropani = 5,476 sq ft).
@@ -155,21 +171,25 @@ export function fromSquareFeet(value: NumeralInput): Area {
   return { um2: fromDecimalToUm2(value, UM2_PER_ROPANI, SQFT_PER_ROPANI) };
 }
 
-type Unit = { count: bigint; long: string; short: string };
+type UnitLabels = { long: string; short: string };
+type Unit = { count: bigint; ne: UnitLabels; en: UnitLabels };
 
 function render(units: readonly Unit[], options?: AreaFormatOptions): string {
   const numerals = options?.numerals ?? 'devanagari';
   const style = options?.style ?? 'long';
   const omitZero = options?.omitZero ?? true;
+  const language = options?.language ?? 'ne';
   if (numerals !== 'ascii' && numerals !== 'devanagari') fail(`unsupported numerals ${String(numerals)}`);
   if (style !== 'long' && style !== 'short') fail(`unsupported style ${String(style)}`);
+  if (language !== 'ne' && language !== 'en') fail(`unsupported language ${String(language)}`);
   const picked = omitZero ? units.filter((u) => u.count !== 0n) : [...units];
   const shown = picked.length === 0 ? [units[units.length - 1]] : picked;
   return shown
     .map((u) => {
       const digits = u.count.toString();
       const rendered = numerals === 'devanagari' ? toDevanagari(digits) : digits;
-      return `${rendered} ${style === 'long' ? u.long : u.short}`;
+      const labels = language === 'ne' ? u.ne : u.en;
+      return `${rendered} ${style === 'long' ? labels.long : labels.short}`;
     })
     .join(' ');
 }
@@ -198,10 +218,10 @@ export function formatHillArea(area: Area, options?: AreaFormatOptions): string 
   ]);
   return render(
     [
-      { count: ropani, long: 'रोपनी', short: 'रो' },
-      { count: aana, long: 'आना', short: 'आ' },
-      { count: paisa, long: 'पैसा', short: 'पै' },
-      { count: daam, long: 'दाम', short: 'दा' },
+      { count: ropani, ne: { long: 'रोपनी', short: 'रो' }, en: { long: 'Ropani', short: 'R' } },
+      { count: aana, ne: { long: 'आना', short: 'आ' }, en: { long: 'Aana', short: 'A' } },
+      { count: paisa, ne: { long: 'पैसा', short: 'पै' }, en: { long: 'Paisa', short: 'P' } },
+      { count: daam, ne: { long: 'दाम', short: 'दा' }, en: { long: 'Daam', short: 'D' } },
     ],
     options,
   );
@@ -216,9 +236,9 @@ export function formatTeraiArea(area: Area, options?: AreaFormatOptions): string
   const [bigha, kattha, dhur] = decompose(area.um2, [UM2_PER_BIGHA, UM2_PER_KATTHA, UM2_PER_DHUR]);
   return render(
     [
-      { count: bigha, long: 'बिघा', short: 'बि' },
-      { count: kattha, long: 'कट्ठा', short: 'क' },
-      { count: dhur, long: 'धुर', short: 'ध' },
+      { count: bigha, ne: { long: 'बिघा', short: 'बि' }, en: { long: 'Bigha', short: 'B' } },
+      { count: kattha, ne: { long: 'कट्ठा', short: 'क' }, en: { long: 'Kattha', short: 'K' } },
+      { count: dhur, ne: { long: 'धुर', short: 'ध' }, en: { long: 'Dhur', short: 'D' } },
     ],
     options,
   );
