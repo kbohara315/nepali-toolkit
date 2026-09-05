@@ -23,6 +23,7 @@ export default defineConfig({
     'src/currency/index.ts',
     'src/land/index.ts',
     'src/words/index.ts',
+    'src/collation/index.ts',
   ],
   format: ['esm', 'cjs'],
   outExtension: ({ format }) => (format === 'cjs' ? { js: '.cjs' } : { js: '.js' }),

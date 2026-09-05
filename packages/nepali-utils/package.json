@@ -109,6 +109,11 @@
       "types": "./dist/words/index.d.ts",
       "import": "./dist/words/index.js",
       "require": "./dist/words/index.cjs"
+    },
+    "./collation": {
+      "types": "./dist/collation/index.d.ts",
+      "import": "./dist/collation/index.js",
+      "require": "./dist/collation/index.cjs"
     }
   },
   "files": [
