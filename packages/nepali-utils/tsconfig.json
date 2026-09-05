@@ -12,6 +12,7 @@
     "src/date/tests",
     "src/number/tests",
     "src/currency/tests",
-    "src/land/tests"
+    "src/land/tests",
+    "src/words/tests"
   ]
 }

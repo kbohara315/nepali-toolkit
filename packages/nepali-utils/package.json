@@ -104,6 +104,11 @@
       "types": "./dist/land/index.d.ts",
       "import": "./dist/land/index.js",
       "require": "./dist/land/index.cjs"
+    },
+    "./words": {
+      "types": "./dist/words/index.d.ts",
+      "import": "./dist/words/index.js",
+      "require": "./dist/words/index.cjs"
     }
   },
   "files": [

@@ -27,6 +27,8 @@ const fixtures = {
   currency:
     "import { formatNPR } from 'nepali-utils/currency'; console.log(formatNPR('12345678.9'));\n",
   land: "import { hillArea, formatHillArea } from 'nepali-utils/land'; console.log(formatHillArea(hillArea({ ropani: 1 })));\n",
+  words:
+    "import { numberToNepaliWords } from 'nepali-utils/words'; console.log(numberToNepaliWords(123456));\n",
   'date-locale-en':
     "import { monthName } from 'nepali-utils/date/locale/en'; console.log(monthName(4));\n",
   'date-locale-ne':
@@ -66,6 +68,7 @@ const budgets = {
   number: 1536,
   currency: 2048,
   land: 2048,
+  words: 4096,
   'date-locale-en': 1024,
   'date-locale-ne': 1024,
   'date-adapter-date': 2048,
