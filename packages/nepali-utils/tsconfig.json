@@ -11,6 +11,7 @@
     "**/*.test.ts",
     "src/date/tests",
     "src/number/tests",
-    "src/currency/tests"
+    "src/currency/tests",
+    "src/land/tests"
   ]
 }

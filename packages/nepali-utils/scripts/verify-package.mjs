@@ -13,6 +13,7 @@ const isolated = {
   './number': ['working-2026-08-22', 'YEAR_PATTERN_IDS', 'MONTH_PATTERNS', 'Intl'],
   './number/digits': ['working-2026-08-22', 'YEAR_PATTERN_IDS', 'MONTH_PATTERNS', 'Intl'],
   './currency': ['working-2026-08-22', 'YEAR_PATTERN_IDS', 'MONTH_PATTERNS', 'Intl'],
+  './land': ['working-2026-08-22', 'YEAR_PATTERN_IDS', 'MONTH_PATTERNS', 'Intl'],
   './date/range': ['YEAR_PATTERN_IDS', 'MONTH_PATTERNS'],
   './date/locale/en': ['working-2026-08-22', 'YEAR_PATTERN_IDS'],
   './date/locale/ne': ['working-2026-08-22', 'YEAR_PATTERN_IDS'],

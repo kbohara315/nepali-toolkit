@@ -99,6 +99,11 @@
       "types": "./dist/currency/index.d.ts",
       "import": "./dist/currency/index.js",
       "require": "./dist/currency/index.cjs"
+    },
+    "./land": {
+      "types": "./dist/land/index.d.ts",
+      "import": "./dist/land/index.js",
+      "require": "./dist/land/index.cjs"
     }
   },
   "files": [

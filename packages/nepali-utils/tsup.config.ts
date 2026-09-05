@@ -21,6 +21,7 @@ export default defineConfig({
     'src/number/index.ts',
     'src/number/digits.ts',
     'src/currency/index.ts',
+    'src/land/index.ts',
   ],
   format: ['esm', 'cjs'],
   outExtension: ({ format }) => (format === 'cjs' ? { js: '.cjs' } : { js: '.js' }),
