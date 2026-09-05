@@ -19,7 +19,20 @@ interface DateMetadata {
     readonly referencePair: ReferencePair;
 }
 
-/** Frozen generated range and provenance metadata. Month data is not loaded here. */
+/**
+ * Frozen generated range and provenance metadata. Month data is not loaded here.
+ *
+ * Owns range introspection: one-liner accessors over {@link metadata} so
+ * callers need not reach into `internal/`.
+ */
 declare const range: DateMetadata;
+/** Minimum supported BS year (one-liner over {@link range}). */
+declare const minBSYear: number;
+/** Maximum supported BS year (one-liner over {@link range}). */
+declare const maxBSYear: number;
+/** Minimum supported AD year (one-liner over {@link range}). */
+declare const minADYear: number;
+/** Maximum supported AD year (one-liner over {@link range}). */
+declare const maxADYear: number;
 
-export { range };
+export { type DateMetadata, maxADYear, maxBSYear, minADYear, minBSYear, range };

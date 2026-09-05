@@ -12,7 +12,7 @@ interface FormatOptions {
 /**
  * Format a BS date. Supported tokens are YYYY, YY, M, MM, MMMM, D, and DD.
  * Punctuation is literal; use [text] or 'text' to escape token letters.
- * For ordinals (do) and weekday names (ddd, dddd), use `miti/format-display`.
+ * For ordinals (do) and weekday names (ddd, dddd), use `nepali-utils/date/format-display`.
  */
 declare function formatBS(date: BSDateFields, pattern: string, localeOrOptions?: FormatLocale | FormatOptions): string;
 /** Format an AD date using Gregorian English month names by default. */

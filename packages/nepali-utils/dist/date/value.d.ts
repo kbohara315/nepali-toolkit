@@ -3,35 +3,35 @@ import { B as BSDate, A as ADDate } from '../types-DiHJisXT.js';
 import '../errors-C9ZtWKZp.js';
 
 /** Immutable value for one supported BS/AD civil day. */
-declare class Miti {
+declare class NepaliDate {
     #private;
     private constructor();
-    static fromBS(value: BSDate): Miti;
-    static fromAD(value: ADDate): Miti;
+    static fromBS(value: BSDate): NepaliDate;
+    static fromAD(value: ADDate): NepaliDate;
     toBS(): BSDate;
     toAD(): ADDate;
-    equals(other: Miti): boolean;
-    compare(other: Miti): -1 | 0 | 1;
-    addDays(amount: number): Miti;
-    addWeeks(amount: number): Miti;
-    differenceInDays(other: Miti): number;
+    equals(other: NepaliDate): boolean;
+    compare(other: NepaliDate): -1 | 0 | 1;
+    addDays(amount: number): NepaliDate;
+    addWeeks(amount: number): NepaliDate;
+    differenceInDays(other: NepaliDate): number;
     weekday(): Weekday;
-    clone(): Miti;
-    addMonthsBS(amount: number, options?: MonthArithmeticOptions): Miti;
-    addYearsBS(amount: number, options?: MonthArithmeticOptions): Miti;
-    addMonthsAD(amount: number, options?: MonthArithmeticOptions): Miti;
-    addYearsAD(amount: number, options?: MonthArithmeticOptions): Miti;
-    startOfMonthBS(): Miti;
-    endOfMonthBS(): Miti;
-    startOfMonthAD(): Miti;
-    endOfMonthAD(): Miti;
+    clone(): NepaliDate;
+    addMonthsBS(amount: number, options?: MonthArithmeticOptions): NepaliDate;
+    addYearsBS(amount: number, options?: MonthArithmeticOptions): NepaliDate;
+    addMonthsAD(amount: number, options?: MonthArithmeticOptions): NepaliDate;
+    addYearsAD(amount: number, options?: MonthArithmeticOptions): NepaliDate;
+    startOfMonthBS(): NepaliDate;
+    endOfMonthBS(): NepaliDate;
+    startOfMonthAD(): NepaliDate;
+    endOfMonthAD(): NepaliDate;
     serialize(): string;
     serializeBS(): string;
-    static fromISO(value: string): Miti;
-    static fromSerial(value: string): Miti;
-    static fromBSString(value: string): Miti;
+    static fromISO(value: string): NepaliDate;
+    static fromSerial(value: string): NepaliDate;
+    static fromBSString(value: string): NepaliDate;
     toString(): string;
     toJSON(): string;
 }
 
-export { Miti };
+export { NepaliDate };

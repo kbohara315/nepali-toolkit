@@ -1,2 +1,2 @@
-import'../chunk-5DIIIUK7.js';export{b as toAscii,a as toDevanagari}from'../chunk-4GEQI7C2.js';import'../chunk-4C666HHU.js';//# sourceMappingURL=index.js.map
+function e(r){if(typeof r=="number"&&!Number.isFinite(r))throw new TypeError("numeral value must be finite");return String(r)}function n(r){return e(r).replace(/[0-9]/g,t=>String.fromCharCode(2406+Number(t)))}function i(r){return e(r).replace(/[\u0966-\u096f]/g,t=>String(t.charCodeAt(0)-2406))}export{i as toAscii,n as toDevanagari};//# sourceMappingURL=index.js.map
 //# sourceMappingURL=index.js.map
