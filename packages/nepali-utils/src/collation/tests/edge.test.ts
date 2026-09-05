@@ -1,8 +1,58 @@
 import { describe, expect, it } from 'vitest';
 import { createNepaliCollator } from '../index.js';
-import { BARNAMALA } from '../table.js';
 
-const CANONICAL = [...BARNAMALA];
+// Independent expectation: the canonical barnamala order, written out
+// literally per docs/collation-contract.md — deliberately NOT imported from
+// ../table.js, so this test guards the table content instead of echoing it.
+const CANONICAL = [
+  'ॐ',
+  'अ',
+  'आ',
+  'इ',
+  'ई',
+  'उ',
+  'ऊ',
+  'ऋ',
+  'ए',
+  'ऐ',
+  'ओ',
+  'औ',
+  'अं',
+  'अः',
+  'क',
+  'ख',
+  'ग',
+  'घ',
+  'ङ',
+  'च',
+  'छ',
+  'ज',
+  'झ',
+  'ञ',
+  'ट',
+  'ठ',
+  'ड',
+  'ढ',
+  'ण',
+  'त',
+  'थ',
+  'द',
+  'ध',
+  'न',
+  'प',
+  'फ',
+  'ब',
+  'भ',
+  'म',
+  'य',
+  'र',
+  'ल',
+  'व',
+  'श',
+  'ष',
+  'स',
+  'ह',
+];
 
 function pseudoRandomList(n: number): string[] {
   // Deterministic LCG over the barnamala — no Math.random, reproducible.
