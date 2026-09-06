@@ -143,6 +143,47 @@ function resolvePattern(options: ParseOptions): string {
   return `YYYY${separator}MM${separator}DD`;
 }
 
+function canUseDefaultBSFastPath(options: ParseOptions): boolean {
+  return (
+    options.pattern === undefined &&
+    options.separator === undefined &&
+    options.allowDevanagari !== true &&
+    options.numerals === undefined &&
+    options.locale === undefined
+  );
+}
+
+function parseDefaultBS(input: string, options: ParseOptions): BSDate {
+  if (typeof input !== 'string') parseFailure('input must be a string');
+  if (
+    input.length !== 10 ||
+    input[4] !== '-' ||
+    input[7] !== '-' ||
+    input.charCodeAt(0) < 48 ||
+    input.charCodeAt(0) > 57 ||
+    input.charCodeAt(1) < 48 ||
+    input.charCodeAt(1) > 57 ||
+    input.charCodeAt(2) < 48 ||
+    input.charCodeAt(2) > 57 ||
+    input.charCodeAt(3) < 48 ||
+    input.charCodeAt(3) > 57 ||
+    input.charCodeAt(5) < 48 ||
+    input.charCodeAt(5) > 57 ||
+    input.charCodeAt(6) < 48 ||
+    input.charCodeAt(6) > 57 ||
+    input.charCodeAt(8) < 48 ||
+    input.charCodeAt(8) > 57 ||
+    input.charCodeAt(9) < 48 ||
+    input.charCodeAt(9) > 57
+  ) {
+    parseFailure('input does not match the date pattern');
+  }
+  const year = Number(input.slice(0, 4));
+  const month = Number(input.slice(5, 7));
+  const day = Number(input.slice(8, 10));
+  return bs(year, month, day);
+}
+
 function parseDate<T extends ADDate | BSDate>(
   input: string,
   options: ParseOptions,
@@ -202,6 +243,9 @@ export function parseBS(
     typeof optionsOrPattern === 'string'
       ? { ...extraOptions, pattern: optionsOrPattern }
       : optionsOrPattern;
+  if (typeof optionsOrPattern !== 'string' && canUseDefaultBSFastPath(options)) {
+    return parseDefaultBS(input, options);
+  }
   return parseDate(input, options, options.locale?.months ?? BS_MONTHS_EN, bs);
 }
 
