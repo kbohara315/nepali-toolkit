@@ -47,17 +47,21 @@ function parseNumeral(value: WordsInput, maxFrac: number): Parsed {
 
 function nepaliInt(n: bigint): string {
   if (n === 0n) return NEPALI_ONES_0_99[0];
-  const parts: string[] = [];
+  let out = '';
   let rest = n;
   for (const s of NEPALI_SCALES) {
     const q = rest / s.value;
     if (q > 0n) {
-      parts.push(`${nepaliBelow100(Number(q))} ${s.word}`);
+      if (out) out += ' ';
+      out += `${nepaliBelow100(Number(q))} ${s.word}`;
       rest %= s.value;
     }
   }
-  if (rest > 0n) parts.push(nepaliBelow100(Number(rest)));
-  return parts.join(' ');
+  if (rest > 0n) {
+    if (out) out += ' ';
+    out += nepaliBelow100(Number(rest));
+  }
+  return out;
 }
 
 function nepaliBelow100(n: number): string {
@@ -74,24 +78,32 @@ function englishBelow100(n: number): string {
 
 function englishInt(n: bigint): string {
   if (n === 0n) return 'zero';
-  const parts: string[] = [];
+  let out = '';
   let rest = n;
   for (const s of ENGLISH_SCALES) {
     const q = rest / s.value;
     if (q > 0n) {
-      parts.push(`${englishBelow100(Number(q))} ${s.word}`);
+      if (out) out += ' ';
+      out += `${englishBelow100(Number(q))} ${s.word}`;
       rest %= s.value;
     }
   }
-  if (rest > 0n) parts.push(englishBelow100(Number(rest)));
-  return parts.join(' ');
+  if (rest > 0n) {
+    if (out) out += ' ';
+    out += englishBelow100(Number(rest));
+  }
+  return out;
 }
 
 function renderNepali(p: Parsed): string {
   const intWords = nepaliInt(BigInt(p.intPart));
   let out = intWords;
   if (p.fracPart.length > 0) {
-    const digits = [...p.fracPart].map((d) => NEPALI_ONES_0_99[Number(d)]).join(' ');
+    let digits = '';
+    for (const d of p.fracPart) {
+      if (digits) digits += ' ';
+      digits += NEPALI_ONES_0_99[Number(d)];
+    }
     out = `${intWords} दशमलव ${digits}`;
   }
   return p.negative && !(BigInt(p.intPart) === 0n && /^0*$/.test(p.fracPart)) ? `माइनस ${out}` : out;
@@ -101,7 +113,11 @@ function renderEnglish(p: Parsed): string {
   const intWords = englishInt(BigInt(p.intPart));
   let out = intWords;
   if (p.fracPart.length > 0) {
-    const digits = [...p.fracPart].map((d) => ENGLISH_ONES[Number(d)]).join(' ');
+    let digits = '';
+    for (const d of p.fracPart) {
+      if (digits) digits += ' ';
+      digits += ENGLISH_ONES[Number(d)];
+    }
     out = `${intWords} point ${digits}`;
   }
   return p.negative && !(BigInt(p.intPart) === 0n && /^0*$/.test(p.fracPart)) ? `minus ${out}` : out;
