@@ -18,8 +18,8 @@ const MAX = 1000000000000n;
 const MAX_FRAC = 6;
 const NEPALI_WORD_VALUES = new Map(NEPALI_ONES_0_99.map((word, value) => [word, value]));
 const NEPALI_SCALE_VALUES = new Map(NEPALI_SCALES.map((scale) => [scale.word, scale.value]));
-const NEGATIVE_WORDS = new Set(['माइनस', 'ऋणात्मक']);
-const CURRENCY_WORDS = new Set(['रुपैयाँ', 'रुपैया', 'रूपैयाँ', 'रूपैया', 'मात्र']);
+const NEGATIVE_WORDS = new Set(['माइनस']);
+const CURRENCY_WORDS = new Set(['रुपैयाँ', 'मात्र']);
 
 interface Parsed {
   negative: boolean;
@@ -76,10 +76,21 @@ export function parseNepaliWords(input: string): bigint {
   let previousWasNumber = false;
   let previousScale = MAX;
   let foundWord = false;
+  let suffix = 0;
 
   for (; index < tokens.length; index += 1) {
     const token = tokens[index];
-    if (CURRENCY_WORDS.has(token)) continue;
+    if (CURRENCY_WORDS.has(token)) {
+      if (token === 'रुपैयाँ') {
+        if (suffix !== 0) throw new InvalidWordsError(`Unexpected word ${token}.`);
+        suffix = 1;
+      } else {
+        if (suffix !== 1) throw new InvalidWordsError(`Unexpected word ${token}.`);
+        suffix = 2;
+      }
+      continue;
+    }
+    if (suffix !== 0) throw new InvalidWordsError(`Unexpected word ${token}.`);
 
     const number = NEPALI_WORD_VALUES.get(token);
     if (number !== undefined) {
@@ -190,13 +201,17 @@ function renderEnglish(p: Parsed): string {
   return p.negative && !(BigInt(p.intPart) === 0n && /^0*$/.test(p.fracPart)) ? `minus ${out}` : out;
 }
 
-const STANDALONE_NUMBER = /(?<![-\p{L}\p{N}_])[+-]?(?:[0-9०-९]+(?:,[0-9०-९]{2,3})*)(?:\.[0-9०-९]+)?(?![-\p{L}\p{N}_])/gu;
+const STANDALONE_NUMBER = /(?<![-\p{L}\p{N}_])[+-]?[0-9०-९][0-9०-९,.]*(?![-\p{L}\p{N}_])/gu;
+const VALID_TEXT_NUMBER = /^[+-]?(?:[0-9०-९]+(?:,[0-9०-९]{2,3})*)(?:\.[0-9०-९]+)?$/u;
 
 export function numberWordsInText(input: string): string {
   if (typeof input !== 'string') throw new InvalidWordsError('Value must be a string.');
   return input.replace(STANDALONE_NUMBER, (token) => {
+    const trailing = /[.,]$/.test(token) && VALID_TEXT_NUMBER.test(token.slice(0, -1)) ? token.slice(-1) : '';
+    const numberToken = trailing === '' ? token : token.slice(0, -1);
+    if (!VALID_TEXT_NUMBER.test(numberToken)) return token;
     try {
-      return numberToNepaliWords(token.replace(/,/g, ''));
+      return `${numberToNepaliWords(numberToken.replace(/,/g, ''))}${trailing}`;
     } catch {
       return token;
     }

@@ -71,12 +71,24 @@ describe('reverse Nepali words', () => {
     expect(parseNepaliWords('शून्य')).toBe(0n);
     expect(parseNepaliWords('माइनस शून्य')).toBe(0n);
     expect(parseNepaliWords('माइनस पाँच')).toBe(-5n);
-    expect(parseNepaliWords('ऋणात्मक एक सय')).toBe(-100n);
     expect(parseNepaliWords('एक सय रुपैयाँ मात्र')).toBe(100n);
   });
 
   it('rejects malformed word grammar and unknown words', () => {
-    for (const input of ['', 'एक दुई', 'सय', 'एक xyz', 'एक दशमलव पाँच']) {
+    for (const input of [
+      '',
+      'एक दुई',
+      'सय',
+      'एक xyz',
+      'एक दशमलव पाँच',
+      'ऋणात्मक एक सय',
+      'मात्र एक सय',
+      'एक सय मात्र',
+      'एक सय रुपैयाँ सय',
+      'एक सय रुपैयाँ मात्र रुपैयाँ',
+      'एक सय रुपैयाँ मात्र मात्र',
+      'एक रुपैया',
+    ]) {
       expect(() => parseNepaliWords(input)).toThrow(InvalidWordsError);
     }
   });
@@ -91,6 +103,7 @@ describe('number words in text', () => {
   it('replaces standalone ASCII and Devanagari numbers', () => {
     expect(numberWordsInText('Pay 4750 now')).toBe('Pay चार हजार सात सय पचास now');
     expect(numberWordsInText('Fee २५ and tax 1,234')).toBe('Fee पच्चीस and tax एक हजार दुई सय चौंतीस');
+    expect(numberWordsInText('Total: 1,234.50.')).toBe('Total: एक हजार दुई सय चौंतीस दशमलव पाँच शून्य.');
   });
 
   it('does not replace numbers embedded in words', () => {
@@ -101,6 +114,7 @@ describe('number words in text', () => {
     expect(numberWordsInText('Year 1000000000000 and value 1.1234567')).toBe(
       'Year 1000000000000 and value 1.1234567',
     );
+    expect(numberWordsInText('Bad 1,2345 and 1.2.3')).toBe('Bad 1,2345 and 1.2.3');
   });
 });
 
