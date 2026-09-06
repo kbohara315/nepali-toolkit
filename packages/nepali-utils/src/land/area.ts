@@ -204,12 +204,30 @@ function decompose(um2: bigint, sizes: readonly bigint[]): bigint[] {
   });
 }
 
+function formatDefaultHillArea(area: Area): string {
+  let rest = area.um2;
+  const ropani = rest / UM2_PER_ROPANI;
+  rest %= UM2_PER_ROPANI;
+  const aana = rest / UM2_PER_AANA;
+  rest %= UM2_PER_AANA;
+  const paisa = rest / UM2_PER_PAISA;
+  rest %= UM2_PER_PAISA;
+  const daam = rest / UM2_PER_DAAM;
+  const parts: string[] = [];
+  if (ropani !== 0n) parts.push(`${toDevanagari(ropani.toString())} रोपनी`);
+  if (aana !== 0n) parts.push(`${toDevanagari(aana.toString())} आना`);
+  if (paisa !== 0n) parts.push(`${toDevanagari(paisa.toString())} पैसा`);
+  if (daam !== 0n) parts.push(`${toDevanagari(daam.toString())} दाम`);
+  return parts.length === 0 ? '० दाम' : parts.join(' ');
+}
+
 /**
  * Display an area in hill units. Decomposition is by integer division (floor)
  * from the exact area; sub-daam remainders are dropped in display only — the
  * `Area` keeps full precision.
  */
 export function formatHillArea(area: Area, options?: AreaFormatOptions): string {
+  if (options === undefined) return formatDefaultHillArea(area);
   const [ropani, aana, paisa, daam] = decompose(area.um2, [
     UM2_PER_ROPANI,
     UM2_PER_AANA,
