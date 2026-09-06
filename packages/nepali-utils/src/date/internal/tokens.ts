@@ -69,39 +69,53 @@ export function findToken<T extends string>(
   return undefined;
 }
 
-export function scan<T extends string>(
+export type ScanPart<T extends string> =
+  | { readonly token: T }
+  | { readonly literal: string };
+
+export function compileScan<T extends string>(
   pattern: string,
   tokens: readonly T[],
-  onToken: (token: T) => string,
-): string {
-  let output = '';
+): readonly ScanPart<T>[] {
+  const parts: ScanPart<T>[] = [];
+  let literal = '';
+  const flushLiteral = (): void => {
+    if (literal.length > 0) {
+      parts.push({ literal });
+      literal = '';
+    }
+  };
+
   for (let index = 0; index < pattern.length;) {
     const character = pattern[index];
 
     if (character === '[') {
       const end = pattern.indexOf(']', index + 1);
       if (end < 0) throw new SyntaxError('unterminated format literal');
-      output += pattern.slice(index + 1, end);
+      flushLiteral();
+      parts.push({ literal: pattern.slice(index + 1, end) });
       index = end + 1;
       continue;
     }
 
     if (character === "'") {
       if (pattern[index + 1] === "'") {
-        output += "'";
+        literal += "'";
         index += 2;
         continue;
       }
       const end = pattern.indexOf("'", index + 1);
       if (end < 0) throw new SyntaxError('unterminated quoted format literal');
-      output += pattern.slice(index + 1, end);
+      flushLiteral();
+      parts.push({ literal: pattern.slice(index + 1, end) });
       index = end + 1;
       continue;
     }
 
     const token = findToken(tokens, pattern, index);
     if (token) {
-      output += onToken(token);
+      flushLiteral();
+      parts.push({ token });
       index += token.length;
       continue;
     }
@@ -109,10 +123,30 @@ export function scan<T extends string>(
     if (/[A-Za-z]/.test(character)) {
       throw new SyntaxError(`unknown format token starting at ${index}`);
     }
-    output += character;
+    literal += character;
     index += 1;
   }
+  flushLiteral();
+  return parts;
+}
+
+export function renderScan<T extends string>(
+  parts: readonly ScanPart<T>[],
+  onToken: (token: T) => string,
+): string {
+  let output = '';
+  for (const part of parts) {
+    output += 'token' in part ? onToken(part.token) : part.literal;
+  }
   return output;
+}
+
+export function scan<T extends string>(
+  pattern: string,
+  tokens: readonly T[],
+  onToken: (token: T) => string,
+): string {
+  return renderScan(compileScan(pattern, tokens), onToken);
 }
 
 export interface NumeralsLocale {

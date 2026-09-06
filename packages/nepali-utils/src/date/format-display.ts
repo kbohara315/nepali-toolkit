@@ -8,7 +8,9 @@ import {
   defaultOrdinal,
   formatYear,
   pad,
-  scan,
+  compileScan,
+  renderScan,
+  type ScanPart,
 } from './internal/tokens.js';
 
 export interface DisplayLocale {
@@ -28,6 +30,19 @@ export interface DisplayOptions {
 
 const TOKENS = ['YYYY', 'MMMM', 'dddd', 'ddd', 'YY', 'MM', 'DD', 'do', 'M', 'D'] as const;
 type DisplayToken = (typeof TOKENS)[number];
+const patternCache = new Map<string, readonly ScanPart<DisplayToken>[]>();
+const PATTERN_CACHE_LIMIT = 32;
+
+function compiledPattern(pattern: string): readonly ScanPart<DisplayToken>[] {
+  const cached = patternCache.get(pattern);
+  if (cached) return cached;
+  const compiled = compileScan(pattern, TOKENS);
+  if (patternCache.size >= PATTERN_CACHE_LIMIT) {
+    patternCache.delete(patternCache.keys().next().value as string);
+  }
+  patternCache.set(pattern, compiled);
+  return compiled;
+}
 
 
 function resolveOptions(
@@ -60,7 +75,7 @@ function format(
   if (locale.months.length !== 12)
     throw new InvalidFieldError('locale must provide 12 month names');
 
-  const result = scan(pattern, TOKENS, (token) => {
+  const result = renderScan(compiledPattern(pattern), (token) => {
     switch (token) {
       case 'YYYY':
         return formatYear(date.year);
