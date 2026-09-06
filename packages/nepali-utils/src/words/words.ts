@@ -4,10 +4,22 @@ import { ENGLISH_ONES, ENGLISH_SCALES, ENGLISH_TENS, NEPALI_ONES_0_99, NEPALI_SC
 
 export type WordsInput = string | number | bigint;
 
+export type NepaliAmountWordsOptions = {
+  appendOnly?: boolean;
+  showPaisa?: boolean;
+  paisaSeparator?: 'space' | 'and';
+  zeroRupeeText?: string;
+  chequeStyle?: boolean;
+};
+
 export type { InvalidWordsError };
 
 const MAX = 1000000000000n;
 const MAX_FRAC = 6;
+const NEPALI_WORD_VALUES = new Map(NEPALI_ONES_0_99.map((word, value) => [word, value]));
+const NEPALI_SCALE_VALUES = new Map(NEPALI_SCALES.map((scale) => [scale.word, scale.value]));
+const NEGATIVE_WORDS = new Set(['माइनस', 'ऋणात्मक']);
+const CURRENCY_WORDS = new Set(['रुपैयाँ', 'रुपैया', 'रूपैयाँ', 'रूपैया', 'मात्र']);
 
 interface Parsed {
   negative: boolean;
@@ -43,6 +55,61 @@ function parseNumeral(value: WordsInput, maxFrac: number): Parsed {
   const intVal = BigInt(intPart);
   if (intVal >= MAX) throw new InvalidWordsError('Integer out of range: 0 <= n < 10^12.');
   return { negative, intPart: intPart.replace(/^0+(?=\d)/, '') || '0', fracPart };
+}
+
+export function parseNepaliWords(input: string): bigint {
+  if (typeof input !== 'string') throw new InvalidWordsError('Value must be a string.');
+  const text = input.normalize('NFC').trim().replace(/\s+/g, ' ');
+  if (text === '') throw new InvalidWordsError('Word input must not be empty.');
+
+  const tokens = text.split(' ');
+  let index = 0;
+  let negative = false;
+  if (NEGATIVE_WORDS.has(tokens[0])) {
+    negative = true;
+    index = 1;
+  }
+
+  let total = 0n;
+  let current = 0n;
+  let hasCurrent = false;
+  let previousWasNumber = false;
+  let previousScale = MAX;
+  let foundWord = false;
+
+  for (; index < tokens.length; index += 1) {
+    const token = tokens[index];
+    if (CURRENCY_WORDS.has(token)) continue;
+
+    const number = NEPALI_WORD_VALUES.get(token);
+    if (number !== undefined) {
+      if (previousWasNumber) throw new InvalidWordsError(`Unexpected number word ${token}.`);
+      current = BigInt(number);
+      hasCurrent = true;
+      previousWasNumber = true;
+      foundWord = true;
+      continue;
+    }
+
+    const scale = NEPALI_SCALE_VALUES.get(token);
+    if (scale === undefined || !hasCurrent || scale >= previousScale) {
+      throw new InvalidWordsError(`Unexpected word ${token}.`);
+    }
+    total += current * scale;
+    if (total >= MAX) throw new InvalidWordsError('Integer out of range: 0 <= n < 10^12.');
+    current = 0n;
+    hasCurrent = false;
+    previousWasNumber = false;
+    previousScale = scale;
+    foundWord = true;
+  }
+
+  if (!foundWord || (tokens.length > 1 && !hasCurrent && total === 0n)) {
+    throw new InvalidWordsError('Word input contains no number.');
+  }
+  total += current;
+  if (total >= MAX) throw new InvalidWordsError('Integer out of range: 0 <= n < 10^12.');
+  return negative && total !== 0n ? -total : total;
 }
 
 function nepaliInt(n: bigint): string {
@@ -123,6 +190,56 @@ function renderEnglish(p: Parsed): string {
   return p.negative && !(BigInt(p.intPart) === 0n && /^0*$/.test(p.fracPart)) ? `minus ${out}` : out;
 }
 
+const STANDALONE_NUMBER = /(?<![-\p{L}\p{N}_])[+-]?(?:[0-9०-९]+(?:,[0-9०-९]{2,3})*)(?:\.[0-9०-९]+)?(?![-\p{L}\p{N}_])/gu;
+
+export function numberWordsInText(input: string): string {
+  if (typeof input !== 'string') throw new InvalidWordsError('Value must be a string.');
+  return input.replace(STANDALONE_NUMBER, (token) => {
+    try {
+      return numberToNepaliWords(token.replace(/,/g, ''));
+    } catch {
+      return token;
+    }
+  });
+}
+
+function checkAmountOptions(options?: NepaliAmountWordsOptions): Required<NepaliAmountWordsOptions> {
+  const checked = {
+    appendOnly: options?.appendOnly ?? true,
+    showPaisa: options?.showPaisa ?? true,
+    paisaSeparator: options?.paisaSeparator ?? 'space',
+    zeroRupeeText: options?.zeroRupeeText ?? 'शून्य',
+    chequeStyle: options?.chequeStyle ?? false,
+  };
+  if (typeof checked.appendOnly !== 'boolean' || typeof checked.showPaisa !== 'boolean') {
+    throw new InvalidWordsError('appendOnly and showPaisa must be booleans.');
+  }
+  if (checked.paisaSeparator !== 'space' && checked.paisaSeparator !== 'and') {
+    throw new InvalidWordsError('paisaSeparator must be "space" or "and".');
+  }
+  if (typeof checked.zeroRupeeText !== 'string' || checked.zeroRupeeText.trim() === '') {
+    throw new InvalidWordsError('zeroRupeeText must be a non-empty string.');
+  }
+  if (typeof checked.chequeStyle !== 'boolean') throw new InvalidWordsError('chequeStyle must be a boolean.');
+  return checked;
+}
+
+function formatAmountWords(
+  negative: boolean,
+  rupees: bigint,
+  paisa: bigint,
+  options?: NepaliAmountWordsOptions,
+): string {
+  const checked = checkAmountOptions(options);
+  const visibleNegative = negative && (rupees !== 0n || (checked.showPaisa && paisa !== 0n));
+  let out = `${visibleNegative ? 'माइनस ' : ''}${rupees === 0n ? checked.zeroRupeeText : nepaliInt(rupees)} रुपैयाँ`;
+  if (checked.showPaisa && paisa !== 0n) {
+    out += `${checked.paisaSeparator === 'and' ? ' र ' : ' '}${nepaliInt(paisa)} पैसा`;
+  }
+  if (checked.appendOnly) out += ' मात्र';
+  return checked.chequeStyle ? out.replaceAll(' ', '  ') : out;
+}
+
 export function numberToNepaliWords(value: WordsInput): string {
   return renderNepali(parseNumeral(value, MAX_FRAC));
 }
@@ -131,23 +248,19 @@ export function numberToEnglishWords(value: WordsInput): string {
   return renderEnglish(parseNumeral(value, MAX_FRAC));
 }
 
-export function amountToNepaliWordsNPR(value: WordsInput): string {
+export function amountToNepaliWordsNPR(value: WordsInput, options?: NepaliAmountWordsOptions): string {
   const p = parseNumeral(value, 2);
   const rupees = BigInt(p.intPart);
   const paisa = p.fracPart === '' ? 0n : BigInt(p.fracPart.padEnd(2, '0'));
-  const rupeeWords = `${p.negative && (rupees !== 0n || paisa !== 0n) ? 'माइनस ' : ''}${nepaliInt(rupees)}`;
-  if (paisa === 0n) return `${rupeeWords} रुपैयाँ मात्र`;
-  return `${rupeeWords} रुपैयाँ ${nepaliInt(paisa)} पैसा मात्र`;
+  return formatAmountWords(p.negative, rupees, paisa, options);
 }
 
-export function amountToNepaliWordsNPRMinorUnits(paisa: bigint): string {
+export function amountToNepaliWordsNPRMinorUnits(paisa: bigint, options?: NepaliAmountWordsOptions): string {
   if (typeof paisa !== 'bigint') throw new InvalidWordsError('Minor units must be a bigint.');
   const negative = paisa < 0n;
   const abs = negative ? -paisa : paisa;
   const rupees = abs / 100n;
   const rem = abs % 100n;
   if (rupees >= MAX) throw new InvalidWordsError('Integer out of range: 0 <= n < 10^12.');
-  const prefix = negative && abs !== 0n ? 'माइनस ' : '';
-  if (rem === 0n) return `${prefix}${nepaliInt(rupees)} रुपैयाँ मात्र`;
-  return `${prefix}${nepaliInt(rupees)} रुपैयाँ ${nepaliInt(rem)} पैसा मात्र`;
+  return formatAmountWords(negative, rupees, rem, options);
 }

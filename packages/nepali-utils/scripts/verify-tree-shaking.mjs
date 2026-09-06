@@ -28,7 +28,7 @@ const fixtures = {
     "import { formatNPR } from 'nepali-utils/currency'; console.log(formatNPR('12345678.9'));\n",
   land: "import { hillArea, formatHillArea } from 'nepali-utils/land'; console.log(formatHillArea(hillArea({ ropani: 1 })));\n",
   words:
-    "import { numberToNepaliWords } from 'nepali-utils/words'; console.log(numberToNepaliWords(123456));\n",
+    "import { amountToNepaliWordsNPR, amountToNepaliWordsNPRMinorUnits, numberToEnglishWords, numberToNepaliWords, numberWordsInText, parseNepaliWords } from 'nepali-utils/words'; console.log(amountToNepaliWordsNPR('123456.50'), amountToNepaliWordsNPRMinorUnits(12345650n), numberToEnglishWords(123456), numberToNepaliWords(123456), numberWordsInText('Pay 4750 now'), parseNepaliWords('एक लाख तेइस हजार चार सय छपन्न'));\n",
   collation:
     "import { createNepaliCollator } from 'nepali-utils/collation'; console.log(createNepaliCollator().sort(['ख', 'क', 'ग']));\n",
   phone:

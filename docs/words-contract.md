@@ -67,8 +67,10 @@ as Nepali.
 ## NPR amounts
 
 ```ts
-amountToNepaliWordsNPR(value: NumeralInput): string
-amountToNepaliWordsNPRMinorUnits(paisa: bigint): string
+amountToNepaliWordsNPR(value: WordsInput, options?: NepaliAmountWordsOptions): string
+amountToNepaliWordsNPRMinorUnits(paisa: bigint, options?: NepaliAmountWordsOptions): string
+parseNepaliWords(input: string): bigint
+numberWordsInText(input: string): string
 ```
 
 Rupees take at most 2 fraction digits (else `InvalidWordsError`); minor
@@ -79,13 +81,33 @@ units are integer paisa (negative allowed). Rendering:
 
 Example: `'123.45'` → `एक सय तेइस रुपैयाँ पैंतालीस पैसा मात्र`.
 
+Both amount functions accept `NepaliAmountWordsOptions`:
+
+```ts
+type NepaliAmountWordsOptions = {
+  appendOnly?: boolean; // default true
+  showPaisa?: boolean; // default true
+  paisaSeparator?: 'space' | 'and'; // default 'space'
+  zeroRupeeText?: string; // default `शून्य`
+  chequeStyle?: boolean; // default false
+}
+```
+
+`parseNepaliWords` accepts generated Nepali integer phrases, optional `माइनस`,
+and the currency suffixes `रुपैयाँ` and `मात्र`. It returns a `bigint` and
+rejects malformed grammar, unknown words, non-descending scales, and values
+outside the supported range. `numberWordsInText` replaces standalone ASCII or
+Devanagari integer/decimal spans while leaving embedded identifiers and
+unsupported values unchanged.
+
 ## Functions (`nepali-utils/words`)
 
-`numberToNepaliWords`, `numberToEnglishWords`,
+`numberToNepaliWords`, `numberToEnglishWords`, `parseNepaliWords`,
+`numberWordsInText`,
 `amountToNepaliWordsNPR`, `amountToNepaliWordsNPRMinorUnits`,
-`InvalidWordsError`, option/input types. Inputs: `NumeralInput`-shaped
-(`string | number | bigint`; floats approximate past float precision —
-exact callers use strings).
+`InvalidWordsError`, `NepaliAmountWordsOptions`, and `WordsInput`. Numeric
+inputs are `string | number | bigint`; floats approximate past float precision,
+so exact callers should use strings.
 
 Subpath `./words`, initial budget 4096 gzip (word tables are data-heavy;
 adjust only with a recorded bundle diff). Isolation: no Patro tokens, no

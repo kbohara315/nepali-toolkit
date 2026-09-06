@@ -12,7 +12,12 @@ import { toDevanagari } from '../dist/number/digits.js';
 import { formatNumber } from '../dist/number/index.js';
 import { formatNPR } from '../dist/currency/index.js';
 import { hillArea, formatHillArea } from '../dist/land/index.js';
-import { numberToNepaliWords } from '../dist/words/index.js';
+import {
+  amountToNepaliWordsNPR,
+  numberToNepaliWords,
+  numberWordsInText,
+  parseNepaliWords,
+} from '../dist/words/index.js';
 import { parseNepalPhone, formatNepalPhone } from '../dist/phone/index.js';
 import { createNepaliCollator } from '../dist/collation/index.js';
 import { getProvince } from '../dist/admin/provinces.js';
@@ -112,6 +117,9 @@ benchmark('number.formatNumber', () => formatNumber('12345678.9'));
 benchmark('currency.formatNPR', () => formatNPR('12345678.9'));
 benchmark('land.formatHillArea', () => formatHillArea(area));
 benchmark('words.numberToWords', () => numberToNepaliWords(123456));
+benchmark('words.parseNepaliWords', () => parseNepaliWords('एक लाख तेइस हजार चार सय छपन्न'));
+benchmark('words.numberWordsInText', () => numberWordsInText('Pay 4750 now'));
+benchmark('words.amountToNepaliWordsNPR', () => amountToNepaliWordsNPR('123456.50'));
 benchmark('phone.parse+format', () => formatNepalPhone(phone));
 benchmark('collation.sort', () => collator.sort(words));
 benchmark('admin.getProvince', () => getProvince('1'));
