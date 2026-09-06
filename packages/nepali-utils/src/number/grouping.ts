@@ -160,6 +160,13 @@ function formatDefaultDecimal(exact: ExactDecimal): string {
   return exact.negative && !isZero(roundedInt, roundedFrac) ? `-${out}` : out;
 }
 
+export function formatDefaultCurrencyMagnitude(exact: ExactDecimal): string {
+  const [roundedInt, roundedFrac] = roundHalfUp(exact.intDigits, exact.fracDigits, 2);
+  const frac = roundedFrac + '0'.repeat(2 - roundedFrac.length);
+  const out = `${groupInteger(roundedInt, 'nepali', ',')}.${frac}`;
+  return mapDigits(out, true);
+}
+
 /** Canonical ASCII decimal: no grouping, '.' separator, no '+', minimal zeros. */
 export function canonicalizeDecimalText(raw: string): string {
   const parsed = parseDecimalText(raw.trim().replace(/,/g, ''));

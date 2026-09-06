@@ -1,4 +1,8 @@
-import { formatExactDecimal, toExactDecimal } from '../number/grouping.js';
+import {
+  formatDefaultCurrencyMagnitude,
+  formatExactDecimal,
+  toExactDecimal,
+} from '../number/grouping.js';
 import { InvalidCurrencyError } from './errors.js';
 
 export type NPRSymbol = 'रु' | 'रू' | 'नेरू' | 'NPR';
@@ -100,6 +104,11 @@ function compose(
  * callers pass strings or use `formatNPRMinorUnits`.
  */
 export function formatNPR(value: string | number | bigint, options?: NPRFormatOptions): string {
+  if (options === undefined) {
+    const exact = toExactDecimal(value);
+    const magnitude = formatDefaultCurrencyMagnitude(exact);
+    return compose(magnitude, 'रु', 'before', 'space', exact.negative && !isZeroMagnitude(magnitude), 'minus');
+  }
   const checked = checkOptions(options);
   const fractions = checkFractions(options, false);
   const exact = toExactDecimal(value);
