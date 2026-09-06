@@ -118,6 +118,7 @@ function checkSeparators(groupSeparator: string, decimalSeparator: string): void
 }
 
 export function formatExactDecimal(exact: ExactDecimal, options?: NumberFormatOptions): string {
+  if (options === undefined) return formatDefaultDecimal(exact);
   const grouping = options?.grouping ?? 'nepali';
   const numerals = options?.numerals ?? 'ascii';
   const min = options?.minimumFractionDigits ?? 0;
@@ -150,6 +151,13 @@ export function formatExactDecimal(exact: ExactDecimal, options?: NumberFormatOp
 
 function isZero(intDigits: string, frac: string): boolean {
   return /^0*$/.test(intDigits) && /^0*$/.test(frac);
+}
+
+function formatDefaultDecimal(exact: ExactDecimal): string {
+  const [roundedInt, roundedFrac] = roundHalfUp(exact.intDigits, exact.fracDigits, 3);
+  const intPart = groupInteger(roundedInt, 'nepali', ',');
+  const out = roundedFrac === '' ? intPart : `${intPart}.${roundedFrac}`;
+  return exact.negative && !isZero(roundedInt, roundedFrac) ? `-${out}` : out;
 }
 
 /** Canonical ASCII decimal: no grouping, '.' separator, no '+', minimal zeros. */
