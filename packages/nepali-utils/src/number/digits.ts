@@ -12,13 +12,13 @@ function asText(value: NumeralInput): string {
 /** Replace ASCII decimal digits with their Devanagari equivalents. */
 export function toDevanagari(value: NumeralInput): string {
   return asText(value).replace(/[0-9]/g, (digit) =>
-    String.fromCharCode(DEVANAGARI_ZERO + Number(digit)),
+    String.fromCharCode(DEVANAGARI_ZERO + digit.charCodeAt(0) - 48),
   );
 }
 
 /** Replace Devanagari decimal digits with ASCII digits. Other characters are preserved. */
 export function toAscii(value: NumeralInput): string {
   return asText(value).replace(/[\u0966-\u096f]/g, (digit) =>
-    String(digit.charCodeAt(0) - DEVANAGARI_ZERO),
+    String.fromCharCode(digit.charCodeAt(0) - DEVANAGARI_ZERO + 48),
   );
 }
