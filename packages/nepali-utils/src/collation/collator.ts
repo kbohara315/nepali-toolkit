@@ -90,8 +90,16 @@ export function createNepaliCollator(options: CollationOptions = {}): NepaliColl
     });
   }
 
-  const keyOf = (value: string): string =>
-    buildKey(value, conjuncts, sensitivity, numeric, { ignorePunctuation });
+  // Keep repeated compare/sort calls fast without retaining an unbounded
+  // amount of caller data. Most callers sort the same small vocabulary.
+  const keyCache = new Map<string, string>();
+  const keyOf = (value: string): string => {
+    const cached = keyCache.get(value);
+    if (cached !== undefined) return cached;
+    const key = buildKey(value, conjuncts, sensitivity, numeric, { ignorePunctuation });
+    if (keyCache.size < 256 && value.length <= 256) keyCache.set(value, key);
+    return key;
+  };
   const compareKeys = (a: string, b: string): -1 | 0 | 1 => {
     const ka = keyOf(a);
     const kb = keyOf(b);

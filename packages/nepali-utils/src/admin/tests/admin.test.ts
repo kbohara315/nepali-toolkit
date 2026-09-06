@@ -171,6 +171,10 @@ describe('admin name search', () => {
     expect(findPalikasByName('काठमाण्डौ', { script: 'en' })).toEqual([]);
     expect(findPalikasByName('kathmandu', { script: 'ne' })).toEqual([]);
     expect(findPalikasByName('a', { limit: 3 })).toHaveLength(3);
+    expect(findPalikasByName('नगर', { script: 'ne', limit: 2 }).map((p) => p.code)).toEqual([
+      '10106',
+      '10206',
+    ]);
     expect(findPalikasByName('a', { limit: 0 })).toEqual([]);
   });
 

@@ -156,6 +156,14 @@ const codePointWeight = (ch: string): string => {
   return '' + ch;
 };
 
+let barnamalaWeights: Map<string, string> | undefined;
+const getBarnamalaWeight = (ch: string): string | undefined => {
+  barnamalaWeights ??= new Map(
+    BARNAMALA.map((letter, index) => [letter, String.fromCharCode(BASE + index)]),
+  );
+  return barnamalaWeights.get(ch);
+};
+
 export type BuildKeyOptions = {
   /** Skip punctuation/whitespace at primary (default false — v1 weights them). */
   ignorePunctuation?: boolean;
@@ -212,8 +220,11 @@ export function buildKey(
       ch = String.fromCharCode(cp + 32);
       if (sensitivity === 'full') tertiary.push(raw);
     }
-    const tri = ch + (chars[i + 1] ?? '') + (chars[i + 2] ?? '');
-    const contraction = CONTRACTIONS[tri];
+    let contraction: (typeof CONTRACTIONS)[string] | undefined;
+    if (ch === 'क' || ch === 'त' || ch === 'ज') {
+      const tri = ch + (chars[i + 1] ?? '') + (chars[i + 2] ?? '');
+      contraction = CONTRACTIONS[tri];
+    }
     if (contraction !== undefined) {
       flushDigits();
       if (mode === 'school') {
@@ -236,7 +247,7 @@ export function buildKey(
       continue;
     }
     flushDigits();
-    const pair = ch + (chars[i + 1] ?? '');
+    const pair = ch === 'अ' ? ch + (chars[i + 1] ?? '') : '';
     const chart = CHART_CONTRACTIONS[pair];
     if (chart !== undefined) {
       primary.push(chart);
@@ -261,9 +272,9 @@ export function buildKey(
       i += 1;
       continue;
     }
-    const barnamalaIndex = (BARNAMALA as readonly string[]).indexOf(ch);
-    if (barnamalaIndex >= 0) {
-      primary.push(String.fromCharCode(BASE + barnamalaIndex));
+    const barnamalaWeight = getBarnamalaWeight(ch);
+    if (barnamalaWeight !== undefined) {
+      primary.push(barnamalaWeight);
       i += 1;
       continue;
     }

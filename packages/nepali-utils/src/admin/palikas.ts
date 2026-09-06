@@ -20,11 +20,16 @@ export function getPalikaWards(code: string): readonly number[] {
 export function findPalikasByName(query: string, options?: AdminSearchOptions): Palika[] {
   if (typeof query !== 'string') throw new InvalidAdminError(`Expected query string, received ${typeof query}`);
   const q = key(query), folded = q.toLowerCase(), limit = options?.limit ?? 25;
+  const script = options?.script;
   if (!Number.isInteger(limit) || limit < 0) throw new InvalidAdminError(`Expected non-negative limit, received ${limit}`);
   if (limit === 0 || q.length === 0) return [];
   searchRows ??= PALIKAS.map((p) => [p, key(p.nameNe), key(p.nameEn).toLowerCase()] as const);
-  return searchRows.filter(([p, ne, en]) =>
-    (options?.script !== 'en' && ne.includes(q)) ||
-    (options?.script !== 'ne' && en.includes(folded)),
-  ).map(([p]) => p).slice(0, limit);
+  const out: Palika[] = [];
+  for (const [palika, ne, en] of searchRows) {
+    if ((script !== 'en' && ne.includes(q)) || (script !== 'ne' && en.includes(folded))) {
+      out.push(palika);
+      if (out.length === limit) break;
+    }
+  }
+  return out;
 }
