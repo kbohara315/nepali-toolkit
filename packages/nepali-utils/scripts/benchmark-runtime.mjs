@@ -26,15 +26,69 @@ const area = hillArea({ ropani: 1, aana: 2 });
 const collator = createNepaliCollator({ backend: 'basic' });
 const words = ['ख', 'क', 'ग', 'ज्ञ', 'नेपाल', 'काठमाडौं'];
 const jsonOutput = process.argv.includes('--json');
+const args = new Map(
+  process.argv
+    .slice(2)
+    .filter((arg) => arg.startsWith('--') && arg.includes('='))
+    .map((arg) => {
+      const [key, ...value] = arg.slice(2).split('=');
+      return [key, value.join('=')];
+    }),
+);
 const results = [];
+const DEFAULT_ITERATIONS = 100_000;
+const DEFAULT_SAMPLES = 9;
+const DEFAULT_WARMUP = 20_000;
+const DEFAULT_MIN_SAMPLE_MS = 50;
+const only = args.get('only');
 
-function benchmark(name, fn, iterations = 10_000) {
-  for (let i = 0; i < 1_000; i++) fn();
+function positiveInteger(name, fallback) {
+  const value = Number(args.get(name) ?? fallback);
+  if (!Number.isInteger(value) || value <= 0) throw new Error(`--${name} must be a positive integer`);
+  return value;
+}
+
+const samples = positiveInteger('samples', DEFAULT_SAMPLES);
+const warmup = positiveInteger('warmup', DEFAULT_WARMUP);
+const minSampleMs = positiveInteger('min-ms', DEFAULT_MIN_SAMPLE_MS);
+
+function runIterations(fn, iterations) {
   const start = performance.now();
-  for (let i = 0; i < iterations; i++) fn();
+  let lastResult;
+  for (let i = 0; i < iterations; i++) lastResult = fn();
   const elapsed = performance.now() - start;
-  const ops = (iterations / elapsed) * 1_000;
-  const result = { name, iterations, elapsedMs: Number(elapsed.toFixed(2)), opsPerSecond: Math.round(ops) };
+  globalThis.__nepaliBenchmarkSink = lastResult;
+  return elapsed;
+}
+
+function benchmark(name, fn, iterations = DEFAULT_ITERATIONS) {
+  if (only && only !== name) return;
+  for (let i = 0; i < warmup; i++) fn();
+  const calibrationElapsed = runIterations(fn, iterations);
+  if (calibrationElapsed < minSampleMs) {
+    iterations = Math.ceil(iterations * minSampleMs / Math.max(calibrationElapsed, 0.1));
+  }
+  const throughputs = [];
+  for (let sample = 0; sample < samples; sample++) {
+    const elapsed = runIterations(fn, iterations);
+    throughputs.push((iterations / elapsed) * 1_000);
+  }
+  throughputs.sort((a, b) => a - b);
+  const median = throughputs[Math.floor(throughputs.length / 2)];
+  const p10 = throughputs[Math.floor((throughputs.length - 1) * 0.1)];
+  const p90 = throughputs[Math.ceil((throughputs.length - 1) * 0.9)];
+  const result = {
+    name,
+    iterations,
+    samples,
+    warmupIterations: warmup,
+    minSampleMs,
+    elapsedMs: Number((1_000 / median * iterations).toFixed(2)),
+    opsPerSecond: Math.round(median),
+    p10OpsPerSecond: Math.round(p10),
+    p90OpsPerSecond: Math.round(p90),
+    spreadPercent: Number(((p90 - p10) / median * 100).toFixed(1)),
+  };
   results.push(result);
   if (!jsonOutput) console.log(`${name.padEnd(24)} ${result.elapsedMs.toFixed(2).padStart(9)} ms  ${result.opsPerSecond.toString().padStart(10)} ops/s`);
 }
@@ -63,7 +117,10 @@ benchmark('collation.sort', () => collator.sort(words));
 benchmark('admin.getProvince', () => getProvince('1'));
 benchmark('admin.getDistrict', () => getDistrict('101'));
 benchmark('admin.getPalika', () => getPalika('10106'));
-benchmark('admin.findPalikas', () => findPalikasByName('नगर', { script: 'ne' }), 1_000);
+benchmark('admin.findPalikas', () => findPalikasByName('नगर', { script: 'ne' }), 10_000);
+
+if (only && results.length === 0) throw new Error(`Unknown benchmark: ${only}`);
+delete globalThis.__nepaliBenchmarkSink;
 
 if (jsonOutput) {
   console.log(JSON.stringify({
