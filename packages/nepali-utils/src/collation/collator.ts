@@ -118,16 +118,20 @@ export function createNepaliCollator(options: CollationOptions = {}): NepaliColl
     compare,
     // Schwartzian: one key per string (O(N)), then native `<` on keys.
     sort(values: readonly string[]): string[] {
+      if (resolved === 'intl') {
+        const copy = values.map((value) => {
+          assertString(value);
+          return value;
+        });
+        const ic = intl as { compare(a: string, b: string): number };
+        copy.sort((a, b) => ic.compare(a, b));
+        return copy;
+      }
       const pairs = values.map((value) => {
         assertString(value);
         return { key: keyOf(value), value };
       });
-      if (resolved === 'intl') {
-        const ic = intl as { compare(a: string, b: string): number };
-        pairs.sort((x, y) => ic.compare(x.value, y.value));
-      } else {
-        pairs.sort((x, y) => (x.key < y.key ? -1 : x.key > y.key ? 1 : 0));
-      }
+      pairs.sort((x, y) => (x.key < y.key ? -1 : x.key > y.key ? 1 : 0));
       return pairs.map((pair) => pair.value);
     },
     equals(a: string, b: string): boolean {

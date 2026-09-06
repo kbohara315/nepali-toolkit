@@ -3,7 +3,7 @@
 // heuristics.
 
 import { DISTRICTS } from './data/districts.js';
-import { getPalika } from './lookup.js';
+import { getPalika } from './palikas.js';
 
 const DISTRICT_CODES: ReadonlySet<string> = new Set(DISTRICTS.map((d) => d.code));
 

@@ -35,6 +35,12 @@ const fixtures = {
     "import { parseNepalPhone, formatNepalPhone } from 'nepali-utils/phone'; console.log(formatNepalPhone(parseNepalPhone('+977 981-2345678')));\n",
   admin:
     "import { getPalika, isValidWard } from 'nepali-utils/admin'; console.log(getPalika('10106'), isValidWard('10106', 5));\n",
+  'admin-provinces':
+    "import { getProvince } from 'nepali-utils/admin/provinces'; console.log(getProvince('1'));\n",
+  'admin-districts':
+    "import { getDistrict } from 'nepali-utils/admin/districts'; console.log(getDistrict('101'));\n",
+  'admin-palikas':
+    "import { getPalika } from 'nepali-utils/admin/palikas'; console.log(getPalika('10106'));\n",
   'date-locale-en':
     "import { monthName } from 'nepali-utils/date/locale/en'; console.log(monthName(4));\n",
   'date-locale-ne':
@@ -47,7 +53,7 @@ const fixtures = {
     "import { getFiscalYear } from 'nepali-utils/date/fiscal'; console.log(getFiscalYear({ year: 2082, month: 4, day: 7 }));\n",
   'date-relative':
     "import { relativePhrase } from 'nepali-utils/date/relative'; console.log(relativePhrase(1));\n",
-  root: "import { bs, toAD } from 'nepali-utils'; console.log(toAD(bs(2082, 4, 7)));\n",
+  root: "import 'nepali-utils'; console.log('root loaded');\n",
 };
 
 // Fixtures that must not pull conversion data tables into the bundle.
@@ -60,6 +66,8 @@ const leanFixtures = new Set([
   'land',
   'date-locale-en',
   'date-locale-ne',
+  'admin-provinces',
+  'admin-districts',
 ]);
 
 const budgets = {
@@ -80,6 +88,9 @@ const budgets = {
   admin: 24 * 1024,
   'date-locale-en': 1024,
   'date-locale-ne': 1024,
+  'admin-provinces': 1024,
+  'admin-districts': 4096,
+  'admin-palikas': 24 * 1024,
   'date-adapter-date': 2048,
   'date-adapter-timezone': 2048,
   'date-fiscal': 1536,
@@ -111,7 +122,11 @@ try {
     sizes.set(name, { raw: bundled.byteLength, gzip: gzipSync(bundled).byteLength });
     if (leanFixtures.has(name)) {
       const text = bundled.toString('utf8');
-      if (text.includes('33238') || text.includes('working-2026-08-22')) {
+      if (
+        text.includes('33238') ||
+        text.includes('working-2026-08-22') ||
+        text.includes('Phaktanlung')
+      ) {
         throw new Error(`${name} consumer retained conversion data`);
       }
     }

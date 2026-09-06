@@ -124,7 +124,9 @@ export function getNepaliTextStats(input: string): NepaliTextStats {
 
 /** Word count with Nepali (danda-aware) tokenization. */
 export function countNepaliWords(input: string): number {
-  return getNepaliTextStats(input).words;
+  assertString(input);
+  const normalized = normalizeNepaliText(input);
+  return normalized.trim().length === 0 ? 0 : wordsOf(normalized).length;
 }
 
 // Punctuation skipped when `ignorePunctuation` is set (collation keys and

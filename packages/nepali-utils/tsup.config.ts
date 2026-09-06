@@ -26,12 +26,21 @@ export default defineConfig({
     'src/collation/index.ts',
     'src/phone/index.ts',
     'src/admin/index.ts',
+    'src/admin/provinces.ts',
+    'src/admin/districts.ts',
+    'src/admin/palikas.ts',
+    'src/admin/hierarchy.ts',
+    'src/admin/postal.ts',
+    'src/admin/validate.ts',
   ],
   format: ['esm', 'cjs'],
   outExtension: ({ format }) => (format === 'cjs' ? { js: '.cjs' } : { js: '.js' }),
   dts: true,
   sourcemap: true,
   clean: true,
+  // Keep each public entry self-contained. Shared chunks currently cause
+  // unrelated entrypoints to import every generated chunk, defeating
+  // subpath tree shaking for consumers.
   splitting: false,
   minify: true,
   treeshake: true,

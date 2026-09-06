@@ -22,28 +22,26 @@ function assertRecord(
   }
 }
 
-function assertADDate(value: ADDate): void {
+function validatedADDay(value: ADDate): number {
   assertRecord(value, 'AD');
-  adToDayCount(value.year, value.month, value.day);
+  return adToDayCount(value.year, value.month, value.day);
 }
 
-function assertBSDate(value: BSDate): void {
+function validatedBSOrdinal(value: BSDate): number {
   assertRecord(value, 'BS');
-  bsToOrdinal(value.year, value.month, value.day);
+  return bsToOrdinal(value.year, value.month, value.day);
 }
 
 export type CivilDay = number;
 
 /** @internal Return the canonical supported civil-day identity for a BS date. */
 export function civilDayFromBS(value: BSDate): CivilDay {
-  assertBSDate(value);
-  return BS_EPOCH_DAYCOUNT + bsToOrdinal(value.year, value.month, value.day);
+  return BS_EPOCH_DAYCOUNT + validatedBSOrdinal(value);
 }
 
 /** @internal Return the canonical supported civil-day identity for an AD date. */
 export function civilDayFromAD(value: ADDate): CivilDay {
-  assertADDate(value);
-  const day = adToDayCount(value.year, value.month, value.day);
+  const day = validatedADDay(value);
   if (day < BS_EPOCH_DAYCOUNT || day >= BS_EPOCH_DAYCOUNT + TOTAL_DAYS) {
     throw new UnsupportedDateError('AD date is outside the supported BS range');
   }

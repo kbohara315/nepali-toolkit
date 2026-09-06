@@ -15,7 +15,7 @@ import type {
 } from './types.js';
 
 /** Table revision pinned to the gazette snapshot (see PROVENANCE.md). */
-export const adminRevision = 'gov-2026-09' as const;
+export { adminRevision } from './revision.js';
 
 function assertCode(value: unknown): asserts value is string {
   if (typeof value !== 'string') {
@@ -32,9 +32,12 @@ function assertQuery(value: unknown): asserts value is string {
 const byCode = <T extends { readonly code: string }>(rows: readonly T[]): ReadonlyMap<string, T> =>
   new Map(rows.map((row) => [row.code, row]));
 
-const PROVINCE_BY_CODE = byCode(PROVINCES);
-const DISTRICT_BY_CODE = byCode(DISTRICTS);
-const PALIKA_BY_CODE = byCode(PALIKAS);
+let provinceByCode: ReadonlyMap<string, Province> | undefined;
+let districtByCode: ReadonlyMap<string, District> | undefined;
+let palikaByCode: ReadonlyMap<string, Palika> | undefined;
+const getProvinceMap = () => (provinceByCode ??= byCode(PROVINCES));
+const getDistrictMap = () => (districtByCode ??= byCode(DISTRICTS));
+const getPalikaMap = () => (palikaByCode ??= byCode(PALIKAS));
 
 /** All 7 provinces in code order. */
 export function getProvinces(): readonly Province[] {
@@ -44,7 +47,7 @@ export function getProvinces(): readonly Province[] {
 /** Province by `1`–`7`; `undefined` when unknown. */
 export function getProvince(code: string): Province | undefined {
   assertCode(code);
-  return PROVINCE_BY_CODE.get(code);
+  return getProvinceMap().get(code);
 }
 
 /** Districts in code order, optionally restricted to one province. */
@@ -57,7 +60,7 @@ export function getDistricts(provinceCode?: string): readonly District[] {
 /** District by 3-digit code (`101`–`709`); `undefined` when unknown. */
 export function getDistrict(code: string): District | undefined {
   assertCode(code);
-  return DISTRICT_BY_CODE.get(code);
+  return getDistrictMap().get(code);
 }
 
 /** Palikas in code order, optionally restricted to one district. */
@@ -70,7 +73,7 @@ export function getPalikas(districtCode?: string): readonly Palika[] {
 /** Palika by 5-digit code; `undefined` when unknown. */
 export function getPalika(code: string): Palika | undefined {
   assertCode(code);
-  return PALIKA_BY_CODE.get(code);
+  return getPalikaMap().get(code);
 }
 
 /** Ward numbers (`1..wards`) for a palika; empty when the code is unknown. */
@@ -84,9 +87,9 @@ export function getPalikaWards(palikaCode: string): readonly number[] {
 export function getHierarchy(palikaCode: string): AdminHierarchy | undefined {
   const palika = getPalika(palikaCode);
   if (!palika) return undefined;
-  const district = DISTRICT_BY_CODE.get(palika.district);
+  const district = getDistrictMap().get(palika.district);
   const province =
-    district !== undefined ? PROVINCE_BY_CODE.get(district.province) : undefined;
+    district !== undefined ? getProvinceMap().get(district.province) : undefined;
   if (!district || !province) return undefined;
   return { province, district, palika };
 }
@@ -111,12 +114,13 @@ function search<T>(
   }
   if (limit === 0) return [];
   const q = matchKey(query, true);
+  const qNe = matchKey(q, false);
   if (q.length === 0) return [];
   const out: T[] = [];
   for (const row of rows) {
     const { ne, en } = names(row);
     const hit =
-      (script !== 'en' && matchKey(ne, false).includes(matchKey(q, false))) ||
+      (script !== 'en' && matchKey(ne, false).includes(qNe)) ||
       (script !== 'ne' && matchKey(en, true).includes(q));
     if (hit) {
       out.push(row);

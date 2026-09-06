@@ -2,7 +2,6 @@ import { execFileSync } from 'node:child_process';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { pathToFileURL } from 'node:url';
 import { readFile } from 'node:fs/promises';
 
 const packageJson = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'));
@@ -41,9 +40,31 @@ const packOutput = execFileSync('npm', ['pack', '--ignore-scripts'], {
 });
 console.log(packOutput);
 
-console.log(`Verified ${entries.length} ESM+CJS package entries.`);
 const tgz = join(new URL('../', import.meta.url).pathname, 'nepali-utils-0.1.0.tgz');
-rmSync(tgz, { force: true });
-void mkdtempSync;
-void tmpdir;
-void pathToFileURL;
+const consumer = mkdtempSync(join(tmpdir(), 'nepali-utils-consumer-'));
+try {
+  execFileSync('npm', ['install', '--ignore-scripts', '--no-save', tgz], {
+    cwd: consumer,
+    stdio: 'ignore',
+  });
+  const subpaths = entries.map(([subpath]) => subpath).filter((subpath) => subpath.startsWith('./'));
+  const code = `
+    import { createRequire } from 'node:module';
+    const require = createRequire(import.meta.url);
+    const subpaths = ${JSON.stringify(subpaths)};
+    for (const subpath of subpaths) {
+      const specifier = 'nepali-utils' + subpath.slice(1);
+      await import(specifier);
+      require(specifier);
+    }
+  `;
+  execFileSync('node', ['--input-type=module', '-e', code], { cwd: consumer, stdio: 'inherit' });
+  execFileSync('node', ['--input-type=module', '-e', "await import('nepali-utils')"], {
+    cwd: consumer,
+    stdio: 'inherit',
+  });
+  console.log(`Verified ${entries.length} ESM+CJS package entries from the packed tarball.`);
+} finally {
+  rmSync(consumer, { recursive: true, force: true });
+  rmSync(tgz, { force: true });
+}

@@ -124,6 +124,36 @@
       "types": "./dist/admin/index.d.ts",
       "import": "./dist/admin/index.js",
       "require": "./dist/admin/index.cjs"
+    },
+    "./admin/provinces": {
+      "types": "./dist/admin/provinces.d.ts",
+      "import": "./dist/admin/provinces.js",
+      "require": "./dist/admin/provinces.cjs"
+    },
+    "./admin/districts": {
+      "types": "./dist/admin/districts.d.ts",
+      "import": "./dist/admin/districts.js",
+      "require": "./dist/admin/districts.cjs"
+    },
+    "./admin/palikas": {
+      "types": "./dist/admin/palikas.d.ts",
+      "import": "./dist/admin/palikas.js",
+      "require": "./dist/admin/palikas.cjs"
+    },
+    "./admin/hierarchy": {
+      "types": "./dist/admin/hierarchy.d.ts",
+      "import": "./dist/admin/hierarchy.js",
+      "require": "./dist/admin/hierarchy.cjs"
+    },
+    "./admin/postal": {
+      "types": "./dist/admin/postal.d.ts",
+      "import": "./dist/admin/postal.js",
+      "require": "./dist/admin/postal.cjs"
+    },
+    "./admin/validate": {
+      "types": "./dist/admin/validate.d.ts",
+      "import": "./dist/admin/validate.js",
+      "require": "./dist/admin/validate.cjs"
     }
   },
   "files": [
@@ -137,6 +167,9 @@
     "build": "tsup",
     "test": "vitest run",
     "typecheck": "tsc --noEmit -p tsconfig.json",
+    "benchmark:runtime": "npm run build && node scripts/benchmark-runtime.mjs",
+    "benchmark:runtime:json": "node scripts/benchmark-runtime.mjs --json",
+    "benchmark:runtime:compare": "node scripts/compare-runtime.mjs",
     "verify:package": "npm run build && node scripts/verify-package.mjs && node scripts/verify-tree-shaking.mjs"
   },
   "devDependencies": {

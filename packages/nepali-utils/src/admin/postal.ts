@@ -1,5 +1,5 @@
 import { InvalidAdminError } from './errors.js';
-import { getPalika } from './lookup.js';
+import { getPalika } from './palikas.js';
 import type { Palika } from './types.js';
 
 // Postal codes per the General Post Office scheme (see PROVENANCE.md S5):

@@ -23,6 +23,10 @@ interface Capture {
   readonly values?: readonly string[];
 }
 
+type CompiledPattern = { expression: RegExp; captures: readonly Capture[] };
+const patternCache = new WeakMap<readonly string[], Map<string, CompiledPattern>>();
+const PATTERN_CACHE_LIMIT = 32;
+
 function parseFailure(message: string): never {
   throw new ParseError(message);
 }
@@ -38,7 +42,14 @@ function tokenAt(pattern: string, index: number): DateToken | undefined {
 function compilePattern(
   pattern: string,
   months: readonly string[],
-): { expression: RegExp; captures: readonly Capture[] } {
+): CompiledPattern {
+  let cache = patternCache.get(months);
+  if (!cache) {
+    cache = new Map();
+    patternCache.set(months, cache);
+  }
+  const cached = cache.get(pattern);
+  if (cached) return cached;
   let expression = '^';
   const captures: Capture[] = [];
   const seen = new Set<string>();
@@ -107,7 +118,10 @@ function compilePattern(
     index += 1;
   }
   expression += '$';
-  return { expression: new RegExp(expression, 'u'), captures };
+  const compiled = { expression: new RegExp(expression, 'u'), captures };
+  if (cache.size >= PATTERN_CACHE_LIMIT) cache.delete(cache.keys().next().value as string);
+  cache.set(pattern, compiled);
+  return compiled;
 }
 
 function normalizeInput(input: string, options: ParseOptions): string {
