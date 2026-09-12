@@ -2,12 +2,12 @@
 
 ## Product direction
 
-`nepali-utils` is the central utility package. Date handling is one independently importable domain, not the identity of the whole library.
+`nepali-toolkit` is the central utility package. Date handling is one independently importable domain, not the identity of the whole library.
 
 The workspace will publish two packages:
 
-- `nepali-utils`: Expo-first, web-friendly, pure TypeScript utilities.
-- `nepali-ui`: Expo React Native components built on `nepali-utils`; web components are deferred.
+- `nepali-toolkit`: Expo-first, web-friendly, pure TypeScript utilities.
+- `nepali-ui`: Expo React Native components built on `nepali-toolkit`; web components are deferred.
 
 The npm names remain subject to an availability check before publication.
 
@@ -25,11 +25,11 @@ The npm names remain subject to an availability check before publication.
 ## Intended repository layout
 
 ```text
-nepali-utils/
+nepali-toolkit/
 ├── apps/
 │   └── expo-example/
 ├── packages/
-│   ├── nepali-utils/
+│   ├── nepali-toolkit/
 │   │   ├── src/
 │   │   │   ├── date/
 │   │   │   ├── number/
@@ -113,14 +113,14 @@ cited requirement arrives. The `src/name/` placeholder was removed.
 Planned imports:
 
 ```ts
-import { toBS } from 'nepali-utils/date';
-import { formatNumber } from 'nepali-utils/number';
-import { formatNPR } from 'nepali-utils/currency';
-import { numberToNepaliWords } from 'nepali-utils/words';
-import { formatHillArea } from 'nepali-utils/land';
-import { createNepaliCollator } from 'nepali-utils/collation';
-import { validateNepalPhone } from 'nepali-utils/phone';
-import { getPalika, isValidWard } from 'nepali-utils/admin';
+import { toBS } from 'nepali-toolkit/date';
+import { formatNumber } from 'nepali-toolkit/number';
+import { formatNPR } from 'nepali-toolkit/currency';
+import { numberToNepaliWords } from 'nepali-toolkit/words';
+import { formatHillArea } from 'nepali-toolkit/land';
+import { createNepaliCollator } from 'nepali-toolkit/collation';
+import { validateNepalPhone } from 'nepali-toolkit/phone';
+import { getPalika, isValidWard } from 'nepali-toolkit/admin';
 ```
 
 The package root may expose a small ergonomic set later, but subpaths are the stable size-sensitive contract. Importing one domain must not retain unrelated domains.
@@ -137,7 +137,7 @@ and bundle-budget entry, and removing any of them is a breaking change.
 `./date/range` additionally exports one-liner introspection accessors
 (`minBSYear`, `maxBSYear`, `minADYear`, `maxADYear`) and the `DateMetadata`
 type. No new date subpaths will be added without bundle evidence. Digits are
-available only from `./number` and `./number/digits` — `nepali-utils/date`
+available only from `./number` and `./number/digits` — `nepali-toolkit/date`
 imports the digit primitive internally but does not re-export it.
 
 ## Dependency direction
@@ -157,7 +157,7 @@ No utility domain may depend on React, React Native, Expo, browser globals, or N
 
 ## UI boundary
 
-`nepali-ui` may depend on React, React Native, Expo packages, and `nepali-utils`. These are not dependencies of the utility package.
+`nepali-ui` may depend on React, React Native, Expo packages, and `nepali-toolkit`. These are not dependencies of the utility package.
 
 Initial intended components are:
 

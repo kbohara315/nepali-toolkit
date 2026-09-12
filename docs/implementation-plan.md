@@ -7,7 +7,7 @@ Status: migration complete. Date behavior preserved; no new features added.
 - Confirm npm package-name availability and final repository name.
 - Preserve the existing `np-date` Git history when making this directory the repository root.
 - Add the pnpm workspace, shared TypeScript configuration, formatting, linting, testing, and release conventions.
-- Scaffold `packages/nepali-utils`, `packages/nepali-ui`, and `apps/expo-example` without implementing UI components.
+- Scaffold `packages/nepali-toolkit`, `packages/nepali-ui`, and `apps/expo-example` without implementing UI components.
 - Define supported Node, bundler, React Native, Expo, and Hermes versions.
 
 Exit condition: both packages can be built and packed, and the Expo example can consume a trivial utility through its public package export.
@@ -17,7 +17,7 @@ Exit condition: both packages can be built and packed, and the Expo example can 
 - Follow [Miti-to-date migration blueprint](miti-date-migration.md).
 - Move the existing implementation without changing calendar behavior.
 - Preserve current conformance, invariant, data-generation, package, and bundle tests.
-- Publish it internally as `nepali-utils/date` with narrower optional date subpaths if bundle evidence requires them.
+- Publish it internally as `nepali-toolkit/date` with narrower optional date subpaths if bundle evidence requires them.
 - Keep unresolved Patro provenance visible as a release gate.
 
 Exit condition: old and migrated test vectors produce identical results, generated data is reproducible, and date-only consumers retain no future utility domains.
@@ -96,7 +96,7 @@ This phase is intentionally outside the utility implementation blueprint.
   `src/admin/data/raw/*.json` with asserted joins; record vintages,
   canonical rules, and inter-source variants in PROVENANCE.md.
 - Expose lookups, bilingual search, hierarchy resolution, and ward
-  validation through `nepali-utils/admin` with a measured bundle budget.
+  validation through `nepali-toolkit/admin` with a measured bundle budget.
 
 Exit condition: 7/77/753/6743 pinned by tests, every code resolves
 through the hierarchy, and regeneration is byte-deterministic.

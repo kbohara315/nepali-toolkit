@@ -99,7 +99,7 @@ function benchmark(name, fn, iterations = DEFAULT_ITERATIONS) {
 }
 
 if (!jsonOutput) {
-  console.log('nepali-utils runtime smoke benchmark (warm process)');
+  console.log('nepali-toolkit runtime smoke benchmark (warm process)');
   console.log('operation'.padEnd(24) + ' elapsed'.padStart(13) + ' throughput'.padStart(14));
 }
 benchmark('date.toAD', () => toAD(date));

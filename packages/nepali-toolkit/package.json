@@ -1,5 +1,5 @@
 {
-  "name": "nepali-utils",
+  "name": "nepali-toolkit",
   "version": "0.1.0",
   "description": "Nepal-focused TypeScript utilities: BS/AD dates, numerals, currency, land, words, collation, phone",
   "type": "module",

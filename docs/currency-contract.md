@@ -51,7 +51,7 @@ string, not division.
   (same idiom as `InvalidNumberError`).
 - Reuse `InvalidNumberError` for malformed numeric input (don't wrap it).
 
-## Exports (`nepali-utils/currency`)
+## Exports (`nepali-toolkit/currency`)
 
 `formatNPR`, `formatNPRMinorUnits`, `InvalidCurrencyError`,
 `NPRFormatOptions` type. Package subpath `./currency` (+ tsup entry,

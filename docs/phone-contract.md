@@ -10,7 +10,7 @@ codes) and valid-nepal-phone (separator tolerance). Known flaws we do
 NOT repeat: unknown-operator-means-invalid, no Devanagari support,
 single fixed landline length, unversioned tables.
 
-## Public API (`nepali-utils/phone`)
+## Public API (`nepali-toolkit/phone`)
 
 ```ts
 parseNepalPhone(text: string): NepalPhone

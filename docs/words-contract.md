@@ -100,7 +100,7 @@ outside the supported range. `numberWordsInText` replaces standalone ASCII or
 Devanagari integer/decimal spans while leaving embedded identifiers and
 unsupported values unchanged.
 
-## Functions (`nepali-utils/words`)
+## Functions (`nepali-toolkit/words`)
 
 `numberToNepaliWords`, `numberToEnglishWords`, `parseNepaliWords`,
 `numberWordsInText`,

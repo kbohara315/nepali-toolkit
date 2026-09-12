@@ -13,7 +13,7 @@ matra, anusvara, or conjunct rules — and `Intl` is missing or
 data-reduced on some Hermes/Android runtimes. The custom core is the
 guaranteed path; `Intl` is the加速 fast path, never the only path.
 
-## Public API (`nepali-utils/collation`)
+## Public API (`nepali-toolkit/collation`)
 
 ```ts
 createNepaliCollator(options?: CollationOptions): NepaliCollator

@@ -11,7 +11,7 @@ Move the current implementation from:
 into the `date` domain of:
 
 ```text
-packages/nepali-utils/src/date
+packages/nepali-toolkit/src/date
 ```
 
 The migration changes ownership and package boundaries, not date behavior. `miti` will not remain a separate package.
@@ -28,7 +28,7 @@ The migration changes ownership and package boundaries, not date behavior. `miti
 ## Target date structure
 
 ```text
-packages/nepali-utils/
+packages/nepali-toolkit/
 ├── src/
 │   ├── date/
 │   │   ├── index.ts
@@ -86,14 +86,14 @@ The number domain must not depend on date. Date importing a tiny digit primitive
 Required primary export:
 
 ```ts
-import { bs, toAD, getFiscalYear } from 'nepali-utils/date';
+import { bs, toAD, getFiscalYear } from 'nepali-toolkit/date';
 ```
 
 Optional narrower exports may be retained where they provide measured value:
 
 ```ts
-import { toAD } from 'nepali-utils/date/convert';
-import { getFiscalYear } from 'nepali-utils/date/fiscal';
+import { toAD } from 'nepali-toolkit/date/convert';
+import { getFiscalYear } from 'nepali-toolkit/date/fiscal';
 ```
 
 Do not reproduce every historical subpath automatically. Keep a subpath only when it represents a stable domain seam or materially improves bundle isolation.
@@ -103,8 +103,8 @@ Do not reproduce every historical subpath automatically. Keep a subpath only whe
 1. Establish the new repository and package shell while preserving access to the existing Git history.
 2. Bring over source, tests, data, conformance files, and scripts without editing behavior.
 3. Make internal imports resolve under `src/date`.
-4. Reproduce the existing date build and test suite inside `packages/nepali-utils`.
-5. Add `nepali-utils/date` exports and packed-consumer tests.
+4. Reproduce the existing date build and test suite inside `packages/nepali-toolkit`.
+5. Add `nepali-toolkit/date` exports and packed-consumer tests.
 6. Extract generic digit conversion into `number/digits` with behavior unchanged.
 7. Compare generated data checksums, declarations, conformance results, and public runtime output with the current repository.
 8. Extend bundle checks to prove date consumers exclude all unrelated new domains.
@@ -117,7 +117,7 @@ Do not reproduce every historical subpath automatically. Keep a subpath only whe
 - Generated Patro data and checksums are reproducible.
 - Fiscal, parsing, formatting, arithmetic, locale, adapter, and relative-date behavior is unchanged.
 - Public declarations contain no accidental `any` or leaked internal data types.
-- `nepali-utils/date` works from the packed package in supported runtimes.
+- `nepali-toolkit/date` works from the packed package in supported runtimes.
 - Date-only bundles exclude currency, words, land, collation, phone, name, React, and React Native.
 - Number-only bundles exclude Patro and date conversion data.
 - No `miti` compatibility package is created.

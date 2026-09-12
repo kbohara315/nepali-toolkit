@@ -98,7 +98,7 @@ type AreaFormatOptions = {
 - Cross-system display (hill area shown as Bigha-Kattha-Dhur) is exact-area
   based and supported by design: `formatTeraiArea(hillArea({...}))`.
 
-## Exports (`nepali-utils/land`)
+## Exports (`nepali-toolkit/land`)
 
 `hillArea`, `teraiArea`, `toSquareMetres`, `toSquareCentimetres`,
 `toSquareFeet`,

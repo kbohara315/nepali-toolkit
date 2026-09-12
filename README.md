@@ -1,4 +1,4 @@
-# nepali-utils
+# nepali-toolkit
 
 Blueprint workspace for Nepal-focused TypeScript utilities and Expo React Native components.
 
@@ -7,11 +7,11 @@ This directory currently contains planning documentation only. Package scaffoldi
 ## Intended workspace
 
 ```text
-nepali-utils/
+nepali-toolkit/
 ├── apps/
 │   └── expo-example/          # Integration and Hermes verification app
 ├── packages/
-│   ├── nepali-utils/          # Pure TypeScript, zero-runtime-dependency utilities
+│   ├── nepali-toolkit/          # Pure TypeScript, zero-runtime-dependency utilities
 │   └── nepali-ui/             # Expo React Native components
 ├── docs/
 ├── pnpm-workspace.yaml
@@ -19,7 +19,7 @@ nepali-utils/
 └── tsconfig.base.json
 ```
 
-The existing `np-date`/`miti` implementation will become the `date` domain inside the `nepali-utils` package. There will be no separate `miti` compatibility package because it has not been published.
+The existing `np-date`/`miti` implementation will become the `date` domain inside the `nepali-toolkit` package. There will be no separate `miti` compatibility package because it has not been published.
 
 ## Documents
 

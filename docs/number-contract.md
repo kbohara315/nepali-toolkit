@@ -52,7 +52,7 @@ type NumberFormatOptions = {
 - Rounding happens on the exact decimal value BEFORE grouping; fraction
   padding/truncation per min/max digits.
 
-## Functions (`nepali-utils/number`)
+## Functions (`nepali-toolkit/number`)
 
 - `formatNumber(value: NumeralInput, options?: NumberFormatOptions): string`
 - `parseNumber(value: string): string` — accepts ASCII/Devanagari digits,

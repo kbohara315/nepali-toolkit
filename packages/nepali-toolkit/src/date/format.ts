@@ -89,7 +89,7 @@ const DEFAULT_AD_LOCALE: FormatLocale = { months: AD_MONTHS_EN };
 /**
  * Format a BS date. Supported tokens are YYYY, YY, M, MM, MMMM, D, and DD.
  * Punctuation is literal; use [text] or 'text' to escape token letters.
- * For ordinals (do) and weekday names (ddd, dddd), use `nepali-utils/date/format-display`.
+ * For ordinals (do) and weekday names (ddd, dddd), use `nepali-toolkit/date/format-display`.
  */
 export function formatBS(
   date: BSDateFields,

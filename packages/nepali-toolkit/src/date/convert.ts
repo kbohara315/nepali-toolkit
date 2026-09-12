@@ -1,5 +1,5 @@
 /**
- * Public conversion contract (`nepali-utils/date/convert`).
+ * Public conversion contract (`nepali-toolkit/date/convert`).
  *
  * Guarantees:
  * - Bijection: `toAD`/`toBS` are exact inverses within the supported range.

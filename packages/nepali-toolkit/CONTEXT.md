@@ -1,6 +1,6 @@
 # Nepali Utils — Date Domain
 
-Tree-shakable TS-first utilities for BS and AD calendar dates. The date domain models civil dates without time or timezone. Import through subpaths (`nepali-utils/date`, `nepali-utils/number/digits`); the package root exposes nothing.
+Tree-shakable TS-first utilities for BS and AD calendar dates. The date domain models civil dates without time or timezone. Import through subpaths (`nepali-toolkit/date`, `nepali-toolkit/number/digits`); the package root exposes nothing.
 
 ## Language
 

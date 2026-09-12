@@ -40,8 +40,8 @@ const packOutput = execFileSync('npm', ['pack', '--ignore-scripts'], {
 });
 console.log(packOutput);
 
-const tgz = join(new URL('../', import.meta.url).pathname, 'nepali-utils-0.1.0.tgz');
-const consumer = mkdtempSync(join(tmpdir(), 'nepali-utils-consumer-'));
+const tgz = join(new URL('../', import.meta.url).pathname, 'nepali-toolkit-0.1.0.tgz');
+const consumer = mkdtempSync(join(tmpdir(), 'nepali-toolkit-consumer-'));
 try {
   execFileSync('npm', ['install', '--ignore-scripts', '--no-save', tgz], {
     cwd: consumer,
@@ -53,13 +53,13 @@ try {
     const require = createRequire(import.meta.url);
     const subpaths = ${JSON.stringify(subpaths)};
     for (const subpath of subpaths) {
-      const specifier = 'nepali-utils' + subpath.slice(1);
+      const specifier = 'nepali-toolkit' + subpath.slice(1);
       await import(specifier);
       require(specifier);
     }
   `;
   execFileSync('node', ['--input-type=module', '-e', code], { cwd: consumer, stdio: 'inherit' });
-  execFileSync('node', ['--input-type=module', '-e', "await import('nepali-utils')"], {
+  execFileSync('node', ['--input-type=module', '-e', "await import('nepali-toolkit')"], {
     cwd: consumer,
     stdio: 'inherit',
   });

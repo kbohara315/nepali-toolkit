@@ -1,4 +1,4 @@
-# nepali-utils package guidance
+# nepali-toolkit package guidance
 
 This package is pure TypeScript with zero runtime dependencies. It publishes
 ESM and CJS builds through explicit subpath exports. The ESM subpaths are the
@@ -8,7 +8,7 @@ size-sensitive contract.
 
 - Keep domains independent: date, number, currency, land, words, collation,
   phone, and admin must not import each other unless the API requires it.
-- Prefer `nepali-utils/admin/provinces`, `admin/districts`, and
+- Prefer `nepali-toolkit/admin/provinces`, `admin/districts`, and
   `admin/palikas` when a consumer only needs one administrative level. Do not
   add large generated tables to a shared helper.
 - Keep generated data under the generated-data ownership comments; update it
@@ -24,17 +24,17 @@ size-sensitive contract.
 Run these from the repository root after source or packaging changes:
 
 ```bash
-pnpm --filter nepali-utils typecheck
-pnpm --filter nepali-utils test
-pnpm --filter nepali-utils verify:package
-node packages/nepali-utils/scripts/verify-tree-shaking.mjs
+pnpm --filter nepali-toolkit typecheck
+pnpm --filter nepali-toolkit test
+pnpm --filter nepali-toolkit verify:package
+node packages/nepali-toolkit/scripts/verify-tree-shaking.mjs
 ```
 
 For performance-sensitive changes, also run:
 
 ```bash
-pnpm --filter nepali-utils build >/dev/null
-node scripts/benchmark-runtime.mjs --json > /tmp/nepali-utils-after.json
+pnpm --filter nepali-toolkit build >/dev/null
+node scripts/benchmark-runtime.mjs --json > /tmp/nepali-toolkit-after.json
 ```
 
 The benchmark is warm-process smoke evidence, not a statistically rigorous
