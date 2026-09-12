@@ -36,7 +36,9 @@ export default defineConfig({
   format: ['esm', 'cjs'],
   outExtension: ({ format }) => (format === 'cjs' ? { js: '.cjs' } : { js: '.js' }),
   dts: true,
-  sourcemap: true,
+  // Source maps are useful during development but are not needed by
+  // consumers and embed the original TypeScript into the published tarball.
+  sourcemap: false,
   clean: true,
   // Keep each public entry self-contained. Shared chunks currently cause
   // unrelated entrypoints to import every generated chunk, defeating
