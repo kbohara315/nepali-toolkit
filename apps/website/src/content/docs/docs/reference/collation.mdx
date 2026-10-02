@@ -1,0 +1,19 @@
+---
+title: Collation reference
+description: Nepali-aware sorting, search, normalization, and text stats.
+---
+
+# Collation
+
+```ts
+import { createNepaliCollator, nepaliIncludes, normalizeNepaliText } from 'nepali-toolkit/collation';
+
+const collator = createNepaliCollator();
+['ख', 'क'].sort(collator.compare);
+nepaliIncludes('नेपाल सरकार', 'सरकार');
+normalizeNepaliText(' नेपाल  सरकार ');
+```
+
+The domain exports a configurable `NepaliCollator`, text normalization and search helpers, Devanagari checks, punctuation helpers, word/character counts, and text statistics. Backend and conjunct options are typed by `CollationOptions`.
+
+Invalid collation options throw `InvalidCollationError`.

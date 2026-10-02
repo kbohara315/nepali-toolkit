@@ -1,0 +1,194 @@
+---
+import { domains } from '../data/domains';
+const base = import.meta.env.BASE_URL;
+const paths = domains.map((_, index) => {
+  const left = index < 4;
+  const y = 65 + (index % 4) * 70;
+  return `M ${left ? 246 : 274} 176 C ${left ? 188 : 332} 224, ${left ? 206 : 314} ${y}, ${left ? 132 : 388} ${y}`;
+});
+---
+
+<section
+  class="domain-instrument"
+  id="domains"
+  aria-label="Explore the eight toolkit domains"
+>
+  <div class="instrument-bar">
+    <span class="eyebrow">The local layer</span>
+    <span class="instrument-count">01 PACKAGE / 08 DOMAINS</span>
+  </div>
+  <div class="constellation">
+    <svg viewBox="0 0 520 340" aria-hidden="true" focusable="false">
+      <circle class="orbit" cx="260" cy="170" r="104" />
+      <circle class="orbit" cx="260" cy="170" r="77" />
+      {paths.map((path, index) => (
+        <path
+          class="connector"
+          data-connector={domains[index].id}
+          d={path}
+          pathLength="1"
+          style={`--i:${index}`}
+        />
+      ))}
+      <path
+        class="octopus-head"
+        d="M235 170 V144 C235 108 285 108 285 144 V170 Q260 189 235 170Z"
+      />
+      <circle class="octopus-eye" cx="251" cy="149" r="3" />
+      <circle class="octopus-eye" cx="269" cy="149" r="3" />
+      <text x="260" y="214" text-anchor="middle" class="hub-label">
+        nepali-toolkit
+      </text>
+    </svg>
+    {domains.map((domain, index) => (
+      <a
+        class="domain-node"
+        style={`--row:${index % 4};--side:${index < 4 ? 0 : 1}`}
+        href={`${base}${domain.docs.slice(1)}`}
+        data-domain={domain.id}
+      >
+        <small>{String(index + 1).padStart(2, '0')}</small>
+        <span>{domain.label}</span>
+        <span class="node-dot" aria-hidden="true"></span>
+      </a>
+    ))}
+  </div>
+  <div class="instrument-hint">
+    <span>Hover to explore · Click to pin</span>
+    <span aria-hidden="true">↙ ↗</span>
+  </div>
+  <article class="domain-detail" aria-label="Domain preview">
+    <div class="detail-heading">
+      <h2 id="detail-title">One toolkit. Eight local details.</h2>
+      <span class="eyebrow" id="detail-kicker">
+        Explore
+      </span>
+    </div>
+    <p id="detail-copy">
+      Explore a domain to see its import, a working example, and the
+      documentation. Select it to keep it here.
+    </p>
+    <code id="detail-path">nepali-toolkit/[domain]</code>
+    <code id="detail-example">Local conventions. Familiar TypeScript.</code>
+    <a class="text-link" id="detail-link" href={`${base}docs/`}>
+      Explore the documentation <span aria-hidden="true">↗</span>
+    </a>
+  </article>
+  <span class="sr-only" id="domain-status" role="status"></span>
+  <noscript>
+    <div class="domain-fallback">
+      <p>Choose a domain above to open its reference.</p>
+      {domains.map((domain) => (
+        <p>
+          <a href={`${base}${domain.docs.slice(1)}`}>{domain.label}</a> —{' '}
+          {domain.description}
+        </p>
+      ))}
+    </div>
+    <style>
+      .instrument-hint {
+        display: none;
+      }
+    </style>
+  </noscript>
+</section>
+
+<script define:vars={{ domains, base }}>
+  const instrument = document.querySelector('.domain-instrument');
+  const controls = [...instrument.querySelectorAll('[data-domain]')].map(
+    (link) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = link.className;
+      button.style.cssText = link.style.cssText;
+      button.dataset.domain = link.dataset.domain;
+      button.setAttribute('aria-controls', 'domain-preview');
+      button.append(...link.childNodes);
+      link.replaceWith(button);
+      return button;
+    },
+  );
+  const panel = instrument.querySelector('.domain-detail');
+  panel.id = 'domain-preview';
+  const defaultPanel = [...panel.querySelectorAll('[id]')].map((element) => ({
+    element,
+    text: element.textContent,
+    href: element.getAttribute('href'),
+  }));
+  let pinned = null;
+  let hovered = null;
+  let focused = null;
+  let rendered = null;
+  let transition;
+
+  function render() {
+    const id = hovered || focused || pinned;
+    const index = domains.findIndex((domain) => domain.id === id);
+    const domain = domains[index];
+    if (
+      rendered !== id &&
+      !matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      transition?.cancel();
+      transition = panel.animate([{ opacity: 0.45 }, { opacity: 1 }], {
+        duration: 150,
+        easing: 'ease-out',
+      });
+    }
+    rendered = id;
+    if (domain) {
+      instrument.querySelector('#detail-title').textContent = domain.label;
+      instrument.querySelector('#detail-copy').textContent = domain.description;
+      instrument.querySelector('#detail-path').textContent = domain.path;
+      instrument.querySelector('#detail-example').textContent = domain.example;
+      instrument.querySelector('#detail-kicker').textContent =
+        `${id === pinned ? 'Pinned' : 'Preview'} / ${String(index + 1).padStart(2, '0')}`;
+      const link = instrument.querySelector('#detail-link');
+      link.textContent = `Read ${domain.label.toLowerCase()} docs ↗`;
+      link.href = `${base}${domain.docs.slice(1)}`;
+    } else {
+      defaultPanel.forEach(({ element, text, href }) => {
+        element.textContent = text;
+        if (href) element.setAttribute('href', href);
+      });
+    }
+    controls.forEach((control) => {
+      control.classList.toggle('is-preview', control.dataset.domain === id);
+      control.setAttribute(
+        'aria-pressed',
+        String(control.dataset.domain === pinned),
+      );
+    });
+    instrument.querySelectorAll('[data-connector]').forEach((path) => {
+      path.classList.toggle('active', path.dataset.connector === id);
+    });
+  }
+
+  controls.forEach((control) => {
+    control.addEventListener('pointerenter', (event) => {
+      if (event.pointerType === 'touch') return;
+      hovered = control.dataset.domain;
+      render();
+    });
+    control.addEventListener('pointerleave', () => {
+      hovered = null;
+      render();
+    });
+    control.addEventListener('focus', () => {
+      if (!control.matches(':focus-visible')) return;
+      focused = control.dataset.domain;
+      render();
+    });
+    control.addEventListener('blur', () => {
+      focused = null;
+      render();
+    });
+    control.addEventListener('click', () => {
+      pinned = control.dataset.domain;
+      render();
+      instrument.querySelector('#domain-status').textContent =
+        `${domains.find((domain) => domain.id === pinned).label} pinned.`;
+    });
+  });
+  render();
+</script>

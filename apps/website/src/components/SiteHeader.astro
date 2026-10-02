@@ -1,0 +1,27 @@
+---
+import ThemeSelect from '@astrojs/starlight/components/ThemeSelect.astro';
+
+const base = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+const pathname = `${Astro.url.pathname.replace(/\/$/, '')}/`;
+const docsHref = `${base}docs/`;
+const playgroundHref = `${base}playground/`;
+const currentRoute = (href: string) =>
+  pathname === href ? 'page' : pathname.startsWith(href) ? 'location' : undefined;
+---
+
+<header class="site-header site-shell">
+  <a class="brand" href={base} aria-current={pathname === base ? 'page' : undefined}>
+    <span class="brand-icon" aria-hidden="true">
+      ने
+    </span>{' '}
+    Nepali <span>Toolkit</span>
+  </a>
+  <nav aria-label="Primary">
+    <a href={docsHref} aria-current={currentRoute(docsHref)}>Documentation</a>
+    <a href={playgroundHref} aria-current={currentRoute(playgroundHref)}>Playground</a>
+    <a href="https://github.com/kbohara315/nepali-toolkit">GitHub ↗</a>
+  </nav>
+  <div class="theme-control">
+    <ThemeSelect />
+  </div>
+</header>

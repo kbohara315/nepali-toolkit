@@ -1,0 +1,81 @@
+@import './fonts.css';
+
+:root {
+  --sl-font: 'Manrope', 'Avenir Next', 'Segoe UI', sans-serif;
+  --sl-font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+  --sl-color-accent-low: #292929;
+  --sl-color-accent: #bdbdbd;
+  --sl-color-accent-high: #fafafa;
+  --sl-color-white: #fafafa;
+  --sl-color-gray-1: #eee;
+  --sl-color-gray-2: #c4c4c4;
+  --sl-color-gray-3: #999;
+  --sl-color-gray-4: #666;
+  --sl-color-gray-5: #333;
+  --sl-color-gray-6: #181818;
+  --sl-color-black: #0c0c0c;
+}
+
+:root[data-theme='light'] {
+  --sl-color-accent-low: #eee;
+  --sl-color-accent: #444;
+  --sl-color-accent-high: #171717;
+  --sl-color-white: #171717;
+  --sl-color-gray-1: #333;
+  --sl-color-gray-2: #555;
+  --sl-color-gray-3: #707070;
+  --sl-color-gray-4: #aaa;
+  --sl-color-gray-5: #ddd;
+  --sl-color-gray-6: #f3f3f3;
+  --sl-color-gray-7: #f8f8f8;
+  --sl-color-black: #fafafa;
+}
+
+/* Keep syntax, callouts, and icons within the monochrome product palette. */
+.expressive-code,
+.starlight-aside {
+  filter: grayscale(1);
+}
+.site-title {
+  color: var(--sl-color-white);
+  font-size: 1.05rem;
+  letter-spacing: -0.035em;
+}
+h1 {
+  font-weight: 550;
+  letter-spacing: -0.055em;
+}
+.sl-markdown-content h2,
+.sl-markdown-content h3 {
+  font-weight: 600;
+  letter-spacing: -0.035em;
+}
+.sl-markdown-content p {
+  line-height: 1.85;
+}
+.sl-markdown-content a {
+  text-underline-offset: 4px;
+}
+.sl-markdown-content table {
+  font-size: 0.85rem;
+}
+.sl-markdown-content code {
+  font-family: var(--sl-font-mono);
+}
+.sidebar-content a[aria-current='page'] {
+  background: var(--sl-color-white);
+  color: var(--sl-color-black);
+}
+.pagination-links a {
+  border-radius: 6px;
+  box-shadow: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}

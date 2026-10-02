@@ -1,0 +1,19 @@
+---
+title: Administrative data
+---
+
+# Administrative data
+
+The admin domain exposes province, district, palika, ward, and postal-code lookups. The data files include provenance notes in the toolkit package.
+
+```ts
+import { getProvinces } from 'nepali-toolkit/admin/provinces';
+import { getDistricts } from 'nepali-toolkit/admin/districts';
+import { getPalikas } from 'nepali-toolkit/admin/palikas';
+
+const provinces = getProvinces();
+const districts = getDistricts('1');
+const palikas = getPalikas('101');
+```
+
+Codes are strings because administrative identifiers can contain leading zeroes. Treat the published revision and source coverage as part of your application's data contract.

@@ -1,0 +1,22 @@
+---
+title: Admin reference
+description: Nepal province, district, palika, ward, and postal lookups.
+---
+
+# Administrative data
+
+```ts
+import { getProvinces } from 'nepali-toolkit/admin/provinces';
+import { getDistricts } from 'nepali-toolkit/admin/districts';
+import { getPalikas } from 'nepali-toolkit/admin/palikas';
+import { getPalikaWards } from 'nepali-toolkit/admin';
+
+const province = getProvinces()[0];
+const districts = getDistricts(province.code);
+const palikas = getPalikas(districts[0].code);
+getPalikaWards(palikas[0].code);
+```
+
+The public API includes `get*`, `find*ByName`, hierarchy, postal-code parsing and lookup, and code/ward validators. Codes are strings. Focused entrypoints are available for provinces, districts, and palikas so consumers can avoid loading unrelated tables.
+
+Data is derived from cited Government of Nepal sources. See [data sources](../project/data-sources/) for revision and coverage notes. Invalid code/query types throw `InvalidAdminError`; unknown codes return `undefined`, an empty array, or a false validator result as appropriate.

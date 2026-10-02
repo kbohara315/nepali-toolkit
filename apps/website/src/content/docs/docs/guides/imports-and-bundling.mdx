@@ -1,0 +1,16 @@
+---
+title: Imports and bundling
+---
+
+# Imports and bundling
+
+Use explicit exports so a feature does not retain unrelated domain code or administrative tables.
+
+```ts
+import { formatNPR } from 'nepali-toolkit/currency';
+import { getProvinces } from 'nepali-toolkit/admin/provinces';
+```
+
+Administrative levels have focused entrypoints: `admin/provinces`, `admin/districts`, and `admin/palikas`. The package publishes ESM and CommonJS builds and marks modules as side-effect free.
+
+The package root is intentionally empty. This is a size-sensitive contract, not a missing convenience export.

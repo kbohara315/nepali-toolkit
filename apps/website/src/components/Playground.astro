@@ -1,0 +1,1020 @@
+---
+/**
+ * Playground — runs the real `nepali-toolkit` workspace package in the browser.
+ *
+ * Two rules shape this component:
+ *
+ * 1. Progressive enhancement. The sample input, its real result, and a complete
+ *    importable snippet are rendered here at build time from the same package
+ *    this page depends on (`nepali-toolkit: workspace:*`). A visitor without
+ *    JavaScript therefore still sees a true result, not a placeholder. The
+ *    client script only takes over once the visitor edits something.
+ *
+ * 2. Explicit lazy loading. Every domain is a separate dynamic `import()` keyed
+ *    by the `entrypoint` string in the table below, so the bundler emits one
+ *    chunk per subpath. Nothing is requested until a mode needs it, which keeps
+ *    the `admin` dataset off the initial landing payload.
+ *
+ * The mode table is the single source of truth: the options, the format
+ * guidance, the build-time sample, and the config handed to the client are all
+ * derived from it, so a mode's copy cannot drift from its behaviour.
+ */
+import { formatNumber } from 'nepali-toolkit/number';
+
+type ModeId =
+  | 'number'
+  | 'digits'
+  | 'date-bs-to-ad'
+  | 'date-ad-to-bs'
+  | 'currency'
+  | 'land'
+  | 'words'
+  | 'phone'
+  | 'collation'
+  | 'admin';
+
+type Mode = {
+  id: ModeId;
+  label: string;
+  /** Package subpath the browser imports on demand. */
+  entrypoint: string;
+  /**
+   * Exports of that subpath this mode draws on, in source order. Used to build
+   * the build-time sample's import line; each generated snippet then imports
+   * only the names its own body calls, so nothing unused is shown.
+   */
+  exports: readonly string[];
+  /** Deterministic sample. Never derived from the current date. */
+  sample: string;
+  /** Accepted input shape, announced through `aria-describedby`. */
+  hint: string;
+  placeholder: string;
+  inputMode: 'text' | 'numeric' | 'decimal';
+  /** An empty value is a legitimate query rather than a missing value. */
+  optional?: boolean;
+};
+
+const modes: readonly Mode[] = [
+  {
+    id: 'number',
+    label: 'Number grouping',
+    entrypoint: 'nepali-toolkit/number',
+    exports: ['formatNumber'],
+    sample: '12345678',
+    hint: 'Decimal text, sent as a string so large values and decimals are never rounded by a float.',
+    placeholder: '12345678',
+    inputMode: 'decimal',
+  },
+  {
+    id: 'digits',
+    label: 'ASCII ↔ Devanagari digits',
+    entrypoint: 'nepali-toolkit/number/digits',
+    exports: ['toDevanagari', 'toAscii'],
+    sample: '२०८२',
+    hint: 'Any text. Both directions run, so you can check a round trip.',
+    placeholder: '२०८२',
+    inputMode: 'text',
+  },
+  {
+    id: 'date-bs-to-ad',
+    label: 'BS → AD date',
+    entrypoint: 'nepali-toolkit/date',
+    exports: ['bs', 'toAD'],
+    sample: '2082-04-07',
+    hint: 'Bikram Sambat date as YYYY-MM-DD, for example 2082-04-07.',
+    placeholder: '2082-04-07',
+    inputMode: 'numeric',
+  },
+  {
+    id: 'date-ad-to-bs',
+    label: 'AD → BS date',
+    entrypoint: 'nepali-toolkit/date',
+    exports: ['ad', 'toBS'],
+    sample: '2025-07-23',
+    hint: 'Gregorian date as YYYY-MM-DD, for example 2025-07-23.',
+    placeholder: '2025-07-23',
+    inputMode: 'numeric',
+  },
+  {
+    id: 'currency',
+    label: 'NPR currency',
+    entrypoint: 'nepali-toolkit/currency',
+    exports: ['formatNPR'],
+    sample: '123456.50',
+    hint: 'Decimal text in rupees. Defaults to a leading रु, Nepali grouping, and Devanagari digits.',
+    placeholder: '123456.50',
+    inputMode: 'decimal',
+  },
+  {
+    id: 'land',
+    label: 'Hill land area',
+    entrypoint: 'nepali-toolkit/land',
+    exports: ['hillArea', 'formatHillArea'],
+    sample: '2',
+    hint: 'Whole ropani. Fractional and negative values are rejected; aana, paisa, and daam cover finer units.',
+    placeholder: '2',
+    inputMode: 'numeric',
+  },
+  {
+    id: 'words',
+    label: 'Nepali words',
+    entrypoint: 'nepali-toolkit/words',
+    exports: ['numberToNepaliWords'],
+    sample: '2082',
+    hint: 'A number in decimal text, without digit grouping or an exponent.',
+    placeholder: '2082',
+    inputMode: 'decimal',
+  },
+  {
+    id: 'phone',
+    label: 'Nepal phone number',
+    entrypoint: 'nepali-toolkit/phone',
+    exports: ['parseNepalPhone', 'isValidNepalPhone'],
+    sample: '9841234567',
+    hint: 'National, international, or prefixed text. Spaces, dashes, and brackets are tolerated.',
+    placeholder: '9841234567',
+    inputMode: 'text',
+  },
+  {
+    id: 'collation',
+    label: 'Nepali text inspection',
+    entrypoint: 'nepali-toolkit/collation',
+    exports: ['getNepaliTextStats'],
+    sample: 'नेपाल सरकार। ठीक छ।',
+    hint: 'Nepali or mixed text. Counts follow word-counter semantics, with sentences split on । ॥ ? and !.',
+    placeholder: 'नेपाल सरकार। ठीक छ।',
+    inputMode: 'text',
+  },
+  {
+    id: 'admin',
+    label: 'Province lookup',
+    entrypoint: 'nepali-toolkit/admin/provinces',
+    exports: ['getProvinces', 'findProvincesByName'],
+    sample: 'koshi',
+    hint: 'Optional. Empty lists every province; otherwise search Nepali or English name text.',
+    placeholder: 'koshi',
+    inputMode: 'text',
+    optional: true,
+  },
+];
+
+/**
+ * The build-time sample shown to everyone, including visitors without
+ * JavaScript. Derived from the first mode in the table and formatted exactly
+ * like the client-generated snippets, so switching modes and back produces
+ * identical code and the served markup cannot drift from live behaviour.
+ */
+const sampleMode = modes[0];
+const sampleValue = formatNumber(sampleMode.sample);
+const sampleSnippet = [
+  `import { ${sampleMode.exports.join(', ')} } from '${sampleMode.entrypoint}';`,
+  '',
+  `const grouped = ${sampleMode.exports[0]}(${JSON.stringify(sampleMode.sample)});`,
+  `// → ${JSON.stringify(sampleValue)}`,
+].join('\n');
+
+/** Handed to the client script; trimmed to the fields it actually reads. */
+const clientConfig = {
+  modes: modes.map(({ id, entrypoint, sample, hint, placeholder, inputMode, optional }) => ({
+    id,
+    entrypoint,
+    sample,
+    hint,
+    placeholder,
+    inputMode,
+    optional: optional === true,
+  })),
+};
+
+/** `<` is escaped so a future label can never close the JSON script element. */
+const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
+---
+
+<script is:inline>
+  // Marks scripting as available so the no-JS guidance can be removed before it
+  // paints, while staying in the served HTML for everyone else.
+  document.documentElement.classList.add('has-js');
+</script>
+
+<section
+  class="demo-section site-shell"
+  id="try-it"
+  aria-labelledby="playground-title"
+  data-playground
+  data-state="ready"
+>
+  <div class="section-heading">
+    <p class="eyebrow">Live utility bench</p>
+    <h2 id="playground-title">Try a real call.</h2>
+    <p>
+      Every value below comes from the <code>nepali-toolkit</code> package itself
+      at version 0.1.0, compiled into this page from the workspace source. It is
+      a pre-1.0 library and is not on npm yet, so this bench exercises the
+      workspace build rather than a published release. Each domain is imported
+      only when you select it, nothing is fetched from a server, and no code is
+      evaluated: the result is whatever the real function returned.
+    </p>
+  </div>
+
+  <div class="demo-grid">
+    <div class="demo-controls">
+      <label for="playground-mode">Domain</label>
+      <select id="playground-mode" name="domain">
+        {modes.map((mode) => (
+          <option value={mode.id}>{mode.label}</option>
+        ))}
+      </select>
+
+      <label for="playground-input">Input</label>
+      <input
+        id="playground-input"
+        name="input"
+        type="text"
+        value={sampleMode.sample}
+        placeholder={sampleMode.placeholder}
+        inputmode={sampleMode.inputMode}
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+        aria-invalid="false"
+        aria-describedby="playground-hint playground-status"
+      />
+
+      <p class="playground-hint" id="playground-hint">{sampleMode.hint}</p>
+      <p class="playground-note" id="playground-note" hidden></p>
+      <p class="playground-status" id="playground-status" role="status">
+        Sample result. Edit the input to run the function.
+      </p>
+
+      <button class="playground-text-button" id="playground-reset" type="button">
+        Reset to sample
+      </button>
+    </div>
+
+    <div class="demo-output">
+      <span class="eyebrow">Result</span>
+
+      <div class="playground-result" id="playground-result">
+        <output class="playground-value" id="playground-value" for="playground-input">{sampleValue}</output>
+        <ul class="playground-list" id="playground-list" hidden></ul>
+      </div>
+
+      <div class="playground-actions">
+        <button class="button secondary" id="playground-copy-result" type="button">
+          Copy result
+        </button>
+        <button class="playground-text-button" id="playground-copy-snippet" type="button">
+          Copy snippet
+        </button>
+      </div>
+
+      <div class="playground-snippet">
+        <span class="eyebrow">Snippet</span>
+        <pre><code id="playground-snippet">{sampleSnippet}</code></pre>
+        <p class="playground-entrypoint">
+          Entry point <code id="playground-entrypoint">{sampleMode.entrypoint}</code>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <p class="playground-nojs">
+    JavaScript is off, so the domain selector and input above are inert. The
+    values shown are real output from <code>nepali-toolkit</code> 0.1.0 — the
+    workspace library, which is not published to npm yet — computed while this
+    page was built. Enable JavaScript to switch domains, try valid and invalid
+    input, and copy the snippet as it stands.
+  </p>
+</section>
+
+<!-- `is:inline` keeps the JSON payload in place instead of being hoisted. -->
+<script
+  is:inline
+  type="application/json"
+  id="playground-config"
+  set:html={configJson}
+></script>
+
+<style>
+  /* --------------------------------------------------------------------
+   * The `.demo-*` layout, borders, and the large display type on
+   * `.demo-output output` come from the shared landing stylesheet. The
+   * rules below cover only what this component adds.
+   * -------------------------------------------------------------------- */
+
+  /* Devanagari is a first-class output here, so it gets a real fallback
+     face instead of inheriting a Latin-only sans or mono stack. */
+  .playground-value,
+  .playground-list {
+    font-family: 'Noto Sans Devanagari', 'Nirmala UI', 'Mangal', var(--sans);
+  }
+  .playground-value {
+    line-height: 1.35;
+  }
+  .playground-snippet code {
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', 'Noto Sans Devanagari',
+      'Nirmala UI', 'Mangal', monospace;
+  }
+
+  .playground-hint,
+  .playground-note,
+  .playground-status,
+  .playground-entrypoint {
+    margin: 0;
+    font: 0.65rem/1.7 var(--mono);
+  }
+  .playground-hint {
+    /* Pulls the hint up against the field's own bottom margin. */
+    margin-top: -10px;
+    margin-bottom: 14px;
+    color: var(--muted);
+  }
+  .playground-note {
+    margin-bottom: 12px;
+    padding: 8px 10px;
+    border-left: 2px solid var(--strong-line);
+    background: var(--canvas);
+    color: var(--muted);
+  }
+  .playground-status {
+    color: var(--muted);
+  }
+  /* Failure is signalled by weight and a border, never by colour alone. */
+  [data-state='error'] .playground-status {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  [data-state='error'] .playground-note {
+    border-left-color: var(--ink);
+  }
+
+  .playground-text-button {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--muted);
+    font: 0.65rem var(--mono);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .playground-text-button:hover:not(:disabled) {
+    color: var(--ink);
+  }
+  .playground-text-button:disabled,
+  .button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  .button:disabled:hover {
+    transform: none;
+    border-color: var(--line);
+  }
+
+  /* Reserved height keeps loading, empty, error, and result states from
+     shifting the snippet below them. */
+  .playground-result {
+    width: 100%;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  /* `hidden` has to outrank the shared `.demo-output output` display rule. */
+  .playground-value[hidden],
+  .playground-list[hidden] {
+    display: none;
+  }
+  .playground-list {
+    width: 100%;
+    margin: 22px 0;
+    padding: 0;
+    list-style: none;
+  }
+  .playground-list li {
+    padding: 9px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+  .playground-list li:last-child {
+    border-bottom: 0;
+  }
+
+  .playground-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 18px;
+  }
+  .playground-actions .playground-text-button {
+    margin-top: 25px;
+  }
+
+  .playground-snippet {
+    width: 100%;
+    margin-top: 30px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+  }
+  .playground-snippet > .eyebrow {
+    color: var(--muted);
+  }
+  .playground-snippet pre {
+    margin: 14px 0 0;
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    background: var(--canvas);
+    /* Code scrolls inside its own region rather than widening the page. */
+    overflow-x: auto;
+  }
+  .playground-snippet code {
+    /* `width: max-content` keeps long lines from adding a phantom scrollbar. */
+    display: block;
+    width: max-content;
+    min-width: 100%;
+    color: var(--ink);
+  }
+  .playground-entrypoint {
+    margin-top: 10px;
+    color: var(--muted);
+  }
+
+  .playground-nojs {
+    margin: 18px 0 0;
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 0.75rem;
+    line-height: 1.8;
+  }
+  :global(html.has-js) .playground-nojs {
+    display: none;
+  }
+</style>
+
+<script>
+  type ModeId =
+    | 'number'
+    | 'digits'
+    | 'date-bs-to-ad'
+    | 'date-ad-to-bs'
+    | 'currency'
+    | 'land'
+    | 'words'
+    | 'phone'
+    | 'collation'
+    | 'admin';
+
+  type ClientMode = {
+    id: ModeId;
+    entrypoint: string;
+    sample: string;
+    hint: string;
+    placeholder: string;
+    inputMode: 'text' | 'numeric' | 'decimal';
+    optional: boolean;
+  };
+
+  /**
+   * A finished run. `empty` is a neutral prompt rather than a failure, and only
+   * a real rejection becomes an `error`. `snippet` is absent whenever there is
+   * no honest, complete example to offer, so a placeholder can never be
+   * mistaken for a copyable snippet.
+   */
+  type Outcome =
+    | { kind: 'value'; text: string; snippet: string }
+    | { kind: 'list'; items: string[]; snippet: string }
+    | { kind: 'empty'; text: string; guidance: string; snippet?: string }
+    | { kind: 'error'; message: string; snippet?: undefined };
+
+  /** A dynamically imported subpath, narrowed per mode at the call site. */
+  type ToolkitModule = Record<string, unknown>;
+
+  type Fields = { year: number; month: number; day: number };
+  type Province = { code: string; nameEn: string; nameNe: string };
+  type ParsedPhone = { kind: string; e164: string; operator?: string };
+
+  const config = JSON.parse(
+    document.querySelector('#playground-config')?.textContent ?? '{}',
+  ) as { modes: ClientMode[] };
+
+  const root = document.querySelector<HTMLElement>('[data-playground]')!;
+  const modeField = document.querySelector<HTMLSelectElement>('#playground-mode')!;
+  const inputField = document.querySelector<HTMLInputElement>('#playground-input')!;
+  const hint = document.querySelector<HTMLElement>('#playground-hint')!;
+  const note = document.querySelector<HTMLElement>('#playground-note')!;
+  const status = document.querySelector<HTMLElement>('#playground-status')!;
+  const resultRegion = document.querySelector<HTMLElement>('#playground-result')!;
+  const valueSlot = document.querySelector<HTMLOutputElement>('#playground-value')!;
+  const listSlot = document.querySelector<HTMLUListElement>('#playground-list')!;
+  const snippet = document.querySelector<HTMLElement>('#playground-snippet')!;
+  const entrypointLabel = document.querySelector<HTMLElement>('#playground-entrypoint')!;
+  const reset = document.querySelector<HTMLButtonElement>('#playground-reset')!;
+  const copyResult = document.querySelector<HTMLButtonElement>('#playground-copy-result')!;
+  const copySnippet = document.querySelector<HTMLButtonElement>('#playground-copy-snippet')!;
+
+  // --- Lazy domain loading ------------------------------------------------
+  // One dynamic import per subpath: the bundler keeps these in separate
+  // chunks, and none is requested until its mode is used. Each value is typed
+  // as `Promise<unknown>` so the namespace object needs no cast here; the
+  // narrowing to the functions a mode actually uses happens in its handler.
+  const loaders: Record<string, () => Promise<unknown>> = {
+    'nepali-toolkit/number': () => import('nepali-toolkit/number'),
+    'nepali-toolkit/number/digits': () => import('nepali-toolkit/number/digits'),
+    'nepali-toolkit/date': () => import('nepali-toolkit/date'),
+    'nepali-toolkit/currency': () => import('nepali-toolkit/currency'),
+    'nepali-toolkit/land': () => import('nepali-toolkit/land'),
+    'nepali-toolkit/words': () => import('nepali-toolkit/words'),
+    'nepali-toolkit/phone': () => import('nepali-toolkit/phone'),
+    'nepali-toolkit/collation': () => import('nepali-toolkit/collation'),
+    'nepali-toolkit/admin/provinces': () => import('nepali-toolkit/admin/provinces'),
+  };
+
+  const load = async (entrypoint: string): Promise<ToolkitModule> => {
+    const loader = loaders[entrypoint];
+    if (!loader) throw new Error(`Unknown entry point ${entrypoint}`);
+    return (await loader()) as ToolkitModule;
+  };
+
+  // --- Small helpers ------------------------------------------------------
+
+  /** A quoted JavaScript string literal, safe to paste into a snippet. */
+  const literal = (value: string): string => JSON.stringify(value);
+
+  const importLine = (mode: ClientMode, names: readonly string[]): string =>
+    `import { ${names.join(', ')} } from '${mode.entrypoint}';`;
+
+  const isoDate = (fields: Fields): string =>
+    `${fields.year}-${String(fields.month).padStart(2, '0')}-${String(fields.day).padStart(2, '0')}`;
+
+  const plural = (count: number, noun: string): string => (count === 1 ? noun : `${noun}s`);
+
+  const CIVIL_DATE = /^(\d{4})-(\d{1,2})-(\d{1,2})$/;
+
+  /**
+   * Splits a civil date into numeric fields so the snippet shows the same
+   * normalized numbers the function received. Month lengths are deliberately
+   * left to the library, which is the authority on what a valid BS date is.
+   */
+  function civilFields(raw: string, calendar: string, example: string): [number, number, number] {
+    const match = CIVIL_DATE.exec(raw);
+    if (!match) {
+      throw new Error(`Enter a ${calendar} date as YYYY-MM-DD, for example ${example}.`);
+    }
+    return [Number(match[1]), Number(match[2]), Number(match[3])];
+  }
+
+  const describeError = (error: unknown): string =>
+    error instanceof Error && error.message ? error.message : 'The library rejected this value.';
+
+  /**
+   * Supported-range guidance read from the library rather than restated here,
+   * so it cannot fall behind the generated data.
+   */
+  async function rangeNote(calendar: 'bs' | 'ad'): Promise<string> {
+    const { range } = (await load('nepali-toolkit/date')) as {
+      range: { bsStart: Fields; bsEnd: Fields; adStart: Fields; adEnd: Fields };
+    };
+    const span = `Supported range: BS ${isoDate(range.bsStart)} to ${isoDate(range.bsEnd)} (AD ${isoDate(range.adStart)} to ${isoDate(range.adEnd)}).`;
+    return calendar === 'bs'
+      ? `${span} BS month lengths vary, so not every month has 30 or 31 days.`
+      : `${span} Gregorian leap years apply to the input.`;
+  }
+
+  // --- Per-mode behaviour -------------------------------------------------
+  // Each handler receives the same normalized input the field holds, calls the
+  // real function, and returns both the display value and a snippet built from
+  // the values that were actually passed in.
+
+  const handlers: Record<ModeId, (mode: ClientMode, raw: string) => Promise<Outcome>> = {
+    async number(mode, raw) {
+      const { formatNumber } = (await load(mode.entrypoint)) as {
+        formatNumber: (value: string) => string;
+      };
+      const value = raw.trim();
+      const text = formatNumber(value);
+      return {
+        kind: 'value',
+        text,
+        snippet: [
+          importLine(mode, ['formatNumber']),
+          '',
+          `const grouped = formatNumber(${literal(value)});`,
+          `// → ${literal(text)}`,
+        ].join('\n'),
+      };
+    },
+
+    async digits(mode, raw) {
+      const { toAscii, toDevanagari } = (await load(mode.entrypoint)) as {
+        toAscii: (value: string) => string;
+        toDevanagari: (value: string) => string;
+      };
+      if (raw.trim() === '') {
+        return {
+          kind: 'empty',
+          text: '—',
+          guidance: 'Type some text to convert its digits in both directions.',
+        };
+      }
+      const devanagari = toDevanagari(raw);
+      const ascii = toAscii(raw);
+      return {
+        kind: 'value',
+        text: `${devanagari}  ←  ${ascii}`,
+        snippet: [
+          importLine(mode, ['toDevanagari', 'toAscii']),
+          '',
+          `const text = ${literal(raw)};`,
+          `toDevanagari(text); // → ${literal(devanagari)}`,
+          `toAscii(text);    // → ${literal(ascii)}`,
+        ].join('\n'),
+      };
+    },
+
+    async 'date-bs-to-ad'(mode, raw) {
+      const { bs, toAD } = (await load(mode.entrypoint)) as {
+        bs: (year: number, month: number, day: number) => unknown;
+        toAD: (value: unknown) => Fields;
+      };
+      const [year, month, day] = civilFields(raw.trim(), 'Bikram Sambat', mode.sample);
+      const converted = toAD(bs(year, month, day));
+      return {
+        kind: 'value',
+        text: isoDate(converted),
+        snippet: [
+          importLine(mode, ['bs', 'toAD']),
+          '',
+          `const adDate = toAD(bs(${year}, ${month}, ${day}));`,
+          `// → { year: ${converted.year}, month: ${converted.month}, day: ${converted.day} }`,
+        ].join('\n'),
+      };
+    },
+
+    async 'date-ad-to-bs'(mode, raw) {
+      const { ad, toBS } = (await load(mode.entrypoint)) as {
+        ad: (year: number, month: number, day: number) => unknown;
+        toBS: (value: unknown) => Fields;
+      };
+      const [year, month, day] = civilFields(raw.trim(), 'Gregorian', mode.sample);
+      const converted = toBS(ad(year, month, day));
+      return {
+        kind: 'value',
+        text: isoDate(converted),
+        snippet: [
+          importLine(mode, ['ad', 'toBS']),
+          '',
+          `const bsDate = toBS(ad(${year}, ${month}, ${day}));`,
+          `// → { year: ${converted.year}, month: ${converted.month}, day: ${converted.day} }`,
+        ].join('\n'),
+      };
+    },
+
+    async currency(mode, raw) {
+      const { formatNPR } = (await load(mode.entrypoint)) as {
+        formatNPR: (value: string) => string;
+      };
+      const value = raw.trim();
+      const text = formatNPR(value);
+      return {
+        kind: 'value',
+        text,
+        snippet: [
+          importLine(mode, ['formatNPR']),
+          '',
+          `const amount = formatNPR(${literal(value)});`,
+          `// → ${literal(text)}`,
+        ].join('\n'),
+      };
+    },
+
+    async land(mode, raw) {
+      const { hillArea, formatHillArea } = (await load(mode.entrypoint)) as {
+        hillArea: (fields: { ropani: number }) => unknown;
+        formatHillArea: (area: unknown) => string;
+      };
+      const value = raw.trim();
+      if (!/^\d+$/.test(value)) {
+        throw new Error('Enter a whole number of ropani, for example 2.');
+      }
+      const ropani = Number(value);
+      const text = formatHillArea(hillArea({ ropani }));
+      return {
+        kind: 'value',
+        text,
+        snippet: [
+          importLine(mode, ['hillArea', 'formatHillArea']),
+          '',
+          `const area = hillArea({ ropani: ${ropani} });`,
+          'formatHillArea(area);',
+          `// → ${literal(text)}`,
+        ].join('\n'),
+      };
+    },
+
+    async words(mode, raw) {
+      const { numberToNepaliWords } = (await load(mode.entrypoint)) as {
+        numberToNepaliWords: (value: string) => string;
+      };
+      const value = raw.trim();
+      const text = numberToNepaliWords(value);
+      return {
+        kind: 'value',
+        text,
+        snippet: [
+          importLine(mode, ['numberToNepaliWords']),
+          '',
+          `const words = numberToNepaliWords(${literal(value)});`,
+          `// → ${literal(text)}`,
+        ].join('\n'),
+      };
+    },
+
+    async phone(mode, raw) {
+      const { parseNepalPhone, isValidNepalPhone } = (await load(mode.entrypoint)) as {
+        parseNepalPhone: (value: string) => ParsedPhone | null;
+        isValidNepalPhone: (value: ParsedPhone) => boolean;
+      };
+      const value = raw.trim();
+      // An unrecognised shape throws InvalidPhoneError, which surfaces as
+      // inline feedback with the library's own wording.
+      const phone = parseNepalPhone(value);
+      if (phone === null) {
+        return {
+          kind: 'empty',
+          text: '—',
+          guidance: 'Type a mobile or landline number to see how it parses.',
+        };
+      }
+      const valid = isValidNepalPhone(phone);
+      const lines = [
+        importLine(mode, ['parseNepalPhone', 'isValidNepalPhone']),
+        '',
+        `const phone = parseNepalPhone(${literal(value)});`,
+        `phone.e164;                 // → ${literal(phone.e164)}`,
+      ];
+      if (phone.operator !== undefined) {
+        lines.push(`phone.operator;             // → ${literal(phone.operator)}`);
+      }
+      lines.push(`isValidNepalPhone(phone);   // → ${valid}`);
+      return {
+        kind: 'value',
+        text: [phone.e164, phone.kind, phone.operator].filter(Boolean).join(' · '),
+        snippet: lines.join('\n'),
+      };
+    },
+
+    async collation(mode, raw) {
+      const { getNepaliTextStats } = (await load(mode.entrypoint)) as {
+        getNepaliTextStats: (value: string) => {
+          words: number;
+          characters: number;
+          sentences: number;
+          paragraphs: number;
+        };
+      };
+      const stats = getNepaliTextStats(raw);
+      if (stats.words === 0) {
+        return {
+          kind: 'empty',
+          text: '0 words',
+          guidance: 'Type some Nepali or mixed text to count words, sentences, and paragraphs.',
+        };
+      }
+      return {
+        kind: 'value',
+        text: [
+          `${stats.words} ${plural(stats.words, 'word')}`,
+          `${stats.sentences} ${plural(stats.sentences, 'sentence')}`,
+          `${stats.characters} ${plural(stats.characters, 'character')}`,
+        ].join(' · '),
+        snippet: [
+          importLine(mode, ['getNepaliTextStats']),
+          '',
+          `const stats = getNepaliTextStats(${literal(raw)});`,
+          `// → ${JSON.stringify(stats)}`,
+        ].join('\n'),
+      };
+    },
+
+    async admin(mode, raw) {
+      const { getProvinces, findProvincesByName } = (await load(mode.entrypoint)) as {
+        getProvinces: () => readonly Province[];
+        findProvincesByName: (query: string) => readonly Province[];
+      };
+      const describe = (province: Province) =>
+        `${province.nameNe} · ${province.nameEn} · code ${province.code}`;
+
+      // An empty query is a valid request for the whole list, so this mode
+      // keeps a real snippet even in its empty state.
+      const query = raw.trim();
+      if (query === '') {
+        const provinces = getProvinces();
+        return {
+          kind: 'list',
+          items: provinces.map(describe),
+          snippet: [
+            importLine(mode, ['getProvinces']),
+            '',
+            'const provinces = getProvinces();',
+            `// → ${provinces.length} provinces`,
+          ].join('\n'),
+        };
+      }
+
+      const matches = findProvincesByName(query);
+      if (matches.length === 0) {
+        return {
+          kind: 'empty',
+          text: `No province matches “${query}”.`,
+          guidance: 'Search covers Nepali and English name text. Try koshi, lumbini, or बागमती.',
+          snippet: [
+            importLine(mode, ['getProvinces', 'findProvincesByName']),
+            '',
+            `findProvincesByName(${literal(query)});`,
+            '// → []',
+          ].join('\n'),
+        };
+      }
+      return {
+        kind: 'list',
+        items: matches.map(describe),
+        snippet: [
+          importLine(mode, ['getProvinces', 'findProvincesByName']),
+          '',
+          `findProvincesByName(${literal(query)});`,
+          `// → ${matches.length} of 7 provinces`,
+        ].join('\n'),
+      };
+    },
+  };
+
+  // --- Rendering ----------------------------------------------------------
+
+  type Painted = { result: string; snippet: string };
+
+  // Seeded from the served markup, which already holds a real build-time result.
+  let painted: Painted = {
+    result: valueSlot.textContent ?? '',
+    snippet: snippet.textContent ?? '',
+  };
+
+  function setState(state: 'ready' | 'loading' | 'error' | 'empty', message: string): void {
+    root.dataset.state = state;
+    status.textContent = message;
+    resultRegion.setAttribute('aria-busy', String(state === 'loading'));
+    if (state === 'error') inputField.setAttribute('aria-invalid', 'true');
+    else inputField.removeAttribute('aria-invalid');
+  }
+
+  function scalarOf(outcome: Outcome): string {
+    if (outcome.kind === 'list') return outcome.items.join('\n');
+    if (outcome.kind === 'error') return outcome.message;
+    return outcome.text;
+  }
+
+  function paint(outcome: Outcome): void {
+    const isError = outcome.kind === 'error';
+    const nextSnippet = isError ? '' : (outcome.snippet ?? '');
+
+    snippet.textContent = nextSnippet;
+    painted = { result: isError ? '' : scalarOf(outcome), snippet: nextSnippet };
+
+    if (outcome.kind === 'list') {
+      valueSlot.hidden = true;
+      listSlot.hidden = false;
+      // Values come from the packaged dataset, but textContent is used so no
+      // path can ever interpret a value as markup.
+      listSlot.replaceChildren(
+        ...outcome.items.map((item) => {
+          const li = document.createElement('li');
+          li.textContent = item;
+          return li;
+        }),
+      );
+    } else {
+      listSlot.hidden = true;
+      listSlot.replaceChildren();
+      valueSlot.hidden = false;
+      valueSlot.textContent = isError ? '—' : outcome.text;
+    }
+
+    // A list has no single scalar to copy and an empty state has no result
+    // worth copying, but an empty state may still have a complete snippet.
+    copyResult.disabled = outcome.kind === 'list' || outcome.kind === 'empty';
+    copySnippet.disabled = outcome.snippet === undefined;
+
+    const message =
+      outcome.kind === 'error'
+        ? outcome.message
+        : outcome.kind === 'empty'
+          ? outcome.guidance
+          : 'Updated from nepali-toolkit.';
+    setState(
+      outcome.kind === 'error' ? 'error' : outcome.kind === 'empty' ? 'empty' : 'ready',
+      message,
+    );
+  }
+
+  // --- Run loop -----------------------------------------------------------
+
+  const modeById = (id: string): ClientMode =>
+    config.modes.find((mode) => mode.id === id) ?? config.modes[0];
+
+  /** Stops a slow earlier run from overwriting a newer one. */
+  let revision = 0;
+
+  async function run(): Promise<void> {
+    const current = ++revision;
+    const mode = modeById(modeField.value);
+    const raw = inputField.value;
+    const shortName = mode.entrypoint.split('/').pop() ?? mode.entrypoint;
+
+    hint.textContent = mode.hint;
+    inputField.placeholder = mode.placeholder;
+    inputField.inputMode = mode.inputMode;
+    entrypointLabel.textContent = mode.entrypoint;
+    note.hidden = true;
+
+    // A cleared required field is a prompt, not a failure.
+    if (raw.trim() === '' && !mode.optional) {
+      paint({
+        kind: 'empty',
+        text: '—',
+        guidance: `Enter a value to run the ${shortName} example.`,
+      });
+      return;
+    }
+
+    setState('loading', `Loading the ${shortName} module…`);
+    copyResult.disabled = true;
+    copySnippet.disabled = true;
+
+    try {
+      const outcome = await handlers[mode.id](mode, raw);
+      if (current !== revision) return;
+
+      if (mode.id === 'date-bs-to-ad' || mode.id === 'date-ad-to-bs') {
+        // A range note is supplementary, so a failure here must not turn a
+        // successful conversion into an error state.
+        const resolved = await rangeNote(mode.id === 'date-bs-to-ad' ? 'bs' : 'ad').catch(
+          () => undefined,
+        );
+        if (current !== revision) return;
+        if (resolved !== undefined) {
+          note.textContent = resolved;
+          note.hidden = false;
+        }
+      }
+
+      paint(outcome);
+    } catch (error) {
+      if (current !== revision) return;
+      paint({ kind: 'error', message: describeError(error) });
+    }
+  }
+
+  // --- Wiring -------------------------------------------------------------
+
+  modeField.addEventListener('change', () => {
+    // Deterministic per-mode sample, never dependent on today's date.
+    inputField.value = modeById(modeField.value).sample;
+    run();
+  });
+  inputField.addEventListener('input', run);
+  reset.addEventListener('click', () => {
+    inputField.value = modeById(modeField.value).sample;
+    run();
+  });
+
+  /**
+   * Copies text and confirms in the button label and the live region, because
+   * the async clipboard API is unavailable on insecure origins and blocked in
+   * some browsers.
+   */
+  function wireCopy(button: HTMLButtonElement, read: () => string, label: string): void {
+    const idle = button.textContent ?? '';
+    let timer: number | undefined;
+    button.addEventListener('click', async () => {
+      const text = read();
+      if (text === '') return;
+      try {
+        await navigator.clipboard.writeText(text);
+        button.textContent = 'Copied';
+        status.textContent = `${label} copied to the clipboard.`;
+        window.clearTimeout(timer);
+        timer = window.setTimeout(() => {
+          button.textContent = idle;
+        }, 2000);
+      } catch {
+        status.textContent = 'Copy is blocked in this browser. Select the text and copy it manually.';
+      }
+    });
+  }
+
+  wireCopy(copyResult, () => painted.result, 'Result');
+  wireCopy(copySnippet, () => painted.snippet, 'Snippet');
+</script>

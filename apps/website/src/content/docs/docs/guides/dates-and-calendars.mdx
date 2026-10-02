@@ -1,0 +1,17 @@
+---
+title: Dates and calendars
+---
+
+# Dates and calendars
+
+Dates are represented as civil BS or AD values. Construct a value with `bs()` or `ad()`, convert with `toAD()` or `toBS()`, and format with `formatBS()` or `formatAD()`.
+
+```ts
+import { bs, formatBS, toAD, addDaysBS } from 'nepali-toolkit/date';
+
+const nepaliDate = bs(2082, 1, 1);
+formatBS(nepaliDate, 'YYYY-MM-DD');
+toAD(addDaysBS(nepaliDate, 7));
+```
+
+The supported BS range is bounded by the package's generated calendar data. Invalid civil dates and unsupported dates produce typed errors. Use the timezone adapters only when bridging an instant; core civil-date operations do not depend on a local timezone.

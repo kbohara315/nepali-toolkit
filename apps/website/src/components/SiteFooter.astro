@@ -1,0 +1,29 @@
+---
+const base = import.meta.env.BASE_URL;
+---
+
+<footer class="site-footer site-shell">
+  <div class="footer-top">
+    <div>
+      <a class="brand" href={base}>
+        <span class="brand-icon" aria-hidden="true">
+          ने
+        </span>{' '}
+        Nepali <span>Toolkit</span>
+      </a>
+      <p>Small utilities. Local fluency.</p>
+    </div>
+    <nav class="footer-links" aria-label="Footer">
+      <a href={`${base}docs/`}>Documentation</a>
+      <a href={`${base}playground/`}>Playground</a>
+      <a href="https://github.com/kbohara315/nepali-toolkit">GitHub ↗</a>
+      <a href="https://www.npmjs.com/package/nepali-toolkit">npm ↗</a>
+    </nav>
+  </div>
+  <div class="footer-bottom">
+    <span>Built for the details that matter.</span>
+    <a href="https://github.com/kbohara315/nepali-toolkit/blob/main/LICENSE">
+      Open source / MIT License ↗
+    </a>
+  </div>
+</footer>

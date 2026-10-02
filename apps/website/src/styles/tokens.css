@@ -1,0 +1,62 @@
+@import './fonts.css';
+
+:root {
+  color-scheme: light;
+  --canvas: #fafafa;
+  --surface: #fff;
+  --ink: #171717;
+  --muted: #666;
+  --line: #e2e2e2;
+  --strong-line: #aaa;
+  --invert: #171717;
+  --invert-ink: #fff;
+  --sans: 'Manrope', 'Avenir Next', 'Segoe UI', sans-serif;
+  --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --canvas: #0c0c0c;
+  --surface: #141414;
+  --ink: #f2f2f2;
+  --muted: #a3a3a3;
+  --line: #2c2c2c;
+  --strong-line: #646464;
+  --invert: #f2f2f2;
+  --invert-ink: #111;
+}
+
+* {
+  box-sizing: border-box;
+}
+html {
+  background: var(--canvas);
+  color: var(--ink);
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+a {
+  color: inherit;
+}
+button,
+input,
+select {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+}
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+}
+::selection {
+  background: var(--invert);
+  color: var(--invert-ink);
+}

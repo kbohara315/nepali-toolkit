@@ -1,0 +1,19 @@
+---
+title: Number reference
+description: Nepali lakh/crore grouping, parsing, and digit conversion.
+---
+
+# Number
+
+```ts
+import { formatNumber, parseNumber, toDevanagari, toAscii } from 'nepali-toolkit/number';
+
+formatNumber('12345678'); // '1,23,45,678'
+parseNumber('१,२३,४५,६७८'); // '12345678'
+toDevanagari('2082'); // '२०८२'
+toAscii('२०८२'); // '2082'
+```
+
+`formatNumber` accepts strings, numbers, and bigints. Use strings for exact decimals. `NumberFormatOptions` controls grouping, numerals, fraction digits, and separators. `parseNumber` returns canonical ASCII decimal text and accepts ASCII or Devanagari digits.
+
+Invalid numeric text throws `InvalidNumberError`; digit conversion preserves non-digit characters. Digit helpers are also available from `nepali-toolkit/number/digits`.

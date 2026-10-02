@@ -1,0 +1,18 @@
+---
+title: Words reference
+description: Number and NPR amount words in English and Nepali.
+---
+
+# Words
+
+```ts
+import { numberToEnglishWords, numberToNepaliWords, amountToNepaliWordsNPR } from 'nepali-toolkit/words';
+
+numberToEnglishWords(2082);
+numberToNepaliWords(2082);
+amountToNepaliWordsNPR('123456.50');
+```
+
+The entrypoint also exports `numberWordsInText`, `parseNepaliWords`, and minor-unit NPR conversion. `WordsInput` supports the exact input forms documented by the package. Use strings when preserving decimal precision matters.
+
+Unsupported or malformed values throw `InvalidWordsError`.
