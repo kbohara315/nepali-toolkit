@@ -2,14 +2,14 @@
 import MarketingLayout from '../layouts/MarketingLayout.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
-import DomainConstellation from '../components/DomainConstellation.astro';
-import Playground from '../components/Playground.astro';
+import DomainSwitchboard from '../components/DomainSwitchboard.astro';
+import DomainIndex from '../components/DomainIndex.astro';
 import '../styles/landing.css';
 const base = import.meta.env.BASE_URL;
 ---
 
 <MarketingLayout
-  title="Nepali Toolkit | Build for Nepal"
+  title="Nepali Toolkit | Local conventions. One toolkit."
   description="Focused TypeScript utilities for Nepali dates, numbers, currency, land, words, phones, sorting, and administrative data."
 >
   <SiteHeader />
@@ -17,20 +17,20 @@ const base = import.meta.env.BASE_URL;
     <section class="hero site-shell">
       <div class="hero-content">
         <p class="eyebrow">
-          <span class="status-dot"></span> Local knowledge. Typed.
+          Nepali Toolkit / TypeScript utilities
         </p>
         <h1>
-          Build for Nepal.
+          Local conventions.
           <br />
-          <span>With less code.</span>
+          <span>One toolkit.</span>
         </h1>
         <p class="hero-copy">
-          From Bikram Sambat to lakh and crore. Eight focused TypeScript modules
-          for the details that make software feel at home.
+          Dates, numbers, currency, land, words, sorting, phones, and administrative
+          data. Focused TypeScript utilities for software built for Nepal.
         </p>
         <div class="hero-actions">
           <a class="button primary" href={`${base}docs/getting-started/`}>
-            Start building <span aria-hidden="true">↗</span>
+            Get started <span aria-hidden="true">→</span>
           </a>
           <a class="text-link" href={`${base}playground/`}>
             Explore playground <span aria-hidden="true">→</span>
@@ -51,7 +51,7 @@ const base = import.meta.env.BASE_URL;
             <span>INSTALL</span>
           </div>
           <div class="install-command">
-            <code id="install-command">pnpm add nepali-toolkit</code>
+            <code id="install-command"><span class="code-command" id="install-manager">pnpm</span> <span class="code-keyword" id="install-verb">add</span> <span class="code-package">nepali-toolkit</span></code>
             <button
               class="copy-button"
               id="copy-install"
@@ -68,35 +68,39 @@ const base = import.meta.env.BASE_URL;
           Open source · MIT licensed · Zero runtime dependencies
         </p>
       </div>
-      <DomainConstellation />
+      <DomainSwitchboard />
     </section>
-    <section class="benefits site-shell" aria-label="Toolkit benefits">
+    <DomainIndex />
+    <section class="precision site-shell" aria-labelledby="precision-heading">
+    <div class="section-heading"><p class="eyebrow">Designed for the details</p><h2 id="precision-heading">Precision where it matters.</h2></div>
+    <div class="benefits" aria-label="Toolkit precision">
       <div class="benefit">
-        <span class="eyebrow">01 / Confidence</span>
-        <h2>Types do the talking.</h2>
+        <span class="eyebrow">01 / Civil dates</span>
+        <h3>A date is not a timestamp.</h3>
         <p>
-          Discoverable, typed functions. Clear inputs and outputs, right in your
-          editor.
+          Work with explicit BS and AD civil dates. Conversion coverage and
+          calendar-table boundaries are documented, rather than implied.
         </p>
       </div>
       <div class="benefit">
-        <span class="eyebrow">02 / Independence</span>
-        <h2>Small by intention.</h2>
+        <span class="eyebrow">02 / Decimal strings</span>
+        <h3>Keep the digits you entered.</h3>
         <p>
-          Zero runtime dependencies. Just the utilities you need, built on the
-          platform.
+          Supply numeric and currency values as strings where supported. Avoid
+          rounding large values through a JavaScript number before formatting.
         </p>
       </div>
       <div class="benefit">
-        <span class="eyebrow">03 / Precision</span>
-        <h2>Your domain. Your import.</h2>
+        <span class="eyebrow">03 / Data revisions</span>
+        <h3>Know what your data represents.</h3>
         <p>
-          Focused, tree-shakeable subpaths. ESM and CommonJS, ready for your
-          stack.
+          Administrative datasets have source and revision notes. Read their
+          coverage before relying on a lookup in your application.
         </p>
       </div>
+    </div>
+    <a class="text-link precision-link" href={`${base}docs/project/data-sources/`}>Read data sources and coverage →</a>
     </section>
-    <Playground />
     <section class="steps site-shell">
       <div class="section-heading">
         <p class="eyebrow">From install to implementation</p>
@@ -119,13 +123,13 @@ const base = import.meta.env.BASE_URL;
           <span>TypeScript</span>
         </div>
         <pre><code><span class="code-comment">// 01 — Pick your domain</span>
-import &#123; formatNumber &#125; from 'nepali-toolkit/number';
+<span class="code-keyword">import</span> &#123; <span class="code-function">formatNumber</span> &#125; <span class="code-keyword">from</span> <span class="code-string">'nepali-toolkit/number'</span>;
 
 <span class="code-comment">// 02 — Make it feel local</span>
-const population = formatNumber('12345678');
+<span class="code-keyword">const</span> population = <span class="code-function">formatNumber</span>(<span class="code-string">'12345678'</span>);
 
 <span class="code-comment">// 03 — Ship the details</span>
-console.log(population); <span class="code-comment">// '1,23,45,678'</span></code></pre>
+<span class="code-function">console.log</span>(population); <span class="code-comment">// '1,23,45,678'</span></code></pre>
         <div class="code-caption">
           <span class="status-dot"></span> Familiar JavaScript. Nepali by
           default.
@@ -138,6 +142,8 @@ console.log(population); <span class="code-comment">// '1,23,45,678'</span></cod
 
 <script>
   const command = document.querySelector('#install-command')!;
+  const managerOutput = document.querySelector('#install-manager')!;
+  const verbOutput = document.querySelector('#install-verb')!;
   const status = document.querySelector('#install-status')!;
   const managers =
     document.querySelectorAll<HTMLButtonElement>('[data-manager]');
@@ -147,7 +153,8 @@ console.log(population); <span class="code-comment">// '1,23,45,678'</span></cod
     button.disabled = false;
     button.addEventListener('click', () => {
       const manager = button.dataset.manager;
-      command.textContent = `${manager} ${manager === 'npm' ? 'install' : 'add'} nepali-toolkit`;
+      managerOutput.textContent = manager ?? '';
+      verbOutput.textContent = manager === 'npm' ? 'install' : 'add';
       copy.textContent = 'Copy';
       status.textContent = '';
       managers.forEach((item) =>

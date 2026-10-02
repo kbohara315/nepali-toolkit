@@ -4,7 +4,7 @@ import starlight from '@astrojs/starlight';
 const base = process.env.SITE_BASE ?? '/';
 
 export default defineConfig({
-  site: process.env.SITE_URL ?? 'https://kbohara315.github.io',
+  site: new URL(process.env.SITE_URL ?? 'https://kbohara315.github.io').origin,
   base,
   output: 'static',
   integrations: [

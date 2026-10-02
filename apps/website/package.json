@@ -8,7 +8,8 @@
     "preview": "astro preview",
     "typecheck": "astro check",
     "doctor": "pnpm dlx react-doctor@0.9.14 . --no-score --blocking none",
-    "test": "node --test tests/site.test.mjs"
+    "test": "node --experimental-strip-types --test tests/*.test.mjs",
+    "test:browser": "node tests/browser-check.mjs"
   },
   "dependencies": {
     "@astrojs/starlight": "^0.42.4",

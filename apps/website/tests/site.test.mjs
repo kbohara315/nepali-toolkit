@@ -38,16 +38,11 @@ test('playground uses lazy public toolkit imports', async () => {
 
 test('marketing pages provide a skip link and progressive domain controls', async () => {
   const layout = await read('src/layouts/MarketingLayout.astro');
-  const constellation = await read('src/components/DomainConstellation.astro');
+  const switchboard = await read('src/components/DomainSwitchboard.astro');
   assert.match(layout, /class="skip-link" href="#main"/);
-  assert.match(constellation, /let pinned = null/);
-  assert.match(constellation, /document.createElement\('button'\)/);
-  assert.match(constellation, /<noscript>/);
-  assert.match(
-    constellation,
-    /href=\{`\$\{base\}\$\{domain\.docs\.slice\(1\)\}`\}/,
-  );
-  assert.match(constellation, /hovered \|\| focused \|\| pinned/);
+  assert.match(switchboard, /<fieldset disabled/);
+  assert.match(switchboard, /type="radio"/);
+  assert.match(switchboard, /Interactive examples require JavaScript/);
 });
 
 test('phone examples use raw-input validation correctly', async () => {
@@ -56,4 +51,9 @@ test('phone examples use raw-input validation correctly', async () => {
   assert.match(domains, /isPossibleNepalPhone\('9841234567'\)/);
   assert.match(reference, /isPossibleNepalPhone\('9841234567'\)/);
   assert.match(reference, /isValidNepalPhone\(phone\)/);
+});
+
+test('getting started relies on Starlight title rendering once', async () => {
+  const source = await read('src/content/docs/docs/getting-started.mdx');
+  assert.doesNotMatch(source, /^# Getting started$/m);
 });

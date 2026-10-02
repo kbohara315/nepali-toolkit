@@ -31,8 +31,7 @@
   --sl-color-black: #fafafa;
 }
 
-/* Keep syntax, callouts, and icons within the monochrome product palette. */
-.expressive-code,
+/* Keep callouts and icons monochrome without flattening syntax colors. */
 .starlight-aside {
   filter: grayscale(1);
 }
@@ -67,6 +66,11 @@ h1 {
   color: var(--sl-color-black);
 }
 .pagination-links a {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  pointer-events: auto;
+  cursor: pointer;
   border-radius: 6px;
   box-shadow: none;
 }

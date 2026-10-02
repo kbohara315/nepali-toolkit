@@ -5,25 +5,41 @@
   --canvas: #fafafa;
   --surface: #fff;
   --ink: #171717;
-  --muted: #666;
+  --muted: #555;
+  --panel: #f2f2f2;
+  --readout: #fff;
   --line: #e2e2e2;
   --strong-line: #aaa;
   --invert: #171717;
   --invert-ink: #fff;
+  --code-bg: #f4f4f4;
+  --code-fg: #303030;
+  --code-keyword: #5b4b8a;
+  --code-function: #275d9b;
+  --code-string: #3f714a;
+  --code-package: #8a5a12;
   --sans: 'Manrope', 'Avenir Next', 'Segoe UI', sans-serif;
   --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
 }
 
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --canvas: #0c0c0c;
+  --canvas: #080808;
   --surface: #141414;
   --ink: #f2f2f2;
-  --muted: #a3a3a3;
+  --muted: #b4b4b4;
+  --panel: #151515;
+  --readout: #0b0b0b;
   --line: #2c2c2c;
-  --strong-line: #646464;
+  --strong-line: #888;
   --invert: #f2f2f2;
   --invert-ink: #111;
+  --code-bg: #181818;
+  --code-fg: #d6deeb;
+  --code-keyword: #c792ea;
+  --code-function: #82aaff;
+  --code-string: #d9f5dd;
+  --code-package: #ecc48d;
 }
 
 * {
@@ -49,6 +65,7 @@ input,
 select {
   font: inherit;
 }
+textarea { font: inherit; }
 button {
   cursor: pointer;
 }
