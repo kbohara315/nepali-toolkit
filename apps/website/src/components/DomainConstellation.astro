@@ -186,8 +186,10 @@ const paths = domains.map((_, index) => {
     control.addEventListener('click', () => {
       pinned = control.dataset.domain;
       render();
+      const domain = domains.find((domain) => domain.id === pinned);
+      if (!domain) return;
       instrument.querySelector('#domain-status').textContent =
-        `${domains.find((domain) => domain.id === pinned).label} pinned.`;
+        `${domain.label} pinned.`;
     });
   });
   render();

@@ -7,6 +7,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "typecheck": "astro check",
+    "doctor": "pnpm dlx react-doctor@0.9.14 . --no-score --blocking none",
     "test": "node --test tests/site.test.mjs"
   },
   "dependencies": {
@@ -16,6 +17,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "react-grab": "0.2.0",
     "typescript": "^5.9.3"
   }
 }
