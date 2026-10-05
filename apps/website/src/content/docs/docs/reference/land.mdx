@@ -1,0 +1,19 @@
+---
+title: Land reference
+description: Hill and Terai land-area units with exact conversion.
+---
+
+# Land
+
+```ts
+import { hillArea, formatHillArea, teraiArea, toSquareFeet } from 'nepali-toolkit/land';
+
+const area = hillArea({ ropani: 2, aana: 3 });
+formatHillArea(area);
+toSquareFeet(area);
+const terai = teraiArea({ bigha: 1, kattha: 2 });
+```
+
+Hill fields are `ropani`, `aana`, `paisa`, and `daam`; Terai fields are `bigha`, `kattha`, and `dhur`. Overflowing subordinate units normalize upward. Conversion helpers include square metres, square centimetres, and square feet in both directions. Formatting supports Nepali/English labels, long/short style, zero omission, and numeral choice.
+
+Negative, fractional, or malformed unit fields throw `InvalidAreaError`. Values are represented internally as exact square micrometres.

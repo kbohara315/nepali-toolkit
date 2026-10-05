@@ -1,0 +1,27 @@
+---
+title: Date reference
+description: BS and AD conversion, formatting, parsing, and arithmetic.
+---
+
+# Date
+
+Import from `nepali-toolkit/date`. The domain covers BS/AD conversion, parsing, formatting, arithmetic, fiscal years, relative dates, ranges, and adapters.
+
+```ts
+import { bs, formatBS, toAD, isValidBS } from 'nepali-toolkit/date';
+
+const date = bs(2082, 4, 7);
+formatBS(date, 'YYYY-MM-DD');
+toAD(date);
+isValidBS(2082, 4, 7);
+```
+
+## Public API groups
+
+- Constructors and conversion: `ad`, `bs`, `toAD`, `toBS`, `NepaliDate`.
+- Formatting and parsing: `formatAD`, `formatBS`, `formatWithLocale`, `parseAD`, `parseBS`.
+- Arithmetic and comparison: `addDays*`, `addWeeks*`, `addMonths*`, `addYears*`, `compare*`, `differenceInDays*`, `isValidAD`, `isValidBS`.
+- Calendar metadata: `daysInMonth*`, `daysInYearBS`, `isLeapYearAD`, `minBSYear`, `maxBSYear`, `range`.
+- Fiscal and relative helpers: `fiscalYear*`, `formatFiscalYear`, `formatRelative`, `formatRelativeDays`.
+
+Invalid fields, unsupported dates, and malformed input throw the typed errors exported from the same entrypoint. BS support is bounded by the generated calendar data.

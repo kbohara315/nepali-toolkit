@@ -1,0 +1,17 @@
+---
+title: Currency reference
+description: Exact NPR formatting with grouping and minor units.
+---
+
+# Currency
+
+```ts
+import { formatNPR, formatNPRMinorUnits } from 'nepali-toolkit/currency';
+
+formatNPR('123456.50');
+formatNPRMinorUnits(12345650n);
+```
+
+`formatNPR` accepts a string, number, or bigint. `NPRFormatOptions` supports symbol (`रु`, `रू`, `नेरू`, `NPR`), placement, spacing, ASCII/Devanagari numerals, Nepali/western/no grouping, fraction digits, and negative style. `formatNPRMinorUnits` accepts exact paisa as a bigint and always renders two fraction digits.
+
+Invalid symbols, placements, spacing, and fraction settings throw `InvalidCurrencyError`. Strings or minor-unit bigints avoid binary floating-point approximation.

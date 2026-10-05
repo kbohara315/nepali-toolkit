@@ -1,0 +1,33 @@
+---
+title: Getting started
+description: Install nepali-toolkit and make your first Nepali-aware calls.
+---
+
+## Install
+
+```bash
+pnpm add nepali-toolkit
+```
+
+## Import by domain
+
+The package root intentionally exposes no utilities. Import the smallest stable subpath:
+
+```ts
+import { bs, formatBS, toAD } from 'nepali-toolkit/date';
+import { formatNumber, toDevanagari } from 'nepali-toolkit/number';
+import { formatNPR } from 'nepali-toolkit/currency';
+
+const date = bs(2082, 4, 7);
+formatBS(date, 'YYYY-MM-DD'); // '2082-04-07'
+toAD(date); // { year, month, day }
+formatNumber('12345678'); // '1,23,45,678'
+toDevanagari('2082'); // '२०८२'
+formatNPR('123456.50');
+```
+
+Pass decimal values as strings when exact digits matter. The package has no runtime dependencies and does not use browser globals for civil-date calculations.
+
+## What happens on bad input?
+
+Domain-specific errors are thrown for invalid values. Validate at your application boundary and show the error as user-facing text rather than allowing an exception to escape an event handler. Each reference page documents the relevant error behavior.

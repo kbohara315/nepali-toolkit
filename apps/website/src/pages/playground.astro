@@ -1,0 +1,23 @@
+---
+import MarketingLayout from '../layouts/MarketingLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import Playground from '../components/Playground.astro';
+import '../styles/landing.css';
+---
+
+<MarketingLayout title="Playground | Nepali Toolkit">
+  <SiteHeader />
+  <main id="main">
+    <section class="page-intro site-shell">
+      <p class="eyebrow">Interactive playground</p>
+      <h1>See the utility before you ship it.</h1>
+      <p>
+        Change an input and inspect the result from the real `nepali-toolkit`
+        package. Try valid and invalid values to see how the API responds.
+      </p>
+    </section>
+    <Playground />
+  </main>
+  <SiteFooter />
+</MarketingLayout>

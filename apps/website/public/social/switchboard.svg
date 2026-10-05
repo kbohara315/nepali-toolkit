@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#fafafa"/>
+  <g font-family="sans-serif" fill="#111">
+    <text x="70" y="100" font-size="18" letter-spacing="3">NEPALI TOOLKIT / TYPESCRIPT UTILITIES</text>
+    <text x="70" y="265" font-size="62" font-weight="600" letter-spacing="-3">Local conventions.</text>
+    <text x="70" y="340" font-size="62" font-weight="600" letter-spacing="-3">One toolkit.</text>
+    <text x="70" y="410" font-size="22" fill="#555">Focused imports. Precise functions.</text>
+    <text x="70" y="555" font-size="18" fill="#555">Dates · Numbers · Currency · Land · Words · Sorting · Phone · Admin</text>
+  </g>
+  <rect x="740" y="160" width="390" height="320" rx="18" fill="#f2f2f2" stroke="#aaa"/>
+  <text x="765" y="195" font-family="monospace" font-size="13" fill="#555">DOMAIN SWITCHBOARD</text>
+  <g fill="#fff" stroke="#aaa">
+    <rect x="765" y="220" width="160" height="55" rx="7"/><rect x="945" y="220" width="160" height="55" rx="7" stroke="#111"/>
+    <rect x="765" y="287" width="160" height="55" rx="7"/><rect x="945" y="287" width="160" height="55" rx="7"/>
+  </g>
+  <g fill="#111" font-family="sans-serif" font-size="15"><text x="780" y="253">Dates</text><text x="960" y="253">Numbers</text><text x="780" y="320">Currency</text><text x="960" y="320">Land</text></g>
+  <g fill="#ddd" stroke="#888"><rect x="872" y="237" width="35" height="21" rx="5"/><rect x="1053" y="237" width="35" height="21" rx="5"/><rect x="872" y="304" width="35" height="21" rx="5"/><rect x="1053" y="304" width="35" height="21" rx="5"/></g>
+  <g fill="#111"><rect x="876" y="241" width="13" height="13" rx="3"/><rect x="1071" y="241" width="13" height="13" rx="3"/><rect x="876" y="308" width="13" height="13" rx="3"/><rect x="1057" y="308" width="13" height="13" rx="3"/></g>
+  <path d="M740 363H1130" stroke="#aaa"/>
+  <text x="765" y="396" font-family="monospace" font-size="12" fill="#555">NUMBER GROUPING</text>
+  <text x="765" y="442" font-family="sans-serif" font-size="34" fill="#111">1,23,45,678</text>
+</svg>

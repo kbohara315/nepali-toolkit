@@ -1,0 +1,24 @@
+{
+  "name": "@nepali-toolkit/website",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "typecheck": "astro check",
+    "doctor": "pnpm dlx react-doctor@0.9.14 . --no-score --blocking none",
+    "test": "node --experimental-strip-types --test tests/*.test.mjs",
+    "test:browser": "node tests/browser-check.mjs"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.42.4",
+    "astro": "^7.3.5",
+    "nepali-toolkit": "workspace:*"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "react-grab": "0.2.0",
+    "typescript": "^5.9.3"
+  }
+}
