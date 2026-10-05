@@ -6,17 +6,13 @@ import Playground from '../components/Playground.astro';
 import '../styles/landing.css';
 ---
 
-<MarketingLayout title="Playground | Nepali Toolkit">
+<MarketingLayout
+  title="Playground | Nepali Toolkit"
+  description="Try real nepali-toolkit calls in your browser — format Nepali numbers, convert BS/AD dates, validate phones and copy live working snippets."
+>
   <SiteHeader />
   <main id="main">
-    <section class="page-intro site-shell">
-      <p class="eyebrow">Interactive playground</p>
-      <h1>See the utility before you ship it.</h1>
-      <p>
-        Change an input and inspect the result from the real `nepali-toolkit`
-        package. Try valid and invalid values to see how the API responds.
-      </p>
-    </section>
+    <h1 class="sr-only">Playground — try nepali-toolkit utilities live</h1>
     <Playground />
   </main>
   <SiteFooter />

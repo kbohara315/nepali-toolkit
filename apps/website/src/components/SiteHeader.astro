@@ -1,4 +1,5 @@
 ---
+import SiteBrand from './SiteBrand.astro';
 const base = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
 const pathname = `${Astro.url.pathname.replace(/\/$/, '')}/`;
 const docsHref = `${base}docs/`;
@@ -8,13 +9,8 @@ const currentRoute = (href: string) =>
 ---
 
 <header class="site-header site-shell">
-  <a class="brand" href={base} aria-current={pathname === base ? 'page' : undefined}>
-    <span class="brand-icon" aria-hidden="true">
-      ने
-    </span>{' '}
-    Nepali <span>Toolkit</span>
-  </a>
-  <nav aria-label="Primary">
+  <SiteBrand />
+  <nav id="primary-navigation" aria-label="Primary">
     <a href={docsHref} aria-current={currentRoute(docsHref)}>Documentation</a>
     <a href={playgroundHref} aria-current={currentRoute(playgroundHref)}>Playground</a>
     <a href="https://github.com/kbohara315/nepali-toolkit">GitHub ↗</a>
@@ -28,9 +24,44 @@ const currentRoute = (href: string) =>
       <path d="M19.2 14.3A7.5 7.5 0 0 1 9.7 4.8a7.5 7.5 0 1 0 9.5 9.5Z" />
     </svg>
   </button>
+  <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primary-navigation">
+    <svg class="open-menu" aria-hidden="true" viewBox="0 0 24 24" fill="none">
+      <path d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+    <svg class="close-menu" aria-hidden="true" viewBox="0 0 24 24" fill="none">
+      <path d="m6 6 12 12M6 18 18 6" />
+    </svg>
+  </button>
 </header>
 
 <script>
+  const header = document.querySelector<HTMLElement>('.site-header');
+  const menu = header?.querySelector<HTMLButtonElement>('.menu-toggle');
+  const nav = header?.querySelector<HTMLElement>('#primary-navigation');
+  const mobile = window.matchMedia('(max-width: 760px)');
+
+  if (header && menu && nav) {
+    const setMenuOpen = (open: boolean) => {
+      menu.setAttribute('aria-expanded', String(open));
+      nav.hidden = mobile.matches && !open;
+    };
+    menu.addEventListener('click', () => {
+      setMenuOpen(menu.getAttribute('aria-expanded') !== 'true');
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && menu.getAttribute('aria-expanded') === 'true') {
+        setMenuOpen(false);
+        menu.focus();
+      }
+    });
+    nav.addEventListener('click', (event) => {
+      if (event.target instanceof Element && event.target.closest('a')) setMenuOpen(false);
+    });
+    mobile.addEventListener('change', () => setMenuOpen(false));
+    setMenuOpen(false);
+    header.classList.add('is-enhanced');
+  }
+
   const root = document.documentElement;
   const toggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
   const media = window.matchMedia('(prefers-color-scheme: dark)');

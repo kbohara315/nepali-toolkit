@@ -1,0 +1,86 @@
+@import './palette.css';
+
+/* Shared shell geometry; no element resets or documentation layout rules. */
+:root {
+  --shell-width: 1160px;
+  --shell-gutter: 24px;
+  --shell-top: 18px;
+  --shell-height: 64px;
+  --shell-radius: 16px;
+  --shell-pad-x: 14px;
+  --shell-control-size: 42px;
+}
+@media (max-width: 799px) {
+  :root {
+    --shell-gutter: 16px;
+    --shell-top: 12px;
+    --shell-radius: 12px;
+    --shell-pad-x: 12px;
+  }
+}
+@media (max-width: 430px) {
+  :root { --shell-gutter: 12px; }
+}
+
+.site-header,
+.page > header.header {
+  width: min(calc(100% - 2 * var(--shell-gutter)), var(--shell-width));
+  min-height: var(--shell-height);
+  padding: 10px var(--shell-pad-x);
+  border: 1px solid var(--line);
+  border-radius: var(--shell-radius);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 8px 24px #0000000a;
+}
+.site-header { margin: var(--shell-top) auto 0; }
+
+.theme-toggle,
+.menu-toggle,
+.sl-menu-button,
+site-search button[data-open-modal] {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: var(--shell-control-size);
+  height: var(--shell-control-size);
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: none;
+  cursor: pointer;
+}
+.theme-toggle:hover,
+.menu-toggle:hover,
+.sl-menu-button:hover,
+.menu-toggle[aria-expanded='true'],
+.sl-menu-button:has(~ :popover-open),
+site-search button[data-open-modal]:hover {
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  background: var(--accent-soft);
+  box-shadow: none;
+}
+.menu-toggle[aria-expanded='true'] .open-menu,
+.menu-toggle[aria-expanded='false'] .close-menu { display: none; }
+.menu-toggle svg,
+.sl-menu-button svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+.site-header :focus-visible,
+.site-footer :focus-visible,
+.page > header :focus-visible,
+.sidebar :focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+}
+@media (prefers-reduced-transparency: reduce) {
+  .site-header,
+  .page > header.header { background: var(--surface); backdrop-filter: none; }
+}

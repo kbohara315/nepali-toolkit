@@ -1,0 +1,44 @@
+---
+const base = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+const pathname = `${Astro.url.pathname.replace(/\/$/, '')}/`;
+---
+
+<a class="brand" href={base} aria-current={pathname === base ? 'page' : undefined} translate="no">
+  <span class="brand-icon" aria-hidden="true">ने</span>
+  <span class="brand-name"><span>Nepali</span>{' '}<span class="brand-toolkit">Toolkit</span></span>
+</a>
+
+<style>
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--ink, #171717);
+    font-family: var(--sans, 'Manrope', 'Avenir Next', 'Segoe UI', sans-serif);
+    font-size: 0.95rem;
+    font-weight: 650;
+    line-height: 1.5;
+    letter-spacing: -0.035em;
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .brand-icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--accent, #2f5fe8);
+    border-radius: 7px;
+    color: var(--accent-ink, #173b9c);
+    background: var(--accent-soft, #eaf0ff);
+    font-size: 19px;
+  }
+  .brand-name { display: inline-flex; align-items: baseline; gap: 0.3em; }
+  .brand-toolkit { color: var(--muted, #555); font-weight: 400; }
+  @media (max-width: 799px) {
+    .brand { font-size: 0.85rem; }
+    .brand-icon { width: 25px; height: 25px; }
+  }
+</style>

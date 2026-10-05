@@ -1,44 +1,67 @@
-@import './fonts.css';
+@import './shell.css';
 
 :root {
-  --sl-font: 'Manrope', 'Avenir Next', 'Segoe UI', sans-serif;
-  --sl-font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
-  --sl-color-accent-low: #292929;
-  --sl-color-accent: #bdbdbd;
-  --sl-color-accent-high: #fafafa;
-  --sl-color-white: #fafafa;
+  --sl-font: var(--sans);
+  --sl-font-mono: var(--mono);
+  --sl-color-accent-low: var(--accent-soft);
+  --sl-color-accent: var(--accent);
+  --sl-color-accent-high: var(--accent-ink);
+  --sl-color-white: var(--ink);
   --sl-color-gray-1: #eee;
-  --sl-color-gray-2: #c4c4c4;
+  --sl-color-gray-2: var(--muted);
   --sl-color-gray-3: #999;
   --sl-color-gray-4: #666;
-  --sl-color-gray-5: #333;
-  --sl-color-gray-6: #181818;
-  --sl-color-black: #0c0c0c;
+  --sl-color-gray-5: var(--line);
+  --sl-color-gray-6: var(--surface);
+  --sl-color-black: var(--canvas);
+  --sl-nav-height: calc(var(--shell-top) + var(--shell-height));
+  --sl-menu-button-size: var(--shell-control-size);
+  --sl-color-bg-sidebar: var(--canvas);
 }
 
 :root[data-theme='light'] {
-  --sl-color-accent-low: #eee;
-  --sl-color-accent: #444;
-  --sl-color-accent-high: #171717;
-  --sl-color-white: #171717;
   --sl-color-gray-1: #333;
-  --sl-color-gray-2: #555;
   --sl-color-gray-3: #707070;
   --sl-color-gray-4: #aaa;
-  --sl-color-gray-5: #ddd;
-  --sl-color-gray-6: #f3f3f3;
   --sl-color-gray-7: #f8f8f8;
-  --sl-color-black: #fafafa;
+}
+
+/* PageFrame still owns positioning and sidebar/content offsets. Reserve the
+   menu slot explicitly because the native toggle lives outside the header. */
+.page > header.header {
+  inset-inline-start: max(var(--shell-gutter), calc((100% - var(--shell-width)) / 2));
+  inset-block-start: var(--shell-top);
+  height: var(--shell-height);
+  padding-inline-end: var(--shell-pad-x);
+}
+@media (max-width: 799px) {
+  :root { --sl-nav-gap: 8px; }
+  [data-has-sidebar] .page > header.header {
+    padding-inline-end: calc(var(--shell-pad-x) + var(--shell-control-size) + 8px);
+  }
+}
+.sl-menu-button {
+  position: fixed;
+  top: calc(var(--shell-top) + (var(--shell-height) - var(--shell-control-size)) / 2);
+  inset-inline-end: calc(var(--shell-gutter) + var(--shell-pad-x) + 1px);
+  z-index: var(--sl-z-index-navbar);
+}
+body:has(#starlight__sidebar:popover-open) { overflow: hidden; }
+site-search button[data-open-modal] svg { width: 20px; height: 20px; }
+starlight-theme-select select { color: var(--ink); }
+@media (min-width: 50rem) {
+  .sl-menu-button { display: none; }
+  body:has(#starlight__sidebar:popover-open) { overflow: auto; }
+  site-search button[data-open-modal] {
+    display: flex;
+    width: 100%;
+    padding-inline: 12px;
+  }
 }
 
 /* Keep callouts and icons monochrome without flattening syntax colors. */
 .starlight-aside {
   filter: grayscale(1);
-}
-.site-title {
-  color: var(--sl-color-white);
-  font-size: 1.05rem;
-  letter-spacing: -0.035em;
 }
 h1 {
   font-weight: 550;

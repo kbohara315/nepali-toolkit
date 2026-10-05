@@ -53,6 +53,16 @@ type Mode = {
   inputMode: 'text' | 'numeric' | 'decimal';
   /** An empty value is a legitimate query rather than a missing value. */
   optional?: boolean;
+  /** Base-aware docs path for this mode, e.g. `/docs/reference/number/`. */
+  docs: string;
+  /**
+   * Reference-page name used in link copy. Kept separate from `label` because
+   * a mode label names the operation ("ASCII ↔ Devanagari digits") while this
+   * names the page that documents it ("number").
+   */
+  reference: string;
+  /** Clickable example values: valid cases plus one invalid/edge case. */
+  examples: string[];
 };
 
 const modes: readonly Mode[] = [
@@ -65,6 +75,9 @@ const modes: readonly Mode[] = [
     hint: 'Decimal text, sent as a string so large values and decimals are never rounded by a float.',
     placeholder: '12345678',
     inputMode: 'decimal',
+    docs: '/docs/reference/number/',
+    reference: 'number',
+    examples: ['12345678', '123456.789', 'abc'],
   },
   {
     id: 'digits',
@@ -75,6 +88,9 @@ const modes: readonly Mode[] = [
     hint: 'Any text. Both directions run, so you can check a round trip.',
     placeholder: '२०८२',
     inputMode: 'text',
+    docs: '/docs/reference/number/',
+    reference: 'number',
+    examples: ['२०८२', '2082', 'Test 123'],
   },
   {
     id: 'date-bs-to-ad',
@@ -85,6 +101,9 @@ const modes: readonly Mode[] = [
     hint: 'Bikram Sambat date as YYYY-MM-DD, for example 2082-04-07.',
     placeholder: '2082-04-07',
     inputMode: 'numeric',
+    docs: '/docs/reference/date/',
+    reference: 'date',
+    examples: ['2082-04-07', '2082-01-01', '2082-13-99'],
   },
   {
     id: 'date-ad-to-bs',
@@ -95,6 +114,9 @@ const modes: readonly Mode[] = [
     hint: 'Gregorian date as YYYY-MM-DD, for example 2025-07-23.',
     placeholder: '2025-07-23',
     inputMode: 'numeric',
+    docs: '/docs/reference/date/',
+    reference: 'date',
+    examples: ['2025-07-23', '2025-01-01', '2025-13-99'],
   },
   {
     id: 'currency',
@@ -105,6 +127,9 @@ const modes: readonly Mode[] = [
     hint: 'Decimal text in rupees. Defaults to a leading रु, Nepali grouping, and Devanagari digits.',
     placeholder: '123456.50',
     inputMode: 'decimal',
+    docs: '/docs/reference/currency/',
+    reference: 'currency',
+    examples: ['123456.50', '1000', 'abc'],
   },
   {
     id: 'land',
@@ -115,6 +140,9 @@ const modes: readonly Mode[] = [
     hint: 'Whole ropani. Fractional and negative values are rejected; aana, paisa, and daam cover finer units.',
     placeholder: '2',
     inputMode: 'numeric',
+    docs: '/docs/reference/land/',
+    reference: 'land',
+    examples: ['2', '10', '-2'],
   },
   {
     id: 'words',
@@ -125,6 +153,9 @@ const modes: readonly Mode[] = [
     hint: 'A number in decimal text, without digit grouping or an exponent.',
     placeholder: '2082',
     inputMode: 'decimal',
+    docs: '/docs/reference/words/',
+    reference: 'words',
+    examples: ['2082', '100', 'abc'],
   },
   {
     id: 'phone',
@@ -135,6 +166,9 @@ const modes: readonly Mode[] = [
     hint: 'National, international, or prefixed text. Spaces, dashes, and brackets are tolerated.',
     placeholder: '9841234567',
     inputMode: 'text',
+    docs: '/docs/reference/phone/',
+    reference: 'phone',
+    examples: ['9841234567', '+977-1-4441234', '123'],
   },
   {
     id: 'collation',
@@ -145,6 +179,9 @@ const modes: readonly Mode[] = [
     hint: 'Nepali or mixed text. Counts follow word-counter semantics, with sentences split on । ॥ ? and !.',
     placeholder: 'नेपाल सरकार। ठीक छ।',
     inputMode: 'text',
+    docs: '/docs/reference/collation/',
+    reference: 'collation',
+    examples: ['नेपाल सरकार। ठीक छ।', 'hello world', '!'],
   },
   {
     id: 'admin',
@@ -156,6 +193,9 @@ const modes: readonly Mode[] = [
     placeholder: 'koshi',
     inputMode: 'text',
     optional: true,
+    docs: '/docs/reference/admin/',
+    reference: 'admin',
+    examples: ['koshi', 'बागमती', 'xyz'],
   },
 ];
 
@@ -176,9 +216,13 @@ const sampleSnippet = [
 
 /** Handed to the client script; trimmed to the fields it actually reads. */
 const clientConfig = {
-  modes: modes.map(({ id, entrypoint, sample, hint, placeholder, inputMode, optional }) => ({
+  base: `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`,
+  modes: modes.map(({ id, entrypoint, docs, reference, examples, sample, hint, placeholder, inputMode, optional }) => ({
     id,
     entrypoint,
+    docs,
+    reference,
+    examples,
     sample,
     hint,
     placeholder,
@@ -186,6 +230,11 @@ const clientConfig = {
     optional: optional === true,
   })),
 };
+
+/** Base-aware hrefs rendered server-side so the default mode works with JS off. */
+const base = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+const sampleDocsHref = `${base}${sampleMode.docs.slice(1)}`;
+const installHref = `${base}docs/getting-started/`;
 
 /** `<` is escaped so a future label can never close the JSON script element. */
 const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
@@ -200,23 +249,10 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
 <section
   class="demo-section site-shell"
   id="try-it"
-  aria-labelledby="playground-title"
+  aria-label="Utility playground"
   data-playground
   data-state="ready"
 >
-  <div class="section-heading">
-    <p class="eyebrow">Live utility bench</p>
-    <h2 id="playground-title">Try a real call.</h2>
-    <p>
-      Every value below comes from the <code>nepali-toolkit</code> package itself
-      at version 0.1.0, compiled into this page from the workspace source. It is
-      a pre-1.0 library and is not on npm yet, so this bench exercises the
-      workspace build rather than a published release. Each domain is imported
-      only when you select it, nothing is fetched from a server, and no code is
-      evaluated: the result is whatever the real function returned.
-    </p>
-  </div>
-
   <div class="demo-grid">
     <div class="demo-controls">
       <label for="playground-mode">Domain</label>
@@ -242,6 +278,7 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
       />
 
       <p class="playground-hint" id="playground-hint">{sampleMode.hint}</p>
+      <div class="playground-examples" id="playground-examples" role="group" aria-label="Example values"></div>
       <p class="playground-note" id="playground-note" hidden></p>
       <p class="playground-status" id="playground-status" role="status">
         Sample result. Edit the input to run the function.
@@ -271,13 +308,33 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
 
       <div class="playground-snippet">
         <span class="eyebrow">Snippet</span>
-        <pre><code id="playground-snippet" set:html={highlightCode(sampleSnippet)}></code></pre>
-        <p class="playground-entrypoint">
-          Entry point <code id="playground-entrypoint">{sampleMode.entrypoint}</code>
-        </p>
+        <div class="playground-code">
+          <pre><code id="playground-snippet" set:html={highlightCode(sampleSnippet)}></code></pre>
+          <div class="playground-code-meta">
+            <p class="playground-entrypoint">
+              Entry point <code id="playground-entrypoint">{sampleMode.entrypoint}</code>
+            </p>
+            <p class="playground-docs">
+              <a id="playground-docs-link" href={sampleDocsHref}>Read the {sampleMode.reference} reference →</a>
+              <a href={installHref}>Install →</a>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+
+  <details class="playground-provenance">
+    <summary>Where do these results come from?</summary>
+    <p>
+      Every value comes from the <code>nepali-toolkit</code> package itself at
+      version 0.1.0, compiled into this page from the workspace source. It is a
+      pre-1.0 library and is not on npm yet, so this bench exercises the
+      workspace build rather than a published release. Each domain is imported
+      only when you select it, nothing is fetched from a server, and no code is
+      evaluated: the result is whatever the real function returned.
+    </p>
+  </details>
 
   <p class="playground-nojs">
     JavaScript is off, so the domain selector and input above are inert. The
@@ -312,8 +369,11 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
   .playground-value {
     line-height: 1.35;
   }
-  .playground-snippet code {
-    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', 'Noto Sans Devanagari',
+  /* Devanagari shows up inside snippet string literals, so the mono stack needs
+     a real Devanagari fallback. Declared once here and used by every `<code>`
+     below, so no rule has to out-specify another to win. */
+  .playground-snippet {
+    --pg-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', 'Noto Sans Devanagari',
       'Nirmala UI', 'Mangal', monospace;
   }
 
@@ -414,26 +474,55 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
   .playground-snippet {
     width: 100%;
     margin-top: 30px;
-    padding-top: 22px;
-    border-top: 1px solid var(--line);
   }
   .playground-snippet > .eyebrow {
     color: var(--muted);
   }
-  .playground-snippet pre {
-    margin: 14px 0 0;
-    padding: 14px 16px;
+  /* One code card: the `<pre>` is the only box, and the metadata sits in a
+     caption bar under it. Same surface tokens as the landing code window
+     (`.board-code`), so both read as the same component family. */
+  .playground-code {
+    margin-top: 12px;
     border: 1px solid var(--line);
-    border-radius: 5px;
-    background: var(--canvas);
-    /* Code scrolls inside its own region rather than widening the page. */
+    border-radius: 6px;
+    background: var(--code-bg);
+    overflow: hidden;
+    box-shadow: inset 0 1px 2px #0000000b;
+  }
+  .playground-code pre {
+    margin: 0;
+    padding: 16px 18px;
+    background: none;
+    /* Long lines scroll inside the card instead of widening the page. */
     overflow-x: auto;
   }
-  .playground-snippet code {
+  .playground-code code {
     /* `width: max-content` keeps long lines from adding a phantom scrollbar. */
     display: block;
     width: max-content;
     min-width: 100%;
+    font: 0.75rem/1.8 var(--pg-mono);
+    color: var(--code-fg);
+  }
+  .playground-code-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 6px 18px;
+    padding: 10px 18px;
+    border-top: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .playground-code-meta p {
+    margin: 0;
+  }
+  .playground-code-meta code {
+    /* The entry point is an inline value inside the caption, not a block. */
+    display: inline;
+    width: auto;
+    font-family: var(--pg-mono);
+    font-size: 0.65rem;
     color: var(--ink);
   }
   /* Same token palette as the landing code window; scoped here so the
@@ -443,8 +532,62 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
   .playground-snippet .code-string { color: var(--code-string); }
   .playground-snippet .code-comment { color: var(--muted); }
   .playground-entrypoint {
-    margin-top: 10px;
     color: var(--muted);
+  }
+  .playground-examples {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  /* Spacing lives here (not on the chips) so the row breathes, but only
+     when the client has populated it — the server renders the container
+     empty for no-JS honesty, and it must collapse to zero height. */
+  .playground-examples:not(:empty) {
+    margin: -6px 0 14px;
+  }
+  .playground-chip {
+    min-height: 32px;
+    padding: 4px 10px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--canvas);
+    color: var(--muted);
+    font: 0.65rem var(--mono);
+    cursor: pointer;
+  }
+  .playground-chip:hover {
+    border-color: var(--strong-line);
+    color: var(--ink);
+  }
+  .playground-docs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    font: 0.65rem/1.7 var(--mono);
+  }
+  .playground-docs a {
+    color: var(--muted);
+    text-underline-offset: 3px;
+  }
+  .playground-docs a:hover {
+    color: var(--ink);
+  }
+  .playground-provenance {
+    margin: 18px 0 0;
+    padding: 12px 16px;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 0.75rem;
+    line-height: 1.8;
+  }
+  .playground-provenance summary {
+    cursor: pointer;
+    font: 0.65rem var(--mono);
+  }
+  .playground-provenance p {
+    margin: 10px 0 0;
   }
 
   .playground-nojs {
@@ -478,6 +621,9 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
   type ClientMode = {
     id: ModeId;
     entrypoint: string;
+    docs: string;
+    reference: string;
+    examples: string[];
     sample: string;
     hint: string;
     placeholder: string;
@@ -506,7 +652,8 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
 
   const config = JSON.parse(
     document.querySelector('#playground-config')?.textContent ?? '{}',
-  ) as { modes: ClientMode[] };
+  ) as { base: string; modes: ClientMode[] };
+  const siteBase = config.base.endsWith('/') ? config.base : `${config.base}/`;
 
   const root = document.querySelector<HTMLElement>('[data-playground]')!;
   const modeField = document.querySelector<HTMLSelectElement>('#playground-mode')!;
@@ -519,9 +666,14 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
   const listSlot = document.querySelector<HTMLUListElement>('#playground-list')!;
   const snippet = document.querySelector<HTMLElement>('#playground-snippet')!;
   const entrypointLabel = document.querySelector<HTMLElement>('#playground-entrypoint')!;
+  const docsLink = document.querySelector<HTMLAnchorElement>('#playground-docs-link')!;
+  const examplesWrap = document.querySelector<HTMLElement>('#playground-examples')!;
   const reset = document.querySelector<HTMLButtonElement>('#playground-reset')!;
   const copyResult = document.querySelector<HTMLButtonElement>('#playground-copy-result')!;
   const copySnippet = document.querySelector<HTMLButtonElement>('#playground-copy-snippet')!;
+
+  // Per-mode input memory: switching domains restores what was typed there.
+  const memory = new Map<ModeId, string>();
 
   // --- Lazy domain loading ------------------------------------------------
   // One dynamic import per subpath: the bundler keeps these in separate
@@ -981,6 +1133,29 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
   const modeById = (id: string): ClientMode =>
     config.modes.find((mode) => mode.id === id) ?? config.modes[0];
 
+  /**
+   * Renders the current mode's example chips as real buttons. textContent is
+   * used throughout so an example value can never become markup.
+   */
+  function renderExamples(mode: ClientMode): void {
+    examplesWrap.replaceChildren(
+      ...mode.examples.map((example) => {
+        const chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'playground-chip';
+        chip.textContent = example;
+        chip.setAttribute('aria-label', `Try example ${example}`);
+        chip.addEventListener('click', () => {
+          inputField.value = example;
+          memory.set(mode.id, example);
+          void run();
+          inputField.focus();
+        });
+        return chip;
+      }),
+    );
+  }
+
   /** Stops a slow earlier run from overwriting a newer one. */
   let revision = 0;
 
@@ -988,12 +1163,15 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
     const current = ++revision;
     const mode = modeById(modeField.value);
     const raw = inputField.value;
+    memory.set(mode.id, raw);
     const shortName = mode.entrypoint.split('/').pop() ?? mode.entrypoint;
 
     hint.textContent = mode.hint;
     inputField.placeholder = mode.placeholder;
     inputField.inputMode = mode.inputMode;
     entrypointLabel.textContent = mode.entrypoint;
+    docsLink.href = `${siteBase}${mode.docs.slice(1)}`;
+    docsLink.textContent = `Read the ${mode.reference} reference →`;
     note.hidden = true;
 
     // A cleared required field is a prompt, not a failure.
@@ -1037,15 +1215,20 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
   // --- Wiring -------------------------------------------------------------
 
   modeField.addEventListener('change', () => {
-    // Deterministic per-mode sample, never dependent on today's date.
-    inputField.value = modeById(modeField.value).sample;
+    // Restore what was typed for the new mode, else its deterministic sample.
+    const next = modeById(modeField.value);
+    inputField.value = memory.get(next.id) ?? next.sample;
+    renderExamples(next);
     run();
   });
   inputField.addEventListener('input', run);
   reset.addEventListener('click', () => {
-    inputField.value = modeById(modeField.value).sample;
+    const mode = modeById(modeField.value);
+    inputField.value = mode.sample;
+    memory.set(mode.id, mode.sample);
     run();
   });
+  renderExamples(modeById(modeField.value));
 
   /**
    * Copies text and confirms in the button label and the live region, because

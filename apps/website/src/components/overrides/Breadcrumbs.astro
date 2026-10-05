@@ -1,0 +1,106 @@
+---
+import type { StarlightRouteData } from '@astrojs/starlight/route-data';
+
+type SidebarEntry = StarlightRouteData['sidebar'][number];
+
+type Trail = { sections: string[]; current: { label: string; href: string } };
+
+/**
+ * `Astro.locals` is typed by the site's tsconfig, which never sees Starlight's
+ * `App.Locals` augmentation, so the route data is reached through `unknown`.
+ * The shape itself comes from Starlight's public `route-data` types.
+ */
+const route = (
+  Astro.locals as unknown as { starlightRoute: StarlightRouteData }
+).starlightRoute;
+
+/** Depth-first search for the current page, collecting ancestor group labels. */
+function findTrail(entries: SidebarEntry[]): Trail | null {
+  for (const entry of entries) {
+    if (entry.type === 'group') {
+      const inner = findTrail(entry.entries);
+      if (inner)
+        return {
+          sections: [entry.label, ...inner.sections],
+          current: inner.current,
+        };
+    } else if (entry.isCurrent) {
+      return {
+        sections: [],
+        current: { label: entry.label, href: entry.href },
+      };
+    }
+  }
+  return null;
+}
+
+const base = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+const docsHref = `${base}docs/`;
+const samePath = (href: string) =>
+  href.replace(/\/$/, '') === docsHref.replace(/\/$/, '');
+
+const trail = findTrail(route.sidebar);
+const onDocsLanding = trail !== null && samePath(trail.current.href);
+// The docs landing links to itself, and off-sidebar pages (404) have no trail —
+// neither gets a breadcrumb. "Start here" is a starter bucket, not a section,
+// so the Docs crumb covers it and it is dropped from the trail.
+const sections = (trail?.sections ?? []).filter(
+  (label) => !/^start here$/i.test(label),
+);
+const current = trail !== null && !onDocsLanding ? trail.current : null;
+---
+
+{
+  current && (
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <ol>
+        <li>
+          <a href={docsHref}>Docs</a>
+        </li>
+        {sections.map((label) => (
+          <li>
+            <span>{label}</span>
+          </li>
+        ))}
+        <li>
+          <span aria-current="page">{current.label}</span>
+        </li>
+      </ol>
+    </nav>
+  )
+}
+
+<style>
+  .crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 0.5rem;
+    margin: 0 0 0.25rem;
+    padding: 0;
+    list-style: none;
+    font-family: var(--sl-font-mono);
+    font-size: 0.72rem;
+  }
+  .crumbs li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .crumbs li + li::before {
+    content: '›';
+    color: var(--sl-color-gray-3);
+  }
+  .crumbs a {
+    color: var(--sl-color-gray-3);
+    text-decoration: none;
+  }
+  .crumbs a:hover {
+    color: var(--sl-color-white);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .crumbs [aria-current='page'] {
+    color: var(--sl-color-white);
+  }
+</style>

@@ -1,0 +1,28 @@
+---
+import type { StarlightRouteData } from '@astrojs/starlight/route-data';
+import Breadcrumbs from './Breadcrumbs.astro';
+
+/* Same `unknown` route-data access as Breadcrumbs.astro: the override compiles
+   under the site's tsconfig, not Starlight's. */
+const { entry } = (
+  Astro.locals as unknown as { starlightRoute: StarlightRouteData }
+).starlightRoute;
+---
+
+<Breadcrumbs />
+<!-- `id="_top"` is Starlight's page-title anchor (`PAGE_TITLE_ID` in the
+  installed 0.42.4); the skip link points at it, so the override must keep it. -->
+<h1 id="_top">{entry.data.title}</h1>
+
+<style>
+  /* Copied from Starlight's default PageTitle so the heading is pixel-identical. */
+  @layer starlight.core {
+    h1 {
+      margin-top: 1rem;
+      font-size: var(--sl-text-h1);
+      line-height: var(--sl-line-height-headings);
+      font-weight: 600;
+      color: var(--sl-color-white);
+    }
+  }
+</style>
