@@ -20,6 +20,7 @@
  * derived from it, so a mode's copy cannot drift from its behaviour.
  */
 import { formatNumber } from 'nepali-toolkit/number';
+import { highlightCode } from '../lib/highlight-code';
 
 type ModeId =
   | 'number'
@@ -270,7 +271,7 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
 
       <div class="playground-snippet">
         <span class="eyebrow">Snippet</span>
-        <pre><code id="playground-snippet">{sampleSnippet}</code></pre>
+        <pre><code id="playground-snippet" set:html={highlightCode(sampleSnippet)}></code></pre>
         <p class="playground-entrypoint">
           Entry point <code id="playground-entrypoint">{sampleMode.entrypoint}</code>
         </p>
@@ -435,6 +436,12 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
     min-width: 100%;
     color: var(--ink);
   }
+  /* Same token palette as the landing code window; scoped here so the
+     highlighted snippet keeps its colours wherever this component is used. */
+  .playground-snippet .code-keyword { color: var(--code-keyword); }
+  .playground-snippet .code-function { color: var(--code-function); }
+  .playground-snippet .code-string { color: var(--code-string); }
+  .playground-snippet .code-comment { color: var(--muted); }
   .playground-entrypoint {
     margin-top: 10px;
     color: var(--muted);
@@ -854,6 +861,54 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
 
   // --- Rendering ----------------------------------------------------------
 
+  /**
+   * Client copy of `highlightCode` (`src/lib/highlight-code.ts`). Kept inline
+   * because this script is not bundled and cannot import the shared module.
+   * Always render snippets through this — never assign raw snippet text to
+   * `innerHTML`, or user input inside the snippet becomes an XSS vector.
+   * Copy still reads the raw source (`painted.snippet`), never this HTML.
+   */
+  const snippetTokenPattern =
+    /(\/\/[^\n]*|'(?:\\.|[^'\\])*'|"(?:\\.|[^"\\])*"|\b(?:import|from|const|let|return|new|true|false)\b|\b[A-Za-z_$][\w$]*(?=\s*\())/g;
+
+  function escapeSnippetHtml(value: string): string {
+    return value.replace(/[&<>"']/g, (character) => {
+      switch (character) {
+        case '&':
+          return '&amp;';
+        case '<':
+          return '&lt;';
+        case '>':
+          return '&gt;';
+        case '"':
+          return '&quot;';
+        default:
+          return '&#39;';
+      }
+    });
+  }
+
+  function highlightSnippet(source: string): string {
+    let cursor = 0;
+    let html = '';
+    snippetTokenPattern.lastIndex = 0;
+    for (const match of source.matchAll(snippetTokenPattern)) {
+      const token = match[0];
+      const index = match.index ?? cursor;
+      html += escapeSnippetHtml(source.slice(cursor, index));
+      const kind = token.startsWith('//')
+        ? 'code-comment'
+        : token.startsWith("'") || token.startsWith('"')
+          ? 'code-string'
+          : /^(import|from|const|let|return|new|true|false)$/.test(token)
+            ? 'code-keyword'
+            : 'code-function';
+      html += `<span class="${kind}">${escapeSnippetHtml(token)}</span>`;
+      cursor = index + token.length;
+    }
+    return html + escapeSnippetHtml(source.slice(cursor));
+  }
+
   type Painted = { result: string; snippet: string };
 
   // Seeded from the served markup, which already holds a real build-time result.
@@ -878,9 +933,11 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
 
   function paint(outcome: Outcome): void {
     const isError = outcome.kind === 'error';
+    // Raw source stays in `painted` so Copy copies clean code, not HTML.
+    // The visible `<code>` gets the highlighted form of the same source.
     const nextSnippet = isError ? '' : (outcome.snippet ?? '');
 
-    snippet.textContent = nextSnippet;
+    snippet.innerHTML = nextSnippet === '' ? '' : highlightSnippet(nextSnippet);
     painted = { result: isError ? '' : scalarOf(outcome), snippet: nextSnippet };
 
     if (outcome.kind === 'list') {

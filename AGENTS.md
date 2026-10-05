@@ -32,3 +32,23 @@ node packages/nepali-toolkit/scripts/compare-runtime.mjs /tmp/nepali-toolkit-bef
 Do not treat one noisy benchmark run as proof of a regression. Repeat a result
 that crosses the 20% comparison threshold, and report the machine, Node
 version, iterations, and whether the process was warm.
+
+For the website (`apps/website`, Starlight docs + Astro landing/playground),
+the required gates are:
+
+```bash
+pnpm --filter website typecheck
+pnpm --filter website test
+pnpm --filter website build
+```
+
+Docs pages (`src/content/docs/**/*.mdx`): Starlight renders the frontmatter
+`title` as the page `<h1 id="_top">`, so never add a manual `# ...` heading
+in the body — it produces a duplicate H1 on every page. Body content must
+start below the frontmatter with no top-level heading.
+
+Playground/switchboard snippets: always render code through
+`highlightCode` (`src/lib/highlight-code.ts`) via `set:html` on the server
+and `innerHTML` on the client — never assign raw snippet text to
+`innerHTML` (XSS). Copy buttons must read the raw source (`textContent` /
+`painted` state), never the highlighted HTML.
