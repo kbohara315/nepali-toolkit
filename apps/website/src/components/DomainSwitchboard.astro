@@ -17,7 +17,7 @@ const base = import.meta.env.BASE_URL;
       <span class="toggle-track" aria-hidden="true"><span></span></span>
     </label>)}
   </fieldset>
-  <div class="board-readout" data-state="success">
+  <div class="board-readout" data-state="success" aria-busy="false">
     <div class="readout-heading"><h3 id="board-title">{demos.number.title}</h3><span class="eyebrow" aria-hidden="true">LIVE API</span></div>
     <p id="board-purpose">{domains.find(domain => domain.id === 'number')!.description}</p>
     <label id="board-input-label" for="board-input">{demos.number.label}</label>

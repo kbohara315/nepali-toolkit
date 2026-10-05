@@ -20,14 +20,16 @@ const base = import.meta.env.BASE_URL;
           Nepali Toolkit / TypeScript utilities
         </p>
         <h1>
-          Local conventions.
-          <br />
-          <span>One toolkit.</span>
+          Nepali conventions.
+          <span>Ready to import.</span>
         </h1>
         <p class="hero-copy">
           Dates, numbers, currency, land, words, sorting, phones, and administrative
           data. Focused TypeScript utilities for software built for Nepal.
         </p>
+      </div>
+      <DomainSwitchboard />
+      <div class="hero-setup">
         <div class="hero-actions">
           <a class="button primary" href={`${base}docs/getting-started/`}>
             Get started <span aria-hidden="true">→</span>
@@ -68,7 +70,6 @@ const base = import.meta.env.BASE_URL;
           Open source · MIT licensed · Zero runtime dependencies
         </p>
       </div>
-      <DomainSwitchboard />
     </section>
     <DomainIndex />
     <section class="precision site-shell" aria-labelledby="precision-heading">
@@ -118,10 +119,6 @@ const base = import.meta.env.BASE_URL;
         </a>
       </div>
       <div class="code-window">
-        <div class="window-bar">
-          <span>your-app.ts</span>
-          <span>TypeScript</span>
-        </div>
         <pre><code><span class="code-comment">// 01 — Pick your domain</span>
 <span class="code-keyword">import</span> &#123; <span class="code-function">formatNumber</span> &#125; <span class="code-keyword">from</span> <span class="code-string">'nepali-toolkit/number'</span>;
 

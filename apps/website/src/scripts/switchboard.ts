@@ -25,25 +25,29 @@ if (board) {
     copy.disabled = true;
     copy.textContent = 'Copy snippet';
     copyStatus.textContent = '';
-     snippet.textContent = '';
-    output.textContent = '';
     input.setAttribute('aria-invalid', 'false');
     province.setAttribute('aria-invalid', 'false');
-    board!.querySelector('.board-readout')!.setAttribute('data-state', 'loading');
+    const readout = board!.querySelector<HTMLElement>('.board-readout')!;
+    readout.setAttribute('aria-busy', 'true');
+    readout.setAttribute('data-state', 'loading');
     status.textContent = value.trim() ? 'Loading selected utility…' : 'Enter an input to see a result.';
     try {
       const result = await runDemo(domain, value);
       if (id !== request) return;
       output.textContent = result.output || 'No matching results.';
-       snippet.innerHTML = highlightCode(result.snippet);
+      snippet.innerHTML = highlightCode(result.snippet);
       status.textContent = result.output ? 'Result ready.' : 'No matching results.';
-      board!.querySelector('.board-readout')!.setAttribute('data-state', 'success');
+      readout.setAttribute('aria-busy', 'false');
+      readout.setAttribute('data-state', 'success');
       copy.disabled = false;
     } catch (error) {
       if (id !== request) return;
+      output.textContent = '';
+      snippet.textContent = '';
       status.textContent = error instanceof Error ? error.message : 'Utility could not load. Try selecting this domain again.';
       (domain === 'admin' ? province : input).setAttribute('aria-invalid', String(Boolean(value.trim())));
-      board!.querySelector('.board-readout')!.setAttribute('data-state', value.trim() ? 'invalid' : 'empty');
+      readout.setAttribute('aria-busy', 'false');
+      readout.setAttribute('data-state', value.trim() ? 'invalid' : 'empty');
     }
   }
 

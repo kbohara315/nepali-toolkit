@@ -18,6 +18,9 @@
   --code-function: #275d9b;
   --code-string: #3f714a;
   --code-package: #8a5a12;
+  --accent: #2f5fe8;
+  --accent-soft: #eaf0ff;
+  --accent-ink: #173b9c;
   --sans: 'Manrope', 'Avenir Next', 'Segoe UI', sans-serif;
   --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
 }
@@ -40,6 +43,9 @@
   --code-function: #82aaff;
   --code-string: #d9f5dd;
   --code-package: #ecc48d;
+  --accent: #8eafff;
+  --accent-soft: #1b2949;
+  --accent-ink: #dce6ff;
 }
 
 * {

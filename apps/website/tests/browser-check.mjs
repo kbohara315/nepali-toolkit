@@ -17,6 +17,12 @@ try {
   cli('wait', '--fn', "document.querySelector('[data-switchboard]').classList.contains('is-enhanced')");
   ready();
   assert.equal(state().output, '1,23,45,678');
+  const loadingFrame = evaluate(`(() => { const radio = document.querySelector('[name="toolkit-domain"][value="phone"]'); radio.checked = true; radio.dispatchEvent(new Event('change')); return { state: document.querySelector('.board-readout').dataset.state, output: document.querySelector('#board-output').textContent, snippet: document.querySelector('#board-snippet').textContent }; })()`);
+  assert.equal(loadingFrame.state, 'loading');
+  assert.ok(loadingFrame.output, 'keep the previous result visible while the next utility loads');
+  assert.ok(loadingFrame.snippet, 'keep the previous code block visible while the next utility loads');
+  ready();
+  select('number');
   const initial = evaluate("performance.getEntriesByType('resource').filter(e => e.name.endsWith('.js')).map(e => ({ url: e.name, bytes: e.decodedBodySize }))");
   assert.ok(!initial.some(entry => /districts|provinces|palikas|date\.|words\.|land\./.test(entry.url)));
   console.log('Initial JS:', JSON.stringify(initial));
@@ -63,9 +69,10 @@ try {
     const current = evaluate('document.documentElement.dataset.theme');
     if (current !== theme) cli('click', '[data-theme-toggle]');
     assert.equal(evaluate('document.documentElement.dataset.theme'), theme);
-    for (const width of [320, 390, 768, 1440]) {
+    for (const width of [320, 375, 390, 414, 768, 1440]) {
       cli('set', 'viewport', String(width), '1000');
       assert.ok(evaluate('document.documentElement.scrollWidth <= innerWidth'), `${theme} ${width}px overflows`);
+      assert.ok(evaluate("document.querySelector('.theme-toggle').getBoundingClientRect().top < document.querySelector('.site-header nav').getBoundingClientRect().top"), `${theme} ${width}px theme button dropped below navigation`);
     }
     cli('open', new URL('docs/reference/number/', url).href);
     assert.equal(evaluate('document.documentElement.dataset.theme'), theme);
@@ -75,5 +82,5 @@ try {
   }
   cli('open', new URL('playground/', url).href);
   assert.ok(evaluate("document.querySelectorAll('#playground-mode option').length") >= 10);
-  console.log('PASS: eight demos, first-load selection/input races, memory, errors, keyboard, clipboard success/failure, themes across docs, 320/390/768/1440px, preserved playground.');
+  console.log('PASS: eight demos, first-load selection/input races, memory, errors, keyboard, clipboard success/failure, themes across docs, 320/375/390/414/768/1440px, header alignment, preserved playground.');
 } finally { cli('close'); }
