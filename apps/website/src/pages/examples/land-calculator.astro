@@ -1,0 +1,209 @@
+---
+import MarketingLayout from '../../layouts/MarketingLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import HairlineFigure from '../../components/HairlineFigure.astro';
+import ExamplePager from '../../components/ExamplePager.astro';
+import { highlightCode } from '../../lib/highlight-code';
+import '../../styles/landing.css';
+
+const base = import.meta.env.BASE_URL;
+const snippet = `import { hillArea, toSquareMetres } from 'nepali-toolkit/land';
+
+const area = hillArea({ ropani: 1, aana: 5 });
+const squareMetres = toSquareMetres(area);`;
+---
+
+<MarketingLayout
+  title="Land area calculator | Nepali Toolkit examples"
+  description="Convert Hill and Terai land units to exact square metres with nepali-toolkit/land. Try the interactive example."
+>
+  <SiteHeader />
+  <main id="main" class="example-page land-page">
+    <section class="example-intro site-shell">
+      <div class="intro-copy">
+        <a class="back-link" href={`${base}examples/`}>← All examples</a>
+        <p class="eyebrow">Field note 01 <span>·</span> Land measurement</p>
+        <h1>From local units<br /><em>to the metre.</em></h1>
+        <p class="lede">A small area calculator for the measurements people already use. Enter whole units, then get an exact square-metre value.</p>
+        <div class="intro-meta"><span>01 / 02</span><span>Built with <code>nepali-toolkit/land</code></span></div>
+      </div>
+      <aside class="intro-aside" aria-label="Conversion note">
+        <span class="aside-mark" aria-hidden="true">क्षेत्र</span>
+        <p class="eyebrow">A local measure</p>
+        <p>One ropani is 508.72 m² in the toolkit’s Hill conversion system.</p>
+        <span class="aside-rule"></span>
+        <small>Figures stay precise as decimal strings.</small>
+      </aside>
+    </section>
+
+    <section class="calculator-wrap site-shell" aria-labelledby="calculator-title">
+      <div class="calculator-heading">
+        <div><p class="eyebrow">Interactive example / 01</p><h2 id="calculator-title">Measure a parcel</h2></div>
+        <p>Select a land system and enter each unit. The toolkit normalizes overflow between units.</p>
+      </div>
+      <div class="calculator-card" data-land-calculator>
+        <div class="land-entry">
+          <div class="system-choice" role="group" aria-label="Land measurement system">
+            <button type="button" data-system="hill" aria-pressed="true">Hill <span>रोपनी</span></button>
+            <button type="button" data-system="terai" aria-pressed="false">Terai <span>बिघा</span></button>
+          </div>
+          <p class="field-instruction" data-system-copy>Hill system · enter ropani, aana, paisa, and daam.</p>
+          <div class="unit-fields" data-fields="hill">
+            <label>Ropani <span>रोपनी</span><input name="ropani" type="number" min="0" step="1" inputmode="numeric" value="1" /></label>
+            <label>Aana <span>आना</span><input name="aana" type="number" min="0" step="1" inputmode="numeric" value="5" /></label>
+            <label>Paisa <span>पैसा</span><input name="paisa" type="number" min="0" step="1" inputmode="numeric" value="0" /></label>
+            <label>Daam <span>दाम</span><input name="daam" type="number" min="0" step="1" inputmode="numeric" value="0" /></label>
+          </div>
+          <div class="unit-fields" data-fields="terai" hidden>
+            <label>Bigha <span>बिघा</span><input name="bigha" type="number" min="0" step="1" inputmode="numeric" value="0" /></label>
+            <label>Kattha <span>कट्ठा</span><input name="kattha" type="number" min="0" step="1" inputmode="numeric" value="0" /></label>
+            <label>Dhur <span>धुर</span><input name="dhur" type="number" min="0" step="1" inputmode="numeric" value="0" /></label>
+          </div>
+          <p class="entry-footnote">Use whole numbers. Sub-units carry into the next unit automatically.</p>
+        </div>
+        <div class="result-panel">
+          <div class="result-topline"><span>CONVERTED AREA</span><span aria-hidden="true">↗</span></div>
+          <output class="area-result" data-area-output aria-live="polite"><span data-area-value>667.695</span> <small>m²</small></output>
+          <p class="result-caption">square metres</p>
+          <div class="equivalent"><span>Same area in local units</span><strong data-equivalent>१ रोपनी ५ आना</strong></div>
+          <p class="validation-message" data-error role="status" aria-live="polite"></p>
+          <p class="precision-note"><span aria-hidden="true">◎</span> Exact decimal output · no floating-point conversion</p>
+        </div>
+      </div>
+      <p class="calculator-disclaimer">For demonstration and estimation. Confirm land records and official measurements with the responsible authority.</p>
+    </section>
+
+    <section class="under-the-hood site-shell" aria-labelledby="how-title">
+      <div class="how-copy"><p class="eyebrow">How it works</p><h2 id="how-title">One exact area.<br /><em>Many familiar names.</em></h2><p>The land module keeps an area as whole square micrometres. It converts that exact value to a decimal string only when you need to display square metres.</p><a class="text-link" href={`${base}docs/guides/land-conversions/`}>Read the land conversion guide →</a></div>
+      <div class="code-card"><div class="code-card-head"><span>LAND / TYPESCRIPT</span><span>01</span></div><pre><code set:html={highlightCode(snippet)}></code></pre><p>Choose <code>teraiArea</code> for bigha, kattha, and dhur.</p></div>
+    </section>
+
+    <section class="figure-section site-shell" aria-label="Land conversion diagram">
+      <div><p class="eyebrow">In the field</p><p class="figure-intro">The figure shows how a larger parcel breaks into smaller plots. The calculator above performs the unit conversion.</p></div>
+      <HairlineFigure name="divided-field" title="A divided land field" description="A visual cue for parcels and sub-plots in land workflows." guideHref="/docs/guides/land-conversions/" guideLabel="Land conversion guide" referenceHref="/docs/reference/land/" referenceLabel="Land API reference" />
+    </section>
+
+  </main>
+  <ExamplePager next={{ href: 'examples/nepali-invoice/', label: 'Nepali invoice' }} />
+  <SiteFooter />
+</MarketingLayout>
+
+<script>
+  import { formatHillArea, formatTeraiArea, hillArea, teraiArea, toSquareMetres } from 'nepali-toolkit/land';
+
+  const root = document.querySelector<HTMLElement>('[data-land-calculator]');
+  if (root) {
+    const output = root.querySelector<HTMLElement>('[data-area-value]');
+    const equivalent = root.querySelector<HTMLElement>('[data-equivalent]');
+    const error = root.querySelector<HTMLElement>('[data-error]');
+    const copy = root.querySelector<HTMLElement>('[data-system-copy]');
+    let system: 'hill' | 'terai' = 'hill';
+
+    const render = () => {
+      try {
+        const fields = root.querySelector<HTMLElement>(`[data-fields="${system}"]`);
+        if (!fields || !output || !equivalent) return;
+        const values = Object.fromEntries(Array.from(fields.querySelectorAll<HTMLInputElement>('input')).map((input) => {
+          if (input.value.trim() === '') return [input.name, 0];
+          const value = Number(input.value);
+          if (!Number.isSafeInteger(value) || value < 0) throw new Error('Enter whole, non-negative unit values.');
+          return [input.name, value];
+        }));
+        const area = system === 'hill'
+          ? hillArea(values as Parameters<typeof hillArea>[0])
+          : teraiArea(values as Parameters<typeof teraiArea>[0]);
+        const squareMetres = toSquareMetres(area);
+        output.textContent = squareMetres;
+        equivalent.textContent = system === 'hill'
+          ? formatHillArea(area, { numerals: 'devanagari', style: 'long' })
+          : formatTeraiArea(area, { numerals: 'devanagari', style: 'long' });
+        if (error) error.textContent = '';
+      } catch (cause) {
+        if (error) error.textContent = cause instanceof Error ? cause.message : 'Enter valid whole unit values.';
+      }
+    };
+
+    root.querySelectorAll<HTMLButtonElement>('[data-system]').forEach((button) => button.addEventListener('click', () => {
+      system = button.dataset.system === 'terai' ? 'terai' : 'hill';
+      root.querySelectorAll<HTMLButtonElement>('[data-system]').forEach((choice) => choice.setAttribute('aria-pressed', String(choice === button)));
+      root.querySelectorAll<HTMLElement>('[data-fields]').forEach((fields) => { fields.hidden = fields.dataset.fields !== system; });
+      if (copy) copy.textContent = system === 'hill'
+        ? 'Hill system · enter ropani, aana, paisa, and daam.'
+        : 'Terai system · enter bigha, kattha, and dhur.';
+      render();
+    }));
+
+    root.querySelectorAll<HTMLInputElement>('input').forEach((input) => input.addEventListener('input', render));
+    render();
+  }
+</script>
+
+<style>
+  .example-page { --paper:var(--canvas); --paper-deep:var(--panel); --red:var(--accent); --panel:var(--surface); background:var(--canvas); color:var(--ink); }
+  .example-page :global(.site-shell) { max-width:1180px; }
+  .example-intro { display:grid; grid-template-columns:minmax(0,1.6fr) minmax(220px,.65fr); gap:clamp(2rem,7vw,7rem); padding-block:3.2rem 4.6rem; }
+  .back-link,.text-link { color:var(--ink); text-decoration-thickness:1px; text-underline-offset:4px; }
+  .back-link { font-size:.82rem; }
+  .eyebrow { margin:0 0 1rem; color:var(--red); font:600 .7rem/1.2 var(--mono,monospace); letter-spacing:.1em; text-transform:uppercase; }
+  .intro-copy .eyebrow { margin-top:2.4rem; }
+  .intro-copy h1 { margin:0; font:620 clamp(3rem,6vw,5.4rem)/.98 var(--sans); letter-spacing:-.075em; }
+  .intro-copy h1 em,.how-copy h2 em { color:var(--red); font-weight:400; }
+  .lede { max-width:580px; margin:1.5rem 0 2.2rem; color:var(--muted); font-size:1.08rem; line-height:1.75; }
+  .intro-meta { display:flex; gap:2rem; align-items:center; border-top:1px solid var(--line); padding-top:.9rem; color:var(--muted); font: .69rem var(--mono,monospace); }
+  .intro-meta code,.calculator-card code,.code-card code { color:var(--red); }
+  .intro-aside { align-self:end; padding:1.25rem 0 0 1.5rem; border-left:1px solid var(--line); }
+  .aside-mark { display:block; margin-bottom:1.7rem; color:var(--accent); font:500 2rem Georgia,serif; }
+  .intro-aside .eyebrow { margin-bottom:.8rem; }
+  .intro-aside p:not(.eyebrow) { max-width:235px; margin:0; font:1.35rem/1.4 Georgia,serif; }
+  .aside-rule { display:block; width:3rem; border-top:2px solid var(--red); margin:1.5rem 0 .75rem; }
+  .intro-aside small { color:var(--muted); line-height:1.6; }
+  .calculator-wrap { padding-block:2.7rem 4.2rem; border-top:1px solid var(--line); }
+  .calculator-heading { display:flex; justify-content:space-between; align-items:end; gap:2rem; margin-bottom:1.4rem; }
+  .calculator-heading h2 { margin:0; font:620 clamp(1.5rem,3vw,2rem)/1.15 var(--sans); letter-spacing:-.045em; }
+  .calculator-heading > p { max-width:360px; margin:0 0 .25rem; color:var(--muted); font-size:.9rem; line-height:1.6; }
+  .calculator-card { display:grid; grid-template-columns:1.05fr .95fr; border:1px solid #bdb7ab; background:var(--panel); box-shadow:0 18px 36px #22220b0a; }
+  .land-entry { padding:clamp(1.2rem,4vw,2.5rem); }
+  .system-choice { display:flex; width:max-content; max-width:100%; padding:4px; border:1px solid var(--line); background:var(--paper); }
+  .system-choice button { min-height:42px; border:0; padding:.55rem 1rem; background:transparent; color:var(--muted); font:600 .83rem var(--mono,monospace); cursor:pointer; }
+  .system-choice button span { margin-left:.35rem; font-family:serif; }
+  .system-choice button[aria-pressed='true'] { background:var(--ink); color:var(--invert-ink); }
+  .field-instruction { margin:1.4rem 0 1rem; color:var(--muted); font-size:.83rem; }
+  .unit-fields { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.85rem; }
+  .unit-fields[hidden] { display:none; }
+  .unit-fields label { display:grid; grid-template-columns:1fr auto; gap:.35rem; color:var(--ink); font-size:.81rem; font-weight:600; }
+  .unit-fields label span { color:var(--muted); font-family:serif; }
+  .unit-fields input { grid-column:1/-1; width:100%; min-height:48px; border:1px solid var(--line); border-radius:0; background:var(--surface); padding:.7rem .8rem; color:var(--ink); font:1rem var(--mono,monospace); }
+  .unit-fields input:focus-visible,.system-choice button:focus-visible { outline:3px solid #bb4b3650; outline-offset:2px; }
+  .entry-footnote { margin:1.2rem 0 0; color:var(--muted); font-size:.77rem; line-height:1.5; }
+  .result-panel { display:flex; flex-direction:column; justify-content:center; min-height:355px; padding:clamp(1.4rem,4vw,3rem); background:var(--invert); color:var(--invert-ink); }
+  .result-topline,.code-card-head { display:flex; justify-content:space-between; font: .64rem var(--mono,monospace); letter-spacing:.09em; }
+  .result-topline { color:var(--muted); }
+  .area-result { margin-top:2.8rem; font:500 clamp(3rem,6vw,5.3rem)/.95 Georgia,serif; letter-spacing:-.05em; overflow-wrap:anywhere; }
+  .area-result small { color:var(--accent); font: .35em var(--mono,monospace); letter-spacing:0; }
+  .result-caption { margin:.6rem 0 2.2rem; color:var(--muted); font:.75rem var(--mono,monospace); }
+  .equivalent { display:flex; flex-direction:column; gap:.4rem; padding-top:1rem; border-top:1px solid var(--strong-line); }
+  .equivalent span { color:var(--muted); font-size:.72rem; }
+  .equivalent strong { color:var(--invert-ink); font:1.25rem/1.4 Georgia,serif; }
+  .validation-message { min-height:1.3rem; margin:.5rem 0 0; color:#ffb29d; font-size:.78rem; }
+  .precision-note { margin:1.2rem 0 0; color:var(--muted); font-size:.7rem; }
+  .precision-note span { color:var(--accent); margin-right:.3rem; }
+  .calculator-disclaimer { margin:.85rem 0 0; color:var(--muted); font-size:.72rem; line-height:1.55; }
+  .under-the-hood { display:grid; grid-template-columns:.9fr 1.1fr; gap:clamp(2rem,7vw,6rem); padding-block:3.5rem; border-top:1px solid var(--line); }
+  .how-copy h2 { margin:0 0 1rem; font:620 clamp(2.4rem,4.5vw,4rem)/1 var(--sans); letter-spacing:-.06em; }
+  .how-copy > p:not(.eyebrow) { max-width:420px; color:var(--muted); line-height:1.7; }
+  .how-copy .text-link { display:inline-block; margin-top:.7rem; font-size:.83rem; }
+  .code-card { align-self:center; border:1px solid var(--line); background:var(--panel); }
+  .code-card-head { padding:.8rem 1rem; border-bottom:1px solid var(--line); color:var(--muted); }
+  .code-card pre { overflow-x:auto; margin:0; padding:1.2rem 1.25rem; color:var(--ink); font:.82rem/1.75 var(--mono,monospace); }
+  .code-card pre :global(.code-keyword),.code-card pre :global(.code-function) { color:var(--code-function); }
+  .code-card pre :global(.code-string) { color:var(--code-string); }
+  .code-card > p { margin:0; padding:.8rem 1.25rem 1rem; border-top:1px solid var(--line); color:var(--muted); font-size:.75rem; }
+  .figure-section { display:grid; grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr); align-items:start; gap:2rem; padding-block:2rem 3rem; }
+  .figure-section > * { min-width:0; }
+  .figure-intro { max-width:270px; margin:0; color:var(--muted); font-size:.83rem; line-height:1.7; }
+  .figure-section :global(.hairline-figure) { margin:0; border-color:var(--line); border-radius:0; }
+  .figure-section :global(.hairline-figure) { width:100%; max-width:100%; min-width:0; }
+  @media(max-width:760px) { .example-intro,.calculator-card,.under-the-hood,.figure-section { grid-template-columns:1fr; } .example-intro { gap:2.5rem; padding-top:2rem; } .intro-aside { max-width:380px; } .calculator-heading { display:block; } .calculator-heading > p { margin-top:1rem; } .result-panel { min-height:310px; } .figure-section { gap:.5rem; } }
+  @media(max-width:460px) { .intro-copy h1 { font-size:3.25rem; } .intro-meta { flex-direction:column; align-items:flex-start; gap:.55rem; } .unit-fields { gap:.65rem; } .unit-fields input { min-height:44px; } .area-result { font-size:3.1rem; } }
+</style>

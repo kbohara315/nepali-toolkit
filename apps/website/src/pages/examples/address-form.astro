@@ -1,0 +1,181 @@
+---
+import MarketingLayout from '../../layouts/MarketingLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import HairlineFigure from '../../components/HairlineFigure.astro';
+import ExamplePager from '../../components/ExamplePager.astro';
+import { getProvinces } from 'nepali-toolkit/admin/provinces';
+import '../../styles/landing.css';
+
+const provinces = getProvinces();
+const base = import.meta.env.BASE_URL;
+---
+
+<MarketingLayout
+  title="Nepal Address Form Example | Nepali Toolkit"
+  description="A working cascading Nepal address form with province, district, palika, ward, and Nepal phone shape checks powered by nepali-toolkit."
+>
+  <SiteHeader />
+  <main id="main" class="example-page">
+    <section class="example-intro site-shell">
+      <div>
+        <p class="eyebrow"><a href={`${base}examples/`}>Examples</a> / Administrative data</p>
+        <h1>A Nepal address,<br /><em>one level at a time.</em></h1>
+        <p class="intro-copy">Choose a province to narrow the districts. Choose a district to find its local levels. Ward options follow the selected palika’s published ward count.</p>
+      </div>
+      <aside class="specimen-note" aria-label="Example details">
+        <span class="note-index">FIELD NOTE 01</span>
+        <span class="note-rule"></span>
+        <p>Administrative codes are identifiers. Keep them as strings, even when they look numeric.</p>
+        <span class="note-stamp">NEPAL · 7 PROVINCES</span>
+      </aside>
+    </section>
+
+    <section class="workbench site-shell" aria-labelledby="form-heading">
+      <div class="workbench-heading">
+        <div><p class="eyebrow">LIVE EXAMPLE / ADDRESS DETAILS</p><h2 id="form-heading">Delivery address</h2></div>
+        <span class="sample-tag"><span aria-hidden="true"></span> Local data · in your browser</span>
+      </div>
+      <div class="workbench-grid">
+        <form class="address-form" id="address-form">
+          <div class="form-row two-up">
+            <label>Recipient name<input name="name" autocomplete="name" placeholder="e.g. Sita Shrestha" required /></label>
+            <label>Phone number <span class="label-hint">optional</span><input name="phone" id="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+977 9841234567" aria-describedby="phone-help phone-status" /><small id="phone-help">Checks general number shape only. It does not confirm ownership.</small><small id="phone-status" class="phone-status" role="status" aria-live="polite">Enter a number to check its format.</small></label>
+          </div>
+          <div class="address-divider"><span>Administrative address</span><span>01 — 04</span></div>
+          <div class="form-row two-up">
+            <label for="province">Province<select id="province" name="province" required><option value="">Choose province</option>{provinces.map((p) => <option value={p.code}>{p.nameEn} · {p.nameNe}</option>)}</select></label>
+            <label for="district">District<select id="district" name="district" required disabled><option value="">Choose province first</option></select></label>
+            <label for="palika">Local level / Palika<select id="palika" name="palika" required disabled><option value="">Choose district first</option></select></label>
+            <label for="ward">Ward<select id="ward" name="ward" required disabled><option value="">Choose local level first</option></select></label>
+          </div>
+          <label class="street-field">Street, house or landmark <span class="label-hint">optional</span><input name="street" autocomplete="street-address" placeholder="Tole, street or nearby landmark" /></label>
+          <button class="submit-button" type="submit">Review address <span aria-hidden="true">↗</span></button>
+          <p class="form-status" id="form-status" role="status" aria-live="polite">Your sample address stays in this page.</p>
+        </form>
+        <aside class="address-preview" aria-labelledby="preview-title">
+          <div class="preview-top"><span>ADDRESS SLIP</span><span>NP / 01</span></div>
+          <div class="preview-mark" aria-hidden="true">⌖</div>
+          <p class="eyebrow">DELIVERY TO</p>
+          <h3 id="preview-title">Your location<br />takes shape here.</h3>
+          <div class="preview-lines" id="preview-lines"><span>Select a province to begin.</span></div>
+          <div class="preview-bottom"><span>ADMIN DATA REVISION</span><strong>gov-2026-09</strong></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="explain site-shell">
+      <div class="explain-copy">
+        <p class="eyebrow">HOW THE CASCADE WORKS</p>
+        <h2>Each choice narrows<br />the next list.</h2>
+        <p>Province and district options come from focused admin subpaths. Selecting a palika provides its ward count. The toolkit does not contain ward names or address boundaries.</p>
+        <ol class="steps"><li><span>01</span><div><strong>Province</strong><small><code>getProvinces()</code></small></div></li><li><span>02</span><div><strong>District</strong><small><code>getDistricts(provinceCode)</code></small></div></li><li><span>03</span><div><strong>Palika + ward</strong><small><code>getPalikas()</code> · <code>getPalikaWards()</code></small></div></li></ol>
+        <div class="example-links"><a href={`${base}docs/guides/administrative-data/`}>Administrative data guide →</a><a href={`${base}docs/guides/phone-validation/`}>Phone validation guide →</a><a href={`${base}docs/reference/admin/`}>Admin API reference →</a></div>
+      </div>
+      <div class="figure-column"><HairlineFigure name="address-cabinet" title="Nested Nepal address trays" description="The figure shows how each administrative choice opens the next level." guideHref="/docs/guides/administrative-data/" guideLabel="Read the address guide" referenceHref="/docs/reference/admin/" referenceLabel="Admin API" /></div>
+    </section>
+    <section class="scope-note site-shell"><span>DATA SCOPE</span><p>This example builds an address form. The phone helper checks number shape only. Neither feature verifies a person’s identity, physical address, or phone ownership.</p></section>
+  </main>
+  <ExamplePager previous={{ href: 'examples/nepali-invoice/', label: 'Nepali invoice' }} next={{ href: 'examples/bs-date-picker/', label: 'BS / AD date picker' }} />
+  <SiteFooter />
+</MarketingLayout>
+
+<script>
+  import { getDistricts } from 'nepali-toolkit/admin/districts';
+  import { getPalikas, getPalikaWards } from 'nepali-toolkit/admin/palikas';
+  import { isPossibleNepalPhone } from 'nepali-toolkit/phone';
+
+  const form = document.querySelector<HTMLFormElement>('#address-form');
+  const province = document.querySelector<HTMLSelectElement>('#province');
+  const district = document.querySelector<HTMLSelectElement>('#district');
+  const palika = document.querySelector<HTMLSelectElement>('#palika');
+  const ward = document.querySelector<HTMLSelectElement>('#ward');
+  const phone = document.querySelector<HTMLInputElement>('#phone');
+  const phoneStatus = document.querySelector<HTMLElement>('#phone-status');
+  const preview = document.querySelector<HTMLElement>('#preview-lines');
+  const formStatus = document.querySelector<HTMLElement>('#form-status');
+
+  function fill(select: HTMLSelectElement, placeholder: string, rows: { value: string; label: string }[]) {
+    select.replaceChildren(new Option(placeholder, ''));
+    for (const row of rows) select.add(new Option(row.label, row.value));
+    select.disabled = rows.length === 0;
+  }
+
+  function paintPreview() {
+    if (!preview) return;
+    const chosen = [province, district, palika, ward].filter((field) => field?.selectedOptions[0]?.value).map((field) => field?.selectedOptions[0]?.textContent ?? '');
+    const street = form?.elements.namedItem('street');
+    const streetValue = street instanceof HTMLInputElement ? street.value.trim() : '';
+    if (streetValue) chosen.unshift(streetValue);
+    preview.replaceChildren();
+    if (!chosen.length) {
+      const line = document.createElement('span'); line.textContent = 'Select a province to begin.'; preview.append(line); return;
+    }
+    for (const text of chosen) { const line = document.createElement('span'); line.textContent = text; preview.append(line); }
+  }
+
+  province?.addEventListener('change', () => {
+    const rows = getDistricts(province.value).map((item) => ({ value: item.code, label: `${item.nameEn} · ${item.nameNe}` }));
+    fill(district!, rows.length ? 'Choose district' : 'Choose province first', rows);
+    fill(palika!, 'Choose district first', []); fill(ward!, 'Choose local level first', []); paintPreview();
+  });
+  district?.addEventListener('change', () => {
+    const rows = getPalikas(district.value).map((item) => ({ value: item.code, label: `${item.nameEn} · ${item.nameNe}` }));
+    fill(palika!, rows.length ? 'Choose local level' : 'Choose district first', rows);
+    fill(ward!, 'Choose local level first', []); paintPreview();
+  });
+  palika?.addEventListener('change', () => {
+    const rows = getPalikaWards(palika.value).map((number) => ({ value: String(number), label: `Ward ${number}` }));
+    fill(ward!, rows.length ? 'Choose ward' : 'Choose local level first', rows); paintPreview();
+  });
+  for (const select of [district, palika, ward]) select?.addEventListener('change', paintPreview);
+  const streetInput = form?.elements.namedItem('street');
+  if (streetInput instanceof HTMLInputElement) streetInput.addEventListener('input', paintPreview);
+
+  phone?.addEventListener('input', () => {
+    if (!phoneStatus) return;
+    const value = phone.value.trim();
+    phoneStatus.textContent = value ? (isPossibleNepalPhone(value) ? 'Possible Nepal phone number shape.' : 'This does not match a supported Nepal phone shape yet.') : 'Enter a number to check its format.';
+    phoneStatus.dataset.state = value ? (isPossibleNepalPhone(value) ? 'possible' : 'invalid') : '';
+  });
+
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (!form.reportValidity()) return;
+    const name = form.elements.namedItem('name');
+    if (formStatus) formStatus.textContent = `Address preview ready for ${name instanceof HTMLInputElement ? name.value.trim() : 'recipient'}. Nothing was sent.`;
+  });
+</script>
+
+<style>
+  .example-page { --paper: var(--canvas); --vermilion: var(--accent); --wash: var(--panel); background: var(--canvas); color: var(--ink); }
+  .example-page :global(a) { color: var(--vermilion); }
+  .site-shell { width: min(1160px, calc(100% - 48px)); margin-inline: auto; }
+  .example-intro { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(230px, .6fr); gap: 5vw; padding-block: 5.5rem 4rem; align-items: end; }
+  .eyebrow { margin: 0 0 .9rem; color: var(--muted); font: 700 .68rem/1.3 var(--sl-font-mono, monospace); letter-spacing: .11em; text-transform: uppercase; }
+  .example-intro h1 { max-width: 800px; margin: 0; font: 620 clamp(3rem, 6vw, 5.4rem)/.98 var(--sans); letter-spacing: -.075em; }
+  .example-intro h1 em { color: var(--vermilion); font-weight: 400; }
+  .intro-copy { max-width: 560px; margin: 1.6rem 0 0; color: var(--muted); font-size: 1.05rem; line-height: 1.75; }
+  .specimen-note { padding: 1.2rem 1.35rem 1.1rem; border: 1px solid var(--line); border-top: 3px solid var(--vermilion); background: var(--surface); transform: rotate(1deg); }
+  .note-index, .note-stamp { color: var(--muted); font: 700 .63rem/1.3 var(--sl-font-mono, monospace); letter-spacing: .1em; }
+  .note-rule { display: block; width: 2.5rem; height: 1px; margin: 1.1rem 0; background: var(--vermilion); }
+  .specimen-note p { margin: 0 0 1.4rem; font: 1.15rem/1.4 Georgia, serif; }
+  .workbench { border: 1px solid var(--line); background: var(--surface); box-shadow: 0 18px 54px #463b2b0b; }
+  .workbench-heading { display: flex; justify-content: space-between; gap: 1rem; align-items: end; padding: 1.5rem 1.8rem; border-bottom: 1px solid var(--line); }
+  .workbench-heading .eyebrow { margin-bottom: .35rem; }.workbench-heading h2 { margin: 0; font: 620 1.5rem/1.2 var(--sans); letter-spacing: -.04em; }
+  .sample-tag { display: flex; align-items: center; gap: .5rem; color: var(--muted); font: .72rem var(--sl-font-mono, monospace); }.sample-tag span { width: 7px; height: 7px; border-radius: 50%; background: #557a5f; }
+  .workbench-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(240px, .7fr); }
+  .address-form { padding: 1.8rem; }.form-row { display: grid; gap: 1rem 1.2rem; }.two-up { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .address-form label { display: flex; flex-direction: column; gap: .48rem; color: var(--ink); font-size: .82rem; font-weight: 650; }.label-hint { color: var(--muted); font-size: .72rem; font-weight: 400; }
+  .address-form input, .address-form select { width: 100%; min-height: 46px; padding: .7rem .8rem; border: 1px solid #c9c2b5; border-radius: 0; background: var(--surface); color: var(--ink); font-family: inherit; font-size: .88rem; line-height: 1.3; }
+  .address-form input:focus, .address-form select:focus { outline: 2px solid var(--vermilion); outline-offset: 2px; border-color: var(--vermilion); }.address-form select:disabled { color: #92978f; background: var(--panel); }
+  .address-form small { color: var(--muted); font-size: .7rem; font-weight: 400; line-height: 1.4; }.phone-status[data-state='possible'] { color: #27623b; }.phone-status[data-state='invalid'] { color: #a33d2b; }
+  .address-divider { display: flex; justify-content: space-between; margin: 1.5rem 0 1rem; padding-top: 1rem; border-top: 1px solid var(--line); color: var(--muted); font: 700 .65rem var(--sl-font-mono, monospace); letter-spacing: .09em; text-transform: uppercase; }
+  .street-field { margin-top: 1rem; }.submit-button { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 1.25rem; padding: .85rem 1rem; border: 0; background: var(--ink); color: var(--invert-ink); font-family: inherit; font-size: .86rem; font-weight: 600; cursor: pointer; }.submit-button:hover { background: var(--vermilion); }.submit-button:focus-visible { outline: 2px solid var(--vermilion); outline-offset: 3px; }.form-status { min-height: 1.2rem; margin: .65rem 0 0; color: var(--muted); font-size: .72rem; }
+  .address-preview { position: relative; display: flex; flex-direction: column; min-height: 100%; padding: 1.4rem; overflow: hidden; border-left: 1px solid var(--line); background: var(--wash); }.preview-top, .preview-bottom { display: flex; justify-content: space-between; color: var(--muted); font: 700 .59rem var(--sl-font-mono, monospace); letter-spacing: .08em; }.preview-mark { position: absolute; top: 3.2rem; right: 1rem; color: #b84a3233; font: 9rem/1 Georgia, serif; }.address-preview .eyebrow { margin-top: auto; padding-top: 5rem; }.address-preview h3 { position: relative; margin: .3rem 0 1.4rem; font: 500 1.8rem/1.12 Georgia, serif; letter-spacing: -.045em; }.preview-lines { display: flex; flex-direction: column; min-height: 5rem; gap: .42rem; color: var(--muted); font-size: .82rem; }.preview-lines span:last-child { color: var(--vermilion); }.preview-bottom { margin-top: 2rem; padding-top: .8rem; border-top: 1px solid #ccc5b7; }.preview-bottom strong { color: var(--ink); }
+  .explain { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 5vw; align-items: center; padding-block: 7rem 5rem; }.explain-copy h2 { margin: 0 0 1rem; font: 620 clamp(2.4rem, 4.5vw, 4rem)/1 var(--sans); letter-spacing: -.06em; }.explain-copy > p:not(.eyebrow) { max-width: 480px; color: var(--muted); line-height: 1.75; }.steps { display: grid; gap: .8rem; margin: 2rem 0; padding: 0; list-style: none; }.steps li { display: flex; align-items: center; gap: 1rem; }.steps li > span { color: var(--vermilion); font: .7rem var(--sl-font-mono, monospace); }.steps strong, .steps small { display: block; }.steps strong { font-size: .82rem; }.steps small { margin-top: .2rem; color: var(--muted); font-size: .7rem; }.steps code { color: var(--ink); }.example-links { display: flex; flex-wrap: wrap; gap: .55rem 1.2rem; font-size: .78rem; }.figure-column { min-width: 0; }.figure-column :global(.hairline-figure) { width: 100%; max-width: 100%; min-width: 0; margin: 0; }
+  .scope-note { display: flex; gap: 2rem; align-items: baseline; padding: 1.3rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }.scope-note span { flex: none; color: var(--vermilion); font: 700 .65rem var(--sl-font-mono, monospace); letter-spacing: .1em; }.scope-note p { max-width: 770px; margin: 0; color: var(--muted); font-size: .83rem; line-height: 1.6; }
+  @media(max-width: 800px) { .example-intro { grid-template-columns: 1fr; gap: 2rem; padding-block: 4rem 3rem; }.specimen-note { max-width: 400px; }.workbench-grid, .explain { grid-template-columns: 1fr; }.address-preview { min-height: 300px; border-top: 1px solid var(--line); border-left: 0; }.address-preview .eyebrow { padding-top: 3rem; }.explain { gap: 2.5rem; padding-block: 4.5rem; } }
+  @media(max-width: 560px) { .site-shell { width: min(100% - 40px, 1160px); }.example-intro h1 { font-size: clamp(3rem, 16vw, 5rem); }.workbench-heading { display: block; padding: 1.25rem; }.sample-tag { margin-top: .8rem; }.address-form { padding: 1.25rem; }.two-up { grid-template-columns: 1fr; }.scope-note { display: block; }.scope-note p { margin-top: .55rem; } }
+  @media(prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+</style>

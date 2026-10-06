@@ -1,0 +1,319 @@
+---
+import MarketingLayout from '../../layouts/MarketingLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import '../../styles/landing.css';
+
+const base = import.meta.env.BASE_URL;
+
+const examples = [
+  {
+    number: '01',
+    title: 'Land area, made legible',
+    description: 'A practical property calculator that moves between Hill and Terai units, then gives a metric result you can use elsewhere.',
+    route: 'land-calculator',
+    guide: 'land-conversions',
+    guideLabel: 'Land conversions guide',
+    domains: ['land', 'number'],
+    kind: 'land',
+    label: 'PROPERTY / AREA',
+  },
+  {
+    number: '02',
+    title: 'One total. Two ways to read it.',
+    description: 'An invoice keeps the numeric amount and its Nepali words together, so the printed total stays consistent from screen to receipt.',
+    route: 'nepali-invoice',
+    guide: 'exact-money-and-words',
+    guideLabel: 'Exact money and words guide',
+    domains: ['number', 'currency', 'words'],
+    kind: 'invoice',
+    label: 'BILLING / NPR',
+  },
+  {
+    number: '03',
+    title: 'An address, one choice at a time',
+    description: 'A cascading address form connects province, district, local level, and ward, with phone input alongside it.',
+    route: 'address-form',
+    guide: 'administrative-data',
+    guideLabel: 'Administrative data guide',
+    domains: ['admin', 'phone'],
+    kind: 'address',
+    label: 'PROFILE / ADDRESS',
+  },
+  {
+    number: '04',
+    title: 'Two calendars. One civil date.',
+    description: 'A date picker pairs Bikram Sambat and Gregorian views, with date-only values kept clear of timezone shifts.',
+    route: 'bs-date-picker',
+    guide: 'dates-and-calendars',
+    guideLabel: 'Dates and calendars guide',
+    domains: ['date'],
+    kind: 'calendar',
+    label: 'SCHEDULING / BS ↔ AD',
+  },
+];
+---
+
+<MarketingLayout
+  title="Examples | Nepali Toolkit"
+  description="Practical interface recipes built with Nepali Toolkit: land calculator, Nepali invoice, administrative address form, and BS/AD date picker."
+>
+  <SiteHeader />
+  <main id="main" class="examples-page">
+    <section class="examples-intro site-shell" aria-labelledby="examples-title">
+      <div class="intro-copy">
+        <p class="eyebrow"><span class="status-dot"></span> Nepali Toolkit / Examples</p>
+        <h1 id="examples-title">Useful patterns.<br /><span>Ready to build on.</span></h1>
+        <p class="intro-description">
+          Small implementation recipes for real interfaces. Each example pairs a working UI with the toolkit functions, a focused guide, and a live playground to help you adapt the pattern.
+        </p>
+      </div>
+      <aside class="intro-note" aria-label="About these examples">
+        <span class="note-index">FIELD NOTES&nbsp; / &nbsp;04</span>
+        <p>Start with the task. Follow the data. Keep the local details right.</p>
+        <a href={`${base}playground/`}>Explore the utility playground <span aria-hidden="true">↗</span></a>
+      </aside>
+    </section>
+
+    <section class="examples-grid site-shell" aria-label="Implementation examples">
+      {examples.map((example) => (
+        <article class={`example-card example-${example.kind}`}>
+          <div class="card-topline">
+            <span class="card-number">{example.number} <span aria-hidden="true">/</span> 04</span>
+            <span class="card-label">{example.label}</span>
+          </div>
+
+          <a class="preview-link" href={`${base}examples/${example.route}/`} aria-label={`Open ${example.title} example`}>
+            <div class={`preview preview-${example.kind}`} aria-hidden="true">
+              {example.kind === 'land' && (
+                <div class="land-preview">
+                  <div class="preview-heading"><span>AREA CONVERTER</span><span class="preview-dot"></span></div>
+                  <div class="land-columns">
+                    <div class="land-input"><small>HILL SYSTEM</small><strong>2 <i>ropani</i></strong><span>8 aana &nbsp;·&nbsp; 0 paisa</span></div>
+                    <div class="conversion-arrow">→</div>
+                    <div class="land-output"><small>METRIC AREA</small><strong>1,017.36</strong><span>square metres</span></div>
+                  </div>
+                  <div class="preview-rule"><span></span><span></span><span></span></div>
+                </div>
+              )}
+              {example.kind === 'invoice' && (
+                <div class="invoice-preview">
+                  <div class="invoice-stamp">PAID</div>
+                  <div class="invoice-kicker">TAX INVOICE <span>NP · 2082</span></div>
+                  <div class="invoice-row"><span>Consulting services</span><span>रु 48,000.00</span></div>
+                  <div class="invoice-row"><span>Travel allowance</span><span>रु 4,500.00</span></div>
+                  <div class="invoice-total"><span>TOTAL DUE</span><strong>रु 52,500.00</strong></div>
+                  <div class="invoice-words">बाउन्न हजार पाँच सय रुपैयाँ मात्र</div>
+                </div>
+              )}
+              {example.kind === 'address' && (
+                <div class="address-preview">
+                  <div class="form-preview-heading"><span>YOUR ADDRESS</span><span>01 — 03</span></div>
+                  <div class="form-field"><small>PROVINCE</small><strong>Bagmati Province <span>⌄</span></strong></div>
+                  <div class="form-row">
+                    <div class="form-field"><small>DISTRICT</small><strong>Kathmandu <span>⌄</span></strong></div>
+                    <div class="form-field muted-field"><small>LOCAL LEVEL</small><strong>Select… <span>⌄</span></strong></div>
+                  </div>
+                  <div class="form-field phone-field"><small>PHONE NUMBER</small><strong><i>+977</i>&nbsp; 984 123 4567 <b>✓</b></strong></div>
+                </div>
+              )}
+              {example.kind === 'calendar' && (
+                <div class="calendar-preview">
+                  <div class="calendar-month"><span>‹</span><strong>असार <small>2082</small></strong><span>›</span></div>
+                  <div class="calendar-grid calendar-days"><span>आ</span><span>सो</span><span>मं</span><span>बु</span><span>बि</span><span>शु</span><span>श</span></div>
+                  <div class="calendar-grid calendar-dates"><span>१</span><span>२</span><span>३</span><span>४</span><span>५</span><span>६</span><span>७</span><span>८</span><span>९</span><span>१०</span><span>११</span><span>१२</span><span>१३</span><span>१४</span><span>१५</span><span>१६</span><span>१७</span><span>१८</span><span>१९</span><span>२०</span><span>२१</span><span>२२</span><span>२३</span><span>२४</span><span>२५</span><span>२६</span><span>२७</span><span>२८</span><span>२९</span><span>३०</span><span>३१</span><span class="selected-date">३२</span><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></div>
+                  <div class="calendar-match"><span>Gregorian date</span><strong>Wednesday, July 16, 2025</strong><span class="match-mark">↔</span></div>
+                </div>
+              )}
+            </div>
+          </a>
+
+          <div class="card-content">
+            <div class="domain-tags" aria-label="Toolkit domains">
+              {example.domains.map((domain) => <span>{domain}</span>)}
+            </div>
+            <h2><a href={`${base}examples/${example.route}/`}>{example.title}</a></h2>
+            <p>{example.description}</p>
+            <div class="card-links">
+              <a class="open-example" href={`${base}examples/${example.route}/`}>View example <span aria-hidden="true">→</span></a>
+              <a class="guide-link" href={`${base}docs/guides/${example.guide}/`}>{example.guideLabel} <span aria-hidden="true">↗</span></a>
+              <a class="play-link" href={`${base}playground/`}>Playground <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </section>
+
+    <section class="examples-foot site-shell" aria-label="Using the examples">
+      <span class="foot-mark" aria-hidden="true">↳</span>
+      <p><strong>These are starting points.</strong> Use the guides to understand each domain, then adjust the interface for your product.</p>
+      <a href={`${base}docs/`}>Browse all documentation <span aria-hidden="true">→</span></a>
+    </section>
+  </main>
+  <SiteFooter />
+</MarketingLayout>
+
+<style>
+  .examples-page {
+    --paper: var(--surface);
+    --ink-soft: var(--muted);
+  }
+  .examples-intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 270px;
+    gap: clamp(36px, 9vw, 128px);
+    align-items: end;
+    padding-block: clamp(60px, 9vw, 112px) 62px;
+  }
+  .intro-copy { max-width: 740px; }
+  .intro-copy .eyebrow { color: var(--muted); margin: 0 0 26px; }
+  .intro-copy h1 {
+    margin: 0;
+    font-size: clamp(3rem, 6vw, 5.4rem);
+    line-height: .98;
+    font-weight: 620;
+    letter-spacing: -.075em;
+  }
+  .intro-copy h1 span { color: var(--muted); }
+  .intro-description {
+    max-width: 570px;
+    margin: 27px 0 0;
+    color: var(--muted);
+    font-size: clamp(.98rem, 1.35vw, 1.08rem);
+    line-height: 1.75;
+  }
+  .intro-note {
+    position: relative;
+    border-left: 1px solid var(--line);
+    padding: 5px 0 7px 22px;
+  }
+  .note-index, .card-number, .card-label, .card-label, .domain-tags, .preview-heading, .invoice-kicker, .form-preview-heading, .form-field small, .land-input small, .land-output small, .invoice-total > span {
+    font-family: var(--mono);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+  .note-index { color: var(--muted); font-size: .62rem; }
+  .intro-note p { margin: 17px 0 20px; font-size: 1.07rem; line-height: 1.45; letter-spacing: -.025em; }
+  .intro-note a, .examples-foot a { font-size: .75rem; font-weight: 650; text-decoration: none; }
+  .intro-note a span { color: var(--muted); }
+  .examples-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+    padding-bottom: 38px;
+  }
+  .example-card {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 13px;
+    background: var(--paper);
+    transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+  }
+  .example-card:hover { border-color: var(--strong-line); transform: translateY(-3px); box-shadow: 0 18px 42px #0000000a; }
+  .card-topline { display: flex; justify-content: space-between; align-items: center; padding: 16px 19px 13px; }
+  .card-number { color: var(--muted); font-size: .6rem; }
+  .card-number span { padding-inline: 3px; opacity: .55; }
+  .card-label { color: var(--muted); font-size: .54rem; text-align: right; }
+  .preview-link { display: block; color: inherit; text-decoration: none; }
+  .preview {
+    min-height: 218px;
+    margin-inline: 12px;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    overflow: hidden;
+    background: var(--panel);
+  }
+  .preview-land { display: grid; align-items: center; padding: 27px clamp(18px, 4vw, 50px); background: color-mix(in srgb, var(--accent-soft) 35%, var(--panel)); }
+  .land-preview { max-width: 440px; width: 100%; margin: auto; }
+  .preview-heading { display: flex; justify-content: space-between; color: var(--muted); font-size: .55rem; }
+  .preview-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .land-columns { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: clamp(10px, 2vw, 22px); margin-top: 28px; }
+  .land-input, .land-output { display: grid; gap: 7px; min-width: 0; }
+  .land-input small, .land-output small { color: var(--muted); font-size: .5rem; }
+  .land-input strong, .land-output strong { font-size: clamp(1.2rem, 2.7vw, 2rem); font-weight: 560; letter-spacing: -.06em; white-space: nowrap; }
+  .land-input strong i { color: var(--muted); font-size: .62em; font-style: normal; font-weight: 450; }
+  .land-input > span, .land-output > span { color: var(--muted); font-size: .66rem; }
+  .conversion-arrow { color: var(--accent); font-size: 1.1rem; }
+  .preview-rule { display: flex; gap: 5px; margin-top: 25px; }
+  .preview-rule span { height: 3px; background: var(--line); border-radius: 3px; }
+  .preview-rule span:nth-child(1) { width: 41%; background: var(--accent); }
+  .preview-rule span:nth-child(2) { width: 27%; }
+  .preview-rule span:nth-child(3) { width: 32%; }
+  .preview-invoice { position: relative; display: grid; align-items: center; padding: 23px clamp(20px, 4vw, 48px); background: repeating-linear-gradient(0deg, var(--panel), var(--panel) 27px, color-mix(in srgb, var(--line) 50%, var(--panel)) 28px); }
+  .invoice-preview { width: min(100%, 390px); margin: auto; padding: 17px 20px 15px; border: 1px solid var(--line); background: var(--paper); box-shadow: 0 8px 24px #0000000c; position: relative; }
+  .invoice-stamp { position: absolute; top: 14px; right: 16px; padding: 3px 7px; border: 1px solid color-mix(in srgb, var(--accent) 50%, var(--line)); color: var(--accent-ink); border-radius: 3px; transform: rotate(5deg); font: 600 .52rem var(--mono); letter-spacing: .1em; }
+  .invoice-kicker { padding-bottom: 15px; color: var(--muted); font-size: .5rem; }
+  .invoice-kicker span { float: right; margin-right: 60px; }
+  .invoice-row { display: flex; justify-content: space-between; gap: 10px; padding-block: 6px; color: var(--muted); font-size: .64rem; }
+  .invoice-row span:last-child { color: var(--ink); font-variant-numeric: tabular-nums; }
+  .invoice-total { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 7px; padding-top: 10px; border-top: 1px solid var(--line); }
+  .invoice-total > span { color: var(--muted); font-size: .5rem; }
+  .invoice-total strong { font-size: 1rem; letter-spacing: -.04em; }
+  .invoice-words { margin-top: 11px; padding: 8px 9px; background: var(--panel); color: var(--muted); font-size: .66rem; }
+  .preview-address { display: grid; align-items: center; padding: 24px clamp(18px, 4vw, 45px); background: color-mix(in srgb, var(--accent-soft) 20%, var(--panel)); }
+  .address-preview { width: min(100%, 430px); margin: auto; padding: 17px 19px 18px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); box-shadow: 0 8px 24px #00000008; }
+  .form-preview-heading { display: flex; justify-content: space-between; margin-bottom: 13px; color: var(--muted); font-size: .5rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+  .form-field { display: grid; gap: 5px; min-width: 0; margin-top: 8px; }
+  .form-field small { color: var(--muted); font-size: .46rem; }
+  .form-field strong { display: flex; justify-content: space-between; align-items: center; gap: 6px; padding: 8px 9px; border: 1px solid var(--line); border-radius: 4px; font-size: .65rem; font-weight: 500; white-space: nowrap; overflow: hidden; }
+  .form-field strong span { color: var(--muted); }
+  .muted-field strong { color: var(--muted); }
+  .phone-field strong i { color: var(--muted); font-style: normal; }
+  .phone-field strong b { display: grid; place-items: center; width: 15px; height: 15px; border-radius: 50%; background: var(--accent-soft); color: var(--accent-ink); font-size: .55rem; }
+  .preview-calendar { display: grid; align-items: center; padding: 20px clamp(18px, 4vw, 46px); background: color-mix(in srgb, var(--accent-soft) 29%, var(--panel)); }
+  .calendar-preview { width: min(100%, 380px); margin: auto; padding: 13px 17px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); box-shadow: 0 8px 24px #00000008; }
+  .calendar-month { display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; font-size: .73rem; }
+  .calendar-month > span { color: var(--muted); font-size: 1rem; }
+  .calendar-month strong { font-weight: 620; }
+  .calendar-month small { margin-left: 3px; color: var(--muted); font-size: .65rem; font-weight: 450; }
+  .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; }
+  .calendar-days { padding-block: 6px; border-block: 1px solid var(--line); color: var(--muted); font-size: .56rem; }
+  .calendar-dates { row-gap: 2px; padding-top: 5px; font-size: .62rem; }
+  .calendar-dates span { display: grid; place-items: center; aspect-ratio: 1.45; border-radius: 50%; }
+  .calendar-dates .selected-date { background: var(--invert); color: var(--invert-ink); }
+  .calendar-match { position: relative; display: grid; gap: 3px; margin-top: 10px; padding: 8px 10px; background: var(--panel); }
+  .calendar-match span:first-child { color: var(--muted); font: .48rem var(--mono); text-transform: uppercase; letter-spacing: .06em; }
+  .calendar-match strong { font-size: .66rem; font-weight: 550; }
+  .calendar-match .match-mark { position: absolute; top: 10px; right: 12px; color: var(--accent); }
+  .card-content { padding: 19px 20px 18px; }
+  .domain-tags { display: flex; gap: 6px; min-height: 21px; }
+  .domain-tags span { padding: 3px 7px; border: 1px solid var(--line); border-radius: 99px; color: var(--muted); font-size: .5rem; text-transform: lowercase; letter-spacing: .01em; }
+  .card-content h2 { margin: 13px 0 8px; font-size: clamp(1.2rem, 2vw, 1.48rem); line-height: 1.15; letter-spacing: -.045em; }
+  .card-content h2 a { text-decoration: none; }
+  .card-content h2 a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+  .card-content > p { min-height: 3.3em; max-width: 540px; margin: 0; color: var(--muted); font-size: .82rem; line-height: 1.65; }
+  .card-links { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-top: 19px; padding-top: 14px; border-top: 1px solid var(--line); }
+  .card-links a { font-size: .67rem; text-decoration: none; }
+  .card-links a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .open-example { font-weight: 680; }
+  .open-example span { margin-left: 4px; transition: transform 160ms ease; display: inline-block; }
+  .open-example:hover span { transform: translateX(3px); }
+  .guide-link, .play-link { color: var(--muted); }
+  .examples-foot { display: flex; align-items: center; gap: 17px; padding-block: 24px 76px; border-top: 1px solid var(--line); }
+  .foot-mark { color: var(--accent); font-size: 1.45rem; }
+  .examples-foot p { flex: 1; margin: 0; color: var(--muted); font-size: .78rem; line-height: 1.55; }
+  .examples-foot p strong { color: var(--ink); }
+  .examples-foot a { white-space: nowrap; }
+  @media (max-width: 760px) {
+    .examples-intro { grid-template-columns: 1fr; gap: 30px; padding-block: 54px 43px; }
+    .intro-copy h1 { font-size: clamp(2.7rem, 11vw, 4.4rem); }
+    .intro-note { max-width: 420px; }
+    .examples-grid { grid-template-columns: 1fr; gap: 15px; }
+    .card-content > p { min-height: 0; }
+    .preview { min-height: 205px; }
+  }
+  @media (max-width: 480px) {
+    .card-topline { padding-inline: 15px; }
+    .preview { margin-inline: 8px; min-height: 192px; }
+    .card-content { padding: 17px 15px 16px; }
+    .card-links { gap: 10px 15px; }
+    .examples-foot { align-items: flex-start; flex-wrap: wrap; padding-bottom: 54px; }
+    .examples-foot p { flex-basis: calc(100% - 44px); }
+    .examples-foot a { margin-left: 39px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .example-card, .open-example span { transition: none; }
+  }
+</style>

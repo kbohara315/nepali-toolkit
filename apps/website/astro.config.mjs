@@ -20,6 +20,7 @@ export default defineConfig({
       },
       sidebar: [
         { label: 'Playground', link: '/playground/' },
+        { label: 'Examples', link: '/examples/' },
         { label: 'Start here', items: ['docs', 'docs/getting-started'] },
         { label: 'Task guides', items: [
           { label: 'Dates and calendars', slug: 'docs/guides/dates-and-calendars' },

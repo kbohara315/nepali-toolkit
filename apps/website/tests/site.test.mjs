@@ -158,6 +158,65 @@ test('docs landing still points at the playground', async () => {
   assert.match(source, /\[playground\]\(\.\.\/playground\/\)/i);
 });
 
+test('examples hub and four complete UI recipes are discoverable', async () => {
+  const config = await read('astro.config.mjs');
+  const header = await read('src/components/SiteHeader.astro');
+  const footer = await read('src/components/SiteFooter.astro');
+  const home = await read('src/components/DomainIndex.astro');
+  const hub = await read('src/pages/examples/index.astro');
+  const pager = await read('src/components/ExamplePager.astro');
+  assert.match(config, /\{ label: 'Examples', link: '\/examples\/' \}/);
+  assert.match(header, /examplesHref[^\n]*examples\//);
+  assert.match(footer, /\$\{base\}examples\//);
+  assert.match(home, /\$\{base\}examples\//);
+  for (const route of ['land-calculator', 'nepali-invoice', 'address-form', 'bs-date-picker']) {
+    const page = await read(`src/pages/examples/${route}.astro`);
+    assert.ok(hub.includes(`'${route}'`), `examples hub links to ${route}`);
+    assert.match(page, /<SiteHeader\s*\/>/);
+    assert.match(page, /<SiteFooter\s*\/>/);
+    assert.match(page, /<HairlineFigure\b/);
+    assert.match(page, /<ExamplePager\b/, `${route} has example navigation`);
+    assert.match(page, /import\.meta\.env\.BASE_URL/);
+    assert.doesNotMatch(page, /\.innerHTML\s*=/, `${route} uses safe DOM updates`);
+  }
+  assert.match(pager, /All examples/);
+  assert.match(await read('src/pages/examples/land-calculator.astro'), /next=\{\{ href: 'examples\/nepali-invoice\//);
+  assert.match(await read('src/pages/examples/nepali-invoice.astro'), /next=\{\{ href: 'examples\/address-form\//);
+  assert.match(await read('src/pages/examples/address-form.astro'), /next=\{\{ href: 'examples\/bs-date-picker\//);
+  assert.match(await read('src/pages/examples/bs-date-picker.astro'), /previous=\{\{ href: 'examples\/address-form\//);
+});
+
+test('example pages use site theme tokens and constrain embedded figures', async () => {
+  for (const route of ['land-calculator', 'nepali-invoice', 'address-form', 'bs-date-picker']) {
+    const source = await read(`src/pages/examples/${route}.astro`);
+    assert.match(source, /background:\s*var\(--canvas\)/, `${route} follows the shared page canvas`);
+    assert.match(source, /(?:intro-copy|example-intro|calendar-intro) h1[^\n]*var\(--sans\)/, `${route} follows site heading typography`);
+    assert.doesNotMatch(source, /--(?:paper|ink|muted|line|vermilion|red):\s*#[0-9a-f]{3,8}/i, `${route} does not hard-code its palette`);
+  }
+  const pager = await read('src/components/ExamplePager.astro');
+  assert.match(pager, /minmax\(0, 1fr\)/);
+  const hairline = await read('src/components/HairlineFigure.astro');
+  assert.match(hairline, /const fitFrame = \(\) =>/);
+  assert.match(hairline, /Math\.ceil\(body\.scrollHeight\)/);
+  assert.match(hairline, /contentObserver\.observe\(main\)/);
+  const invoice = await read('src/pages/examples/nepali-invoice.astro');
+  assert.match(invoice, /\.figure-section > \* \{ min-width:0; \}/);
+});
+
+test('each example guide points to its full interface recipe', async () => {
+  const examples = {
+    'dates-and-calendars': 'bs-date-picker',
+    'exact-money-and-words': 'nepali-invoice',
+    'land-conversions': 'land-calculator',
+    'administrative-data': 'address-form',
+    'phone-validation': 'address-form',
+  };
+  for (const [guide, route] of Object.entries(examples)) {
+    const source = await read(`src/content/docs/docs/guides/${guide}.mdx`);
+    assert.ok(source.includes(`../../../examples/${route}/`), `${guide} links to ${route}`);
+  }
+});
+
 test('docs pages render sidebar-driven breadcrumbs above the title', async () => {
   const config = await read('astro.config.mjs');
   assert.match(

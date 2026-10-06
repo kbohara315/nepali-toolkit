@@ -1,0 +1,216 @@
+---
+import MarketingLayout from '../../layouts/MarketingLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import HairlineFigure from '../../components/HairlineFigure.astro';
+import ExamplePager from '../../components/ExamplePager.astro';
+import { highlightCode } from '../../lib/highlight-code';
+import '../../styles/landing.css';
+
+const base = import.meta.env.BASE_URL;
+const snippet = `import { formatNPRMinorUnits } from 'nepali-toolkit/currency';
+import { amountToNepaliWordsNPRMinorUnits } from 'nepali-toolkit/words';
+
+const totalPaisa = 12345678n;
+const display = formatNPRMinorUnits(totalPaisa);
+const words = amountToNepaliWordsNPRMinorUnits(totalPaisa, { showPaisa: true });`;
+---
+
+<MarketingLayout
+  title="Nepali invoice example | Nepali Toolkit examples"
+  description="See exact Nepali NPR grouping and amount-in-words formatting in a practical invoice example."
+>
+  <SiteHeader />
+  <main id="main" class="example-page invoice-page">
+    <section class="example-intro site-shell">
+      <div class="intro-copy">
+        <a class="back-link" href={`${base}examples/`}>← All examples</a>
+        <p class="eyebrow">Field note 02 <span>·</span> Money in words</p>
+        <h1>Make every<br /><em>rupee legible.</em></h1>
+        <p class="lede">A printable invoice study for local amounts. Edit the amount to see Nepali lakh grouping and its Devanagari words update together.</p>
+        <div class="intro-meta"><span>02 / 02</span><span>Built with <code>currency</code> + <code>words</code></span></div>
+      </div>
+      <aside class="intro-aside" aria-label="Precision note">
+        <span class="aside-mark" aria-hidden="true">रकम</span>
+        <p class="eyebrow">Exact by design</p>
+        <p>Rupees and paisa travel as one integer count of minor units.</p>
+        <span class="aside-rule"></span>
+        <small>No binary floating-point math in the amount path.</small>
+      </aside>
+    </section>
+
+    <section class="invoice-stage site-shell" aria-labelledby="invoice-title">
+      <div class="stage-heading"><div><p class="eyebrow">Interactive example / 02</p><h2 id="invoice-title">A simple service invoice</h2></div><button class="print-button" type="button" data-print>Print invoice <span aria-hidden="true">↗</span></button></div>
+      <article class="invoice-paper" data-invoice>
+        <header class="invoice-top">
+          <div class="issuer"><span class="issuer-mark" aria-hidden="true">प</span><div><strong>PAHAD STUDIO</strong><span>Design &amp; digital services</span></div></div>
+          <div class="invoice-label"><p>INVOICE</p><span>NO. PS-2082-014</span></div>
+        </header>
+        <div class="invoice-parties">
+          <div><span class="invoice-overline">ISSUED BY</span><strong>Pahad Studio Pvt. Ltd.</strong><span>Lalitpur, Nepal</span><span>billing@pahad.example</span></div>
+          <div><span class="invoice-overline">BILLED TO</span><strong>Himalayan House</strong><span>Thamel, Kathmandu</span><span>Invoice date · 2082/06/21 BS</span></div>
+        </div>
+        <div class="invoice-items" role="table" aria-label="Invoice items">
+          <div class="item-row item-head" role="row"><span role="columnheader">DESCRIPTION</span><span role="columnheader">AMOUNT</span></div>
+          <div class="item-row" role="row"><span role="cell"><strong>Website localization</strong><small>Interface copy and Nepali number formatting</small></span><span class="line-amount" role="cell" data-line-amount>रु १,२३,४५६.७८</span></div>
+        </div>
+        <div class="invoice-bottom">
+          <div class="words-box"><span class="invoice-overline">TOTAL IN WORDS</span><p data-words aria-live="polite">एक लाख तेइस हजार चार सय छपन्न रुपैयाँ अठहत्तर पैसा मात्र</p><small>Amount shown in Nepali rupees and paisa.</small></div>
+          <div class="amount-box"><label for="invoice-amount">Invoice amount <span>NPR</span></label><div class="amount-input-wrap"><span aria-hidden="true">रु</span><input id="invoice-amount" data-amount type="text" inputmode="decimal" autocomplete="off" value="123456.78" aria-invalid="false" aria-describedby="amount-hint amount-error" /></div><small id="amount-hint">Enter up to 2 decimal places.</small><p data-amount-error id="amount-error" role="status" aria-live="polite"></p><dl><div><dt>Subtotal</dt><dd data-subtotal>रु १,२३,४५६.७८</dd></div><div><dt>Tax</dt><dd>Not calculated</dd></div><div class="amount-due"><dt>Amount due</dt><dd data-total>रु १,२३,४५६.७८</dd></div></dl></div>
+        </div>
+        <footer class="invoice-footer"><span>Thank you for your business.</span><span>PAYMENT DUE · WITHIN 15 DAYS</span></footer>
+      </article>
+      <p class="invoice-note">Example content for demonstration. This invoice does not calculate taxes, discounts, or payment status.</p>
+    </section>
+
+    <section class="under-the-hood site-shell" aria-labelledby="how-title">
+      <div class="how-copy"><p class="eyebrow">How it works</p><h2 id="how-title">The same paisa,<br /><em>two clear forms.</em></h2><p>The currency formatter groups an exact minor-unit amount for display. The words formatter reads that same integer and writes rupees and paisa in Nepali.</p><a class="text-link" href={`${base}docs/guides/exact-money-and-words/`}>Read the money and words guide →</a></div>
+      <div class="code-card"><div class="code-card-head"><span>CURRENCY + WORDS / TYPESCRIPT</span><span>02</span></div><pre><code set:html={highlightCode(snippet)}></code></pre><p>Integer paisa keeps the numeric total and written total in sync.</p></div>
+    </section>
+
+    <section class="figure-section site-shell" aria-label="Money formatting diagram">
+      <div><p class="eyebrow">A shared source</p><p class="figure-intro">One amount branches into a grouped currency display and a written Nepali amount.</p></div>
+      <HairlineFigure name="money-tray" title="A tray of formatted Nepali money" description="A visual reminder that number formatting and amount words should start from the same value." guideHref="/docs/guides/exact-money-and-words/" guideLabel="Money and words guide" referenceHref="/docs/reference/currency/" referenceLabel="Currency API reference" />
+    </section>
+
+  </main>
+  <ExamplePager previous={{ href: 'examples/land-calculator/', label: 'Land area calculator' }} next={{ href: 'examples/address-form/', label: 'Address form' }} />
+  <SiteFooter />
+</MarketingLayout>
+
+<script>
+  import { formatNPRMinorUnits } from 'nepali-toolkit/currency';
+  import { amountToNepaliWordsNPRMinorUnits } from 'nepali-toolkit/words';
+
+  const invoice = document.querySelector<HTMLElement>('[data-invoice]');
+  if (invoice) {
+    const amountInput = invoice.querySelector<HTMLInputElement>('[data-amount]');
+    const lineAmount = invoice.querySelector<HTMLElement>('[data-line-amount]');
+    const subtotal = invoice.querySelector<HTMLElement>('[data-subtotal]');
+    const total = invoice.querySelector<HTMLElement>('[data-total]');
+    const words = invoice.querySelector<HTMLElement>('[data-words]');
+    const error = invoice.querySelector<HTMLElement>('[data-amount-error]');
+
+    const invalidate = (message: string) => {
+      amountInput?.setAttribute('aria-invalid', 'true');
+      if (lineAmount) lineAmount.textContent = '—';
+      if (subtotal) subtotal.textContent = '—';
+      if (total) total.textContent = '—';
+      if (words) words.textContent = 'Correct the amount to see its words.';
+      if (error) error.textContent = message;
+    };
+
+    const render = () => {
+      if (!amountInput || !lineAmount || !subtotal || !total || !words) return;
+      const text = amountInput.value.trim();
+      const match = /^(\d+)(?:\.(\d{0,2}))?$/.exec(text);
+      if (!match) {
+        invalidate('Enter a non-negative amount with no more than 2 decimal places.');
+        return;
+      }
+      const whole = BigInt(match[1] ?? '0');
+      if (whole >= 1_000_000_000_000n) {
+        invalidate('The maximum supported amount is below NPR 1 trillion.');
+        return;
+      }
+      const paisa = whole * 100n + BigInt((match[2] ?? '').padEnd(2, '0') || '0');
+      const display = formatNPRMinorUnits(paisa);
+      const amountWords = amountToNepaliWordsNPRMinorUnits(paisa, { showPaisa: true });
+      lineAmount.textContent = display;
+      subtotal.textContent = display;
+      total.textContent = display;
+      words.textContent = amountWords;
+      amountInput.setAttribute('aria-invalid', 'false');
+      if (error) error.textContent = '';
+    };
+
+    amountInput?.addEventListener('input', render);
+    render();
+  }
+
+  document.querySelector<HTMLButtonElement>('[data-print]')?.addEventListener('click', () => window.print());
+</script>
+
+<style>
+  .example-page { --paper:var(--canvas); --paper-deep:var(--panel); --red:var(--accent); --panel:var(--surface); background:var(--canvas); color:var(--ink); }
+  .example-page :global(.site-shell) { max-width:1180px; }
+  .example-intro { display:grid; grid-template-columns:minmax(0,1.6fr) minmax(220px,.65fr); gap:clamp(2rem,7vw,7rem); padding-block:3.2rem 4.6rem; }
+  .back-link,.text-link { color:var(--ink); text-decoration-thickness:1px; text-underline-offset:4px; }
+  .back-link { font-size:.82rem; }
+  .eyebrow { margin:0 0 1rem; color:var(--red); font:600 .7rem/1.2 var(--mono,monospace); letter-spacing:.1em; text-transform:uppercase; }
+  .intro-copy .eyebrow { margin-top:2.4rem; }
+  .intro-copy h1 { margin:0; font:620 clamp(3rem,6vw,5.4rem)/.98 var(--sans); letter-spacing:-.075em; }
+  .intro-copy h1 em,.how-copy h2 em { color:var(--red); font-weight:400; }
+  .lede { max-width:580px; margin:1.5rem 0 2.2rem; color:var(--muted); font-size:1.08rem; line-height:1.75; }
+  .intro-meta { display:flex; gap:2rem; align-items:center; border-top:1px solid var(--line); padding-top:.9rem; color:var(--muted); font: .69rem var(--mono,monospace); }
+  .intro-meta code { color:var(--red); }
+  .intro-aside { align-self:end; padding:1.25rem 0 0 1.5rem; border-left:1px solid var(--line); }
+  .aside-mark { display:block; margin-bottom:1.7rem; color:var(--accent); font:500 2rem Georgia,serif; }
+  .intro-aside .eyebrow { margin-bottom:.8rem; }
+  .intro-aside p:not(.eyebrow) { max-width:235px; margin:0; font:1.35rem/1.4 Georgia,serif; }
+  .aside-rule { display:block; width:3rem; border-top:2px solid var(--red); margin:1.5rem 0 .75rem; }
+  .intro-aside small { color:var(--muted); line-height:1.6; }
+  .invoice-stage { padding-block:2.7rem 4rem; border-top:1px solid var(--line); }
+  .stage-heading { display:flex; align-items:end; justify-content:space-between; gap:1rem; margin-bottom:1.4rem; }
+  .stage-heading h2 { margin:0; font:620 clamp(1.5rem,3vw,2rem)/1.15 var(--sans); letter-spacing:-.045em; }
+  .print-button { min-height:44px; border:1px solid var(--ink); background:transparent; padding:.65rem 1rem; color:var(--ink); font: .75rem var(--mono,monospace); cursor:pointer; }
+  .print-button span { padding-left:.5rem; color:var(--red); }
+  .print-button:hover { background:var(--ink); color:var(--invert-ink); }
+  .print-button:focus-visible,.amount-input-wrap input:focus-visible { outline:3px solid #bb4b3650; outline-offset:2px; }
+  .invoice-paper { max-width:950px; margin:auto; padding:clamp(1.4rem,5vw,4rem); border:1px solid var(--line); background:var(--surface); box-shadow:0 22px 55px #00000012; }
+  .invoice-top { display:flex; align-items:flex-start; justify-content:space-between; gap:2rem; padding-bottom:1.6rem; border-bottom:2px solid var(--ink); }
+  .issuer { display:flex; align-items:center; gap:.8rem; }
+  .issuer-mark { display:grid; place-items:center; width:43px; height:43px; background:var(--red); color:var(--invert-ink); font:1.6rem Georgia,serif; }
+  .issuer > div { display:flex; flex-direction:column; gap:.3rem; }
+  .issuer strong { font:.76rem var(--mono,monospace); letter-spacing:.07em; }
+  .issuer span:not(.issuer-mark) { color:var(--muted); font-size:.76rem; }
+  .invoice-label { text-align:right; }
+  .invoice-label p { margin:0 0 .25rem; color:var(--red); font:500 2rem Georgia,serif; letter-spacing:.05em; }
+  .invoice-label span,.invoice-overline { color:var(--muted); font: .61rem var(--mono,monospace); letter-spacing:.09em; }
+  .invoice-parties { display:grid; grid-template-columns:1fr 1fr; gap:2rem; padding:1.8rem 0; }
+  .invoice-parties > div { display:flex; flex-direction:column; gap:.35rem; color:var(--muted); font-size:.79rem; }
+  .invoice-parties strong { margin-top:.25rem; color:var(--ink); font-size:.9rem; }
+  .invoice-items { border-top:1px solid var(--line); }
+  .item-row { display:grid; grid-template-columns:1fr auto; align-items:center; gap:1rem; padding:1.1rem .35rem; border-bottom:1px solid var(--line); }
+  .item-head { padding-block:.7rem; color:var(--muted); font:.61rem var(--mono,monospace); letter-spacing:.08em; }
+  .item-row:not(.item-head) strong,.item-row small { display:block; }
+  .item-row:not(.item-head) strong { font-size:.85rem; }
+  .item-row small { margin-top:.25rem; color:var(--muted); font-size:.74rem; }
+  .line-amount { font: .9rem var(--mono,monospace); white-space:nowrap; }
+  .invoice-bottom { display:grid; grid-template-columns:1fr minmax(245px,.75fr); gap:2rem; padding-top:1.7rem; }
+  .words-box { align-self:start; max-width:420px; padding:1rem 1.1rem; border-left:3px solid var(--red); background:var(--panel); }
+  .words-box p { margin:.8rem 0 .55rem; font:1.2rem/1.7 Georgia,serif; color:var(--ink); }
+  .words-box small { color:var(--muted); font-size:.69rem; }
+  .amount-box label { display:flex; justify-content:space-between; align-items:center; margin-bottom:.5rem; color:var(--muted); font-size:.74rem; }
+  .amount-box label span { font: .63rem var(--mono,monospace); }
+  .amount-input-wrap { display:flex; align-items:center; gap:.45rem; border:1px solid var(--line); padding:0 .8rem; background:var(--surface); }
+  .amount-input-wrap > span { color:var(--red); font:1.05rem Georgia,serif; }
+  .amount-input-wrap input { width:100%; min-width:0; min-height:45px; border:0; outline:0; background:transparent; color:var(--ink); font: .95rem var(--mono,monospace); }
+  .amount-box > small { display:block; margin-top:.35rem; color:var(--muted); font-size:.68rem; }
+  [data-amount-error] { min-height:1.2rem; margin:.25rem 0; color:#a6382c; font-size:.69rem; }
+  .amount-box dl { margin:1rem 0 0; }
+  .amount-box dl > div { display:flex; justify-content:space-between; gap:1rem; padding:.58rem 0; border-bottom:1px solid #e5dfd4; font-size:.75rem; }
+  .amount-box dt { color:var(--muted); }
+  .amount-box dd { margin:0; text-align:right; font-family:var(--mono,monospace); }
+  .amount-box .amount-due { margin-top:.3rem; border-top:1px solid var(--ink); border-bottom:0; padding-top:.85rem; color:var(--ink); font-weight:700; }
+  .invoice-footer { display:flex; justify-content:space-between; gap:1rem; margin-top:2rem; padding-top:.8rem; border-top:1px solid var(--line); color:var(--muted); font-size:.67rem; }
+  .invoice-footer span:last-child { font: .59rem var(--mono,monospace); letter-spacing:.06em; text-align:right; }
+  .invoice-note { max-width:950px; margin:.8rem auto 0; color:var(--muted); font-size:.72rem; }
+  .under-the-hood { display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:clamp(2rem,7vw,6rem); padding-block:3.5rem; border-top:1px solid var(--line); }
+  .how-copy h2 { margin:0 0 1rem; font:620 clamp(2.4rem,4.5vw,4rem)/1 var(--sans); letter-spacing:-.06em; }
+  .how-copy > p:not(.eyebrow) { max-width:420px; color:var(--muted); line-height:1.7; }
+  .how-copy .text-link { display:inline-block; margin-top:.7rem; font-size:.83rem; }
+  .code-card { align-self:center; border:1px solid var(--line); background:var(--panel); }
+  .code-card-head { display:flex; justify-content:space-between; padding:.8rem 1rem; border-bottom:1px solid var(--line); color:var(--muted); font:.64rem var(--mono,monospace); letter-spacing:.09em; }
+  .code-card pre { overflow-x:auto; margin:0; padding:1.2rem 1.25rem; color:var(--ink); font:.78rem/1.75 var(--mono,monospace); }
+  .code-card pre :global(.code-keyword),.code-card pre :global(.code-function) { color:var(--code-function); }
+  .code-card pre :global(.code-string) { color:var(--code-string); }
+  .code-card > p { margin:0; padding:.8rem 1.25rem 1rem; border-top:1px solid var(--line); color:var(--muted); font-size:.75rem; }
+  .figure-section { display:grid; grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr); align-items:start; gap:2rem; padding-block:2rem 3rem; }
+  .figure-section > * { min-width:0; }
+  .figure-intro { max-width:270px; margin:0; color:var(--muted); font-size:.83rem; line-height:1.7; }
+  .figure-section :global(.hairline-figure) { width:100%; max-width:100%; min-width:0; margin:0; border-color:var(--line); border-radius:0; }
+  @media(max-width:760px) { .example-intro,.under-the-hood,.figure-section { grid-template-columns:1fr; } .example-intro { gap:2.5rem; padding-top:2rem; } .intro-aside { max-width:380px; } .invoice-bottom { grid-template-columns:1fr; } .stage-heading { align-items:flex-start; flex-direction:column; } .figure-section { gap:.5rem; } }
+  @media(max-width:460px) { .intro-copy h1 { font-size:3.25rem; } .intro-meta { flex-direction:column; align-items:flex-start; gap:.55rem; } .invoice-parties { gap:1rem; } .invoice-paper { padding:1.1rem; } .invoice-footer { flex-direction:column; } .invoice-footer span:last-child { text-align:left; } .item-row { gap:.5rem; } .line-amount { font-size:.75rem; } }
+  @media print { .example-page { background:#fff; } .example-intro,.stage-heading,.invoice-note,.under-the-hood,.figure-section,:global(.example-pager),:global(.site-header),:global(.site-footer) { display:none !important; } .invoice-stage { max-width:none!important; padding:0!important; border:0!important; } .invoice-paper { max-width:none; border:0; box-shadow:none; padding:0; } .amount-input-wrap { border:0; padding:0; } .amount-input-wrap > span,.amount-box label,.amount-box > small,[data-amount-error] { display:none; } .amount-input-wrap input { padding:0; min-height:0; font-weight:700; } }
+</style>

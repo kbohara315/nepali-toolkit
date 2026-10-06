@@ -721,8 +721,6 @@ var HL = (() => {
 /** A divided money tray: the broad rupee well and the small paisa well answer separately. */
 const { Cam, facing, fit, prism, proj, rings, tween, tset, tval, tdone, register, disposer, mk, pointer, put, solid } = HL;
 
-const REST = -7;
-
 function mount({ stage, svg, read }, liftAmount) {
   const bag = disposer();
   const C = Cam(45, 0.5, 2.2);
@@ -736,25 +734,28 @@ function mount({ stage, svg, read }, liftAmount) {
     { name: "rupees", x0: 5, x1: 83, y0: 6, y1: 62, h: 8, count: 5 },
     { name: "paisa", x0: 88, x1: 115, y0: 6, y1: 62, h: 5, count: 3 },
   ];
+  // Paint back to front: the divider hides rupees, while paisa hide the divider.
+  // Keep each well's coins in its layer as their heights change on hover.
+  const rupees = mk("g", {}, g);
+  const divider = rings(84, 5, 87, 63, 1.4, 0.8);
+  put(solid(g), prism(P, front, divider[0], divider[1], 0, 9));
+  const paisa = mk("g", {}, g);
+  const layers = [rupees, paisa];
   const parts = wells.map((well, index) => {
     const [r, ri] = rings(well.x0, well.y0, well.x1, well.y1, 5, 1.4);
-    const base = solid(g);
+    const base = solid(layers[index]);
     put(base, prism(P, front, r, ri, 0, 3));
     const coins = [];
     for (let i = 0; i < well.count; i++) {
       const cx = well.x0 + (well.x1 - well.x0) * (0.3 + (i % 2) * 0.4);
       const cy = well.y0 + (well.y1 - well.y0) * (0.28 + Math.floor(i / 2) * 0.22);
       const [cr, ci] = rings(cx - 4.3, cy - 4.3, cx + 4.3, cy + 4.3, 4.1, 0.8);
-      const coin = solid(g);
+      const coin = solid(layers[index]);
       put(coin, prism(P, front, cr, ci, 3, 3 + well.h - i * 0.6));
       coins.push({ coin, ring: cr, inner: ci, height: well.h - i * 0.6, drawn: NaN });
     }
     return { ...well, base, coins, z: tween(0), index };
   });
-  // A short divider makes the smaller well read as part of the same tray.
-  const divider = rings(84, 5, 87, 63, 1.4, 0.8);
-  put(solid(g), prism(P, front, divider[0], divider[1], 0, 9));
-
   const hitAt = wells.map((w) => ({
     center: P((w.x0 + w.x1) / 2, (w.y0 + w.y1) / 2, 2),
     bounds: [P(w.x0, w.y0, 2), P(w.x1, w.y1, 2)],

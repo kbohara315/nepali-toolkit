@@ -1,0 +1,195 @@
+---
+import MarketingLayout from '../../layouts/MarketingLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import HairlineFigure from '../../components/HairlineFigure.astro';
+import ExamplePager from '../../components/ExamplePager.astro';
+import '../../styles/landing.css';
+const base = import.meta.env.BASE_URL;
+---
+
+<MarketingLayout
+  title="BS / AD Date Picker Example | Nepali Toolkit"
+  description="Select a date in Bikram Sambat or Gregorian format and see its exact counterpart with nepali-toolkit, within the supported date range."
+>
+  <SiteHeader />
+  <main id="main" class="calendar-page">
+    <section class="calendar-intro site-shell">
+      <div>
+        <p class="eyebrow"><a href={`${base}examples/`}>Examples</a> / Dates and calendars</p>
+        <h1>One day.<br /><em>Two calendars.</em></h1>
+        <p class="intro-copy">Pick a date in Bikram Sambat or Gregorian view. The same civil day stays selected when you switch calendars.</p>
+      </div>
+      <aside class="calendar-note"><span>DATE NOTE · 02</span><p>A calendar date is a civil day. It is not a timestamp tied to a device timezone.</p><small>BS 2000—2090 · AD 1943—2034</small></aside>
+    </section>
+
+    <section class="calendar-stage site-shell" aria-labelledby="picker-heading">
+      <div class="stage-heading"><div><p class="eyebrow">LIVE EXAMPLE / DATE ONLY</p><h2 id="picker-heading">Choose a day</h2></div><span class="range-label">Supported range<br /><strong>14 Apr 1943 — 13 Apr 2034 AD</strong></span></div>
+      <div class="picker-layout">
+        <div class="picker-card">
+          <div class="picker-topline"><span class="calendar-mark" aria-hidden="true">▦</span><div><strong id="calendar-name">Bikram Sambat</strong><small id="calendar-caption">Nepal’s civil calendar</small></div><div class="calendar-switch" role="group" aria-label="Calendar system"><button type="button" data-calendar="BS" aria-pressed="true">BS</button><button type="button" data-calendar="AD" aria-pressed="false">AD</button></div></div>
+          <div class="month-bar"><button type="button" id="previous-month" class="month-arrow" aria-label="Previous month">←</button><h3 id="month-title" aria-live="polite"></h3><button type="button" id="next-month" class="month-arrow" aria-label="Next month">→</button></div>
+          <div class="weekday-row" aria-hidden="true"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+          <div class="calendar-grid" id="calendar-grid" role="grid" aria-label="Calendar days"></div>
+          <p class="keyboard-hint">Use arrow keys to move · Enter to select</p>
+        </div>
+        <aside class="selection-card" aria-live="polite" aria-labelledby="selection-title">
+          <div class="selection-top"><span>SELECTED DATE</span><span id="selection-code">BS / AD</span></div>
+          <p class="eyebrow">SAME CIVIL DAY</p>
+          <h3 id="selection-title">१ बैशाख २०८३</h3>
+          <div class="date-pair"><div><span>BIKRAM SAMBAT</span><strong id="selected-bs">2083-01-01</strong></div><div><span>GREGORIAN</span><strong id="selected-ad">2026-04-14</strong></div></div>
+          <div class="selection-foot"><span>DATE-ONLY VALUE</span><code id="selected-iso">2026-04-14</code></div>
+        </aside>
+      </div>
+      <p class="range-warning" id="range-warning" role="status" aria-live="polite" hidden>You have reached the edge of the toolkit’s supported date range.</p>
+    </section>
+
+    <section class="calendar-explain site-shell">
+      <div><p class="eyebrow">WHAT THE TOOLKIT DOES</p><h2>Convert the date.<br /><em>Keep the day stable.</em></h2><p>The picker uses date-only BS and AD values. The toolkit converts those fields directly, so the selected date does not drift with the browser timezone.</p><div class="date-links"><a href={`${base}docs/guides/dates-and-calendars/`}>Dates and calendars guide →</a><a href={`${base}docs/reference/date/`}>Date API reference →</a></div></div>
+      <HairlineFigure name="twin-calendars" title="Twin BS and AD calendars" description="The lifted date shows the shared day across BS and AD calendar views." guideHref="/docs/guides/dates-and-calendars/" guideLabel="Read the date guide" referenceHref="/docs/reference/date/" referenceLabel="Date API" />
+    </section>
+    <section class="calendar-scope site-shell"><span>RANGE & PRECISION</span><p>Conversions are supported from BS 2000-01-01 through 2090-12-30 (AD 1943-04-14 through 2034-04-13). Values outside this published range are not shown as selectable dates.</p></section>
+  </main>
+  <ExamplePager previous={{ href: 'examples/address-form/', label: 'Address form' }} />
+  <SiteFooter />
+</MarketingLayout>
+
+<script>
+  import { ad, bs, toAD, toBS, NepaliDate, daysInMonthAD, daysInMonthBS, weekdayAD, weekdayBS, range } from 'nepali-toolkit/date';
+  import { formatBSDisplay } from 'nepali-toolkit/date/format-display';
+  import { englishBSLocale, englishADLocale } from 'nepali-toolkit/date/format';
+  import { locale as nepaliLocale } from 'nepali-toolkit/date/locale/ne';
+
+  const grid = document.querySelector<HTMLElement>('#calendar-grid');
+  const monthTitle = document.querySelector<HTMLElement>('#month-title');
+  const calendarName = document.querySelector<HTMLElement>('#calendar-name');
+  const calendarCaption = document.querySelector<HTMLElement>('#calendar-caption');
+  const selectedTitle = document.querySelector<HTMLElement>('#selection-title');
+  const selectedBS = document.querySelector<HTMLElement>('#selected-bs');
+  const selectedAD = document.querySelector<HTMLElement>('#selected-ad');
+  const selectedISO = document.querySelector<HTMLElement>('#selected-iso');
+  const warning = document.querySelector<HTMLElement>('#range-warning');
+  const previous = document.querySelector<HTMLButtonElement>('#previous-month');
+  const next = document.querySelector<HTMLButtonElement>('#next-month');
+  const monthNamesBS = englishBSLocale.months;
+  const monthNamesAD = englishADLocale.months;
+  let active: 'BS' | 'AD' = 'BS';
+  let picked = NepaliDate.fromBS(bs(2083, 1, 1));
+  let viewYear = 2083;
+  let viewMonth = 1;
+  let focusedDay = 1;
+
+  const zero = (value: number) => String(value).padStart(2, '0');
+  const currentDate = () => active === 'BS' ? picked.toBS() : picked.toAD();
+  const monthBounds = () => active === 'BS'
+    ? { minYear: range.bsStart.year, minMonth: range.bsStart.month, maxYear: range.bsEnd.year, maxMonth: range.bsEnd.month }
+    : { minYear: range.adStart.year, minMonth: range.adStart.month, maxYear: range.adEnd.year, maxMonth: range.adEnd.month };
+
+  function canConvert(day: number) {
+    try { active === 'BS' ? toAD(bs(viewYear, viewMonth, day)) : toBS(ad(viewYear, viewMonth, day)); return true; }
+    catch { return false; }
+  }
+
+  function renderSelection() {
+    if (!selectedTitle || !selectedBS || !selectedAD || !selectedISO) return;
+    const bsValue = picked.toBS();
+    const adValue = picked.toAD();
+    selectedBS.textContent = `${bsValue.year}-${zero(bsValue.month)}-${zero(bsValue.day)}`;
+    selectedAD.textContent = `${adValue.year}-${zero(adValue.month)}-${zero(adValue.day)}`;
+    selectedISO.textContent = `${adValue.year}-${zero(adValue.month)}-${zero(adValue.day)}`;
+    selectedTitle.textContent = formatBSDisplay(bsValue, 'D MMMM YYYY', { locale: nepaliLocale });
+  }
+
+  function render() {
+    if (!grid || !monthTitle || !calendarName || !calendarCaption) return;
+    const firstWeekday = active === 'BS' ? weekdayBS(bs(viewYear, viewMonth, 1)) : weekdayAD(ad(viewYear, viewMonth, 1));
+    const count = active === 'BS' ? daysInMonthBS(bs(viewYear, viewMonth, 1)) : daysInMonthAD(ad(viewYear, viewMonth, 1));
+    const selected = currentDate();
+    monthTitle.textContent = `${(active === 'BS' ? monthNamesBS : monthNamesAD)[viewMonth - 1]} ${viewYear}`;
+    calendarName.textContent = active === 'BS' ? 'Bikram Sambat' : 'Gregorian';
+    calendarCaption.textContent = active === 'BS' ? 'Nepal’s civil calendar' : 'International calendar';
+    grid.replaceChildren();
+    for (let blank = 0; blank < firstWeekday; blank++) {
+      const spacer = document.createElement('span'); spacer.className = 'calendar-blank'; spacer.setAttribute('aria-hidden', 'true'); grid.append(spacer);
+    }
+    for (let day = 1; day <= count; day++) {
+      const dayButton = document.createElement('button');
+      dayButton.type = 'button'; dayButton.className = 'day-button'; dayButton.textContent = String(day);
+      dayButton.setAttribute('role', 'gridcell');
+      const isPicked = selected.year === viewYear && selected.month === viewMonth && selected.day === day;
+      dayButton.setAttribute('aria-selected', String(isPicked));
+      dayButton.setAttribute('aria-label', active === 'BS' ? `Bikram Sambat ${viewYear}, ${monthNamesBS[viewMonth - 1]} ${day}` : `${monthNamesAD[viewMonth - 1]} ${day}, ${viewYear}`);
+      dayButton.tabIndex = day === focusedDay ? 0 : -1;
+      if (!canConvert(day)) { dayButton.disabled = true; dayButton.setAttribute('aria-disabled', 'true'); }
+      if (isPicked) dayButton.classList.add('is-selected');
+      if (day === focusedDay) dayButton.classList.add('is-focused-day');
+      dayButton.addEventListener('click', () => {
+        try { picked = active === 'BS' ? NepaliDate.fromBS(bs(viewYear, viewMonth, day)) : NepaliDate.fromAD(ad(viewYear, viewMonth, day)); }
+        catch { if (warning) warning.hidden = false; return; }
+        focusedDay = day; if (warning) warning.hidden = true; render();
+        grid?.querySelector<HTMLButtonElement>('.is-selected')?.focus();
+        renderSelection();
+      });
+      dayButton.addEventListener('keydown', (event) => {
+        const movement: Record<string, number> = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7 };
+        if (event.key in movement) {
+          event.preventDefault();
+          try {
+            const candidate = (active === 'BS' ? NepaliDate.fromBS(bs(viewYear, viewMonth, day)) : NepaliDate.fromAD(ad(viewYear, viewMonth, day))).addDays(movement[event.key]);
+            const converted = active === 'BS' ? candidate.toBS() : candidate.toAD();
+            const bounds = monthBounds();
+            if (converted.year < bounds.minYear || converted.year > bounds.maxYear) return;
+            viewYear = converted.year; viewMonth = converted.month; focusedDay = converted.day;
+            if (warning) warning.hidden = true;
+            render(); grid.querySelector<HTMLButtonElement>('.is-focused-day')?.focus();
+          } catch { if (warning) warning.hidden = false; }
+        } else if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault(); dayButton.click();
+        }
+      });
+      grid.append(dayButton);
+    }
+    const bounds = monthBounds();
+    const atStart = viewYear === bounds.minYear && viewMonth === bounds.minMonth;
+    const atEnd = viewYear === bounds.maxYear && viewMonth === bounds.maxMonth;
+    if (previous) previous.disabled = atStart;
+    if (next) next.disabled = atEnd;
+    renderSelection();
+  }
+
+  function shiftMonth(amount: number) {
+    const bounds = monthBounds();
+    const index = viewYear * 12 + viewMonth - 1 + amount;
+    const year = Math.floor(index / 12); const month = index % 12 + 1;
+    if (year < bounds.minYear || year > bounds.maxYear || (year === bounds.minYear && month < bounds.minMonth) || (year === bounds.maxYear && month > bounds.maxMonth)) {
+      if (warning) warning.hidden = false; return;
+    }
+    viewYear = year; viewMonth = month; focusedDay = 1; if (warning) warning.hidden = true; render();
+  }
+  previous?.addEventListener('click', () => shiftMonth(-1));
+  next?.addEventListener('click', () => shiftMonth(1));
+  document.querySelectorAll<HTMLButtonElement>('[data-calendar]').forEach((button) => button.addEventListener('click', () => {
+    active = button.dataset.calendar === 'AD' ? 'AD' : 'BS';
+    const value = currentDate(); viewYear = value.year; viewMonth = value.month; focusedDay = value.day;
+    document.querySelectorAll<HTMLButtonElement>('[data-calendar]').forEach((tab) => tab.setAttribute('aria-pressed', String(tab === button)));
+    if (warning) warning.hidden = true; render();
+  }));
+  render();
+</script>
+
+<style>
+  .calendar-page { --paper: var(--canvas); --vermilion: var(--accent); --wash: var(--panel); background: var(--canvas); color: var(--ink); }
+  .calendar-page :global(a) { color: var(--vermilion); }.site-shell { width: min(100% - 96px, 1200px); margin-inline: auto; }
+  .eyebrow { margin: 0 0 .9rem; color: var(--muted); font: 700 .68rem/1.3 var(--sl-font-mono, monospace); letter-spacing: .11em; text-transform: uppercase; }
+  .calendar-intro { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(230px, .6fr); gap: 5vw; padding-block: 5.5rem 4rem; align-items: end; }.calendar-intro h1 { max-width: 800px; margin: 0; font: 620 clamp(3rem, 6vw, 5.4rem)/.98 var(--sans); letter-spacing: -.075em; }.calendar-intro h1 em, .calendar-explain h2 em { color: var(--vermilion); font-weight: 400; }.intro-copy { max-width: 560px; margin: 1.6rem 0 0; color: var(--muted); font-size: 1.05rem; line-height: 1.75; }
+  .calendar-note { padding: 1.2rem 1.35rem; border: 1px solid var(--line); border-top: 3px solid var(--vermilion); background: var(--surface); transform: rotate(1deg); }.calendar-note > span, .calendar-note small { color: var(--muted); font: 700 .63rem/1.3 var(--sl-font-mono, monospace); letter-spacing: .1em; }.calendar-note p { margin: 1.1rem 0 1.4rem; font: 1.15rem/1.4 Georgia, serif; }
+  .calendar-stage { border: 1px solid var(--line); background: var(--surface); box-shadow: 0 18px 54px #463b2b0b; }.stage-heading { display: flex; justify-content: space-between; align-items: end; gap: 1rem; padding: 1.5rem 1.8rem; border-bottom: 1px solid var(--line); }.stage-heading .eyebrow { margin-bottom: .35rem; }.stage-heading h2 { margin: 0; font: 620 1.5rem/1.2 var(--sans); letter-spacing: -.04em; }.range-label { color: var(--muted); text-align: right; font: .67rem/1.6 var(--sl-font-mono, monospace); }.range-label strong { color: var(--ink); font-weight: 500; }
+  .picker-layout { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(270px, .85fr); max-width: 850px; margin: 3rem auto; border: 1px solid var(--line); background: var(--surface); }.picker-card { padding: 1.4rem 1.6rem 1.15rem; }.picker-topline { display: flex; align-items: center; gap: .8rem; }.calendar-mark { display: grid; place-items: center; width: 40px; height: 40px; background: var(--ink); color: var(--invert-ink); font-size: 1.4rem; }.picker-topline strong, .picker-topline small { display: block; }.picker-topline strong { font: 1rem Georgia, serif; }.picker-topline small { margin-top: .2rem; color: var(--muted); font-size: .68rem; }.calendar-switch { display: flex; gap: .2rem; margin-left: auto; padding: .2rem; border: 1px solid var(--line); }.calendar-switch button { min-width: 2.5rem; padding: .38rem .5rem; border: 0; background: transparent; color: var(--muted); font: 700 .69rem var(--sl-font-mono, monospace); cursor: pointer; }.calendar-switch button[aria-pressed='true'] { background: var(--ink); color: var(--invert-ink); }.calendar-switch button:focus-visible, .month-arrow:focus-visible, .day-button:focus-visible { outline: 2px solid var(--vermilion); outline-offset: 2px; }
+  .month-bar { display: flex; align-items: center; justify-content: space-between; margin: 1.4rem 0 .65rem; }.month-bar h3 { margin: 0; font: 500 1.35rem Georgia, serif; letter-spacing: -.035em; }.month-arrow { width: 2.1rem; height: 2.1rem; border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer; }.month-arrow:hover:not(:disabled) { border-color: var(--vermilion); color: var(--vermilion); }.month-arrow:disabled { opacity: .34; cursor: not-allowed; }
+  .weekday-row, .calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); text-align: center; }.weekday-row { padding: .5rem 0; color: var(--muted); font: 700 .6rem var(--sl-font-mono, monospace); }.calendar-grid { gap: .18rem; }.calendar-blank, .day-button { min-width: 0; aspect-ratio: 1; }.day-button { border: 1px solid transparent; border-radius: 50%; background: transparent; color: var(--ink); font: .81rem var(--sl-font-mono, monospace); cursor: pointer; }.day-button:hover:not(:disabled) { border-color: var(--vermilion); }.day-button.is-selected { background: var(--vermilion); color: var(--invert-ink); }.day-button.is-focused-day:not(.is-selected) { border-color: var(--ink); }.day-button:disabled { color: #c8c4ba; cursor: not-allowed; text-decoration: line-through; }.keyboard-hint { margin: .8rem 0 0; color: var(--muted); text-align: center; font-size: .65rem; }
+  .selection-card { position: relative; display: flex; flex-direction: column; padding: 1.3rem 1.45rem; border-left: 1px solid var(--line); background: var(--wash); }.selection-top, .selection-foot { display: flex; justify-content: space-between; color: var(--muted); font: 700 .6rem var(--sl-font-mono, monospace); letter-spacing: .08em; }.selection-card .eyebrow { margin-top: auto; padding-top: 5rem; }.selection-card h3 { margin: .25rem 0 1.7rem; color: var(--vermilion); font: 500 2rem/1.1 Georgia, serif; letter-spacing: -.045em; }.date-pair { display: grid; gap: .9rem; }.date-pair div { display: flex; justify-content: space-between; align-items: baseline; gap: .5rem; padding-bottom: .7rem; border-bottom: 1px solid #ccc5b7; }.date-pair span { color: var(--muted); font: 700 .55rem var(--sl-font-mono, monospace); letter-spacing: .07em; }.date-pair strong { font: 500 .77rem var(--sl-font-mono, monospace); }.selection-foot { margin-top: auto; padding-top: 1.5rem; }.selection-foot code { color: var(--ink); font-size: .65rem; }.range-warning { max-width: 850px; margin: -2rem auto 2rem; padding: .7rem 1rem; border-left: 3px solid var(--vermilion); background: var(--accent-soft); color: var(--accent-ink); font-size: .78rem; }.range-warning[hidden] { display: none; }
+  .calendar-explain { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 5vw; align-items: center; padding-block: 7rem 5rem; }.calendar-explain h2 { margin: 0 0 1rem; font: 620 clamp(2.4rem, 4.5vw, 4rem)/1 var(--sans); letter-spacing: -.06em; }.calendar-explain > div > p:not(.eyebrow) { max-width: 470px; color: var(--muted); line-height: 1.75; }.date-links { display: flex; flex-wrap: wrap; gap: .55rem 1.2rem; margin-top: 1.5rem; font-size: .78rem; }.calendar-explain :global(.hairline-figure) { width:100%; max-width:100%; min-width:0; margin:0; }.calendar-scope { display: flex; gap: 2rem; align-items: baseline; padding: 1.3rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }.calendar-scope span { flex: none; color: var(--vermilion); font: 700 .65rem var(--sl-font-mono, monospace); letter-spacing: .1em; }.calendar-scope p { max-width: 780px; margin: 0; color: var(--muted); font-size: .83rem; line-height: 1.6; }
+  @media(max-width: 800px) { .calendar-intro { grid-template-columns: 1fr; gap: 2rem; padding-block: 4rem 3rem; }.calendar-note { max-width: 400px; }.picker-layout { grid-template-columns: 1fr; max-width: 520px; margin: 1.5rem auto; }.selection-card { min-height: 300px; border-top: 1px solid var(--line); border-left: 0; }.selection-card .eyebrow { padding-top: 2rem; }.calendar-explain { grid-template-columns: 1fr; gap: 2.5rem; padding-block: 4.5rem; } }
+  @media(max-width: 560px) { .site-shell { width: min(100% - 40px, 1160px); }.calendar-intro h1 { font-size: clamp(3rem, 16vw, 5rem); }.stage-heading { display: block; padding: 1.2rem; }.range-label { display: block; margin-top: .8rem; text-align: left; }.picker-card { padding: 1rem .8rem; }.calendar-grid { gap: 0; }.day-button { font-size: .73rem; }.calendar-scope { display: block; }.calendar-scope p { margin-top: .55rem; } }
+  @media(prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+</style>

@@ -16,4 +16,9 @@ const base = import.meta.env.BASE_URL;
     <code class="domain-path">{domain.path}</code><pre><code>{domain.example}</code></pre>
     <a class="text-link" href={`${base}${domain.docs.slice(1)}`}>Read {domain.label.toLowerCase()} docs →</a>
   </article>)}</div>
+  <p class="domain-index-examples"><a class="text-link" href={`${base}examples/`}>Explore complete UI examples →</a></p>
 </section>
+
+<style>
+  .domain-index-examples { margin: 22px 0 0; text-align: right; }
+</style>

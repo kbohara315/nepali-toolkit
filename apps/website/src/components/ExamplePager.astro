@@ -1,0 +1,64 @@
+---
+type Link = { href: string; label: string };
+
+type Props = {
+  previous?: Link;
+  next?: Link;
+};
+
+const { previous, next } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const hrefFor = (href: string) => `${base}${href.replace(/^\/+/, '')}`;
+---
+
+<nav class="example-pager site-shell" aria-label="Browse examples">
+  {previous ? (
+    <a class="pager-link pager-previous" href={hrefFor(previous.href)}>
+      <span>← Previous example</span>
+      <strong>{previous.label}</strong>
+    </a>
+  ) : <span class="pager-spacer" aria-hidden="true"></span>}
+  <a class="pager-all" href={`${base}examples/`}>All examples</a>
+  {next ? (
+    <a class="pager-link pager-next" href={hrefFor(next.href)}>
+      <span>Next example →</span>
+      <strong>{next.label}</strong>
+    </a>
+  ) : <span class="pager-spacer" aria-hidden="true"></span>}
+</nav>
+
+<style>
+  .example-pager {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: 1rem;
+    padding-block: 1.1rem 3rem;
+    border-top: 1px solid var(--line);
+  }
+  .pager-link {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: .35rem;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .pager-link span, .pager-all {
+    color: var(--muted);
+    font: .68rem var(--mono);
+  }
+  .pager-link strong {
+    overflow-wrap: anywhere;
+    font-size: .94rem;
+    font-weight: 600;
+  }
+  .pager-all { text-decoration: underline; text-underline-offset: 4px; }
+  .pager-next { text-align: right; }
+  @media (max-width: 520px) {
+    .example-pager { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .pager-all { grid-row: 2; }
+    .pager-spacer { display: none; }
+    .pager-next { grid-column: 2; }
+  }
+</style>

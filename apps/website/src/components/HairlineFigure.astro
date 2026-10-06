@@ -100,6 +100,12 @@ const siteHref = (path: string) => `${base}${path.replace(/^\/+/, '')}`;
     main.style.maxWidth = '440px';
     document.querySelector('#means')?.remove();
     document.querySelector('#rules')?.remove();
+    const fitFrame = () => {
+      frame.style.height = `${Math.ceil(body.scrollHeight)}px`;
+    };
+    fitFrame();
+    const contentObserver = new ResizeObserver(fitFrame);
+    contentObserver.observe(main);
     const theme = document.documentElement;
     const syncTheme = () => {
       const parentRoot = window.parent.document.documentElement;
