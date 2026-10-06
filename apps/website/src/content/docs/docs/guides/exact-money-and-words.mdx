@@ -3,6 +3,8 @@ title: Format exact NPR totals and Nepali number words
 description: Keep decimal input and bigint paisa exact, format lakh/crore totals, and generate matching numeric and written rupee amounts.
 ---
 
+import HairlineFigure from '../../../../components/HairlineFigure.astro';
+
 Store amounts as decimal strings or bigint paisa before formatting them. Decimal strings preserve entered digits; bigint paisa lets you add and subtract whole paisa without floating-point rounding. The formatters produce labels and words; they do not calculate totals for you.
 
 ## Normalize an entered decimal without converting to Number
@@ -19,6 +21,16 @@ formatNumber(decimal, {
 `parseNumber` returns ASCII text and removes commas without checking grouping placement. Add application-level grouping rules if malformed commas should be rejected. It does not parse `रु` or `NPR` labels. Do not round-trip through `Number(decimal)` when exact digits matter.
 
 ## Use one paisa total for numeric and written output
+
+<HairlineFigure
+  name="money-tray"
+  title="Rupee and paisa tray"
+  description="The larger well holds rupees. The smaller well holds paisa. Move the pointer over either well to select it."
+  guideHref="/docs/guides/exact-money-and-words/"
+  guideLabel="Exact money guide"
+  referenceHref="/docs/reference/currency/"
+  referenceLabel="Currency reference"
+/>
 
 ```ts
 import { formatNPRMinorUnits } from 'nepali-toolkit/currency';

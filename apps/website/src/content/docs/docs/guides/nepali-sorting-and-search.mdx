@@ -2,10 +2,21 @@
 title: Sort and search Nepali names consistently
 description: Reuse a Nepali collator, choose school or phonetic conjunct order, sort numeric labels, and use normalized substring search without transliteration.
 ---
+import HairlineFigure from '../../../../components/HairlineFigure.astro';
 
 Use a collator to sort names and the search helpers to find matching text. Search normalizes text before matching, but it does not perform fuzzy matching.
 
 ## Reuse a deterministic collator
+
+<HairlineFigure
+  name="name-rack"
+  title="Nepali name sorting"
+  description="Move over a card to inspect its Nepali label. The cards stand for values that a deterministic collator can order."
+  guideHref="/playground/?tool=collation"
+  guideLabel="Try collation in the playground"
+  referenceHref="/docs/reference/collation/"
+  referenceLabel="Read collation reference"
+/>
 
 ```ts
 import { createNepaliCollator } from 'nepali-toolkit/collation';

@@ -2,10 +2,21 @@
 title: Validate and normalize Nepal phone form input
 description: Accept Devanagari or +977 phone input, parse once, distinguish shape from allocation, and format without treating validation as reachability.
 ---
+import HairlineFigure from '../../../../components/HairlineFigure.astro';
 
 Accept phone input as text so leading zeros, country markers, and localized digits survive. The toolkit normalizes accepted separators and Devanagari numerals during parsing.
 
 ## Parse once on submission
+
+<HairlineFigure
+  name="phone-gauge"
+  title="Possible Nepal phone format"
+  description="Move the strip into the gauge to see a possible number shape. Format support does not confirm allocation, active service, or ownership."
+  guideHref="/playground/?tool=phone"
+  guideLabel="Try phone parsing in the playground"
+  referenceHref="/docs/reference/phone/"
+  referenceLabel="Read phone reference"
+/>
 
 ```ts
 import { parseNepalPhone, formatNepalPhone, InvalidPhoneError } from 'nepali-toolkit/phone';

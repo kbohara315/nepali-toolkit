@@ -21,6 +21,7 @@
  */
 import { formatNumber } from 'nepali-toolkit/number';
 import { highlightCode } from '../lib/highlight-code';
+import HairlineFigure from './HairlineFigure.astro';
 
 type ModeId =
   | 'number'
@@ -350,6 +351,24 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
           <output class="playground-value" id="playground-value" for="playground-input">{sampleValue}</output>
           <ul class="playground-list" id="playground-list" hidden></ul>
           <pre class="playground-json" id="playground-json" hidden></pre>
+          <HairlineFigure
+            name="grouping-tray"
+            title="Number grouping tray"
+            description="Example: 12345678 → 1,23,45,678. Move over a group to lift its counters."
+            referenceHref="docs/reference/number/"
+            referenceLabel="Number reference"
+            dataHairlineFor="number"
+            initiallyHidden={false}
+          />
+          <HairlineFigure
+            name="printing-press"
+            title="Nepali words printing press"
+            description="The press advances as the pointer moves. The result above shows the Nepali words."
+            referenceHref="docs/reference/words/"
+            referenceLabel="Words reference"
+            dataHairlineFor="words"
+            initiallyHidden={true}
+          />
         </div>
 
         <div class="playground-view-toggle" id="playground-view-toggle" hidden role="group" aria-label="Result view">
@@ -913,6 +932,7 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
   const note = document.querySelector<HTMLElement>('#playground-note')!;
   const status = document.querySelector<HTMLElement>('#playground-status')!;
   const resultRegion = document.querySelector<HTMLElement>('#playground-result')!;
+  const hairlineFigures = Array.from(resultRegion.querySelectorAll<HTMLElement>('[data-hairline-for]'));
   const valueSlot = document.querySelector<HTMLOutputElement>('#playground-value')!;
   const listSlot = document.querySelector<HTMLUListElement>('#playground-list')!;
   const jsonSlot = document.querySelector<HTMLElement>('#playground-json')!;
@@ -1692,6 +1712,18 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
   let currentIsList = false;
   let resultView: 'preview' | 'json' = 'preview';
 
+  function showHairline(mode: ClientMode, outcome?: Outcome): void {
+    const valid = resultView === 'preview' && (outcome === undefined || (outcome.kind !== 'error' && outcome.kind !== 'empty'));
+    const showNumber = valid && mode.id === 'number'
+      && selectedValue('playground-number-operation', 'format') === 'format'
+      && selectedValue('playground-number-grouping', 'nepali') === 'nepali';
+    const wordsTask = selectedValue('playground-words-task', 'nepali');
+    const showWords = valid && mode.id === 'words' && wordsTask !== 'english';
+    hairlineFigures.forEach((figure) => {
+      figure.hidden = figure.dataset.hairlineFor === 'number' ? !showNumber : !showWords;
+    });
+  }
+
   function setState(state: 'ready' | 'loading' | 'error' | 'empty', message: string): void {
     root.dataset.state = state;
     status.textContent = message;
@@ -1713,6 +1745,7 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
 
   function paint(outcome: Outcome): void {
     const isError = outcome.kind === 'error';
+    showHairline(modeById(modeField.value), outcome);
     // Raw source stays in `painted` so Copy copies clean code, not HTML.
     // The visible `<code>` gets the highlighted form of the same source.
     const nextSnippet = isError ? '' : (outcome.snippet ?? '');
@@ -2263,6 +2296,7 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
     resultView = target.dataset.resultView as 'preview' | 'json';
     viewToggle.querySelectorAll('[data-result-view]').forEach(button => button.setAttribute('aria-pressed', String(button === target)));
     jsonSlot.hidden = resultView !== 'json'; valueSlot.hidden = resultView === 'json'; listSlot.hidden = resultView === 'json' || !currentIsList;
+    showHairline(modeById(modeField.value));
   });
   function resetActiveMode(): void {
     const mode = modeById(modeField.value);

@@ -1,0 +1,126 @@
+---
+type Props = {
+  name: string;
+  title: string;
+  description: string;
+  guideHref?: string;
+  guideLabel?: string;
+  referenceHref?: string;
+  referenceLabel?: string;
+  dataHairlineFor?: string;
+  initiallyHidden?: boolean;
+};
+
+const {
+  name,
+  title,
+  description,
+  guideHref,
+  guideLabel,
+  referenceHref,
+  referenceLabel,
+  dataHairlineFor,
+  initiallyHidden = false,
+} = Astro.props;
+const base = import.meta.env.BASE_URL;
+const figureHref = `${base}hairline/${name}.html`;
+const siteHref = (path: string) => `${base}${path.replace(/^\/+/, '')}`;
+---
+
+<figure class="hairline-figure" data-hairline-for={dataHairlineFor} hidden={initiallyHidden}>
+  <iframe
+    src={figureHref}
+    title={title}
+    loading="lazy"
+    referrerpolicy="no-referrer"
+  ></iframe>
+  <figcaption>
+    <p>{description}</p>
+    <nav aria-label={`Related ${title} resources`}>
+      {guideHref && guideLabel && <a href={siteHref(guideHref)}>{guideLabel} →</a>}
+      {referenceHref && referenceLabel && <a href={siteHref(referenceHref)}>{referenceLabel} →</a>}
+    </nav>
+  </figcaption>
+</figure>
+
+<style>
+  .hairline-figure {
+    margin: 2rem 0;
+    border: 1px solid var(--line, var(--sl-color-gray-5, #444));
+    border-radius: 1rem;
+    overflow: hidden;
+    background: var(--canvas, var(--sl-color-bg, #fff));
+  }
+
+  .hairline-figure[hidden] { display: none; }
+
+  iframe {
+    display: block;
+    width: 100%;
+    height: 27rem;
+    border: 0;
+    background: transparent;
+  }
+
+  figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1rem;
+    padding: 0.9rem 1rem;
+    border-top: 1px solid var(--line, var(--sl-color-gray-5, #444));
+    color: var(--muted, var(--sl-color-gray, #666));
+    font-size: 0.875rem;
+  }
+
+  figcaption p { margin: 0; }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+  }
+
+  @media (max-width: 40rem) {
+    iframe { height: 29rem; }
+  }
+</style>
+
+<script>
+  const styleFigureFrame = (frame: HTMLIFrameElement) => {
+    const document = frame.contentDocument;
+    const body = document?.body;
+    const main = document?.querySelector<HTMLElement>('main');
+    if (!document || !body || !main) return;
+
+    body.style.minHeight = '0';
+    body.style.padding = '12px';
+    body.style.placeItems = 'center';
+    main.style.maxWidth = '440px';
+    document.querySelector('#means')?.remove();
+    document.querySelector('#rules')?.remove();
+    const theme = document.documentElement;
+    const syncTheme = () => {
+      const parentRoot = window.parent.document.documentElement;
+      const parentTheme =
+        parentRoot.dataset.theme ??
+        (window.parent.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      if (parentTheme === 'light' || parentTheme === 'dark') {
+        theme.dataset.theme = parentTheme;
+      }
+    };
+    syncTheme();
+
+    const observer = new MutationObserver(syncTheme);
+    observer.observe(window.parent.document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+    });
+  };
+
+  document.querySelectorAll<HTMLIFrameElement>('.hairline-figure iframe').forEach((frame) => {
+    frame.addEventListener('load', () => styleFigureFrame(frame), { once: true });
+    if (frame.contentDocument?.readyState === 'complete') styleFigureFrame(frame);
+  });
+</script>

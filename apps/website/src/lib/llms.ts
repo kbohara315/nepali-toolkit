@@ -42,7 +42,24 @@ export function orderedDocs(docs: LlmDoc[]): LlmDoc[] {
 
 /** Resolve against the published trailing-slash route, never the MDX file path. */
 export function markdownForDoc(source: string, id: string, site: URL | string, base: string): string {
-  const body = source.replace(/^\uFEFF?---\r?\n[\s\S]*?\r?\n---(?:\r?\n|$)/, '').trim();
+  const body = source
+    .replace(/^\uFEFF?---\r?\n[\s\S]*?\r?\n---(?:\r?\n|$)/, '')
+    .replace(/^[ \t]*import HairlineFigure from '[^']+';[ \t]*$/gm, '')
+    .replace(/<HairlineFigure\b([\s\S]*?)\/>/g, (_match, rawAttributes: string) => {
+      const attributes = Object.fromEntries(
+        [...rawAttributes.matchAll(/([\w]+)="([^"]*)"/g)].map(([, name, value]) => [name, value]),
+      );
+      const links = [
+        ['guideHref', 'guideLabel'],
+        ['referenceHref', 'referenceLabel'],
+      ]
+        .filter(([href, label]) => attributes[href] && attributes[label])
+        .map(([href, label]) => `[${attributes[label]}](${attributes[href]})`);
+      const title = attributes.title ? `**${attributes.title}.** ` : '**Interactive figure.** ';
+      const description = attributes.description ?? '';
+      return `${title}${description}${links.length ? ` ${links.join(' · ')}` : ''}`;
+    })
+    .trim();
   const page = siteUrl(`${id}/`, site, base);
   const absolute = (href: string) => {
     if (/^[a-z][a-z\d+.-]*:/i.test(href) || href.startsWith('//')) return href;

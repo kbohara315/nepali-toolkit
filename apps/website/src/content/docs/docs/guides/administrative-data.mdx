@@ -3,9 +3,13 @@ title: Build Nepal address selectors with administrative codes
 description: Join provinces, districts, and palikas, validate selected wards, search bilingual names, and use the GPO palika/ward postal scheme.
 ---
 
+import HairlineFigure from '../../../../components/HairlineFigure.astro';
+
 Use codes as stored identifiers and names as display labels. Names can repeat or use source-specific spellings; a name match alone is not a unique address.
 
 ## Populate cascading selectors
+
+<HairlineFigure name="address-cabinet" title="Nested Nepal address trays" description="Move from the outer tray to reveal each level of a Nepal address." guideHref="/docs/guides/administrative-data/#populate-cascading-selectors" guideLabel="Cascading selector guide" referenceHref="/docs/reference/admin/" referenceLabel="Admin API reference" />
 
 ```ts
 import { getProvinces } from 'nepali-toolkit/admin/provinces';

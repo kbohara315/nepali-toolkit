@@ -1,9 +1,15 @@
 ---
 import { domains } from '../data/domains';
+import HairlineFigure from './HairlineFigure.astro';
 const base = import.meta.env.BASE_URL;
 ---
 <section class="domain-index site-shell" aria-labelledby="domains-heading">
   <div class="section-heading"><p class="eyebrow">Focused entrypoints</p><h2 id="domains-heading">Eight domains, documented.</h2><p>One package. Import the conventions your application needs.</p></div>
+  <HairlineFigure
+    name="tool-tray"
+    title="Eight Nepali Toolkit domains"
+    description="Move over a slot to see the utility it represents."
+  />
   <div class="domain-index-grid">{domains.map((domain, index) => <article>
     <span class="eyebrow">{String(index + 1).padStart(2, '0')} / {domain.label}</span>
     <h3>{domain.heading}</h3><p>{domain.description}</p>
