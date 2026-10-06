@@ -1,18 +1,66 @@
 ---
-title: Words reference
-description: Number and NPR amount words in English and Nepali.
+title: Nepali and English number words reference
+description: Convert numbers and NPR amounts to words, format exact paisa totals, and parse supported Nepali integer words.
 ---
 
 Try it live in the [playground](../../../playground/).
 
-```ts
-import { numberToEnglishWords, numberToNepaliWords, amountToNepaliWordsNPR } from 'nepali-toolkit/words';
+Import from `nepali-toolkit/words`.
 
-numberToEnglishWords(2082);
-numberToNepaliWords(2082);
-amountToNepaliWordsNPR('123456.50');
+## Exported functions
+
+```ts
+type WordsInput = string | number | bigint;
+numberToNepaliWords(value: WordsInput): string
+numberToEnglishWords(value: WordsInput): string
+amountToNepaliWordsNPR(value: WordsInput, options?: NepaliAmountWordsOptions): string
+amountToNepaliWordsNPRMinorUnits(paisa: bigint, options?: NepaliAmountWordsOptions): string
+parseNepaliWords(input: string): bigint
+numberWordsInText(input: string): string
 ```
 
-The entrypoint also exports `numberWordsInText`, `parseNepaliWords`, and minor-unit NPR conversion. `WordsInput` supports the exact input forms documented by the package. Use strings when preserving decimal precision matters.
+Both languages use lakh/crore scales. Number-word functions read fractional digits individually rather than rounding them.
 
-Unsupported or malformed values throw `InvalidWordsError`.
+| Input rule | Limit or behavior |
+| --- | --- |
+| Integer part | Absolute value must be less than `10^12`; signs are supported |
+| Number words | Up to six fractional digits |
+| NPR amount words | At most two fractional digits |
+| Digit sets | ASCII and Devanagari decimals |
+| Grouping and scientific notation | Rejected for standalone input; use [parseNumber](../number/) to remove commas first |
+
+```ts
+import {
+  numberToNepaliWords, numberToEnglishWords, amountToNepaliWordsNPR,
+  amountToNepaliWordsNPRMinorUnits, parseNepaliWords, numberWordsInText,
+} from 'nepali-toolkit/words';
+
+numberToNepaliWords('१२.५०'); // 'बाह्र दशमलव पाँच शून्य'
+numberToEnglishWords('12.50'); // 'twelve point five zero'
+amountToNepaliWordsNPR('12.50'); // 'बाह्र रुपैयाँ पचास पैसा मात्र'
+amountToNepaliWordsNPRMinorUnits(1250n); // same amount, exactly 1250 paisa
+parseNepaliWords('बाह्र रुपैयाँ मात्र'); // 12n
+numberWordsInText('जम्मा १२ जना।'); // 'जम्मा बाह्र जना।'
+```
+
+## NepaliAmountWordsOptions defaults
+
+| Option | Meaning | Default |
+| --- | --- | --- |
+| `appendOnly` | Append `मात्र` | `true` |
+| `showPaisa` | Include nonzero paisa | `true` |
+| `paisaSeparator` | `'space'` or `'and'` (`र`) | `'space'` |
+| `zeroRupeeText` | Non-empty text for zero rupees | `'शून्य'` |
+| `chequeStyle` | Double every separating space | `false` |
+
+Zero paisa is omitted even with `showPaisa: true`. `showPaisa: false` hides paisa; it does not round rupees. `chequeStyle` changes spacing only, not financial validation.
+
+## Parsing and replacing words
+
+`parseNepaliWords` normalizes NFC and whitespace and parses the package's integer vocabulary, optional leading `माइनस`, and optional `रुपैयाँ` / `रुपैयाँ मात्र` suffix. Scales must descend and unsupported spellings or sequences throw. It does not parse decimal words, paisa phrases, English words, or arbitrary natural-language variants; it is not the inverse of every amount formatter.
+
+`numberWordsInText` replaces standalone numeric tokens, including recognized comma-grouped tokens, while keeping surrounding text. Identifiers and hyphenated tokens are excluded; malformed or out-of-range numeric tokens are left unchanged rather than causing the whole replacement to fail.
+
+`InvalidWordsError` extends `TypeError` with `code: 'INVALID_WORDS'` for invalid input, limits, grammar, or options. Exact paisa formatting has the same rupee magnitude limit as the standalone formatter.
+
+See the [exact amounts guide](../../guides/exact-money-and-words/) for using one stored total across both currency and words output.

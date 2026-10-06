@@ -1,27 +1,284 @@
 ---
-title: Date reference
-description: BS and AD conversion, formatting, parsing, and arithmetic.
+title: Bikram Sambat and Gregorian date API reference
+description: BS/AD date constructors, conversion range, parsing, formatting, calendar arithmetic, age, fiscal years, relative dates, and adapters.
 ---
-
-Import from `nepali-toolkit/date`. The domain covers BS/AD conversion, parsing, formatting, arithmetic, fiscal years, relative dates, ranges, and adapters.
 
 Try it live in the [playground](../../../playground/).
 
-```ts
-import { bs, formatBS, toAD, isValidBS } from 'nepali-toolkit/date';
+Import from `nepali-toolkit/date`, or choose the focused paths listed below. Dates represent **civil calendar days** with no clock time or timezone.
 
-const date = bs(2082, 4, 7);
-formatBS(date, 'YYYY-MM-DD');
-toAD(date);
-isValidBS(2082, 4, 7);
+`ADDate` and `BSDate` have readonly `{ year: number; month: number; day: number }` fields. Months and days are **one-based**, and constructors return frozen objects. TypeScript distinguishes the two date types, but the objects have no runtime calendar tag. Use `toAD` or `toBS` to convert them; casting does not change their calendar.
+
+## Constructors, conversion, and current range
+
+From `date/convert`:
+
+```ts
+ad(year: number, month: number, day: number): ADDate
+bs(year: number, month: number, day: number): BSDate
+toAD(value: BSDate): ADDate
+toBS(value: ADDate): BSDate
 ```
 
-## Public API groups
+Fields must be safe integers and form an actual date; there is no automatic rollover. `ad` validates a proleptic Gregorian date without imposing the BS table window. `bs` validates against the generated month table. Conversion, `NepaliDate`, and civil-day operations are bounded by that table:
 
-- Constructors and conversion: `ad`, `bs`, `toAD`, `toBS`, `NepaliDate`.
-- Formatting and parsing: `formatAD`, `formatBS`, `formatWithLocale`, `parseAD`, `parseBS`.
-- Arithmetic and comparison: `addDays*`, `addWeeks*`, `addMonths*`, `addYears*`, `compare*`, `differenceInDays*`, `isValidAD`, `isValidBS`.
-- Calendar metadata: `daysInMonth*`, `daysInYearBS`, `isLeapYearAD`, `minBSYear`, `maxBSYear`, `range`.
-- Fiscal and relative helpers: `fiscalYear*`, `formatFiscalYear`, `formatRelative`, `formatRelativeDays`.
+| Inclusive boundary | BS | AD |
+| --- | --- | --- |
+| First supported conversion day | 2000-01-01 | 1943-04-14 |
+| Last supported conversion day | 2090-12-30 | 2034-04-13 |
 
-Invalid fields, unsupported dates, and malformed input throw the typed errors exported from the same entrypoint. BS support is bounded by the generated calendar data.
+The calendar table is a working transcription whose source review is incomplete. See [data sources](../../project/data-sources/) for its revision and checks.
+
+```ts
+import { ad, bs, toAD, toBS, range } from 'nepali-toolkit/date';
+
+toAD(bs(2082, 4, 7)); // { year: 2025, month: 7, day: 23 }
+toBS(ad(2025, 7, 23)); // { year: 2082, month: 4, day: 7 }
+range.bsStart; // { year: 2000, month: 1, day: 1 }
+```
+
+`date/range` exports `range: DateMetadata`, `minBSYear`, `maxBSYear`, `minADYear`, and `maxADYear`. `range` contains `bsStart`, `bsEnd`, `adStart`, `adEnd`, `totalDays`, `checksum`, `sourceRevision`, and `referencePair` (`bs`, `ad`, `note`). Year constants are convenience values; they do not mean every day of an endpoint AD year is convertible.
+
+## Lightweight formatting
+
+From `date/format`:
+
+```ts
+formatBS(date: BSDateFields, pattern: string, localeOrOptions?: FormatLocale | FormatOptions): string
+formatAD(date: ADDateFields, pattern: string, localeOrOptions?: FormatLocale | FormatOptions): string
+formatWithLocale(date: BSDateFields | ADDateFields, pattern: string,
+  locale: FormatLocale, options?: Omit<FormatOptions, 'locale'>): string
+```
+
+| Token | Meaning |
+| --- | --- |
+| `YYYY`, `YY` | Padded year; last two year digits |
+| `M`, `MM` | Month; two-digit month |
+| `MMMM` | Month name from the chosen locale |
+| `D`, `DD` | Day; two-digit day |
+
+Punctuation is literal. Escape text with `[literal]` or `'literal'`; doubled quotes render a single quote.
+
+The formatters accept months 1–12 and days 1–31, but do not check whether the date exists in its calendar. Construct or parse dates first. **Current limitation:** both lightweight and display formatters reject day 32, even when it is valid in a BS month.
+
+Unknown ASCII token letters and unterminated literals throw `SyntaxError`. Invalid display fields or missing locale/weekday data throw `InvalidFieldError`.
+
+| Type | Fields |
+| --- | --- |
+| `FormatLocale` | 12 `months`, optional `weekdays`, optional `numerals(value: string): string` |
+| `FormatOptions` | Optional `locale`; optional `numerals: 'ascii' \| 'devanagari' \| ((value: string) => string)` |
+
+Defaults are English names for the chosen calendar and ASCII digits. An explicit `numerals` option overrides the locale's digit mapper and applies to the whole output, including literal digits. This entrypoint also exports `englishBSLocale` and `englishADLocale`.
+
+```ts
+import { bs } from 'nepali-toolkit/date/convert';
+import { formatBS } from 'nepali-toolkit/date/format';
+import { locale } from 'nepali-toolkit/date/locale/ne';
+
+const day = bs(2082, 4, 7);
+formatBS(day, 'YYYY-MM-DD'); // '2082-04-07'
+formatBS(day, 'D MMMM YYYY', { locale }); // '७ श्रावण २०८२'
+```
+
+## Display formatting and locale entrypoints
+
+`date/format-display` exports `formatBSDisplay`, `formatADDisplay`, and `formatDisplayWithLocale` with the same arguments as their lightweight counterparts, but using `DisplayLocale` / `DisplayOptions` types. It adds `do` (ordinal day), `ddd` (short weekday), and `dddd` (full weekday).
+
+```ts
+formatBSDisplay(date: BSDateFields, pattern: string, localeOrOptions?: DisplayLocale | DisplayOptions): string
+formatADDisplay(date: ADDateFields, pattern: string, localeOrOptions?: DisplayLocale | DisplayOptions): string
+formatDisplayWithLocale(date: BSDateFields | ADDateFields, pattern: string,
+  locale: DisplayLocale, options?: Omit<DisplayOptions, 'locale'>): string
+```
+
+`DisplayLocale` extends the locale shape with optional `weekdaysShort` and `ordinal(day): string`. `DisplayOptions` also accepts `weekday: 0 | 1 | 2 | 3 | 4 | 5 | 6` (Sunday to Saturday). Weekday tokens **require** this option and seven weekday names; weekdays are not computed from the supplied fields. Short names default to the first three characters of full names; default ordinals are English `st/nd/rd/th`.
+
+```ts
+import { bs, weekdayBS } from 'nepali-toolkit/date';
+import { formatBSDisplay } from 'nepali-toolkit/date/format-display';
+import { locale } from 'nepali-toolkit/date/locale/ne';
+
+const day = bs(2082, 4, 7);
+formatBSDisplay(day, 'dddd, D MMMM YYYY', {
+  locale, weekday: weekdayBS(day),
+}); // 'बुधबार, ७ श्रावण २०८२'
+```
+
+Both `date/locale/en` and `date/locale/ne` export:
+
+| Exports | Use |
+| --- | --- |
+| `locale` (also default), alias `en` or `ne` | BS locale object |
+| `months`, `monthNames`, `weekdays`, `weekdayNames`, `AD_MONTHS` | Calendar and weekday names |
+| `monthName(month: number): string`, `weekdayName(weekday: number): string` | Name lookup with index validation |
+| `formatBS(date, pattern): string`, `formatAD(date, pattern): string` | Formatting for the chosen calendar |
+| `format(date, pattern): string` | Alias for BS formatting |
+| `relativePhrase(days: number): string` | Relative-day label |
+
+The Nepali module converts digits to Devanagari. Its `formatAD` wrapper uses Nepali Gregorian month names, but `locale.months` contains **BS** month names. Use the wrapper for Nepali AD labels rather than passing that BS locale directly to AD formatting. The combined `date` entrypoint exports the BS locale objects as `englishLocale` and `nepaliLocale`.
+
+## Strict parsing
+
+From `date/parse`:
+
+```ts
+parseBS(input: string, options?: ParseOptions): BSDate
+parseBS(input: string, pattern: string, options?: Omit<ParseOptions, 'pattern'>): BSDate
+parseAD(input: string, options?: ParseOptions): ADDate
+parseAD(input: string, pattern: string, options?: Omit<ParseOptions, 'pattern'>): ADDate
+```
+
+| `ParseOptions` field | Default and behavior |
+| --- | --- |
+| `pattern` | `'YYYY-MM-DD'`; an explicit pattern overrides `separator` |
+| `separator` | `'-'`; accepts any non-empty string |
+| `numerals` | `'ascii'`; also accepts `'devanagari'` or `'both'` |
+| `allowDevanagari` | Legacy option: `true` accepts both digit sets when `numerals` is omitted |
+| `locale` | English names for the chosen calendar; can supply month names for `MMMM` |
+| `yearBase` | `2000`; `YY` uses the century containing this year |
+
+Patterns accept the lightweight date tokens plus `do` (English ordinal suffix). `YY` expands using the century containing `yearBase`. Exactly one year, month, and day token is required; duplicates and unknown tokens fail. `MM`/`DD` require two digits, while `M`/`D` allow one or two. Parsing matches the entire input without trimming or case-folding month names. Invalid syntax throws `ParseError`; impossible/out-of-range dates can throw the constructor's date errors instead.
+
+```ts
+import { parseBS, parseAD } from 'nepali-toolkit/date/parse';
+
+parseBS('२०८२-०४-०७', { numerals: 'both' }); // BS 2082-04-07
+parseAD('23/07/2025', 'DD/MM/YYYY'); // AD 2025-07-23
+```
+
+## Arithmetic, comparison, and validation
+
+From `date/arithmetic`, each calendar has the following functions (replace `AD` with `BS` and use `BSDate` for the BS variants):
+
+```ts
+addDaysAD(value: ADDate, amount: number): ADDate
+addWeeksAD(value: ADDate, amount: number): ADDate
+addMonthsAD(value: ADDate, amount: number, options?: MonthArithmeticOptions): ADDate
+addYearsAD(value: ADDate, amount: number, options?: MonthArithmeticOptions): ADDate
+compareAD(left: ADDate, right: ADDate): -1 | 0 | 1
+equalAD(left: ADDate, right: ADDate): boolean
+differenceInDaysAD(left: ADDate, right: ADDate): number
+differenceInMonthsAD(left: ADDate, right: ADDate): number
+differenceInYearsAD(left: ADDate, right: ADDate): number
+weekdayAD(value: ADDate): 0 | 1 | 2 | 3 | 4 | 5 | 6
+daysInMonthAD(value: ADDate): number
+ageOnAD(birth: ADDate, on: ADDate): Age
+iterateAD(start: ADDate, end: ADDate): Generator<ADDate>
+isValidAD(year: number, month: number, day: number): boolean
+```
+
+Additional metadata functions: `daysInYearBS(year: number): number` and `isLeapYearAD(year: number): boolean`. Validators return false for invalid fields. `daysInMonthAD/BS` take a **date object**, not separate year/month arguments. Weekday zero is Sunday.
+
+The BS counterparts are `addDaysBS`, `addWeeksBS`, `addMonthsBS`, `addYearsBS`, `compareBS`, `equalBS`, `differenceInDaysBS`, `differenceInMonthsBS`, `differenceInYearsBS`, `weekdayBS`, `daysInMonthBS`, `ageOnBS`, `iterateBS`, and `isValidBS`. They accept and return BS dates where the AD functions use AD dates.
+
+Amounts must be safe integers and may be negative. `MonthArithmeticOptions.overflow` is `'constrain'` (default: clamp to the target month's last day) or `'reject'` (throw `InvalidCivilDateError` rather than clamp). Invalid amounts throw `InvalidArithmeticAmountError`. Day/week operations, comparison, weekday, and day differences use supported civil days; AD construction and AD month/year arithmetic do not themselves enforce the BS window.
+
+`addBSMonths` / `addBSYears` alias the BS month/year functions; `addADMonths` / `addADYears` alias the AD functions. Unqualified `addDays`, `addWeeks`, `compare`, `equal`, `differenceInDays`, and `weekday` are **AD** aliases, not calendar autodetection.
+
+**Argument order matters:** day differences return `left - right`, while month/year differences count whole calendar intervals from `left` to `right`, truncated toward zero with constrained month anchors. Do not assume they share a sign convention.
+
+```ts
+import { ad, addMonthsAD, differenceInDaysAD, ageOnAD } from 'nepali-toolkit/date';
+
+addMonthsAD(ad(2025, 1, 31), 1); // { year: 2025, month: 2, day: 28 }
+differenceInDaysAD(ad(2025, 7, 24), ad(2025, 7, 23)); // 1
+ageOnAD(ad(2000, 1, 1), ad(2025, 1, 1)); // { years: 25, months: 0, days: 0 }
+```
+
+`Age` has readonly numeric `years`, `months`, and `days`. A reference date before birth throws.
+
+**Current limitation:** when the reference date falls after the date reached by adding the counted whole months, `ageOnAD` and `ageOnBS` return a negative `days` remainder. For example, AD 2000-01-01 to 2025-03-05 yields `{ years: 25, months: 2, days: -4 }`. This result cannot be displayed as a conventional age with a positive day remainder.
+
+`iterateAD/BS` yield dates from start to end, including both endpoints, in ascending order. Reversed ranges yield nothing. **Endpoint limitation:** if the end is the final supported day, requesting the next item after that endpoint throws `UnsupportedDateError`. This also affects collecting the entire range into an array.
+
+## Fiscal years and relative dates
+
+From `date/fiscal`:
+
+```ts
+getFiscalYear(date: BSDateFields): number
+fiscalYear(date: BSDateFields): number // alias
+fiscalYearStart(year: number): BSDate
+fiscalYearEnd(year: number): BSDate
+fiscalYearInfo(year: number): { readonly year: number; readonly start: BSDate; readonly end: BSDate }
+isInFiscalYear(date: BSDateFields, year: number): boolean
+formatFiscalYear(year: number): string
+```
+
+The year argument is the **starting BS year**: Shrawan 1 (month 4) through the next year's last Ashadh day (month 3). `formatFiscalYear(2082)` returns `'2082/83'`. Boundary helpers need supported dates in both years; a label can be formatted without establishing that its complete year is in range. Invalid year values throw `InvalidFiscalYearError`.
+
+From `date/relative`:
+
+```ts
+differenceInDays(later: BSDateFields, earlier: BSDateFields): number
+daysBetween(start: BSDateFields, end: BSDateFields): number // end - start
+formatRelativeDays(delta: number, locale?: RelativeLocale): string
+relativePhrase(delta: number, locale?: RelativeLocale): string
+relativePhrase(target: BSDateFields, reference: BSDateFields, locale?: RelativeLocale): string
+formatRelative(...) // alias of relativePhrase, same overloads
+```
+
+The combined `date` entrypoint exports the relative module's BS difference as `relativeDifferenceInDays`, since its `differenceInDays` export is the AD arithmetic alias.
+
+A positive delta means a future date. Deltas must be safe integers, and date overloads require an explicit reference date rather than reading the clock. The default locale is `englishRelativeLocale`; `nepaliRelativeLocale` is also available. The `RelativeLocale` type, exported from `date/relative`, supplies `today`, `yesterday`, `tomorrow`, `daysAgo(n)`, and `inDays(n)`.
+
+## Immutable NepaliDate value
+
+From `date/value`, `NepaliDate` has a private constructor. Create it with `fromBS(BSDate)`, `fromAD(ADDate)`, `fromISO(string)` / `fromSerial(string)` (AD), or `fromBSString(string)` (BS).
+
+| Methods | Output |
+| --- | --- |
+| `toAD()`, `toBS()` | `ADDate` or `BSDate` fields |
+| `addDays(n)`, `addWeeks(n)`, `addMonthsAD/BS(n, options?)`, `addYearsAD/BS(n, options?)` | New `NepaliDate` |
+| `startOfMonthAD/BS()`, `endOfMonthAD/BS()`, `clone()` | New `NepaliDate` |
+| `compare(other)` | -1 / 0 / 1 |
+| `equals(other)` | Boolean |
+| `differenceInDays(other)` | This day minus the other day |
+| `weekday()` | Sunday 0 through Saturday 6 |
+| `serialize()`, `toString()`, `toJSON()` | AD `YYYY-MM-DD` string |
+| `serializeBS()` | BS `YYYY-MM-DD` string |
+
+All value operations retain the supported civil-day window. Serial strings are date-only values, not timestamp strings. Instances are frozen and arithmetic does not mutate the original.
+
+## JavaScript Date, timezones, and Temporal adapters
+
+```ts
+// nepali-toolkit/date/adapters/date
+dateToAD(value: Date): ADDate
+adToDate(value: ADDateFields): Date
+// nepali-toolkit/date/adapters/timezone
+instantToAD(value: Date | number | string, timeZone: string): ADDate
+// nepali-toolkit/date/adapters/temporal
+plainDateToAD(value: PlainDateLike): ADDate
+adToPlainDate(value: ADDateFields, temporal?: TemporalLike): PlainDateLike
+```
+
+`dateToAD` uses UTC fields, never the host timezone; `adToDate` constructs UTC midnight. `instantToAD` requires an explicit IANA timezone and runtime `Intl.DateTimeFormat.formatToParts` data. Numbers are epoch milliseconds; strings must include a terminal `Z` or explicit UTC offset. Date-only strings are not instants.
+
+`plainDateToAD` requires calendar ID `'iso8601'`, resolved from `calendarId`, a string `calendar`, or `calendar.id`; no timezone is involved. `adToPlainDate` uses global Temporal by default or an explicitly supplied compatible implementation. `PlainDateLike` has `year`, `month`, `day`, and calendar metadata; `TemporalLike` supplies a `PlainDate` constructor, optionally with `from`. These types are exported by the focused adapter module. No polyfill is installed by the toolkit.
+
+```ts
+import { instantToAD, dateToAD } from 'nepali-toolkit/date';
+
+const instant = '2025-01-15T19:00:00Z';
+dateToAD(new Date(instant)); // { year: 2025, month: 1, day: 15 }
+instantToAD(instant, 'Asia/Kathmandu'); // { year: 2025, month: 1, day: 16 }
+```
+
+## Typed date errors
+
+Errors are exported from `nepali-toolkit/date` with a stable `code`:
+
+| Error | Code | Typical cause |
+| --- | --- | --- |
+| `InvalidFieldError` | `INVALID_FIELD` | Invalid field shape, unsafe integer, format options |
+| `InvalidCivilDateError` | `INVALID_CIVIL_DATE` | Impossible date, rejected overflow |
+| `UnsupportedDateError` | `UNSUPPORTED_DATE` | Outside conversion/civil-day table range |
+| `InvalidArithmeticAmountError` | `INVALID_ARITHMETIC_AMOUNT` | Fractional or unsafe arithmetic amount |
+| `ParseError` | `PARSE_ERROR` | Pattern/input mismatch |
+| `InvalidInstantError` | `INVALID_INSTANT` | Invalid Date or missing string offset |
+| `InvalidTimeZoneError` | `INVALID_TIME_ZONE` | Unsupported timezone or missing Intl facilities |
+| `InvalidCalendarError` | `INVALID_CALENDAR` | Non-ISO Temporal calendar |
+| `InvalidFiscalYearError` | `INVALID_FISCAL_YEAR` | Non-safe-integer fiscal year |
+
+`ERROR_CODES` maps the corresponding camel-case keys to these codes. `InvalidFieldError` and `InvalidArithmeticAmountError` extend `TypeError`; `ParseError` extends `Error`; the remaining errors extend `RangeError`. Parse input can be syntactically correct and still fail with a civil/range error. See [dates and calendars](../../guides/dates-and-calendars/) for choosing a storage and timezone model.

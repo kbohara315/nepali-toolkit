@@ -1,17 +1,53 @@
 ---
-title: Currency reference
-description: Exact NPR formatting with grouping and minor units.
+title: NPR currency formatting reference
+description: Format Nepali rupees and exact bigint paisa amounts with symbol, grouping, numeral, and negative-style options.
 ---
 
 Try it live in the [playground](../../../playground/).
 
+Import from `nepali-toolkit/currency`. These functions format NPR amounts; they do not perform exchange-rate conversion or parse currency labels.
+
+```ts
+formatNPR(value: string | number | bigint, options?: NPRFormatOptions): string
+formatNPRMinorUnits(paisa: bigint, options?: NPRFormatOptions): string
+```
+
+`formatNPR` interprets its argument as **rupees**, including bigint arguments. `formatNPRMinorUnits` interprets bigint as **paisa** and shifts the decimal point exactly by two places.
+
 ```ts
 import { formatNPR, formatNPRMinorUnits } from 'nepali-toolkit/currency';
 
-formatNPR('123456.50');
-formatNPRMinorUnits(12345650n);
+formatNPR('123456.755'); // 'रु १,२३,४५६.७६'
+formatNPRMinorUnits(12345675n); // 'रु १,२३,४५६.७५'
+formatNPR('-1234.5', {
+  symbol: 'NPR', numerals: 'ascii', negative: 'parentheses',
+}); // '(NPR 1,234.50)'
 ```
 
-`formatNPR` accepts a string, number, or bigint. `NPRFormatOptions` supports symbol (`रु`, `रू`, `नेरू`, `NPR`), placement, spacing, ASCII/Devanagari numerals, Nepali/western/no grouping, fraction digits, and negative style. `formatNPRMinorUnits` accepts exact paisa as a bigint and always renders two fraction digits.
+## NPRFormatOptions
 
-Invalid symbols, placements, spacing, and fraction settings throw `InvalidCurrencyError`. Strings or minor-unit bigints avoid binary floating-point approximation.
+| Option | Accepted values | Default |
+| --- | --- | --- |
+| `symbol` | `'रु'`, `'रू'`, `'नेरू'`, `'NPR'` | `'रु'` |
+| `placement` | `'before'`, `'after'` | `'before'` |
+| `spacing` | `'none'`, `'space'`, `'nbsp'` | `'space'` |
+| `numerals` | `'ascii'`, `'devanagari'` | `'devanagari'` |
+| `grouping` | `'nepali'`, `'western'`, `'none'` | `'nepali'` |
+| `minimumFractionDigits` | Non-negative integer | `2` |
+| `maximumFractionDigits` | Non-negative integer, at least minimum | `2` |
+| `negative` | `'minus'`, `'parentheses'` | `'minus'` |
+
+Rounding is decimal half-up. A minus sign precedes the whole label; parentheses wrap the whole label. Rounded zero has no negative sign. Minor-unit formatting always produces exactly two fraction digits, even when valid different fraction settings are supplied; invalid settings still throw.
+
+## Input precision and errors
+
+Decimal strings preserve supplied digits, including Devanagari input. Pass ungrouped decimals; `formatNPR('1,000')` is rejected. JavaScript numbers use their existing binary value's string representation, so use decimal strings or bigint paisa for exact amounts. Exponent notation and non-finite values are rejected by the shared number parser.
+
+| Error | Code | Cause |
+| --- | --- | --- |
+| `InvalidCurrencyError` (extends `TypeError`) | `INVALID_CURRENCY` | Invalid currency options or a non-bigint paisa argument |
+| `InvalidNumberError` from the shared parser | `INVALID_NUMBER` | Malformed amount text |
+
+Handle both codes when accepting user input. Separate import paths can contain different copies of `InvalidNumberError`, so check its `code` rather than relying only on `instanceof` across those paths. See [error handling](../../guides/errors-and-input/#shared-decimal-errors-can-cross-domain-boundaries) for an example.
+
+For consistent numeric and written totals, follow [exact money and number words](../../guides/exact-money-and-words/).

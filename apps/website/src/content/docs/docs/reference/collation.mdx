@@ -1,19 +1,84 @@
 ---
-title: Collation reference
-description: Nepali-aware sorting, search, normalization, and text stats.
+title: Nepali sorting, search, and text reference
+description: Compare Nepali strings, choose school or phonetic conjunct ordering, normalize text, search names, and count words and characters.
 ---
 
 Try it live in the [playground](../../../playground/).
 
+Import from `nepali-toolkit/collation`.
+
+## Create a collator
+
+```ts
+createNepaliCollator(options?: CollationOptions): NepaliCollator
+// Returned object:
+compare(a: string, b: string): -1 | 0 | 1
+sort(values: readonly string[]): string[]
+equals(a: string, b: string): boolean
+// readonly backend: 'basic' | 'intl'
+```
+
+`sort` returns a new array; the input is not mutated. Compare results are normalized to -1/0/1. Reuse one collator for a list rather than constructing one per comparison.
+
+| Option | Accepted values | Default |
+| --- | --- | --- |
+| `backend` | `'auto'`, `'basic'`, `'intl'` | `'auto'` |
+| `conjuncts` | `'school'`, `'phonetic'` | `'school'` |
+| `numeric` | Boolean; compare digit runs numerically | `false` |
+| `sensitivity` | `'base'`, `'full'` | `'base'` |
+| `ignorePunctuation` | Boolean | `false` |
+
+| Backend choice | Behavior |
+| --- | --- |
+| `auto` with `school` | Uses `basic`; native Intl does not implement the package's school conjunct order |
+| `auto` with `phonetic` | Uses Intl if the runtime passes the `ne-NP` locale and ordering checks; otherwise `basic` |
+| `basic` | Uses the package's ordering rules consistently across runtimes |
+| `intl` | Uses native ordering even if `school` is requested; throws `InvalidCollationError` if the runtime checks fail |
+
+Native Intl results can vary with installed ICU data.
+
 ```ts
 import { createNepaliCollator, nepaliIncludes, normalizeNepaliText } from 'nepali-toolkit/collation';
 
-const collator = createNepaliCollator();
-['ख', 'क'].sort(collator.compare);
-nepaliIncludes('नेपाल सरकार', 'सरकार');
-normalizeNepaliText(' नेपाल  सरकार ');
+const collator = createNepaliCollator({ backend: 'basic', numeric: true });
+collator.sort(['ग', 'क', 'ख']); // ['क', 'ख', 'ग']
+collator.sort(['क१०', 'क२']); // ['क२', 'क१०']
+normalizeNepaliText('िक'); // 'कि'
+nepaliIncludes('किरण', 'िक'); // true
 ```
 
-The domain exports a configurable `NepaliCollator`, text normalization and search helpers, Devanagari checks, punctuation helpers, word/character counts, and text statistics. Backend and conjunct options are typed by `CollationOptions`.
+## Normalization and search
 
-Invalid collation options throw `InvalidCollationError`.
+```ts
+normalizeNepaliText(input: string): string
+nepaliIncludes(haystack: string, needle: string, options?: NepaliSearchOptions): boolean
+nepaliStartsWith(haystack: string, needle: string, options?: NepaliSearchOptions): boolean
+stripIgnorablePunctuation(input: string): string
+isIgnorablePunctuation(ch: string): boolean
+```
+
+Normalization applies NFC, repairs misplaced short-i in supported patterns (for example, `िक` becomes `कि`), and removes ZWJ, ZWNJ, ZWSP, and BOM controls. Search matches substrings or prefixes in normalized text. It does not transliterate, perform fuzzy matching, or use collator equality.
+
+`NepaliSearchOptions` defaults to `caseInsensitive: true` for Latin letters and `ignorePunctuation: false`. Empty search strings match. Ignoring punctuation removes the package's listed punctuation, spaces, and tabs, but not every Unicode whitespace character.
+
+`stripIgnorablePunctuation` only strips that character set; it does not normalize or lowercase. `isIgnorablePunctuation` expects one code point and returns false for empty/multi-character strings.
+
+## Script detection and text statistics
+
+```ts
+containsDevanagari(input: string): boolean
+isDevanagariOnly(input: string): boolean
+countDevanagariChars(input: string): number
+countNepaliWords(input: string): number
+getNepaliTextStats(input: string): NepaliTextStats
+```
+
+Script helpers inspect the Devanagari block U+0900–U+097F after NFC. This detects script, not whether text is linguistically Nepali. `isDevanagariOnly` rejects spaces, outside-block punctuation, and the empty string. Counts use code points, not graphemes or displayed glyphs.
+
+`NepaliTextStats` contains `words`, `characters`, `charactersNoSpaces`, `sentences`, and `paragraphs`. Words split on whitespace with edge punctuation trimmed; sentences split on danda, double danda, `?`, and `!` (not ASCII periods); paragraphs are non-empty newline-separated segments. Character counts use the original input, while word/sentence/paragraph counts use normalized text.
+
+`InvalidCollationError` extends `TypeError` with `code: 'INVALID_COLLATION'`. It is thrown for non-string text input or when a requested Intl backend is unavailable. Use the documented option values: unsupported options from untyped code are not all checked at runtime.
+
+Exported types include `CollationOptions`, `NepaliCollator`, `CollationBackend`, `ResolvedBackend`, `ConjunctMode`, `BuildKeyOptions`, `NepaliSearchOptions`, and `NepaliTextStats`. There is no exported function for low-level sort-key generation.
+
+See [sorting and searching Nepali text](../../guides/nepali-sorting-and-search/).

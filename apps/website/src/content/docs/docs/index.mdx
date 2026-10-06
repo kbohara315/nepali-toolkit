@@ -1,22 +1,34 @@
 ---
-title: Documentation
-description: Build applications for Nepal with focused TypeScript utilities.
+title: Nepali Toolkit JavaScript and TypeScript documentation
+description: Build Nepal-focused applications with BS/AD dates, Nepali numbers, NPR currency, land units, number words, phone validation, and administrative data.
 ---
 
-Build for Nepal. With less code.
+Nepali Toolkit provides JavaScript and TypeScript utilities for applications built for Nepal. Import only the features you need. [Install the package](./getting-started/) or try the [playground](../playground/).
 
-`nepali-toolkit` is a TypeScript-first collection of dependency-free utilities for dates, numbers, NPR currency, land units, words, phone numbers, Nepali text, and Nepal's administrative hierarchy.
+## Find a guide for your task
 
-## Start here
+- [Convert dates and build calendars](./guides/dates-and-calendars/): date-only values, dates in a timezone, parsing, and arithmetic.
+- [Format exact money and number words](./guides/exact-money-and-words/): decimal strings, bigint paisa, and consistent written totals.
+- [Validate Nepal phone input](./guides/phone-validation/): normalization, shape, allocation, and display.
+- [Convert land measurements](./guides/land-conversions/): hill/Terai units, metric values, and display precision.
+- [Sort and search Nepali text](./guides/nepali-sorting-and-search/): deterministic ordering and normalized matching.
+- [Build administrative address selectors](./guides/administrative-data/): linked province/district/palika lists, ward checks, name search, and postal codes.
+- [Handle errors and external input](./guides/errors-and-input/): validate form values and handle error codes.
+- [Choose imports and control bundles](./guides/imports-and-bundling/): focused entrypoints and module formats.
 
-- [Getting started](./getting-started/) installs the package and makes a first useful call.
-- [The playground](../../playground/) lets you try real package APIs in your browser.
-- [Imports and bundling](./guides/imports-and-bundling/) explains the explicit subpath contract.
+## API references
 
-## Domains
+| Domain | Reference |
+| --- | --- |
+| Date | [BS/AD conversion, parsing, formatting, arithmetic, fiscal years, adapters](./reference/date/) |
+| Number | [Digit conversion, decimal parsing, lakh/crore grouping](./reference/number/) |
+| Currency | [NPR formatting and exact minor units](./reference/currency/) |
+| Words | [Number/amount words and supported integer-word parsing](./reference/words/) |
+| Land | [Ropani, aana, bigha, kattha, and metric conversion](./reference/land/) |
+| Collation | [Nepali sorting, search, normalization, and text counts](./reference/collation/) |
+| Phone | [Phone parsing, possible/valid/allocated checks, and formatting](./reference/phone/) |
+| Admin | [Hierarchy, bilingual names, wards, and postal scheme](./reference/admin/) |
 
-Browse the [date](./reference/date/), [number](./reference/number/), [currency](./reference/currency/), [land](./reference/land/), [words](./reference/words/), [collation](./reference/collation/), [phone](./reference/phone/), and [admin](./reference/admin/) references.
+## Understand the package and data
 
-:::note
-The package is in early development. APIs may change before `1.0.0`.
-:::
+Read [runtime compatibility](./project/compatibility/) for feature requirements, [data sources and coverage](./project/data-sources/) for bundled data and known gaps, and [release tracking](./project/releases/) before upgrading.

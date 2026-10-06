@@ -1,9 +1,36 @@
 ---
-title: Compatibility
+title: JavaScript runtime and framework compatibility
+description: Understand Nepali Toolkit ESM/CommonJS exports, ES2022 and bigint requirements, Intl-dependent adapters, Temporal integration, and React Native usage.
 ---
 
-The toolkit is pure TypeScript and publishes ESM and CommonJS builds. It has zero runtime dependencies and is designed for Node, browsers, and bundlers that support the published module formats.
+Nepali Toolkit has no runtime dependencies and provides ESM and CommonJS builds with TypeScript declarations. The JavaScript build targets ES2022. The package does not specify a minimum Node version; use a runtime that supports the features listed below.
 
-Civil date functions do not depend on browser globals or the machine timezone. The website itself is a static Astro build and the playground runs browser-safe utilities on the client.
+## Feature requirements
 
-The package is early development. Verify the package version and your runtime's module support before adopting it in a long-lived application.
+| Feature | Runtime facilities |
+| --- | --- |
+| BS/AD conversion and civil arithmetic | Built-in JavaScript number/object operations; no host timezone or Intl needed |
+| Number/currency/land/words | Modern JavaScript, including bigint for exact integer/minor-unit/area operations |
+| Basic collation and search | Unicode normalization and regular-expression support; no Intl backend needed |
+| Intl collation | Native `ne-NP` support that passes the toolkit's locale and ordering checks |
+| Named-timezone projection | `Intl.DateTimeFormat`, `formatToParts`, and the requested IANA timezone data |
+| JavaScript Date adapter | Valid built-in `Date`; reads and writes UTC fields |
+| Temporal adapter | An available or explicitly injected Temporal-like implementation; ISO calendar only |
+
+The package does not install Intl or Temporal polyfills. Text and number-word functions also use Unicode regular expressions. Check the features you use on your application's target runtimes, especially older engines.
+
+## Browser, server, and framework use
+
+Functions can be called from client code, Node applications, and server-side rendering. Most domains do not require DOM or Node-specific APIs. In an SSR application, pass explicit reference dates and use an explicit timezone for instants to keep client/server output aligned. Choose basic collation when ordering must not vary with installed ICU data.
+
+React, Vue, Svelte, Angular, and Astro applications use the same function imports. No framework plugin is required. This package provides utilities, not UI components; the separate `nepali-ui` package is still a scaffold.
+
+## React Native and Hermes
+
+Use the utilities in React Native after checking your app's Hermes or other JavaScript engine for the features you need. These include bigint, Unicode regular expressions, and Intl or Temporal for the relevant adapters. Basic sorting works without Intl; named-timezone conversion requires Intl timezone data.
+
+## Module resolution and verification scope
+
+Use the [documented import paths](../../guides/imports-and-bundling/); the package root exports no utilities. TypeScript's module-resolution settings must support package export conditions. Bundle size depends on your imports and bundler, so inspect your application's output.
+
+For calendar-table bounds, allocation snapshots, and postal coverage, read [data sources](../data-sources/). For package version changes, read [releases](../releases/).

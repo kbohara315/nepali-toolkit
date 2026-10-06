@@ -1,33 +1,92 @@
 ---
-title: Getting started
-description: Install nepali-toolkit and make your first Nepali-aware calls.
+title: Install Nepali Toolkit and use your first utility
+description: Install the JavaScript and TypeScript package, choose a focused import, and convert BS/AD dates, digits, and NPR amounts.
 ---
 
-## Install
+import { Tabs, TabItem } from '@astrojs/starlight/components';
 
-```bash
+Nepali Toolkit provides utilities for dates, numbers, currency, land, text, phones, and administrative data. Each feature has its own import path, with TypeScript declarations and ESM/CommonJS builds.
+
+## Install with your package manager
+
+Choose your package manager to see its install command:
+
+<Tabs syncKey="package-manager">
+  <TabItem label="npm">
+
+```sh
+npm install nepali-toolkit
+```
+
+  </TabItem>
+  <TabItem label="pnpm">
+
+```sh
 pnpm add nepali-toolkit
 ```
 
-## Import by domain
+  </TabItem>
+  <TabItem label="Yarn">
 
-The package root intentionally exposes no utilities. Import the smallest stable subpath:
-
-```ts
-import { bs, formatBS, toAD } from 'nepali-toolkit/date';
-import { formatNumber, toDevanagari } from 'nepali-toolkit/number';
-import { formatNPR } from 'nepali-toolkit/currency';
-
-const date = bs(2082, 4, 7);
-formatBS(date, 'YYYY-MM-DD'); // '2082-04-07'
-toAD(date); // { year, month, day }
-formatNumber('12345678'); // '1,23,45,678'
-toDevanagari('2082'); // '२०८२'
-formatNPR('123456.50');
+```sh
+yarn add nepali-toolkit
 ```
 
-Pass decimal values as strings when exact digits matter. The package has no runtime dependencies and does not use browser globals for civil-date calculations.
+  </TabItem>
+  <TabItem label="Bun">
 
-## What happens on bad input?
+```sh
+bun add nepali-toolkit
+```
 
-Domain-specific errors are thrown for invalid values. Validate at your application boundary and show the error as user-facing text rather than allowing an exception to escape an event handler. Each reference page documents the relevant error behavior.
+  </TabItem>
+</Tabs>
+
+See [releases](../project/releases/) for the current package version.
+
+## Convert a date without involving a timezone
+
+```ts
+import { bs, toAD } from 'nepali-toolkit/date/convert';
+import { formatAD } from 'nepali-toolkit/date/format';
+
+const birthdayBS = bs(2082, 4, 7);
+const birthdayAD = toAD(birthdayBS);
+formatAD(birthdayAD, 'YYYY-MM-DD'); // '2025-07-23'
+```
+
+Months are one-based. `bs` creates a validated civil date, not a JavaScript `Date` instant. The current conversion window is BS 2000-01-01 through 2090-12-30, corresponding to AD 1943-04-14 through 2034-04-13. Read the [date guide](../guides/dates-and-calendars/) before choosing how to store date-only values or convert timestamps.
+
+## Format a number or rupee total
+
+```ts
+import { formatNumber, parseNumber } from 'nepali-toolkit/number';
+import { formatNPRMinorUnits } from 'nepali-toolkit/currency';
+
+const decimal = parseNumber('१२,३४५.५०'); // '12345.50', still a string
+formatNumber(decimal, { numerals: 'devanagari' }); // '१२,३४५.५०'
+formatNPRMinorUnits(1234550n); // 'रु १२,३४५.५०'
+```
+
+Use decimal strings for exact numeric input and bigint paisa for exact money. Formatting a JavaScript number does not restore precision already lost in floating-point calculations. See [exact money and words](../guides/exact-money-and-words/).
+
+## Choose a domain import
+
+| Task | Import |
+| --- | --- |
+| BS/AD calendar operations | `nepali-toolkit/date` |
+| Digits and lakh/crore grouping | `nepali-toolkit/number` |
+| NPR labels and paisa totals | `nepali-toolkit/currency` |
+| Ropani/aana and bigha/kattha conversion | `nepali-toolkit/land` |
+| Nepali/English number and amount words | `nepali-toolkit/words` |
+| Nepali sorting, normalized search, text counts | `nepali-toolkit/collation` |
+| Nepal phone parsing and shape/allocation checks | `nepali-toolkit/phone` |
+| Provinces, districts, palikas, wards, postal scheme | `nepali-toolkit/admin` |
+
+The package root intentionally exports no utilities. For a smaller feature bundle, use focused paths such as `number/digits`, `date/format`, or `admin/provinces`; see [imports and bundling](../guides/imports-and-bundling/).
+
+## Handle input at the application boundary
+
+Constructors and parsers throw errors for invalid input. Validation helpers and lookups may instead return `false`, an empty list, or `undefined`. TypeScript casts do not validate runtime values. The [errors and input guide](../guides/errors-and-input/) explains how to prepare form values and handle failures.
+
+Try supported operations in the [playground](../../playground/), then use the [API references](../) for signatures and defaults. Dataset-backed behavior follows the bundled [source revisions](../project/data-sources/).

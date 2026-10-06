@@ -21,8 +21,17 @@ export default defineConfig({
       sidebar: [
         { label: 'Playground', link: '/playground/' },
         { label: 'Start here', items: ['docs', 'docs/getting-started'] },
-        { label: 'Guides', items: [{ label: 'Imports and bundling', slug: 'docs/guides/imports-and-bundling' }, { label: 'Dates and calendars', slug: 'docs/guides/dates-and-calendars' }, { label: 'Administrative data', slug: 'docs/guides/administrative-data' }] },
-        { label: 'Reference', items: [{ label: 'Date', slug: 'docs/reference/date' }, { label: 'Number', slug: 'docs/reference/number' }, { label: 'Currency', slug: 'docs/reference/currency' }, { label: 'Land', slug: 'docs/reference/land' }, { label: 'Words', slug: 'docs/reference/words' }, { label: 'Collation', slug: 'docs/reference/collation' }, { label: 'Phone', slug: 'docs/reference/phone' }, { label: 'Admin', slug: 'docs/reference/admin' }] },
+        { label: 'Task guides', items: [
+          { label: 'Dates and calendars', slug: 'docs/guides/dates-and-calendars' },
+          { label: 'Exact money and words', slug: 'docs/guides/exact-money-and-words' },
+          { label: 'Phone form validation', slug: 'docs/guides/phone-validation' },
+          { label: 'Land conversions', slug: 'docs/guides/land-conversions' },
+          { label: 'Nepali sorting and search', slug: 'docs/guides/nepali-sorting-and-search' },
+          { label: 'Administrative address selectors', slug: 'docs/guides/administrative-data' },
+          { label: 'Errors and external input', slug: 'docs/guides/errors-and-input' },
+          { label: 'Imports and bundling', slug: 'docs/guides/imports-and-bundling' },
+        ] },
+        { label: 'API reference', items: [{ label: 'BS/AD dates', slug: 'docs/reference/date' }, { label: 'Numbers and digits', slug: 'docs/reference/number' }, { label: 'NPR currency', slug: 'docs/reference/currency' }, { label: 'Land area', slug: 'docs/reference/land' }, { label: 'Number and amount words', slug: 'docs/reference/words' }, { label: 'Sorting, search, and text', slug: 'docs/reference/collation' }, { label: 'Nepal phone numbers', slug: 'docs/reference/phone' }, { label: 'Admin and postal codes', slug: 'docs/reference/admin' }] },
         { label: 'Project', items: [{ label: 'Compatibility', slug: 'docs/project/compatibility' }, { label: 'Data sources', slug: 'docs/project/data-sources' }, { label: 'Releases', slug: 'docs/project/releases' }] }
       ]
     }),

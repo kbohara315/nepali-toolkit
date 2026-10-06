@@ -1,19 +1,76 @@
 ---
-title: Land reference
-description: Hill and Terai land-area units with exact conversion.
+title: Ropani and bigha land area reference
+description: Construct and convert Nepal hill and Terai land units using bigint square micrometres and decimal-string metric output.
 ---
 
 Try it live in the [playground](../../../playground/).
 
-```ts
-import { hillArea, formatHillArea, teraiArea, toSquareFeet } from 'nepali-toolkit/land';
+Import from `nepali-toolkit/land`. `Area` is `{ readonly um2: bigint }`: whole square micrometres, not a floating-point square-metre value.
 
-const area = hillArea({ ropani: 2, aana: 3 });
-formatHillArea(area);
-toSquareFeet(area);
-const terai = teraiArea({ bigha: 1, kattha: 2 });
+## Constructors and unit ladders
+
+```ts
+hillArea(fields?: { ropani?: number; aana?: number; paisa?: number; daam?: number }): Area
+teraiArea(fields?: { bigha?: number; kattha?: number; dhur?: number }): Area
 ```
 
-Hill fields are `ropani`, `aana`, `paisa`, and `daam`; Terai fields are `bigha`, `kattha`, and `dhur`. Overflowing subordinate units normalize upward. Conversion helpers include square metres, square centimetres, and square feet in both directions. Formatting supports Nepali/English labels, long/short style, zero omission, and numeral choice.
+All omitted fields default to zero. Values must be non-negative integer numbers; negative and fractional input throws `InvalidAreaError`. Overflowing smaller units carry into larger ones. Inputs are computed with number arithmetic before conversion to bigint; keep field totals within safe-integer precision rather than assuming arbitrary bigint-sized counts are accepted.
 
-Negative, fractional, or malformed unit fields throw `InvalidAreaError`. Values are represented internally as exact square micrometres.
+| System | Ladder | Metric constant used by this package |
+| --- | --- | --- |
+| Hill | 1 ropani = 16 aana; 1 aana = 4 paisa; 1 paisa = 4 daam | 1 ropani = 508.72 m² |
+| Terai | 1 bigha = 20 kattha; 1 kattha = 20 dhur | 1 bigha = 6,772.63 m² |
+
+## Conversion signatures
+
+```ts
+toSquareMetres(area: Area): string
+toSquareCentimetres(area: Area): string
+toSquareFeet(area: Area): string
+fromSquareMetres(value: string | number): Area
+fromSquareCentimetres(value: string | number): Area
+fromSquareFeet(value: string | number): Area
+formatHillArea(area: Area, options?: AreaFormatOptions): string
+formatTeraiArea(area: Area, options?: AreaFormatOptions): string
+```
+
+Metric output is exact decimal text. Constructors from decimal units accept ungrouped ASCII/Devanagari input and round half-up to whole µm². Number input cannot recover already-lost floating-point precision.
+
+```ts
+import {
+  hillArea, teraiArea, toSquareMetres, toSquareFeet,
+  fromSquareMetres, formatHillArea,
+} from 'nepali-toolkit/land';
+
+toSquareMetres(hillArea({ aana: 4 })); // '127.18'
+formatHillArea(hillArea({ aana: 20 })); // '१ रोपनी ४ आना'
+toSquareFeet(teraiArea({ bigha: 1 })); // '72900'
+formatHillArea(fromSquareMetres('508.72')); // '१ रोपनी'
+```
+
+## Square-foot relation and display limits
+
+The rounded equivalents, 1 ropani = 5,476 ft² and 1 bigha = 72,900 ft², imply slightly different ratios to the metric constants. `toSquareFeet` chooses a ratio from the stored area:
+
+| Stored area | Ratio used |
+| --- | --- |
+| Exact multiple of daam | Hill |
+| Exact multiple of dhur, but not daam | Terai |
+| Any other area | Hill |
+
+Repeating output is rounded half-up to at most 12 fractional digits. `fromSquareFeet` always uses the hill ratio, so converting Terai output back may change the stored area.
+
+| `AreaFormatOptions` field | Values | Default |
+| --- | --- | --- |
+| `numerals` | `'devanagari'`, `'ascii'` | `'devanagari'` |
+| `style` | `'long'`, `'short'` | `'long'` |
+| `omitZero` | Boolean | `true` |
+| `language` | `'ne'`, `'en'` | `'ne'` |
+
+Choosing English labels does not change the digit default. Zero displays as `० दाम` or `० धुर`.
+
+Hill and Terai formatters show whole units down to daam or dhur. Smaller remainders stay in `Area` but are omitted from the label. These APIs cannot parse the formatted labels back into areas.
+
+`InvalidAreaError` extends `TypeError`, `code: 'INVALID_AREA'`, for unit values, negative area input, and unsupported display enums. Malformed decimal input can throw `InvalidNumberError`. Use constructor-produced areas; the public structural `Area` type itself does not validate arbitrary hand-built objects.
+
+See [land conversions](../../guides/land-conversions/) and [data sources](../../project/data-sources/) for precision and provenance context.

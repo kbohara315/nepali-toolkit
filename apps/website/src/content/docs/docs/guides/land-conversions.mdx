@@ -1,0 +1,50 @@
+---
+title: Convert ropani, aana, bigha, and kattha measurements
+description: Normalize Nepal land units, convert metric area exactly as decimal text, and understand square-foot ratios and display truncation.
+---
+
+Store a measurement as `Area`, then display it in hill units, Terai units, or metric units. Hill units run from ropani to daam; Terai units run from bigha to dhur. Conversions use the package's bundled metric constants.
+
+## Enter unit components and normalize overflow
+
+```ts
+import { hillArea, teraiArea, formatHillArea, formatTeraiArea } from 'nepali-toolkit/land';
+
+const hill = hillArea({ aana: 20 });
+formatHillArea(hill); // '१ रोपनी ४ आना'
+formatTeraiArea(teraiArea({ dhur: 25 })); // '१ कट्ठा ५ धुर'
+```
+
+Omitted components are zero. Fractional components such as `{ aana: 1.5 }` are rejected; represent them as integral smaller units or start with decimal square metres. Keep numeric component totals within safe-integer precision.
+
+## Convert through metric decimal strings
+
+```ts
+import { hillArea, toSquareMetres, fromSquareMetres, formatHillArea } from 'nepali-toolkit/land';
+
+const plot = hillArea({ ropani: 1 });
+const metric = toSquareMetres(plot); // '508.72'
+const restored = fromSquareMetres(metric);
+restored.um2 === plot.um2; // true
+formatHillArea(restored, { language: 'en', numerals: 'ascii' }); // '1 Ropani'
+```
+
+The metric representation is exact relative to the package constants. Decimal constructors round to whole square micrometres. Keep output as text when preserving digits; converting to Number can introduce floating-point approximation.
+
+## Display in another system without losing stored precision
+
+```ts
+import { fromSquareMetres, toSquareMetres, formatHillArea } from 'nepali-toolkit/land';
+
+const small = fromSquareMetres('1');
+formatHillArea(small); // '० दाम': smaller than one daam
+toSquareMetres(small); // '1': the stored area is still intact
+```
+
+`formatHillArea` and `formatTeraiArea` floor components to daam/dhur and omit zero units by default. A cross-system label may hide a remainder. Persist `um2` as bigint decimal text or an exact metric decimal, not the formatted label. There is no display-string parser.
+
+## Choose square-foot behavior deliberately
+
+`toSquareFeet` uses the hill ratio for exact multiples of daam. It uses the Terai ratio for exact multiples of dhur that are not also exact multiples of daam, and the hill ratio for all other areas. Output has at most 12 fractional digits. `fromSquareFeet` always uses the hill ratio, so exporting a Terai area to square feet and importing it again may change the stored area.
+
+The constants use 508.72 m² / 5,476 ft² per ropani and 6,772.63 m² / 72,900 ft² per bigha. These rounded relationships do not define one universal metric-to-foot ratio. Read the [land reference](../../reference/land/) before integrating with a surveying system that assumes a different conversion standard, and consult [source provenance](../../project/data-sources/) for the current citation status.

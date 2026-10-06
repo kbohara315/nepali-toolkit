@@ -87,7 +87,7 @@ test('sidebar exposes the playground as a top-level link', async () => {
 
 test('docs landing still points at the playground', async () => {
   const source = await read('src/content/docs/docs/index.mdx');
-  assert.match(source, /\[The playground\]\(\.\.\/\.\.\/playground\/\)/);
+  assert.match(source, /\[playground\]\(\.\.\/playground\/\)/i);
 });
 
 test('docs pages render sidebar-driven breadcrumbs above the title', async () => {

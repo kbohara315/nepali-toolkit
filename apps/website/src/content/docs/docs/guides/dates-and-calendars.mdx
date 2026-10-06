@@ -1,15 +1,78 @@
 ---
-title: Dates and calendars
+title: Convert Nepali dates and build civil calendars
+description: Choose BS or AD date storage, project timestamps to Kathmandu, parse date input, format Nepali labels, and apply calendar arithmetic explicitly.
 ---
 
-Dates are represented as civil BS or AD values. Construct a value with `bs()` or `ad()`, convert with `toAD()` or `toBS()`, and format with `formatBS()` or `formatAD()`.
+A birthday, fiscal-year boundary, or calendar cell needs a date without a time: a **civil date**. A timestamp identifies a moment in time. BS/AD conversion changes the calendar used to describe a day; a timezone determines which day a timestamp falls on.
+
+## Store a date-only value explicitly
 
 ```ts
-import { bs, formatBS, toAD, addDaysBS } from 'nepali-toolkit/date';
+import { bs, toAD } from 'nepali-toolkit/date/convert';
+import { NepaliDate } from 'nepali-toolkit/date/value';
 
-const nepaliDate = bs(2082, 1, 1);
-formatBS(nepaliDate, 'YYYY-MM-DD');
-toAD(addDaysBS(nepaliDate, 7));
+const entered = bs(2082, 4, 7);
+const value = NepaliDate.fromBS(entered);
+value.serialize(); // '2025-07-23' (AD)
+value.serializeBS(); // '2082-04-07' (BS)
+toAD(entered); // { year: 2025, month: 7, day: 23 }
 ```
 
-The supported BS range is bounded by the package's generated calendar data. Invalid civil dates and unsupported dates produce typed errors. Use the timezone adapters only when bridging an instant; core civil-date operations do not depend on a local timezone.
+Store the calendar alongside year/month/day fields, or consistently store AD date strings. `NepaliDate.toJSON()` also uses AD. A string such as `2082-04-07` is ambiguous without its calendar. For a birthday, use a date-only value rather than a JavaScript `Date` tied to the device timezone.
+
+## Project an instant before converting its calendar
+
+```ts
+import { instantToAD } from 'nepali-toolkit/date/adapters/timezone';
+import { toBS } from 'nepali-toolkit/date/convert';
+
+const kathmanduDay = instantToAD('2025-01-15T19:00:00Z', 'Asia/Kathmandu');
+kathmanduDay; // { year: 2025, month: 1, day: 16 }
+const localBS = toBS(kathmanduDay);
+```
+
+Use `dateToAD(new Date(...))` for the UTC day, or supply an IANA timezone to `instantToAD` for the day in that zone. Timestamp strings must include an offset; epoch milliseconds are also accepted. The timezone adapter rejects date-only strings and requires runtime Intl timezone data. Temporal PlainDate integration works with ISO date-only values; see [date adapters](../../reference/date/#javascript-date-timezones-and-temporal-adapters).
+
+## Parse the form's exact format
+
+```ts
+import { parseBS } from 'nepali-toolkit/date/parse';
+import { formatBS } from 'nepali-toolkit/date/format';
+import { locale } from 'nepali-toolkit/date/locale/ne';
+
+const date = parseBS('२०८२-०४-०७', { numerals: 'both' });
+formatBS(date, 'D MMMM YYYY', { locale }); // '७ श्रावण २०८२'
+```
+
+Parsing does not trim input, roll over invalid days, or guess `DD/MM` versus `MM/DD`. Choose a pattern and a numeral policy. If your UI trims surrounding whitespace, do it explicitly before calling the parser. Parsing can fail for syntax, impossible calendar fields, or unsupported BS range.
+
+For weekday labels, use `formatBSDisplay` with a locale and `weekday: weekdayBS(date)`; lightweight formatting does not include weekday tokens. Current formatters reject day 32 even when it is valid in the BS table; handle that limitation when building calendar labels rather than assuming every constructed BS date can be formatted.
+
+## Choose calendar arithmetic rather than elapsed milliseconds
+
+```ts
+import { ad, addDaysAD, addMonthsAD, differenceInDaysAD } from 'nepali-toolkit/date';
+
+const start = ad(2025, 1, 31);
+addDaysAD(start, 1); // AD 2025-02-01
+addMonthsAD(start, 1); // AD 2025-02-28, constrained by default
+differenceInDaysAD(ad(2025, 2, 1), start); // 1
+```
+
+Use `overflow: 'reject'` when month-end clamping would be inappropriate for your rule. BS arithmetic uses actual table month lengths, not a fixed Gregorian offset. Arithmetic returns new values and accepts safe integer increments; crossing the supported civil-day range fails.
+
+`iterateBS`/`iterateAD` provide inclusive generators for calendar ranges. Build cells from their date fields and weekday indices; do not multiply timestamps by 24-hour intervals. Exhausting a range at the final supported date currently throws after that endpoint, as noted in the [date reference](../../reference/date/#arithmetic-comparison-and-validation).
+
+## Fiscal labels, age, and supported boundaries
+
+```ts
+import { bs, getFiscalYear, formatFiscalYear, fiscalYearInfo } from 'nepali-toolkit/date';
+
+const year = getFiscalYear(bs(2082, 4, 1)); // 2082
+formatFiscalYear(year); // '2082/83'
+const period = fiscalYearInfo(year); // Shrawan 1 through the next Ashadh end
+```
+
+Use explicit reference dates for age and relative labels, so tests and server/client renders do not depend on the current clock. `ageOnAD` / `ageOnBS` currently have a negative residual-day limitation; see the reference before using their result as a years/months/days display.
+
+Check the complete `range` endpoints, not just year numbers. A valid AD date can fall outside the BS conversion window. The calendar table's source review is incomplete; see [data sources](../../project/data-sources/) for details.

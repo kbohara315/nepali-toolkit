@@ -1,0 +1,84 @@
+---
+title: Validate external input and handle toolkit errors
+description: Normalize form fields explicitly, use non-throwing predicates and lookup misses appropriately, and catch typed Nepali Toolkit date and number errors.
+---
+
+TypeScript types do not validate JSON payloads or form values at runtime. Check the value's type first, then use the relevant parser or constructor to validate a date, decimal, or phone number.
+
+## Choose normalization for each field
+
+| Input | How to prepare it |
+| --- | --- |
+| Date-only string | Specify calendar and pattern; trim explicitly if desired; parsing does not trim |
+| Decimal text | `parseNumber` normalizes ASCII/Devanagari and strips commas; add stricter grouping validation if needed |
+| Phone text | Preserve as string; parser accepts documented digits/separators/country markers |
+| Administrative code | Require exact ASCII string code; lookups do not localize/coerce it |
+| Ward | Convert a validated form integer to number, then check its palika range |
+| Land components | Require non-negative integer numbers within safe precision |
+
+Digit conversion alone is not validation. `toAscii('रु १२')` preserves the currency prefix, and a cast such as `payload as BSDate` does not establish a valid date.
+
+## Catch date syntax, validity, and range failures separately
+
+```ts
+import { parseBS, ParseError, InvalidCivilDateError, UnsupportedDateError } from 'nepali-toolkit/date';
+
+function readDate(raw: string) {
+  try {
+    return { ok: true as const, date: parseBS(raw.trim(), { numerals: 'both' }) };
+  } catch (error) {
+    if (error instanceof ParseError) return { ok: false as const, reason: 'format' };
+    if (error instanceof InvalidCivilDateError) return { ok: false as const, reason: 'date' };
+    if (error instanceof UnsupportedDateError) return { ok: false as const, reason: 'range' };
+    throw error;
+  }
+}
+
+readDate('२०८२-०४-०७'); // valid
+readDate('2082-00-07'); // invalid civil date
+```
+
+Malformed field types/unsafe integers can raise `InvalidFieldError`. Calendar validity and conversion support differ: an AD date can construct successfully but fail when converted to BS. Formatter pattern errors can be `SyntaxError`; do not assume every thrown error has a domain code.
+
+## Use non-throwing contracts when they fit
+
+`isValidAD` / `isValidBS` check numeric date fields. `isPossibleNepalPhone` checks raw phone shape, while `isValidNepalPhone` checks a parsed object. Admin code/ward predicates return false for unknown or malformed values. Direct admin lookups return undefined for unknown strings and throw for non-string arguments; lists return `[]` for unknown parent strings. Postal parsing returns undefined for malformed strings but throws for non-string input.
+
+Handle missing matches in your UI or data layer, for example by asking the user to select a known administrative code.
+
+## Shared decimal errors can cross domain boundaries
+
+```ts
+import { formatNPR, InvalidCurrencyError } from 'nepali-toolkit/currency';
+
+function previewAmount(raw: string) {
+  try {
+    return formatNPR(raw);
+  } catch (error) {
+    const isNumberError = error !== null && typeof error === 'object'
+      && 'code' in error && error.code === 'INVALID_NUMBER';
+    if (isNumberError || error instanceof InvalidCurrencyError) {
+      return 'Enter an ungrouped decimal amount.';
+    }
+    throw error;
+  }
+}
+
+previewAmount('12.50'); // 'रु १२.५०'
+```
+
+Currency and decimal land constructors use the shared number parser, so malformed numeric input can throw `InvalidNumberError`. Separate import paths can contain different copies of an error class. Check its stable `code` when handling shared errors across paths; for `instanceof`, import the function and its error class from the same domain entrypoint.
+
+These errors extend `TypeError`:
+
+| Error | Code |
+| --- | --- |
+| `InvalidWordsError` | `INVALID_WORDS` |
+| `InvalidAreaError` | `INVALID_AREA` |
+| `InvalidPhoneError` | `INVALID_PHONE` |
+| `InvalidAdminError` | `INVALID_ADMIN` |
+| `InvalidCollationError` | `INVALID_COLLATION` |
+
+Rethrow unexpected errors so application bugs are not reported as bad user input.
+
+Use the [date reference](../../reference/date/#typed-date-errors) and each domain reference for exact failure modes and current limits.

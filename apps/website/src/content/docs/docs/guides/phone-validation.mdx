@@ -1,0 +1,59 @@
+---
+title: Validate and normalize Nepal phone form input
+description: Accept Devanagari or +977 phone input, parse once, distinguish shape from allocation, and format without treating validation as reachability.
+---
+
+Accept phone input as text so leading zeros, country markers, and localized digits survive. The toolkit normalizes accepted separators and Devanagari numerals during parsing.
+
+## Parse once on submission
+
+```ts
+import { parseNepalPhone, formatNepalPhone, InvalidPhoneError } from 'nepali-toolkit/phone';
+
+function parseContact(raw: string) {
+  try {
+    const phone = parseNepalPhone(raw);
+    return { ok: true as const, phone, label: formatNepalPhone(phone) };
+  } catch (error) {
+    if (error instanceof InvalidPhoneError) {
+      return { ok: false as const, message: 'Enter a supported Nepal phone number.' };
+    }
+    throw error;
+  }
+}
+
+parseContact('+९७७ ९८१-२३४५६७८'); // parsed mobile, label '981-234-5678'
+parseContact('981/2345678'); // rejected: slash is not an accepted separator
+```
+
+`isPossibleNepalPhone(raw)` checks the general number format. The parser also checks subscriber length for known landline areas. If you use the boolean helper while typing, parse the completed field on submission. `isValidNepalPhone` expects a parsed object, not raw text.
+
+## Make allocation a separate application rule
+
+```ts
+import { parseNepalPhone, isAllocatedNepalPhone, getNepalPhoneType } from 'nepali-toolkit/phone';
+
+const phone = parseNepalPhone('9831234567');
+getNepalPhoneType(phone); // 'mobile'
+isAllocatedNepalPhone(phone); // false in this snapshot
+```
+
+A number can parse when its prefix is unknown but its format is supported. The allocation check looks for that prefix in the bundled table; it cannot confirm active service or ownership. Uncertain entries are `null`, and toll-free/premium checks recognize prefix patterns rather than individual assignments. To confirm that a user can receive calls or messages, use a separate verification step.
+
+## Store the parsed value and render a label
+
+```ts
+import { parseNepalPhone, formatNepalPhone, isSameNepalPhone } from 'nepali-toolkit/phone';
+
+const mobile = parseNepalPhone('9812345678');
+formatNepalPhone(mobile, { style: 'e164' }); // '+9779812345678'
+isSameNepalPhone(mobile, '+977 981-234-5678'); // true
+
+const landline = parseNepalPhone('01-4412345');
+formatNepalPhone(landline, { style: 'international' }); // '+977 1-4412345'
+landline.e164; // '+977014412345'
+```
+
+For landlines, `national` and `e164` retain the leading zero, while international display drops it. The parser does not accept that displayed label as the same number, so store the parsed value for comparison. Before sending the `e164` field to a calling or messaging provider, adapt the landline format to its requirements; the retained zero may not be accepted.
+
+See the [phone reference](../../reference/phone/) for supported lengths, optional metadata, and the `nta-2026-09` revision.

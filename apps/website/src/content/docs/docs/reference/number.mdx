@@ -1,19 +1,62 @@
 ---
-title: Number reference
-description: Nepali lakh/crore grouping, parsing, and digit conversion.
+title: Nepali number formatting and digit conversion
+description: Format lakh and crore grouping, convert Devanagari digits, and parse exact decimal strings with nepali-toolkit/number.
 ---
 
 Try it live in the [playground](../../../playground/).
 
-```ts
-import { formatNumber, parseNumber, toDevanagari, toAscii } from 'nepali-toolkit/number';
+Import formatting and parsing from `nepali-toolkit/number`; use `nepali-toolkit/number/digits` for digit conversion alone.
 
-formatNumber('12345678'); // '1,23,45,678'
-parseNumber('१,२३,४५,६७८'); // '12345678'
-toDevanagari('2082'); // '२०८२'
-toAscii('२०८२'); // '2082'
+## Functions and return values
+
+```ts
+toAscii(value: string | number): string
+toDevanagari(value: string | number): string
+formatNumber(value: string | number | bigint, options?: NumberFormatOptions): string
+parseNumber(value: string): string
 ```
 
-`formatNumber` accepts strings, numbers, and bigints. Use strings for exact decimals. `NumberFormatOptions` controls grouping, numerals, fraction digits, and separators. `parseNumber` returns canonical ASCII decimal text and accepts ASCII or Devanagari digits.
+Digit converters replace ASCII or Devanagari digits and preserve punctuation and other text. They do not check whether the result is a valid number.
 
-Invalid numeric text throws `InvalidNumberError`; digit conversion preserves non-digit characters. Digit helpers are also available from `nepali-toolkit/number/digits`.
+`parseNumber` returns decimal **text**, not a JavaScript number. It:
+
+- Trims surrounding whitespace and removes all commas.
+- Converts Devanagari digits to ASCII.
+- Removes a leading plus and redundant integer zeros.
+- Removes the sign of zero, while preserving fractional trailing zeros.
+
+Digit converters throw a plain `TypeError` for non-finite number input; this is distinct from the formatter/parser's `InvalidNumberError`.
+
+```ts
+import { formatNumber, parseNumber, toAscii, toDevanagari } from 'nepali-toolkit/number';
+
+toDevanagari('Room 12'); // 'Room १२'
+toAscii('१२,३४५.५०'); // '12,345.50'
+parseNumber('+००१२,३४५.५०'); // '12345.50'
+formatNumber('1234567.895'); // '12,34,567.895'
+formatNumber('1234567.895', {
+  numerals: 'devanagari', maximumFractionDigits: 2,
+}); // '१२,३४,५६७.९०'
+```
+
+## NumberFormatOptions defaults
+
+| Option | Accepted values | Default |
+| --- | --- | --- |
+| `grouping` | `'nepali'`, `'western'`, `'none'` | `'nepali'` (rightmost 3 digits, then groups of 2) |
+| `numerals` | `'ascii'`, `'devanagari'` | `'ascii'` |
+| `minimumFractionDigits` | Non-negative integer, no greater than maximum | `0` |
+| `maximumFractionDigits` | Non-negative integer | `3` |
+| `rounding` | `'half-up'` | `'half-up'` |
+| `groupSeparator` | One non-digit Unicode character | `','` |
+| `decimalSeparator` | One non-digit Unicode character, different from group separator | `'.'` |
+
+Rounding operates on decimal digits, with negative ties rounded away from zero. A value rounded to zero loses its minus sign. Bigint inputs are integer-only: omitted fraction settings become zero, and an explicitly nonzero fraction setting throws.
+
+## Accepted input and errors
+
+Formatting accepts ungrouped ASCII/Devanagari decimals, optional signs, and forms such as `.5`. Commas must be removed with `parseNumber` before formatting. Neither formatter nor parser accepts exponent notation, currency symbols, non-finite numbers, or a trailing decimal point without digits. JavaScript numbers are converted through `String(value)`; precision lost before the call cannot be recovered.
+
+`InvalidNumberError` extends `TypeError` with `code: 'INVALID_NUMBER'`. Invalid fraction settings, separators, or enum options also throw it. `parseNumber` removes commas without checking their grouping positions; it is not a strict grouped-input validator and does not understand custom display separators.
+
+See [exact amounts and number words](../../guides/exact-money-and-words/) for storing money without binary floating-point loss.

@@ -1,13 +1,19 @@
-# nepali-toolkit
+# nepali-toolkit — JavaScript and TypeScript utilities for Nepal
 
 [![npm version](https://img.shields.io/npm/v/nepali-toolkit.svg)](https://www.npmjs.com/package/nepali-toolkit)
 [![npm downloads](https://img.shields.io/npm/dm/nepali-toolkit.svg)](https://www.npmjs.com/package/nepali-toolkit)
 
-TypeScript utilities for developers building applications for Nepal. The
-published `nepali-toolkit` package provides zero-dependency, tree-shakeable
-helpers for Bikram Sambat (BS) and Gregorian (AD) dates, Nepali numbers, NPR
-currency, land units, number words, phone numbers, Nepali collation, and
-official administrative data.
+**Build for Nepal, down to every detail.** `nepali-toolkit` helps JavaScript and
+TypeScript developers convert dates between Bikram Sambat (BS) and Gregorian
+(AD) in both directions and build the rest of a Nepal-focused application.
+The published package provides zero-dependency, tree-shakeable helpers for
+Nepali numbers, NPR currency, land units, number words, phone numbers, Nepali
+collation, and government-sourced administrative data.
+
+[Documentation](https://kbohara315.github.io/nepali-toolkit/docs/) ·
+[Playground](https://kbohara315.github.io/nepali-toolkit/playground/) ·
+[npm](https://www.npmjs.com/package/nepali-toolkit) ·
+[Package source](https://github.com/kbohara315/nepali-toolkit/tree/main/packages/nepali-toolkit)
 
 ## Use the package
 
@@ -15,54 +21,84 @@ official administrative data.
 npm install nepali-toolkit
 ```
 
-Use domain subpaths rather than the empty root entrypoint:
+Use domain subpaths rather than the empty root entrypoint. Save this runnable
+JavaScript example as `example.mjs` and run `node example.mjs`; the same imports
+work in TypeScript:
 
-```ts
-import { bs, formatBS, toAD } from 'nepali-toolkit/date';
-import { formatNumber, toDevanagari } from 'nepali-toolkit/number';
-import { formatNPR } from 'nepali-toolkit/currency';
+```js
+import { ad, bs, formatBS, toAD, toBS } from 'nepali-toolkit/date';
 
-const date = bs(2082, 4, 7);
+// BS to AD: Shrawan 7, 2082 → July 23, 2025.
+console.log(toAD(bs(2082, 4, 7)));
+// { year: 2025, month: 7, day: 23 }
 
-formatBS(date, 'YYYY-MM-DD'); // '2082-04-07'
-toAD(date); // Gregorian date fields
-formatNumber('12345678'); // '1,23,45,678'
-toDevanagari('2082'); // '२०८२'
-formatNPR('123456.50');
+// AD to BS: July 23, 2025 → Shrawan 7, 2082.
+const nepaliDate = toBS(ad(2025, 7, 23));
+console.log(nepaliDate);
+// { year: 2082, month: 4, day: 7 }
+console.log(formatBS(nepaliDate, 'YYYY-MM-DD'));
+// 2082-04-07
 ```
 
-## Domains
+Months are **1-based**. Converting a calendar date does not depend on your device's
+timezone. Use the Date, Temporal, or timezone adapters when working with timestamps.
+Conversion supports BS **2000-01-01–2090-12-30** (AD
+**1943-04-14–2034-04-13**), inclusive. The calendar table has not yet been
+independently checked across that entire range.
+See [date data sources](https://kbohara315.github.io/nepali-toolkit/docs/project/data-sources/).
 
-| Subpath | Purpose |
+## Tasks and domains
+
+| Subpath | Task and documentation |
 | --- | --- |
-| `nepali-toolkit/date` | BS/AD conversion, parsing, formatting, arithmetic, fiscal years, relative dates, ranges, and adapters |
-| `nepali-toolkit/number` | Nepali lakh/crore grouping and decimal parsing |
-| `nepali-toolkit/number/digits` | ASCII and Devanagari digit conversion |
-| `nepali-toolkit/currency` | NPR formatting and minor-unit formatting |
-| `nepali-toolkit/land` | Hill and Terai land-area units and conversions |
-| `nepali-toolkit/words` | English and Nepali number words and NPR amounts in words |
-| `nepali-toolkit/collation` | Nepali-aware sorting and collation |
-| `nepali-toolkit/phone` | Nepal phone parsing, formatting, and validation |
-| `nepali-toolkit/admin` | Province, district, palika, ward, and postal-code lookups |
+| `nepali-toolkit/date` | [Convert, parse, format, and calculate BS/AD dates and fiscal years](https://kbohara315.github.io/nepali-toolkit/docs/reference/date/) |
+| `nepali-toolkit/number` | [Format lakh/crore grouping and parse decimals](https://kbohara315.github.io/nepali-toolkit/docs/reference/number/) |
+| `nepali-toolkit/number/digits` | [Convert ASCII and Devanagari digits](https://kbohara315.github.io/nepali-toolkit/docs/reference/number/) |
+| `nepali-toolkit/currency` | [Display NPR amounts from rupees or integer paisa](https://kbohara315.github.io/nepali-toolkit/docs/reference/currency/) |
+| `nepali-toolkit/land` | [Convert ropani/aana and bigha/kattha to metric or square-foot areas](https://kbohara315.github.io/nepali-toolkit/docs/reference/land/) |
+| `nepali-toolkit/words` | [Write English/Nepali number words and NPR amounts in words](https://kbohara315.github.io/nepali-toolkit/docs/reference/words/) |
+| `nepali-toolkit/collation` | [Sort and search normalized Nepali text](https://kbohara315.github.io/nepali-toolkit/docs/reference/collation/) |
+| `nepali-toolkit/phone` | [Parse, format, and structurally validate Nepal phone numbers](https://kbohara315.github.io/nepali-toolkit/docs/reference/phone/) |
+| `nepali-toolkit/admin` | [Build province/district/palika selectors and ward/postal lookups](https://kbohara315.github.io/nepali-toolkit/docs/reference/admin/) |
 
 Administrative levels also have independent entrypoints:
 
-```ts
+```js
 import { getProvinces } from 'nepali-toolkit/admin/provinces';
 import { getDistricts } from 'nepali-toolkit/admin/districts';
 import { getPalikas } from 'nepali-toolkit/admin/palikas';
 
-const provinces = getProvinces();
-const districts = getDistricts('1');
-const palikas = getPalikas('101');
+console.log(getProvinces().length);      // 7
+console.log(getDistricts('1').length);   // 14 (Koshi)
+console.log(getPalikas('101').length);   // 9 (Taplejung)
 ```
+
+The `gov-2026-09` data snapshot contains 7 provinces, 77 districts, 753 palikas,
+and ward counts totaling 6,743 wards. Codes are strings; wards are validated by
+number range. Postal codes use the GPO palika/ward scheme rather than classic
+post-office codes.
+
+### Inputs, errors, and precision
+
+Use `ad()` / `bs()` to validate date fields. Invalid fields, invalid civil dates,
+and unsupported conversion dates throw distinct domain errors. For exact numeric
+or NPR display, pass decimal strings; for exact paisa, use `bigint` minor-unit
+APIs. JavaScript numbers cannot recover precision already lost to floating point.
+Words have explicit magnitude/fraction limits, and land areas store integer
+square micrometres. Phone structural validation does not establish ownership or
+live service.
+
+See the [package task examples](packages/nepali-toolkit/README.md),
+[input and error guide](https://kbohara315.github.io/nepali-toolkit/docs/guides/errors-and-input/),
+and the references above for supported inputs, options, and return values.
 
 ## Repository layout
 
 ```text
 nepali-toolkit/
 ├── apps/
-│   └── expo-example/          # Expo integration scaffold
+│   ├── expo-example/          # Expo integration scaffold
+│   └── website/               # Documentation, landing page, and playground
 ├── packages/
 │   ├── nepali-toolkit/        # Published pure TypeScript package
 │   └── nepali-ui/             # React Native UI scaffold
@@ -141,6 +177,9 @@ updated contracts, and tree-shaking verification.
 
 ## Documentation
 
+- [Getting started](https://kbohara315.github.io/nepali-toolkit/docs/getting-started/)
+- [Documentation and API reference](https://kbohara315.github.io/nepali-toolkit/docs/)
+- [Interactive playground](https://kbohara315.github.io/nepali-toolkit/playground/)
 - [Package README](packages/nepali-toolkit/README.md)
 - [Architecture blueprint](docs/blueprint.md)
 - [Implementation plan](docs/implementation-plan.md)

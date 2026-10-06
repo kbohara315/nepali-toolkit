@@ -1,0 +1,56 @@
+---
+title: Format exact NPR totals and Nepali number words
+description: Keep decimal input and bigint paisa exact, format lakh/crore totals, and generate matching numeric and written rupee amounts.
+---
+
+Store amounts as decimal strings or bigint paisa before formatting them. Decimal strings preserve entered digits; bigint paisa lets you add and subtract whole paisa without floating-point rounding. The formatters produce labels and words; they do not calculate totals for you.
+
+## Normalize an entered decimal without converting to Number
+
+```ts
+import { parseNumber, formatNumber } from 'nepali-toolkit/number';
+
+const decimal = parseNumber('१,२३,४५६.७५'); // '123456.75'
+formatNumber(decimal, {
+  numerals: 'devanagari', minimumFractionDigits: 2, maximumFractionDigits: 2,
+}); // '१,२३,४५६.७५'
+```
+
+`parseNumber` returns ASCII text and removes commas without checking grouping placement. Add application-level grouping rules if malformed commas should be rejected. It does not parse `रु` or `NPR` labels. Do not round-trip through `Number(decimal)` when exact digits matter.
+
+## Use one paisa total for numeric and written output
+
+```ts
+import { formatNPRMinorUnits } from 'nepali-toolkit/currency';
+import { amountToNepaliWordsNPRMinorUnits } from 'nepali-toolkit/words';
+
+const items = [10000000n, 2345675n]; // integer paisa, supplied by your data layer
+const total = items.reduce((sum, item) => sum + item, 0n);
+
+formatNPRMinorUnits(total); // 'रु १,२३,४५६.७५'
+amountToNepaliWordsNPRMinorUnits(total);
+// 'एक लाख तेइस हजार चार सय छपन्न रुपैयाँ पचहत्तर पैसा मात्र'
+```
+
+Both minor-unit functions interpret the same bigint as paisa. In contrast, `formatNPR(1250n)` means 1,250 rupees. JSON cannot encode bigint directly: send it as decimal text, validate the received string, then convert it back to bigint.
+
+## Decide rounding before producing words
+
+```ts
+import { formatNPR } from 'nepali-toolkit/currency';
+import { amountToNepaliWordsNPR, numberToNepaliWords } from 'nepali-toolkit/words';
+
+formatNPR('12.505'); // 'रु १२.५१' (half-up)
+amountToNepaliWordsNPR('12.51'); // 'बाह्र रुपैयाँ एकाउन्न पैसा मात्र'
+numberToNepaliWords('12.50'); // 'बाह्र दशमलव पाँच शून्य'
+```
+
+Currency formatting rounds; NPR amount words reject more than two fractional digits. Round the amount once using your application's rule, then pass the same decimal or paisa value to both formatters. `numberToNepaliWords` reads fractional digits individually; `amountToNepaliWordsNPR` describes rupees and paisa.
+
+## Keep formatting separate from validation
+
+Number format defaults to ASCII with up to three decimals; currency defaults to Devanagari with exactly two. Currency accepts symbol, placement, spacing, and negative-style options. Amount words can hide paisa or append `मात्र`; hiding paisa does not round or change the stored amount.
+
+Standalone words require an integer magnitude below `10^12`; generic number/currency text formatting does not share that limit. Scientific notation is unsupported. Prefer strings or minor units over floating-point totals, and catch both number and currency/words errors at input boundaries.
+
+See [number](../../reference/number/), [currency](../../reference/currency/), and [words](../../reference/words/) for exact option defaults and limits.

@@ -1,19 +1,74 @@
 ---
-title: Phone reference
-description: Parse, format, and validate Nepal phone numbers.
+title: Nepal phone parsing and validation reference
+description: Parse +977 phone input, distinguish possible and allocated numbers, format mobile and landline values, and inspect numbering metadata.
 ---
 
 Try it live in the [playground](../../../playground/).
 
-```ts
-import { isPossibleNepalPhone, isValidNepalPhone, parseNepalPhone, formatNepalPhone } from 'nepali-toolkit/phone';
+Import from `nepali-toolkit/phone`.
 
-isPossibleNepalPhone('9841234567'); // true for a valid phone shape
-const phone = parseNepalPhone('+977 9841234567');
-isValidNepalPhone(phone);
-formatNepalPhone(phone);
+## Functions and input contracts
+
+```ts
+parseNepalPhone(text: string): NepalPhone
+isPossibleNepalPhone(text: string): boolean
+isValidNepalPhone(phone: NepalPhone): boolean
+isAllocatedNepalPhone(phone: NepalPhone): boolean
+getNepalPhoneType(phone: NepalPhone): 'mobile' | 'landline' | 'toll-free' | 'premium' | 'unknown'
+formatNepalPhone(phone: NepalPhone, options?: PhoneFormatOptions): string
+isSameNepalPhone(a: NepalPhone | string, b: NepalPhone | string): boolean
 ```
 
-Validation helpers distinguish possible, allocated, and valid numbers and expose `getNepalPhoneType`. `isSameNepalPhone` compares normalized values. Formatting is controlled by `PhoneFormatOptions`; `metadataRevision` identifies the phone metadata revision used by the package.
+The parser accepts ASCII/Devanagari digits, spaces, dashes, parentheses, dots, and leading `+977` / `00977`. Bare `977` is removed only from 12- or 13-digit input, preserving 10-digit `977`-led national mobiles. Letters, slashes, foreign country markers, stray plus signs, and empty input throw `InvalidPhoneError` (`TypeError`, `code: 'INVALID_PHONE'`). Extensions are not supported.
 
-Malformed values throw `InvalidPhoneError` in parsing and formatting APIs. Validation helpers return booleans for normal invalid input.
+## NepalPhone output
+
+Every result has readonly `kind: 'mobile' | 'landline'`, `country: '977'`, `national: string`, `e164: '+977…'`, and `areaOrPrefix: string`. Known mobile prefixes may also include `operator`; known fixed-line area codes may include `areas: readonly string[]`. These optional fields describe the bundled metadata, not a live allocation check.
+
+```ts
+import {
+  parseNepalPhone, formatNepalPhone, isValidNepalPhone,
+  isAllocatedNepalPhone, isSameNepalPhone, isPossibleNepalPhone,
+} from 'nepali-toolkit/phone';
+
+const phone = parseNepalPhone('+९७७ ९८१-२३४५६७८');
+phone.national; // '9812345678'
+phone.e164; // '+9779812345678'
+phone.operator; // 'Ncell' in the shipped table
+isPossibleNepalPhone('9841234567'); // true: raw text shape check
+isValidNepalPhone(phone); // true: parsed object check
+formatNepalPhone(phone); // '981-234-5678'
+formatNepalPhone(phone, { style: 'international' }); // '+977 981-234-5678'
+isSameNepalPhone(phone, '00977 9812345678'); // true
+
+const unknown = parseNepalPhone('9831234567');
+isValidNepalPhone(unknown); // true
+isAllocatedNepalPhone(unknown); // false
+```
+
+## Shape, validity, allocation, and type
+
+| API | What it establishes |
+| --- | --- |
+| `isPossibleNepalPhone` | Normalizes raw text and checks format and length without throwing |
+| `parseNepalPhone` | Recognized shape and, for known landlines, subscriber-length checks |
+| `isValidNepalPhone` | Non-throwing structural check of an already-parsed object |
+| `isAllocatedNepalPhone` | Checks the object and finds a known non-null prefix/area entry; recognized toll-free/premium formats also pass |
+| `getNepalPhoneType` | Classifies the object; toll-free/premium patterns override its structural kind |
+
+| Number kind | Accepted national format |
+| --- | --- |
+| Mobile | 10 digits beginning `96`, `97`, or `98` |
+| Fixed line | Starts with `0`; 7–10 digits in total |
+| Known `01` fixed-line area | 7–8 subscriber digits, within the total length limit |
+| Other known fixed-line areas | 6–8 subscriber digits, within the total length limit |
+
+For known areas, the parser uses the longest matching area-code prefix. Unknown prefixes or areas can parse without metadata if their format is supported.
+
+Toll-free prefixes `1660` and `1800` accept 7–10 digits; premium prefix `19` accepts 4–8. Both return `kind: 'landline'`; use `getNepalPhoneType` for the more specific classification. These checks match prefix patterns, not a complete list of assigned numbers, and cannot confirm ownership or reachability.
+
+## Formatting and metadata
+
+`PhoneFormatOptions.style` is `'national'` (default), `'international'`, or `'e164'`. Mobile national output uses a 3–3–4 layout. International landline display drops the leading zero, while the parser's `national` and `e164` fields retain the input-normalized zero. A displayed landline such as `+977 1-4412345` is therefore not a parser round-trip; preserve the parsed value for storage/comparison. `isSameNepalPhone` compares canonical `e164` fields and returns false for unparseable strings.
+
+`metadataRevision` is `'nta-2026-09'`. The entrypoint also exports `MOBILE_PREFIXES`, `AREA_CODES`, `TOLL_FREE_PATTERNS`, `PREMIUM_PATTERNS`, `NepalPhone`, and `PhoneFormatOptions`. A null prefix means allocation is uncertain in this snapshot. See [phone form validation](../../guides/phone-validation/) and [data sources](../../project/data-sources/).

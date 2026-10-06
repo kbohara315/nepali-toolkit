@@ -1,7 +1,62 @@
 ---
-title: Data sources
+title: Calendar, administrative, phone, and land data sources
+description: Trace Nepali Toolkit dataset revisions, calendar provenance status, NSO/MoFAGA/GPO administrative sources, phone allocation limits, and land constants.
 ---
 
-Administrative source and revision notes are maintained alongside the generated data in `packages/nepali-toolkit/src/admin/data/raw/` and its `PROVENANCE.md`. Date calendar provenance is documented in the date data directory.
+This page lists the sources and revisions used for calendar dates, administrative records, phone prefixes, and land conversions. The data is bundled with the package and does not update automatically.
 
-The site does not claim that data is complete beyond the package's documented coverage. Pin a toolkit version and review its revision metadata when administrative or phone data is material to your product.
+## Bikram Sambat month table
+
+The calendar is a **working transcription**, revision `working-2026-08-22`. Its source review and independent checks of the full table are incomplete. The [calendar provenance notes](https://github.com/kbohara315/nepali-toolkit/blob/main/packages/nepali-toolkit/src/date/data/PROVENANCE.md) describe its sources and how the table is built.
+
+Conversions accept BS 2000-01-01 through 2090-12-30, corresponding to AD 1943-04-14 through 2034-04-13. Tests cover example conversions and round trips; they do not independently confirm every date in that interval.
+
+Use `nepali-toolkit/date/range` to read the endpoints, checksum, total-day count, source revision, and reference date pair in your application.
+
+## Administrative hierarchy and ward counts
+
+The administrative data uses revision `gov-2026-09`. The [administrative provenance notes](https://github.com/kbohara315/nepali-toolkit/blob/main/packages/nepali-toolkit/src/admin/data/PROVENANCE.md) link the source files and explain how their records become the bundled tables.
+
+| Source | Used for | Recorded vintage/access |
+| --- | --- | --- |
+| [National Statistics Office](https://nsonepal.gov.np), geographical codes workbook | Province/district/palika codes; canonical palika names | Workbook published 2023-09-22, fetched 2026-09-05 |
+| [NSO Census 2021 portal](https://censusresults.nsonepal.gov.np) | Local-level ward counts and district/province cross-checks | Bundle build 2023, fetched 2026-09-05 |
+| [MoFAGA local contacts](https://mofaga.gov.np/local-contact) | Unicode Nepali district/province names and cross-checks | Fetched 2026-09-05 |
+| NSO provincial/thematic reports | Official-use English province names | 2023–2026 |
+
+The current tables contain 7 provinces, 77 districts, 753 palikas, and 6,743 wards counted through local-level records. Palika types total 460 rural, 276 municipalities, 11 sub-metropolitan, and 6 metropolitan. Ward numbers are range-based; names and boundaries of individual wards are not shipped.
+
+Names retain source spellings, with Unicode NFC normalization and whitespace cleanup. NSO and MoFAGA use different names or spellings for some local levels, including Mahakali versus Dodhara Chandani. The provenance notes explain which name the package uses. Store administrative codes as identifiers: names can repeat, and the tables do not include every current alias or alternative transliteration.
+
+## GPO postal scheme versus legacy post offices
+
+The [General Post Office postal table](https://gpo.gov.np/pages/postal-code-1259614658/) was fetched 2026-09-05. Its 753 palika rows are cross-checked against the administrative code set and ward counts during generation. Runtime postal functions derive five-digit palika codes and seven-digit ward codes from those tables rather than bundling a separate directory.
+
+This covers the **palika/ward scheme**. The classic 1991 post-office system, including Kathmandu `44600`, is outside the API's coverage. Postal helpers do not establish delivery availability or identify a physical post office.
+
+Read `adminRevision` to identify the administrative snapshot used by your installed package.
+
+## Nepal phone metadata
+
+The [phone metadata table](https://github.com/kbohara315/nepali-toolkit/blob/main/packages/nepali-toolkit/src/phone/tables.ts) uses revision `nta-2026-09` and cites the NTA National Numbering Plan and ITU numbering information. Mobile prefixes map to operator short names. Uncertain allocations are `null`, with citations still pending. Toll-free `1660`/`1800` and premium `19` patterns cover recognized number formats, not a complete list of assigned numbers.
+
+`isAllocatedNepalPhone` checks this snapshot, not live service, ownership, or number portability. A number with an unknown prefix can still parse if its format is supported, but it may have no operator metadata. See the [phone reference](../../reference/phone/) for accepted input and formatting behavior.
+
+## Land measurement constants
+
+The package uses these published figures:
+
+| Unit | Square metres | Square feet |
+| --- | --- | --- |
+| 1 ropani | 508.72 m² | 5,476 ft² |
+| 1 bigha | 6,772.63 m² | 72,900 ft² |
+
+The [land conversion notes](https://github.com/kbohara315/nepali-toolkit/blob/main/docs/land-contract.md) and [constants](https://github.com/kbohara315/nepali-toolkit/blob/main/packages/nepali-toolkit/src/land/constants.ts) record these values. An authoritative National Measurement Standard or Land Revenue Office citation is still needed to confirm or refine them.
+
+Bigint arithmetic preserves the values calculated from these constants. The metric and square-foot figures are rounded and imply different ratios for hill and Terai units. See [square-foot conversion behavior](../../reference/land/#square-foot-relation-and-display-limits) before exchanging measurements with a system that uses another ratio.
+
+## Formatting rules and correction reports
+
+Nepali number grouping places three digits in the rightmost group, then two in each remaining group. Number-word vocabulary and basic sorting rules are also bundled with the package.
+
+To [report a discrepancy](https://github.com/kbohara315/nepali-toolkit/issues), include the package version, dataset revision, exact input and output, and a source showing the expected result. See [releases](../releases/) for version tracking.

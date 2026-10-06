@@ -1,7 +1,32 @@
 ---
-title: Releases
+title: Package versions and release tracking
+description: Check your installed Nepali Toolkit version, review releases, and include dataset revisions when reporting a bug.
 ---
 
-This documentation tracks the current `nepali-toolkit` package version. The package is currently `0.1.0` and remains in early development; APIs may change before `1.0.0`.
+These docs describe version **0.1.0** in the repository. The site does not keep separate docs for each release, so it may describe features missing from an older installed package. Check npm for published package versions and GitHub for release notes.
 
-For the canonical changelog, release tags, and issue tracker, see the [GitHub repository](https://github.com/kbohara315/nepali-toolkit). There is intentionally no versioned documentation system yet.
+## Check your installed version
+
+```sh
+pnpm list nepali-toolkit
+```
+
+Use `npm ls nepali-toolkit` with npm. Your lockfile records the version installed in your application.
+
+## Review version changes
+
+Review the [GitHub releases](https://github.com/kbohara315/nepali-toolkit/releases) and [tags](https://github.com/kbohara315/nepali-toolkit/tags) for version history. APIs may change before 1.0.0.
+
+Before upgrading, check:
+
+- Exported functions and import paths.
+- Accepted input, error codes, and option defaults.
+- Calendar, administrative, and phone data revisions.
+
+A data update can change results without changing a function signature. Run examples from your application against the new version before deploying it.
+
+## Include data revisions in bug reports
+
+The current calendar revision is `working-2026-08-22`, admin revision is `gov-2026-09`, and phone metadata revision is `nta-2026-09`. Include the actual runtime metadata with the package version and a minimal example. For calendar corrections, distinguish an API error from a source-data discrepancy; for admin names, include the canonical code and official snapshot citation.
+
+The [data sources page](../data-sources/) documents coverage and provenance status. [Compatibility](../compatibility/) documents module formats and feature-specific runtime requirements.

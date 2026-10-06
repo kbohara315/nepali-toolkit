@@ -1,14 +1,27 @@
 {
   "name": "nepali-toolkit",
   "version": "0.1.0",
-  "description": "TypeScript utilities for Nepal: BS/AD Bikram Sambat dates, Devanagari numerals, NPR currency, land units, amount-in-words, phone, and administrative data.",
+  "description": "JavaScript and TypeScript utilities for Nepal: bidirectional Bikram Sambat (BS)/Gregorian (AD) date conversion, Nepali numbers, NPR currency, land units, words, phone validation, collation, and administrative data.",
   "author": "Kshitij Bohara",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kbohara315/nepali-toolkit.git",
+    "directory": "packages/nepali-toolkit"
+  },
+  "homepage": "https://kbohara315.github.io/nepali-toolkit/",
+  "bugs": {
+    "url": "https://github.com/kbohara315/nepali-toolkit/issues"
+  },
   "keywords": [
     "nepali",
     "nepal",
     "bikram-sambat",
+    "bikram-sambat-converter",
     "nepali-date",
     "nepali-date-converter",
+    "javascript",
+    "js",
+    "bs-ad-converter",
     "ad-to-bs",
     "bs-to-ad",
     "nepali-calendar",
@@ -18,6 +31,7 @@
     "npr",
     "nepali-currency",
     "nepali-rupees",
+    "nepali-localization",
     "amount-in-words",
     "ropani",
     "land-measurement",

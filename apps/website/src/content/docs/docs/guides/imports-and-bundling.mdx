@@ -1,14 +1,51 @@
 ---
-title: Imports and bundling
+title: Choose imports and keep feature bundles focused
+description: Use Nepali Toolkit ESM and CommonJS exports, lightweight date helpers, and administrative-level subpaths without importing unrelated tables.
 ---
 
-Use explicit exports so a feature does not retain unrelated domain code or administrative tables.
+Import the feature you use. The root entrypoint is intentionally empty: `import { toBS } from 'nepali-toolkit'` is not a supported API.
+
+## ESM and CommonJS
 
 ```ts
 import { formatNPR } from 'nepali-toolkit/currency';
 import { getProvinces } from 'nepali-toolkit/admin/provinces';
+
+formatNPR('1200'); // 'रु १,२००.००'
+getProvinces().length; // 7
 ```
 
-Administrative levels have focused entrypoints: `admin/provinces`, `admin/districts`, and `admin/palikas`. The package publishes ESM and CommonJS builds and marks modules as side-effect free.
+```js
+const { formatNPR } = require('nepali-toolkit/currency');
+formatNPR('1200'); // 'रु १,२००.००'
+```
 
-The package root is intentionally empty. This is a size-sensitive contract, not a missing convenience export.
+Each documented subpath has `import`, `require`, and declaration export conditions. TypeScript consumers should use a module-resolution mode that understands package exports, such as their application's existing `NodeNext` or `Bundler` configuration. Do not reach into unpublished `src` or internal build chunks.
+
+## Date entrypoints by responsibility
+
+| Path after `nepali-toolkit/` | Use |
+| --- | --- |
+| `date/convert` | Constructors and conversion |
+| `date/value` | Immutable `NepaliDate` |
+| `date/arithmetic` | Calendar arithmetic and predicates |
+| `date/format` | Basic date tokens without calendar conversion tables |
+| `date/format-display` | Ordinals and supplied weekday display |
+| `date/parse` | Strict pattern parsing |
+| `date/fiscal`, `date/relative`, `date/range` | Fiscal labels/boundaries, relative phrases, range metadata |
+| `date/locale/en`, `date/locale/ne` | Locale names and formatting wrappers |
+| `date/adapters/date`, `date/adapters/timezone`, `date/adapters/temporal` | Platform integration |
+
+Use `date/format` when you only need date labels. It checks field ranges, not whether a date exists in its calendar; validate the date with a constructor or parser first. `date/range` provides metadata without loading the month-length table. Use `date` to access the combined date API.
+
+## Administrative entrypoints by data level
+
+`admin/provinces`, `admin/districts`, and `admin/palikas` expose that level's lookups and name search. `admin/hierarchy` joins all three levels. `admin/postal` uses palika data; `admin/validate` needs district/palika membership. A province-only selector can stay on `admin/provinces` without retaining the local-level table.
+
+For digit conversion alone, use `number/digits`. Currency, land, and words also include the number helpers they need, such as decimal parsing.
+
+## Measure the actual consumer build
+
+The package declares `sideEffects: false`, allowing bundlers to remove unused exports. Use ESM imports for tree-shaking. CommonJS is supported, but your bundler may retain more code when using `require`.
+
+Inspect your application's final bundle after changing imports: the code retained depends on your bundler and configuration. Read [compatibility](../../project/compatibility/) for adapter runtime requirements.

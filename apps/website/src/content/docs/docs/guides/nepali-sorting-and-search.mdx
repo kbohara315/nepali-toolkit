@@ -1,0 +1,47 @@
+---
+title: Sort and search Nepali names consistently
+description: Reuse a Nepali collator, choose school or phonetic conjunct order, sort numeric labels, and use normalized substring search without transliteration.
+---
+
+Use a collator to sort names and the search helpers to find matching text. Search normalizes text before matching, but it does not perform fuzzy matching.
+
+## Reuse a deterministic collator
+
+```ts
+import { createNepaliCollator } from 'nepali-toolkit/collation';
+
+const collator = createNepaliCollator({ backend: 'basic', conjuncts: 'school', numeric: true });
+const labels = ['क१०', 'क२', 'ख१'];
+const sorted = collator.sort(labels); // ['क२', 'क१०', 'ख१']
+labels; // original order retained
+```
+
+The default `auto` backend with `school` ordering also uses `basic`. Choose `basic` when server and client must sort alike despite different ICU data. `phonetic` offers an alternative conjunct order. Setting `backend: 'intl'` uses native ordering and throws if the runtime fails the toolkit's Nepali locale and ordering checks.
+
+For objects, reuse `compare` on the intended label:
+
+```ts
+import { createNepaliCollator } from 'nepali-toolkit/collation';
+
+const collator = createNepaliCollator({ backend: 'basic' });
+const people = [{ name: 'खगेन्द्र' }, { name: 'कमल' }];
+const sorted = [...people].sort((a, b) => collator.compare(a.name, b.name));
+```
+
+## Search normalized names
+
+```ts
+import { nepaliIncludes, nepaliStartsWith } from 'nepali-toolkit/collation';
+
+nepaliIncludes('किरण', 'िक'); // true: guarded preposed-i repair
+nepaliStartsWith('Nepal Toolkit', 'nepal'); // true: Latin case folding defaults on
+nepaliIncludes('क-ख', 'कख', { ignorePunctuation: true }); // true
+```
+
+Search applies NFC, preposed-i repair, and format-control removal. It does not translate `Kathmandu` to `काठमाण्डौ`, correct arbitrary spelling, or equate all vowel/mark variants. Empty needles match, so a form may want to handle an empty query separately. Punctuation removal is opt-in and changes identity: keep it off where punctuation distinguishes records.
+
+## Keep display text and search normalization separate
+
+Normalization can remove controls used in the entered text. Retain the original display label and apply search/collation normalization for matching rather than silently overwriting stored user text. Script predicates detect Devanagari code points, not Nepali language; do not use them as language identification.
+
+`countNepaliWords` and `getNepaliTextStats` split text using whitespace and punctuation rules, rather than linguistic word or sentence analysis. Read the [collation reference](../../reference/collation/) for the exact counting rules. For province, district, or palika names, use the bilingual record search described in the [admin guide](../administrative-data/).

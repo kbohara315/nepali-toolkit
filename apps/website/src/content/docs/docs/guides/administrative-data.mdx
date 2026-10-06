@@ -1,17 +1,67 @@
 ---
-title: Administrative data
+title: Build Nepal address selectors with administrative codes
+description: Join provinces, districts, and palikas, validate selected wards, search bilingual names, and use the GPO palika/ward postal scheme.
 ---
 
-The admin domain exposes province, district, palika, ward, and postal-code lookups. The data files include provenance notes in the toolkit package.
+Use codes as stored identifiers and names as display labels. Names can repeat or use source-specific spellings; a name match alone is not a unique address.
+
+## Populate cascading selectors
 
 ```ts
 import { getProvinces } from 'nepali-toolkit/admin/provinces';
 import { getDistricts } from 'nepali-toolkit/admin/districts';
-import { getPalikas } from 'nepali-toolkit/admin/palikas';
+import { getPalikas, getPalikaWards } from 'nepali-toolkit/admin/palikas';
 
 const provinces = getProvinces();
-const districts = getDistricts('1');
-const palikas = getPalikas('101');
+const bagmatiDistricts = getDistricts('3');
+const kathmanduPalikas = getPalikas('306');
+const wards = getPalikaWards('30608'); // 1 through 32
 ```
 
-Codes are strings because administrative identifiers can contain leading zeroes. Treat the published revision and source coverage as part of your application's data contract.
+Reset district, palika, and ward selections when their parent changes. Pass ASCII string codes exactly; lookups do not normalize localized digits. Display `nameNe` or `nameEn` without rewriting the source spelling.
+
+## Validate membership and parent consistency
+
+```ts
+import { getHierarchy } from 'nepali-toolkit/admin/hierarchy';
+import { isValidWard } from 'nepali-toolkit/admin/validate';
+
+const selected = { province: '3', district: '306', palika: '30608', ward: 12 };
+const path = getHierarchy(selected.palika);
+const valid = path !== undefined
+  && path.province.code === selected.province
+  && path.district.code === selected.district
+  && isValidWard(selected.palika, selected.ward);
+valid; // true
+```
+
+Checking each code separately does not validate their relationship. Derive the parent records from the palika and compare submitted values, or persist only the palika plus ward when that fits your data model. Ward validity is a numeric range check, not a boundary/coordinate lookup.
+
+## Search names, then confirm a code
+
+```ts
+import { findDistrictsByName, findPalikasByName } from 'nepali-toolkit/admin';
+
+findDistrictsByName('kathmandu', { script: 'en', limit: 5 });
+findPalikasByName('Kathmandu', { script: 'en', limit: 5 });
+```
+
+Search matches part of an English or Nepali name after normalizing case and whitespace. It does not transliterate or recognize alternative spellings. Results follow table order and default to a limit of 25. Save the selected record's code. If you add aliases, map each one to that code.
+
+## Derive the palika or ward postal code
+
+```ts
+import { getPostalCode, getWardPostalCode, parsePostalCode } from 'nepali-toolkit/admin/postal';
+
+getPostalCode('30608'); // '30608'
+getWardPostalCode('30608', 12); // '3060812'
+parsePostalCode('3060812')?.kind; // 'ward'
+```
+
+These helpers implement the GPO palika/ward scheme: five-digit palika code, then optional zero-padded two-digit ward. They do not provide a legacy post-office-code directory such as Kathmandu `44600`. Ask which scheme an external form expects before copying a derived value into it.
+
+## Track the snapshot's coverage
+
+`adminRevision` is `gov-2026-09`. The bundled data contains 7 provinces, 77 districts, 753 palikas, and ward counts. It does not include ward names, geographic boundaries, coordinates, population, or delivery status. NSO canonical palika spellings can differ from MoFAGA contact-page spellings; these are documented source variants, not search aliases.
+
+See the [admin reference](../../reference/admin/) for return values and errors, and [data sources](../../project/data-sources/) for source records and postal coverage.

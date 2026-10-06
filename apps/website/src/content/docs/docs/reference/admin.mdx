@@ -1,22 +1,97 @@
 ---
-title: Admin reference
-description: Nepal province, district, palika, ward, and postal lookups.
+title: Nepal provinces, districts, palikas, and postal codes
+description: Look up Nepal administrative codes, search bilingual local-level names, validate wards, and derive palika and ward postal codes.
 ---
 
 Try it live in the [playground](../../../playground/).
 
-```ts
-import { getProvinces } from 'nepali-toolkit/admin/provinces';
-import { getDistricts } from 'nepali-toolkit/admin/districts';
-import { getPalikas } from 'nepali-toolkit/admin/palikas';
-import { getPalikaWards } from 'nepali-toolkit/admin';
+Import from `nepali-toolkit/admin`, or use the focused `admin/provinces`, `admin/districts`, `admin/palikas`, `admin/hierarchy`, `admin/validate`, and `admin/postal` entrypoints. Codes are ASCII **strings**, not numeric quantities.
 
-const province = getProvinces()[0];
-const districts = getDistricts(province.code);
-const palikas = getPalikas(districts[0].code);
-getPalikaWards(palikas[0].code);
+## Record types and coverage
+
+| Type | Readonly fields |
+| --- | --- |
+| `Province` | `code`, `nameEn`, `nameNe` |
+| `District` | `code`, `province` (province code), `nameEn`, `nameNe` |
+| `Palika` | `code`, `district` (district code), `type`, `nameEn`, `nameNe`, `wards` |
+| `AdminHierarchy` | `province: Province`, `district: District`, `palika: Palika` |
+
+`PalikaType` is `'metropolitan' | 'sub-metropolitan' | 'municipality' | 'rural'`. The `gov-2026-09` snapshot contains 7 provinces, 77 districts, 753 palikas, and ward counts totaling 6,743. Province codes have one digit, district codes three, and palika codes five; existence must still be checked against the tables. Ward numbers are integers in `1..palika.wards`.
+
+## Lookup API
+
+```ts
+getProvinces(): readonly Province[]
+getProvince(code: string): Province | undefined
+getDistricts(provinceCode?: string): readonly District[]
+getDistrict(code: string): District | undefined
+getPalikas(districtCode?: string): readonly Palika[]
+getPalika(code: string): Palika | undefined
+getPalikaWards(palikaCode: string): readonly number[]
+getHierarchy(palikaCode: string): AdminHierarchy | undefined
 ```
 
-The public API includes `get*`, `find*ByName`, hierarchy, postal-code parsing and lookup, and code/ward validators. Codes are strings. Focused entrypoints are available for provinces, districts, and palikas so consumers can avoid loading unrelated tables.
+Lists are in code order. Omitting a parent filter returns all records at that level; unknown parent filters return an empty list. Unknown direct codes/hierarchies return undefined; unknown ward-list codes return `[]`. Lookups do not trim, normalize numerals, or coerce numeric codes. Non-string code arguments throw `InvalidAdminError` (`TypeError`, `code: 'INVALID_ADMIN'`). Treat returned records and arrays as read-only.
 
-Data is derived from cited Government of Nepal sources. See [data sources](../project/data-sources/) for revision and coverage notes. Invalid code/query types throw `InvalidAdminError`; unknown codes return `undefined`, an empty array, or a false validator result as appropriate.
+```ts
+import { getHierarchy, getPalikas, getPalikaWards } from 'nepali-toolkit/admin';
+
+const location = getHierarchy('30608');
+location?.province.code; // '3'
+location?.district.nameEn; // 'Kathmandu'
+location?.palika.wards; // 32
+getPalikas('306'); // local levels in Kathmandu district
+getPalikaWards('30608'); // [1, 2, ... , 32]
+```
+
+## Bilingual name search
+
+```ts
+findProvincesByName(query: string, options?: AdminSearchOptions): Province[]
+findDistrictsByName(query: string, options?: AdminSearchOptions): District[]
+findPalikasByName(query: string, options?: AdminSearchOptions): Palika[]
+```
+
+Search matches substrings after NFC normalization, trimming, and collapsing whitespace. English matching is case-insensitive.
+
+| `AdminSearchOptions` field | Behavior |
+| --- | --- |
+| `script?: 'ne' \| 'en'` | Searches only the chosen script; omission searches both |
+| `limit?: number` | Defaults to 25; must be a non-negative integer; zero returns `[]` |
+
+Empty queries return `[]`. Invalid queries or limits throw `InvalidAdminError`. Results follow table order rather than relevance. Search does not transliterate, match approximate spellings, or look up aliases. Names may repeat across districts, so store the record's code as its identifier.
+
+## Code and ward predicates
+
+```ts
+isProvinceCode(code: unknown): code is string
+isDistrictCode(code: unknown): code is string
+isPalikaCode(code: unknown): code is string
+isValidWard(palikaCode: unknown, wardNo: unknown): boolean
+```
+
+Predicates return false instead of throwing for invalid input. They check membership/ranges, not whether separately selected province, district, and palika fields form a consistent hierarchy. Use `getHierarchy` or the parent fields for that join.
+
+## Palika and ward postal scheme
+
+```ts
+getPostalCode(palikaCode: string): string | undefined
+getWardPostalCode(palikaCode: string, wardNo: number): string | undefined
+parsePostalCode(code: string): PostalCode | undefined
+```
+
+The palika postal code equals its five-digit NSO code. A ward code appends a two-digit ward number. `PostalCode` is either `{ kind: 'palika', postalCode, palika }` or `{ kind: 'ward', postalCode, palika, ward }`.
+
+```ts
+import { getPostalCode, getWardPostalCode, parsePostalCode } from 'nepali-toolkit/admin/postal';
+
+getPostalCode('30608'); // '30608'
+getWardPostalCode('30608', 32); // '3060832'
+parsePostalCode('3060832')?.kind; // 'ward'
+getWardPostalCode('30608', 33); // undefined
+parsePostalCode('44600'); // undefined: legacy Kathmandu post-office code
+```
+
+Unknown palikas and invalid wards return undefined. Postal parsing accepts exactly 5 or 7 ASCII digits, without whitespace; malformed strings return undefined, while non-string input throws `InvalidAdminError`. Ward postal generation returns undefined even for untyped non-string codes. This covers the GPO palika/ward scheme, not legacy 1991 post-office codes, delivery verification, or post-office locations.
+
+`adminRevision` identifies the snapshot. Coordinates, boundaries, population, ward names, capitals/headquarters, and VDC-era codes are not included. See [administrative forms](../../guides/administrative-data/) and [source provenance](../../project/data-sources/).

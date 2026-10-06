@@ -12,7 +12,7 @@ const image = siteUrl('social/switchboard.png', Astro.site!, base);
 const schema = {
   '@context': 'https://schema.org', '@type': 'SoftwareSourceCode', name: 'Nepali Toolkit',
   description, url: canonical, codeRepository: 'https://github.com/kbohara315/nepali-toolkit',
-  programmingLanguage: 'TypeScript', license: 'https://opensource.org/license/mit',
+  programmingLanguage: 'TypeScript',
 };
 ---
 
@@ -24,6 +24,8 @@ const schema = {
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    <link rel="alternate" type="text/plain" title="AI documentation index" href={siteUrl('llms.txt', Astro.site!, base)} />
+    <link rel="alternate" type="text/plain" title="Full AI documentation" href={siteUrl('llms-full.txt', Astro.site!, base)} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
