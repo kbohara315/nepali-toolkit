@@ -29,6 +29,18 @@ test('site is static and Pages-ready', async () => {
   assert.match(workflow, /SITE_BASE/);
 });
 
+test('favicon and site brand share the Nepali developer mark', async () => {
+  const favicon = await read('public/favicon.svg');
+  const brand = await read('src/components/SiteBrand.astro');
+  assert.match(favicon, /M33 47L19 64L33 81/);
+  assert.match(favicon, /M95 47L109 64L95 81/);
+  assert.match(favicon, />\s*ने\s*</);
+  assert.match(favicon, /prefers-color-scheme:\s*dark/);
+  assert.match(favicon, /font-size="46"/);
+  assert.match(brand, /src=\{`\$\{import\.meta\.env\.BASE_URL\}favicon\.svg`\}/);
+  assert.match(brand, /alt="" aria-hidden="true"/);
+});
+
 test('playground uses lazy public toolkit imports', async () => {
   const source = await read('src/components/Playground.astro');
   assert.match(source, /import\('nepali-toolkit\/number'\)/);

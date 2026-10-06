@@ -4,7 +4,7 @@ const pathname = `${Astro.url.pathname.replace(/\/$/, '')}/`;
 ---
 
 <a class="brand" href={base} aria-current={pathname === base ? 'page' : undefined} translate="no">
-  <span class="brand-icon" aria-hidden="true">ने</span>
+  <img class="brand-icon" src={`${import.meta.env.BASE_URL}favicon.svg`} width="30" height="30" alt="" aria-hidden="true" />
   <span class="brand-name"><span>Nepali</span>{' '}<span class="brand-toolkit">Toolkit</span></span>
 </a>
 
@@ -24,16 +24,11 @@ const pathname = `${Astro.url.pathname.replace(/\/$/, '')}/`;
     flex-shrink: 0;
   }
   .brand-icon {
-    display: grid;
-    place-items: center;
+    display: block;
     flex-shrink: 0;
     width: 30px;
     height: 30px;
-    border: 1px solid var(--accent, #2f5fe8);
-    border-radius: 7px;
-    color: var(--accent-ink, #173b9c);
-    background: var(--accent-soft, #eaf0ff);
-    font-size: 19px;
+    border-radius: 6px;
   }
   .brand-name { display: inline-flex; align-items: baseline; gap: 0.3em; }
   .brand-toolkit { color: var(--muted, #555); font-weight: 400; }
