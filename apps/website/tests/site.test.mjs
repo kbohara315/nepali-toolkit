@@ -48,6 +48,62 @@ test('playground uses lazy public toolkit imports', async () => {
   assert.doesNotMatch(source, /eval\(/);
 });
 
+test('playground workbench exposes grouped navigation, real task controls, safe snippets, and package provenance', async () => {
+  const source = await read('src/components/Playground.astro');
+  for (const feature of [
+    'playground-nav-group', 'playground-nav-item', 'playground-search',
+    'playground-${id}', "[['Year', year, 'year'], ['Month', month, 'month'], ['Day', day, 'day']]",
+    'playground-land-system', 'teraiArea(fields)', 'toSquareMetres(area)',
+    'playground-collation-task', 'createNepaliCollator().sort(values)',
+    'playground-province', 'playground-district', 'playground-palika', 'playground-ward',
+    'getWardPostalCode', 'playground-view-toggle', 'serializeResult(outcome.json)', "typeof item === 'bigint' ? item.toString() : item",
+    "searchParams.set('tool', mode.id)", "addEventListener('popstate'",
+    'published on npm', 'not sent to a remote', 'highlightSnippet(nextSnippet)',
+  ]) assert.ok(source.includes(feature), `missing workbench contract: ${feature}`);
+  assert.doesNotMatch(source, /not published to npm yet|workspace library, which is not published/);
+  assert.match(source, /snippet\.innerHTML = nextSnippet === '' \? '' : highlightSnippet\(nextSnippet\)/);
+  assert.doesNotMatch(source, /innerHTML\s*=\s*(?:raw|painted\.snippet)/);
+  assert.doesNotMatch(source, /<h1[^>]*>[^<]*(?:Try|Playground)/i);
+});
+
+test('no-JS controls are disabled while the build-time result remains real', async () => {
+  const source = await read('src/components/Playground.astro');
+  assert.match(source, /id="playground-search"[^>]*disabled/);
+  assert.match(source, /class="playground-nav-item"[^>]*disabled/);
+  assert.match(source, /id="playground-input"[\s\S]*?disabled/);
+  assert.match(source, /formatNumber\(sampleMode\.sample\)/);
+  assert.match(source, /JavaScript is off, so the utility controls are inert/);
+});
+
+test('playground keeps navigation in the sidebar and every task/result panel in the workspace', async () => {
+  const source = await read('src/components/Playground.astro');
+  const sidebarStart = source.indexOf('<aside class="demo-controls playground-sidebar"');
+  const sidebarEnd = source.indexOf('</aside>', sidebarStart);
+  const workspaceStart = source.indexOf('data-playground-workspace');
+  const workspaceEnd = source.indexOf('<details class="playground-provenance"', workspaceStart);
+  assert.ok(sidebarStart >= 0 && sidebarEnd > sidebarStart && workspaceStart > sidebarEnd);
+  assert.match(source, /<section class="playground-workspace"[^>]*aria-label="Selected utility workspace"/);
+
+  const sidebar = source.slice(sidebarStart, sidebarEnd);
+  assert.match(sidebar, /id="playground-search"/);
+  assert.match(sidebar, /id="playground-utilities"/);
+  assert.match(sidebar, /id="playground-mode"[^>]*aria-hidden="true"/);
+  for (const control of [
+    'playground-options', 'playground-input-label', 'playground-input',
+    'playground-hint', 'playground-examples', 'playground-status', 'playground-reset',
+  ]) assert.doesNotMatch(sidebar, new RegExp(`id="${control}"`), `${control} must not be in the navigation sidebar`);
+
+  const workspace = source.slice(workspaceStart, workspaceEnd);
+  for (const control of [
+    'playground-task-title', 'playground-task-description', 'playground-options',
+    'playground-input-label', 'playground-input', 'playground-hint',
+    'playground-examples', 'playground-status', 'playground-reset',
+    'playground-result', 'playground-snippet', 'playground-docs-link',
+  ]) assert.match(workspace, new RegExp(`id="${control}"`), `${control} belongs to the workspace`);
+  assert.match(source, /taskTitle\.textContent = selectedTaskTitle\(mode\)/);
+  assert.doesNotMatch(source, /<h1\b/i, 'Playground does not add a visible global title');
+});
+
 test('marketing pages provide a skip link and progressive domain controls', async () => {
   const layout = await read('src/layouts/MarketingLayout.astro');
   const switchboard = await read('src/components/DomainSwitchboard.astro');

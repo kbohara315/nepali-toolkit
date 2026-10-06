@@ -8,7 +8,7 @@
  *    importable snippet are rendered here at build time from the same package
  *    this page depends on (`nepali-toolkit: workspace:*`). A visitor without
  *    JavaScript therefore still sees a true result, not a placeholder. The
- *    client script only takes over once the visitor edits something.
+ *    browser-enhanced workbench then runs the selected task on page load.
  *
  * 2. Explicit lazy loading. Every domain is a separate dynamic `import()` keyed
  *    by the `entrypoint` string in the table below, so the bundler emits one
@@ -186,8 +186,8 @@ const modes: readonly Mode[] = [
   {
     id: 'admin',
     label: 'Province lookup',
-    entrypoint: 'nepali-toolkit/admin/provinces',
-    exports: ['getProvinces', 'findProvincesByName'],
+    entrypoint: 'nepali-toolkit/admin',
+    exports: ['getProvinces', 'getDistricts', 'getPalikas', 'getPalikaWards'],
     sample: 'koshi',
     hint: 'Optional. Empty lists every province; otherwise search Nepali or English name text.',
     placeholder: 'koshi',
@@ -198,6 +198,23 @@ const modes: readonly Mode[] = [
     examples: ['koshi', 'बागमती', 'xyz'],
   },
 ];
+const navGroups: readonly { group: string; ids: readonly ModeId[] }[] = [
+  { group: 'Numbers & currency', ids: ['number', 'digits', 'currency', 'words'] },
+  { group: 'Dates', ids: ['date-bs-to-ad', 'date-ad-to-bs'] },
+  { group: 'Land & text', ids: ['land', 'collation', 'phone', 'admin'] },
+];
+const taskDescriptions: Record<ModeId, string> = {
+  number: 'Format grouped decimals or parse them back into exact decimal text.',
+  digits: 'Convert ASCII and Devanagari digits while preserving the surrounding text.',
+  'date-bs-to-ad': 'Convert Bikram Sambat dates and explore calendar operations.',
+  'date-ad-to-bs': 'Convert Gregorian dates and explore calendar operations.',
+  currency: 'Format an exact rupee amount with the currency style you choose.',
+  land: 'Enter Hill or Terai units and compare equivalent area measurements.',
+  words: 'Render number text in Nepali, English, or NPR amount wording.',
+  phone: 'Parse a Nepal number and inspect its structure and validation status.',
+  collation: 'Count, sort, or search Nepali and mixed-script text.',
+  admin: 'Browse Nepal’s province, district, palika, and ward hierarchy.',
+};
 
 /**
  * The build-time sample shown to everyone, including visitors without
@@ -217,8 +234,10 @@ const sampleSnippet = [
 /** Handed to the client script; trimmed to the fields it actually reads. */
 const clientConfig = {
   base: `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`,
-  modes: modes.map(({ id, entrypoint, docs, reference, examples, sample, hint, placeholder, inputMode, optional }) => ({
+  modes: modes.map(({ id, label, entrypoint, docs, reference, examples, sample, hint, placeholder, inputMode, optional }) => ({
     id,
+    label,
+    description: taskDescriptions[id],
     entrypoint,
     docs,
     reference,
@@ -254,94 +273,134 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
   data-state="ready"
 >
   <div class="demo-grid">
-    <div class="demo-controls">
-      <label for="playground-mode">Domain</label>
-      <select id="playground-mode" name="domain">
-        {modes.map((mode) => (
+    <aside class="demo-controls playground-sidebar" aria-label="Utility navigation" data-utility-sidebar>
+      <label for="playground-search">Find a utility</label>
+      <input id="playground-search" type="search" placeholder="Search utilities…" autocomplete="off" aria-controls="playground-utilities" disabled />
+      <nav id="playground-utilities" aria-label="Utilities" class="playground-nav">
+        {navGroups.map(({ group, ids }) => (
+          <section class="playground-nav-group" aria-label={group}>
+            <span class="eyebrow">{group}</span>
+            {modes.filter(({ id }) => ids.includes(id)).map((mode) => (
+              <button type="button" class="playground-nav-item" data-tool={mode.id} aria-current={mode.id === sampleMode.id ? 'true' : undefined} disabled>{mode.label}</button>
+            ))}
+          </section>
+        ))}
+      </nav>
+      <label class="playground-select-label" for="playground-mode" aria-hidden="true">Choose a task</label>
+      <select id="playground-mode" name="domain" aria-label="Choose utility" aria-hidden="true" tabindex="-1" disabled>
+        <optgroup label="Numbers & currency">
+        {modes.filter(({ id }) => ['number', 'digits', 'currency', 'words'].includes(id)).map((mode) => (
           <option value={mode.id}>{mode.label}</option>
         ))}
+        </optgroup>
+        <optgroup label="Dates">
+        {modes.filter(({ id }) => id.startsWith('date-')).map((mode) => (
+          <option value={mode.id}>{mode.label}</option>
+        ))}
+        </optgroup>
+        <optgroup label="Land & text">
+        {modes.filter(({ id }) => ['land', 'collation', 'phone', 'admin'].includes(id)).map((mode) => (
+          <option value={mode.id}>{mode.label}</option>
+        ))}
+        </optgroup>
       </select>
+    </aside>
 
-      <label for="playground-input">Input</label>
-      <input
-        id="playground-input"
-        name="input"
-        type="text"
-        value={sampleMode.sample}
-        placeholder={sampleMode.placeholder}
-        inputmode={sampleMode.inputMode}
-        autocomplete="off"
-        autocapitalize="off"
-        spellcheck="false"
-        aria-invalid="false"
-        aria-describedby="playground-hint playground-status"
-      />
+    <section class="playground-workspace" id="playground-workspace" aria-label="Selected utility workspace" data-playground-workspace>
+      <header class="playground-task-heading">
+        <h2 id="playground-task-title">{sampleMode.label}</h2>
+        <p id="playground-task-description">{taskDescriptions[sampleMode.id]}</p>
+      </header>
 
-      <p class="playground-hint" id="playground-hint">{sampleMode.hint}</p>
-      <div class="playground-examples" id="playground-examples" role="group" aria-label="Example values"></div>
-      <p class="playground-note" id="playground-note" hidden></p>
-      <p class="playground-status" id="playground-status" role="status">
-        Sample result. Edit the input to run the function.
-      </p>
+      <section class="playground-task-form" aria-label="Task input">
+        <div id="playground-options" class="playground-options"></div>
 
-      <button class="playground-text-button" id="playground-reset" type="button">
-        Reset to sample
-      </button>
-    </div>
+        <label for="playground-input" id="playground-input-label">Input</label>
+        <input
+          id="playground-input"
+          name="input"
+          type="text"
+          value={sampleMode.sample}
+          placeholder={sampleMode.placeholder}
+          inputmode={sampleMode.inputMode}
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          disabled
+          aria-invalid="false"
+          aria-describedby="playground-hint playground-status"
+        />
 
-    <div class="demo-output">
-      <span class="eyebrow">Result</span>
+        <p class="playground-hint" id="playground-hint">{sampleMode.hint}</p>
+        <div class="playground-examples" id="playground-examples" role="group" aria-label="Example values"></div>
+        <p class="playground-note" id="playground-note" hidden></p>
+        <p class="playground-status" id="playground-status" role="status">
+          Sample result. Edit the input to run the function.
+        </p>
 
-      <div class="playground-result" id="playground-result">
-        <output class="playground-value" id="playground-value" for="playground-input">{sampleValue}</output>
-        <ul class="playground-list" id="playground-list" hidden></ul>
-      </div>
-
-      <div class="playground-actions">
-        <button class="button secondary" id="playground-copy-result" type="button">
-          Copy result
+        <button class="playground-text-button" id="playground-reset" type="button" disabled>
+          Reset to sample
         </button>
-        <button class="playground-text-button" id="playground-copy-snippet" type="button">
-          Copy snippet
-        </button>
-      </div>
+      </section>
 
-      <div class="playground-snippet">
-        <span class="eyebrow">Snippet</span>
-        <div class="playground-code">
-          <pre><code id="playground-snippet" set:html={highlightCode(sampleSnippet)}></code></pre>
-          <div class="playground-code-meta">
-            <p class="playground-entrypoint">
-              Entry point <code id="playground-entrypoint">{sampleMode.entrypoint}</code>
-            </p>
-            <p class="playground-docs">
-              <a id="playground-docs-link" href={sampleDocsHref}>Read the {sampleMode.reference} reference →</a>
-              <a href={installHref}>Install →</a>
-            </p>
+      <section class="demo-output" aria-label="Result and code">
+        <span class="eyebrow">Result</span>
+
+        <div class="playground-result" id="playground-result">
+          <output class="playground-value" id="playground-value" for="playground-input">{sampleValue}</output>
+          <ul class="playground-list" id="playground-list" hidden></ul>
+          <pre class="playground-json" id="playground-json" hidden></pre>
+        </div>
+
+        <div class="playground-view-toggle" id="playground-view-toggle" hidden role="group" aria-label="Result view">
+          <button type="button" data-result-view="preview" aria-pressed="true">Preview</button>
+          <button type="button" data-result-view="json" aria-pressed="false">JSON</button>
+        </div>
+
+        <div class="playground-actions">
+          <button class="button secondary" id="playground-copy-result" type="button" disabled>
+            Copy result
+          </button>
+          <button class="playground-text-button" id="playground-copy-json" type="button" hidden>Copy JSON</button>
+          <button class="playground-text-button" id="playground-copy-snippet" type="button" disabled>
+            Copy snippet
+          </button>
+        </div>
+
+        <div class="playground-snippet">
+          <span class="eyebrow">Snippet</span>
+          <div class="playground-code">
+            <pre><code id="playground-snippet" set:html={highlightCode(sampleSnippet)}></code></pre>
+            <div class="playground-code-meta">
+              <p class="playground-entrypoint">
+                Entry point <code id="playground-entrypoint">{sampleMode.entrypoint}</code>
+              </p>
+              <p class="playground-docs">
+                <a id="playground-docs-link" href={sampleDocsHref}>Read the {sampleMode.reference} reference →</a>
+                <a href={installHref}>Install →</a>
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </section>
   </div>
 
   <details class="playground-provenance">
     <summary>Where do these results come from?</summary>
     <p>
-      Every value comes from the <code>nepali-toolkit</code> package itself at
-      version 0.1.0, compiled into this page from the workspace source. It is a
-      pre-1.0 library and is not on npm yet, so this bench exercises the
-      workspace build rather than a published release. Each domain is imported
-      only when you select it, nothing is fetched from a server, and no code is
-      evaluated: the result is whatever the real function returned.
+      Every value comes from <code>nepali-toolkit</code> 0.1.0, published on npm
+      and included in this static site build. Utilities run in your browser from
+      the package code bundled with this page; requests are not sent to a remote
+      compute server, and user input is passed to library functions (never evaluated as code).
     </p>
   </details>
 
   <p class="playground-nojs">
-    JavaScript is off, so the domain selector and input above are inert. The
-    values shown are real output from <code>nepali-toolkit</code> 0.1.0 — the
-    workspace library, which is not published to npm yet — computed while this
-    page was built. Enable JavaScript to switch domains, try valid and invalid
-    input, and copy the snippet as it stands.
+    JavaScript is off, so the utility controls are inert. The result and snippet
+    above are the real build-time output of <code>nepali-toolkit</code> 0.1.0,
+    published on npm and bundled into this static site. Enable JavaScript to
+    switch utilities, edit options, and run inputs in your browser.
   </p>
 </section>
 
@@ -360,10 +419,113 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
    * rules below cover only what this component adds.
    * -------------------------------------------------------------------- */
 
+  :global(.demo-section .demo-grid) {
+    grid-template-columns: minmax(225px, 0.72fr) minmax(0, 1.8fr);
+    align-items: stretch;
+  }
+  .playground-sidebar {
+    min-width: 0;
+  }
+  .playground-workspace {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .playground-task-heading {
+    padding: 26px 30px 18px;
+    border-bottom: 1px solid var(--line);
+  }
+  .playground-task-heading h2 {
+    margin: 0;
+    color: var(--ink);
+    font: 600 clamp(1.2rem, 2vw, 1.55rem)/1.25 var(--sans);
+    letter-spacing: -0.035em;
+  }
+  .playground-task-heading p {
+    max-width: 54ch;
+    margin: 8px 0 0;
+    color: var(--muted);
+    font-size: 0.78rem;
+    line-height: 1.65;
+  }
+  .playground-task-form {
+    min-width: 0;
+    padding: 22px 30px 26px;
+    border-bottom: 1px solid var(--line);
+  }
+  .playground-task-form > label,
+  .playground-options label {
+    display: block;
+    margin: 0 0 8px;
+    color: var(--ink);
+    font: 0.65rem var(--mono);
+  }
+  .playground-task-form > input,
+  .playground-options input,
+  .playground-options select,
+  .playground-options textarea {
+    width: 100%;
+    min-height: 42px;
+    margin: 0 0 14px;
+    padding: 9px 11px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--canvas);
+    color: var(--ink);
+    font: 0.8rem/1.5 var(--sans);
+  }
+  .playground-task-form > input[hidden] {
+    display: none;
+  }
+  .playground-options textarea {
+    min-height: 100px;
+    font-family: var(--mono);
+  }
+  .playground-options [hidden] {
+    display: none !important;
+  }
+  .playground-options .land-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .playground-options .land-fields label {
+    min-width: 0;
+  }
+  .playground-options .land-fields input {
+    margin-top: 7px;
+  }
+  .playground-options fieldset {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 12px;
+    padding: 10px;
+    border: 1px solid var(--line);
+  }
+  .playground-options fieldset legend {
+    padding: 0 5px;
+    color: var(--muted);
+    font: 0.62rem var(--mono);
+  }
+  .playground-options fieldset label {
+    flex: 1 1 72px;
+  }
+  .playground-options fieldset input {
+    margin-top: 6px;
+  }
+  .playground-options > p {
+    margin: 0 0 12px;
+    color: var(--muted);
+    font-size: 0.72rem;
+    line-height: 1.6;
+  }
+
   /* Devanagari is a first-class output here, so it gets a real fallback
      face instead of inheriting a Latin-only sans or mono stack. */
   .playground-value,
-  .playground-list {
+  .playground-list,
+  .playground-json {
     font-family: 'Noto Sans Devanagari', 'Nirmala UI', 'Mangal', var(--sans);
   }
   .playground-value {
@@ -442,7 +604,9 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
   }
   /* `hidden` has to outrank the shared `.demo-output output` display rule. */
   .playground-value[hidden],
-  .playground-list[hidden] {
+  .playground-list[hidden],
+  .playground-json[hidden],
+  .playground-view-toggle[hidden] {
     display: none;
   }
   .playground-list {
@@ -460,6 +624,37 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
   .playground-list li:last-child {
     border-bottom: 0;
   }
+  .playground-json { white-space: pre-wrap; overflow-wrap: anywhere; font: 0.75rem/1.7 var(--mono); }
+  .playground-options { display: grid; gap: 10px; margin-bottom: 12px; }
+  .playground-options:empty { display: none; }
+  .playground-options label { margin: 0; }
+  .playground-options select, .playground-options input { width: 100%; }
+  .playground-view-toggle { display: flex; gap: 4px; margin: 0 0 12px; }
+  .playground-view-toggle button { border: 1px solid var(--line); padding: 6px 10px; background: var(--surface); color: var(--muted); font: 0.65rem var(--mono); cursor: pointer; }
+  .playground-view-toggle button[aria-pressed='true'] { border-color: var(--strong-line); color: var(--ink); }
+  #playground-search { margin-bottom: 12px; }
+  .playground-nav { display: grid; gap: 16px; margin: 4px 0 16px; }
+  .playground-nav-group { display: grid; gap: 5px; }
+  .playground-nav-group > .eyebrow { color: var(--muted); margin-bottom: 2px; }
+  .playground-nav-item { width: 100%; text-align: left; padding: 8px 10px; border: 1px solid transparent; border-radius: 4px; background: transparent; color: var(--muted); font: 0.75rem/1.4 var(--sans); cursor: pointer; }
+  .playground-nav-item:hover, .playground-nav-item[aria-current='true'] { border-color: var(--line); background: var(--surface); color: var(--ink); }
+  .playground-nav-item:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .playground-select-label, #playground-mode { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  .playground-options textarea { width: 100%; min-height: 100px; padding: 10px; border: 1px solid var(--line); background: var(--canvas); color: var(--ink); font: 0.8rem/1.6 var(--mono); }
+  .playground-task-form .playground-options label { margin-bottom: 8px; }
+  .playground-workspace > .demo-output { border-top: 0; }
+  .playground-options select,
+  .playground-options input,
+  .playground-task-form > input {
+    min-height: 42px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--canvas);
+    color: var(--ink);
+    font: 0.8rem/1.5 var(--sans);
+  }
+  .playground-task-form > input { margin-bottom: 14px; }
+  .playground-task-form > input[aria-invalid='true'] { border: 2px solid var(--ink); }
 
   .playground-actions {
     display: flex;
@@ -603,6 +798,54 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
   :global(html.has-js) .playground-nojs {
     display: none;
   }
+
+  @media (max-width: 760px) {
+    :global(.demo-section .demo-grid) { grid-template-columns: minmax(0, 1fr); }
+    .playground-sidebar {
+      min-width: 0;
+      padding: 16px 18px 12px;
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .playground-sidebar > label[for='playground-search'] { margin-bottom: 7px; }
+    #playground-search { margin-bottom: 8px; }
+    .playground-nav {
+      display: flex;
+      min-width: 0;
+      max-width: 100%;
+      gap: 12px;
+      margin: 2px 0 0;
+      padding: 4px 1px 8px;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scrollbar-width: thin;
+    }
+    .playground-nav-group {
+      display: flex;
+      flex: 0 0 auto;
+      align-items: center;
+      gap: 4px;
+    }
+    .playground-nav-group > .eyebrow {
+      max-width: 70px;
+      margin: 0;
+      white-space: normal;
+      font-size: 0.53rem;
+      line-height: 1.25;
+    }
+    .playground-nav-item {
+      width: max-content;
+      min-height: 36px;
+      flex: 0 0 auto;
+      padding: 7px 9px;
+      white-space: nowrap;
+      font-size: 0.68rem;
+    }
+    .playground-task-heading { padding: 20px 18px 14px; }
+    .playground-task-form { padding: 18px; }
+    .playground-workspace > .demo-output { padding: 18px; }
+    .playground-task-form .land-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
 </style>
 
 <script>
@@ -620,6 +863,8 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
 
   type ClientMode = {
     id: ModeId;
+    label: string;
+    description: string;
     entrypoint: string;
     docs: string;
     reference: string;
@@ -638,8 +883,8 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
    * mistaken for a copyable snippet.
    */
   type Outcome =
-    | { kind: 'value'; text: string; snippet: string }
-    | { kind: 'list'; items: string[]; snippet: string }
+    | { kind: 'value'; text: string; snippet: string; json?: unknown }
+    | { kind: 'list'; items: string[]; snippet: string; json?: unknown }
     | { kind: 'empty'; text: string; guidance: string; snippet?: string }
     | { kind: 'error'; message: string; snippet?: undefined };
 
@@ -657,13 +902,22 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
 
   const root = document.querySelector<HTMLElement>('[data-playground]')!;
   const modeField = document.querySelector<HTMLSelectElement>('#playground-mode')!;
+  const navItems = Array.from(document.querySelectorAll<HTMLButtonElement>('.playground-nav-item'));
   const inputField = document.querySelector<HTMLInputElement>('#playground-input')!;
+  const searchField = document.querySelector<HTMLInputElement>('#playground-search')!;
+  const optionFields = document.querySelector<HTMLElement>('#playground-options')!;
+  const inputLabel = document.querySelector<HTMLElement>('#playground-input-label')!;
+  const taskTitle = document.querySelector<HTMLElement>('#playground-task-title')!;
+  const taskDescription = document.querySelector<HTMLElement>('#playground-task-description')!;
   const hint = document.querySelector<HTMLElement>('#playground-hint')!;
   const note = document.querySelector<HTMLElement>('#playground-note')!;
   const status = document.querySelector<HTMLElement>('#playground-status')!;
   const resultRegion = document.querySelector<HTMLElement>('#playground-result')!;
   const valueSlot = document.querySelector<HTMLOutputElement>('#playground-value')!;
   const listSlot = document.querySelector<HTMLUListElement>('#playground-list')!;
+  const jsonSlot = document.querySelector<HTMLElement>('#playground-json')!;
+  const viewToggle = document.querySelector<HTMLElement>('#playground-view-toggle')!;
+  const copyJson = document.querySelector<HTMLButtonElement>('#playground-copy-json')!;
   const snippet = document.querySelector<HTMLElement>('#playground-snippet')!;
   const entrypointLabel = document.querySelector<HTMLElement>('#playground-entrypoint')!;
   const docsLink = document.querySelector<HTMLAnchorElement>('#playground-docs-link')!;
@@ -672,8 +926,44 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
   const copyResult = document.querySelector<HTMLButtonElement>('#playground-copy-result')!;
   const copySnippet = document.querySelector<HTMLButtonElement>('#playground-copy-snippet')!;
 
-  // Per-mode input memory: switching domains restores what was typed there.
-  const memory = new Map<ModeId, string>();
+  for (const control of root.querySelectorAll<HTMLButtonElement | HTMLInputElement | HTMLSelectElement>(':disabled')) control.disabled = false;
+
+  type ModeState = { input: string; controls: Record<string, string> };
+  const modeStates = new Map<ModeId, ModeState>();
+  let activeModeId = modeField.value as ModeId;
+
+  function activeInput(mode: ClientMode): string {
+    if (mode.id === 'collation') {
+      return document.querySelector<HTMLTextAreaElement>('#playground-collation-text')?.value ?? inputField.value;
+    }
+    return inputField.value;
+  }
+
+  function controlKey(control: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement): string | undefined {
+    if (control.id) return control.id;
+    const landUnit = control.dataset.landUnit;
+    return landUnit ? `land:${landUnit}` : undefined;
+  }
+
+  function rememberModeState(mode: ClientMode): void {
+    const hierarchyNotMounted = mode.id === 'admin' && !optionFields.querySelector('#playground-province');
+    const controls: Record<string, string> = hierarchyNotMounted
+      ? { ...(modeStates.get(mode.id)?.controls ?? {}) }
+      : {};
+    for (const control of optionFields.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('input, select, textarea')) {
+      const key = controlKey(control);
+      if (key) controls[key] = control.value;
+    }
+    if (mode.id === 'collation') {
+      const searchQuery = inputField.dataset.searchQuery;
+      if (searchQuery !== undefined) controls['playground-collation-query'] = searchQuery;
+    }
+    modeStates.set(mode.id, { input: activeInput(mode), controls });
+  }
+
+  function savedControl(mode: ClientMode, key: string, fallback: string): string {
+    return modeStates.get(mode.id)?.controls[key] ?? fallback;
+  }
 
   // --- Lazy domain loading ------------------------------------------------
   // One dynamic import per subpath: the bundler keeps these in separate
@@ -690,6 +980,7 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
     'nepali-toolkit/phone': () => import('nepali-toolkit/phone'),
     'nepali-toolkit/collation': () => import('nepali-toolkit/collation'),
     'nepali-toolkit/admin/provinces': () => import('nepali-toolkit/admin/provinces'),
+    'nepali-toolkit/admin': () => import('nepali-toolkit/admin'),
   };
 
   const load = async (entrypoint: string): Promise<ToolkitModule> => {
@@ -706,8 +997,59 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
   const importLine = (mode: ClientMode, names: readonly string[]): string =>
     `import { ${names.join(', ')} } from '${mode.entrypoint}';`;
 
+  const selectedValue = (id: string, fallback: string): string =>
+    document.querySelector<HTMLSelectElement>(`#${id}`)?.value ?? fallback;
+
+  function selectedTaskTitle(mode: ClientMode): string {
+    const operationControl: Partial<Record<ModeId, string>> = {
+      number: '#playground-number-operation',
+      'date-bs-to-ad': '#playground-date-task',
+      'date-ad-to-bs': '#playground-date-task',
+      words: '#playground-words-task',
+      collation: '#playground-collation-task',
+    };
+    const operationId = operationControl[mode.id];
+    if (operationId) {
+      const selected = document.querySelector<HTMLSelectElement>(operationId)?.selectedOptions[0]?.textContent;
+      if (selected) return selected;
+    }
+
+    const fixedTitles: Partial<Record<ModeId, string>> = {
+      currency: 'Format NPR currency',
+      land: 'Convert land area',
+      phone: 'Inspect phone number',
+      admin: 'Browse administrative data',
+    };
+    return fixedTitles[mode.id] ?? mode.label;
+  }
+
   const isoDate = (fields: Fields): string =>
     `${fields.year}-${String(fields.month).padStart(2, '0')}-${String(fields.day).padStart(2, '0')}`;
+
+  function secondaryDateFields(): Fields {
+    const values = Array.from(
+      document.querySelectorAll<HTMLInputElement>('[data-date-secondary]'),
+      (field) => Number(field.value),
+    );
+    return { year: values[0], month: values[1], day: values[2] };
+  }
+
+  function dateOperationOutcome(
+    mode: ClientMode,
+    result: unknown,
+    imports: readonly string[],
+    call: string,
+  ): Outcome {
+    const hasDateFields = typeof result === 'object' && result !== null && 'year' in result;
+    const text = hasDateFields ? isoDate(result as Fields) : String(result);
+    const json = typeof result === 'object' && result !== null ? result : undefined;
+    return {
+      kind: 'value',
+      text,
+      json,
+      snippet: [importLine(mode, imports), '', `${call}; // → ${literal(text)}`].join('\n'),
+    };
+  }
 
   const plural = (count: number, noun: string): string => (count === 1 ? noun : `${noun}s`);
 
@@ -750,18 +1092,26 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
 
   const handlers: Record<ModeId, (mode: ClientMode, raw: string) => Promise<Outcome>> = {
     async number(mode, raw) {
-      const { formatNumber } = (await load(mode.entrypoint)) as {
-        formatNumber: (value: string) => string;
+      const { formatNumber, parseNumber } = (await load(mode.entrypoint)) as {
+        formatNumber: (value: string, options?: Record<string, unknown>) => string;
+        parseNumber: (value: string) => string;
       };
       const value = raw.trim();
-      const text = formatNumber(value);
+      const grouping = selectedValue('playground-number-grouping', 'nepali');
+      const numerals = selectedValue('playground-number-numerals', 'ascii');
+      const operation = selectedValue('playground-number-operation', 'format');
+      const text = operation === 'parse' ? parseNumber(value) : formatNumber(value, { grouping, numerals });
+      const imports = operation === 'parse' ? ['parseNumber'] : ['formatNumber'];
+      const call = operation === 'parse'
+        ? `const parsed = parseNumber(${literal(value)});`
+        : `const grouped = formatNumber(${literal(value)}, ${JSON.stringify({ grouping, numerals })});`;
       return {
         kind: 'value',
         text,
         snippet: [
-          importLine(mode, ['formatNumber']),
+          importLine(mode, imports),
           '',
-          `const grouped = formatNumber(${literal(value)});`,
+          call,
           `// → ${literal(text)}`,
         ].join('\n'),
       };
@@ -800,10 +1150,59 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
         toAD: (value: unknown) => Fields;
       };
       const [year, month, day] = civilFields(raw.trim(), 'Bikram Sambat', mode.sample);
+      const dateText = isoDate({ year, month, day });
+      const operation = (document.querySelector('#playground-date-task') as HTMLSelectElement | null)?.value ?? 'convert';
+      if (operation !== 'convert') {
+        const dateApi = await load('nepali-toolkit/date') as {
+          addDaysBS: (date: object, days: number) => unknown;
+          differenceInDaysBS: (left: object, right: object) => number;
+          formatBS: (date: object, format: string) => string;
+          getFiscalYear: (date: object) => number;
+          parseBS: (date: string) => object;
+          bs: (year: number, month: number, day: number) => object;
+        };
+        const date = bs(year, month, day) as object;
+
+        if (operation === 'add') {
+          const days = Number((document.querySelector('#playground-date-days') as HTMLInputElement).value);
+          return dateOperationOutcome(
+            mode,
+            dateApi.addDaysBS(date, days),
+            ['bs', 'addDaysBS'],
+            `addDaysBS(bs(${year}, ${month}, ${day}), ${days})`,
+          );
+        }
+        if (operation === 'difference') {
+          const other = secondaryDateFields();
+          return dateOperationOutcome(
+            mode,
+            dateApi.differenceInDaysBS(date, dateApi.bs(other.year, other.month, other.day)),
+            ['bs', 'differenceInDaysBS'],
+            `differenceInDaysBS(bs(${year}, ${month}, ${day}), bs(${other.year}, ${other.month}, ${other.day}))`,
+          );
+        }
+        if (operation === 'fiscal') {
+          return dateOperationOutcome(
+            mode,
+            dateApi.getFiscalYear(date),
+            ['bs', 'getFiscalYear'],
+            `getFiscalYear(bs(${year}, ${month}, ${day}))`,
+          );
+        }
+
+        const parsed = dateApi.parseBS(dateText);
+        return dateOperationOutcome(
+          mode,
+          dateApi.formatBS(parsed, 'YYYY-MM-DD'),
+          ['parseBS', 'formatBS'],
+          `formatBS(parseBS(${literal(dateText)}), 'YYYY-MM-DD')`,
+        );
+      }
       const converted = toAD(bs(year, month, day));
       return {
         kind: 'value',
         text: isoDate(converted),
+        json: converted,
         snippet: [
           importLine(mode, ['bs', 'toAD']),
           '',
@@ -819,10 +1218,50 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
         toBS: (value: unknown) => Fields;
       };
       const [year, month, day] = civilFields(raw.trim(), 'Gregorian', mode.sample);
+      const dateText = isoDate({ year, month, day });
+      const operation = (document.querySelector('#playground-date-task') as HTMLSelectElement | null)?.value ?? 'convert';
+      if (operation !== 'convert') {
+        const dateApi = await load('nepali-toolkit/date') as {
+          addDaysAD: (date: object, days: number) => unknown;
+          differenceInDaysAD: (left: object, right: object) => number;
+          formatAD: (date: object, format: string) => string;
+          parseAD: (date: string) => object;
+          ad: (year: number, month: number, day: number) => object;
+        };
+        const date = ad(year, month, day) as object;
+
+        if (operation === 'add') {
+          const days = Number((document.querySelector('#playground-date-days') as HTMLInputElement).value);
+          return dateOperationOutcome(
+            mode,
+            dateApi.addDaysAD(date, days),
+            ['ad', 'addDaysAD'],
+            `addDaysAD(ad(${year}, ${month}, ${day}), ${days})`,
+          );
+        }
+        if (operation === 'difference') {
+          const other = secondaryDateFields();
+          return dateOperationOutcome(
+            mode,
+            dateApi.differenceInDaysAD(date, dateApi.ad(other.year, other.month, other.day)),
+            ['ad', 'differenceInDaysAD'],
+            `differenceInDaysAD(ad(${year}, ${month}, ${day}), ad(${other.year}, ${other.month}, ${other.day}))`,
+          );
+        }
+
+        const parsed = dateApi.parseAD(dateText);
+        return dateOperationOutcome(
+          mode,
+          dateApi.formatAD(parsed, 'YYYY-MM-DD'),
+          ['parseAD', 'formatAD'],
+          `formatAD(parseAD(${literal(dateText)}), 'YYYY-MM-DD')`,
+        );
+      }
       const converted = toBS(ad(year, month, day));
       return {
         kind: 'value',
         text: isoDate(converted),
+        json: converted,
         snippet: [
           importLine(mode, ['ad', 'toBS']),
           '',
@@ -834,107 +1273,200 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
 
     async currency(mode, raw) {
       const { formatNPR } = (await load(mode.entrypoint)) as {
-        formatNPR: (value: string) => string;
+        formatNPR: (value: string, options?: Record<string, unknown>) => string;
       };
       const value = raw.trim();
-      const text = formatNPR(value);
+      const placement = selectedValue('playground-currency-placement', 'before');
+      const numerals = selectedValue('playground-currency-digits', 'devanagari');
+      const symbol = selectedValue('playground-currency-symbol', 'रु');
+      const options = { placement, numerals, symbol };
+      const text = formatNPR(value, options);
       return {
         kind: 'value',
         text,
         snippet: [
           importLine(mode, ['formatNPR']),
           '',
-          `const amount = formatNPR(${literal(value)});`,
+          `const amount = formatNPR(${literal(value)}, ${JSON.stringify(options)});`,
           `// → ${literal(text)}`,
         ].join('\n'),
       };
     },
 
     async land(mode, raw) {
-      const { hillArea, formatHillArea } = (await load(mode.entrypoint)) as {
-        hillArea: (fields: { ropani: number }) => unknown;
+      const { hillArea, teraiArea, formatHillArea, formatTeraiArea, toSquareMetres, toSquareFeet } = (await load(mode.entrypoint)) as {
+        hillArea: (fields: Record<string, number>) => { um2: bigint };
+        teraiArea: (fields: Record<string, number>) => { um2: bigint };
         formatHillArea: (area: unknown) => string;
+        formatTeraiArea: (area: unknown) => string;
+        toSquareMetres: (area: { um2: bigint }) => string;
+        toSquareFeet: (area: { um2: bigint }) => string;
       };
-      const value = raw.trim();
-      if (!/^\d+$/.test(value)) {
-        throw new Error('Enter a whole number of ropani, for example 2.');
-      }
-      const ropani = Number(value);
-      const text = formatHillArea(hillArea({ ropani }));
+      const system = selectedValue('playground-land-system', 'hill');
+      const units = system === 'hill' ? ['ropani', 'aana', 'paisa', 'daam'] : ['bigha', 'kattha', 'dhur'];
+      const fields = Object.fromEntries(units.map(name => {
+        const field = document.querySelector<HTMLInputElement>(`[data-land-unit="${name}"]`);
+        const value = field?.value || (name === units[0] ? raw.trim() : '0');
+        if (!/^\d+$/.test(value)) throw new Error(`${name} must be a non-negative whole number.`);
+        return [name, Number(value)];
+      }));
+      const area = system === 'hill' ? hillArea(fields) : teraiArea(fields);
+      const native = system === 'hill' ? formatHillArea(area) : formatTeraiArea(area);
+      const squareMetres = toSquareMetres(area);
+      const squareFeet = toSquareFeet(area);
+      const text = `${native}\n${squareMetres} m²\n${squareFeet} ft²`;
+      const areaFunction = system === 'hill' ? 'hillArea' : 'teraiArea';
+      const formatFunction = system === 'hill' ? 'formatHillArea' : 'formatTeraiArea';
+      const importedFunctions = [areaFunction, formatFunction, 'toSquareMetres', 'toSquareFeet'];
+      const inputJson = JSON.stringify(fields);
       return {
         kind: 'value',
         text,
+        json: { system, input: fields, native, squareMetres, squareFeet, squareMicrometres: area.um2.toString() },
         snippet: [
-          importLine(mode, ['hillArea', 'formatHillArea']),
+          importLine(mode, importedFunctions),
           '',
-          `const area = hillArea({ ropani: ${ropani} });`,
-          'formatHillArea(area);',
-          `// → ${literal(text)}`,
+          `const area = ${areaFunction}(${inputJson});`,
+          `${formatFunction}(area); // → ${literal(native)}`,
+          `toSquareMetres(area); // → ${literal(squareMetres)}`,
+          `toSquareFeet(area); // → ${literal(squareFeet)}`,
         ].join('\n'),
       };
     },
 
     async words(mode, raw) {
-      const { numberToNepaliWords } = (await load(mode.entrypoint)) as {
+      const { numberToNepaliWords, numberToEnglishWords, amountToNepaliWordsNPR } = (await load(mode.entrypoint)) as {
         numberToNepaliWords: (value: string) => string;
+        numberToEnglishWords: (value: string) => string;
+        amountToNepaliWordsNPR: (value: string) => string;
       };
       const value = raw.trim();
-      const text = numberToNepaliWords(value);
+      const operation = selectedValue('playground-words-task', 'nepali');
+      let functionName: string;
+      let text: string;
+      if (operation === 'english') {
+        functionName = 'numberToEnglishWords';
+        text = numberToEnglishWords(value);
+      } else if (operation === 'npr') {
+        functionName = 'amountToNepaliWordsNPR';
+        text = amountToNepaliWordsNPR(value);
+      } else {
+        functionName = 'numberToNepaliWords';
+        text = numberToNepaliWords(value);
+      }
       return {
         kind: 'value',
         text,
         snippet: [
-          importLine(mode, ['numberToNepaliWords']),
+          importLine(mode, [functionName]),
           '',
-          `const words = numberToNepaliWords(${literal(value)});`,
+          `const words = ${functionName}(${literal(value)});`,
           `// → ${literal(text)}`,
         ].join('\n'),
       };
     },
 
     async phone(mode, raw) {
-      const { parseNepalPhone, isValidNepalPhone } = (await load(mode.entrypoint)) as {
-        parseNepalPhone: (value: string) => ParsedPhone | null;
+      const {
+        parseNepalPhone,
+        isValidNepalPhone,
+        isPossibleNepalPhone,
+        isAllocatedNepalPhone,
+        getNepalPhoneType,
+      } = (await load(mode.entrypoint)) as {
+        parseNepalPhone: (value: string) => ParsedPhone;
         isValidNepalPhone: (value: ParsedPhone) => boolean;
+        isPossibleNepalPhone: (value: string) => boolean;
+        isAllocatedNepalPhone: (value: ParsedPhone) => boolean;
+        getNepalPhoneType: (value: ParsedPhone) => string;
       };
       const value = raw.trim();
       // An unrecognised shape throws InvalidPhoneError, which surfaces as
       // inline feedback with the library's own wording.
+      const possible = isPossibleNepalPhone(value);
       const phone = parseNepalPhone(value);
-      if (phone === null) {
-        return {
-          kind: 'empty',
-          text: '—',
-          guidance: 'Type a mobile or landline number to see how it parses.',
-        };
-      }
       const valid = isValidNepalPhone(phone);
+      const allocated = isAllocatedNepalPhone(phone);
+      const type = getNepalPhoneType(phone);
+      const details = { ...phone, type, possible, valid, allocated };
       const lines = [
-        importLine(mode, ['parseNepalPhone', 'isValidNepalPhone']),
+        importLine(mode, [
+          'parseNepalPhone',
+          'isPossibleNepalPhone',
+          'isValidNepalPhone',
+          'isAllocatedNepalPhone',
+          'getNepalPhoneType',
+        ]),
         '',
         `const phone = parseNepalPhone(${literal(value)});`,
-        `phone.e164;                 // → ${literal(phone.e164)}`,
+        `isPossibleNepalPhone(${literal(value)}); // → ${possible}`,
+        `isValidNepalPhone(phone); // → ${valid}`,
+        `isAllocatedNepalPhone(phone); // → ${allocated}`,
+        `getNepalPhoneType(phone); // → ${literal(type)}`,
       ];
       if (phone.operator !== undefined) {
         lines.push(`phone.operator;             // → ${literal(phone.operator)}`);
       }
-      lines.push(`isValidNepalPhone(phone);   // → ${valid}`);
       return {
         kind: 'value',
-        text: [phone.e164, phone.kind, phone.operator].filter(Boolean).join(' · '),
+        text: [
+          phone.e164,
+          type,
+          `possible ${possible}`,
+          `valid ${valid}`,
+          `allocated ${allocated}`,
+          phone.operator,
+        ].filter(Boolean).join(' · '),
+        json: details,
         snippet: lines.join('\n'),
       };
     },
 
     async collation(mode, raw) {
-      const { getNepaliTextStats } = (await load(mode.entrypoint)) as {
+      const {
+        getNepaliTextStats,
+        createNepaliCollator,
+        nepaliIncludes,
+      } = (await load(mode.entrypoint)) as {
         getNepaliTextStats: (value: string) => {
           words: number;
           characters: number;
           sentences: number;
           paragraphs: number;
         };
+        createNepaliCollator: () => { sort(values: readonly string[]): string[] };
+        nepaliIncludes: (value: string, query: string) => boolean;
       };
+      const task = selectedValue('playground-collation-task', 'stats');
+      if (task === 'sort') {
+        const values = raw.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+        const sorted = createNepaliCollator().sort(values);
+        return {
+          kind: 'value',
+          text: sorted.join('\n'),
+          json: sorted,
+          snippet: [
+            importLine(mode, ['createNepaliCollator']),
+            '',
+            `const values = ${JSON.stringify(values)};`,
+            'const sorted = createNepaliCollator().sort(values);',
+            `// → ${JSON.stringify(sorted)}`,
+          ].join('\n'),
+        };
+      }
+      if (task === 'search') {
+        const query = inputField.dataset.searchQuery ?? '';
+        const matches = nepaliIncludes(raw, query);
+        return {
+          kind: 'value',
+          text: String(matches),
+          snippet: [
+            importLine(mode, ['nepaliIncludes']),
+            '',
+            `nepaliIncludes(${literal(raw)}, ${literal(query)}); // → ${matches}`,
+          ].join('\n'),
+        };
+      }
       const stats = getNepaliTextStats(raw);
       if (stats.words === 0) {
         return {
@@ -950,6 +1482,7 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
           `${stats.sentences} ${plural(stats.sentences, 'sentence')}`,
           `${stats.characters} ${plural(stats.characters, 'character')}`,
         ].join(' · '),
+        json: stats,
         snippet: [
           importLine(mode, ['getNepaliTextStats']),
           '',
@@ -960,21 +1493,109 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
     },
 
     async admin(mode, raw) {
-      const { getProvinces, findProvincesByName } = (await load(mode.entrypoint)) as {
+      const {
+        getProvinces,
+        getProvince,
+        findProvincesByName,
+        getDistrict,
+        getDistricts,
+        getPalika,
+        getPalikas,
+        getPalikaWards,
+        getPostalCode,
+        getWardPostalCode,
+      } = (await load(mode.entrypoint)) as {
         getProvinces: () => readonly Province[];
+        getProvince: (code: string) => Province | undefined;
         findProvincesByName: (query: string) => readonly Province[];
+        getDistrict: (code: string) => { code: string; nameEn: string; nameNe: string } | undefined;
+        getDistricts: (province?: string) => readonly { code: string; nameEn: string; nameNe: string }[];
+        getPalika: (code: string) => { code: string; nameEn: string; nameNe: string; wards: number } | undefined;
+        getPalikas: (district?: string) => readonly { code: string; nameEn: string; nameNe: string; wards: number }[];
+        getPalikaWards: (code: string) => readonly number[];
+        getPostalCode: (code: string) => string | undefined;
+        getWardPostalCode: (code: string, ward: number) => string | undefined;
       };
       const describe = (province: Province) =>
         `${province.nameNe} · ${province.nameEn} · code ${province.code}`;
 
       // An empty query is a valid request for the whole list, so this mode
       // keeps a real snippet even in its empty state.
+      const selected = (id: string) => (document.querySelector(`#${id}`) as HTMLSelectElement | null)?.value ?? '';
+      const provinceCode = selected('playground-province');
+      const districtCode = selected('playground-district');
+      const palikaCode = selected('playground-palika');
+      const ward = Number(selected('playground-ward')) || 0;
       const query = raw.trim();
+      if (provinceCode) {
+        const province = getProvince(provinceCode);
+        const district = districtCode ? getDistrict(districtCode) : undefined;
+        const palika = palikaCode ? getPalika(palikaCode) : undefined;
+        const districts = getDistricts(provinceCode);
+        const palikas = districtCode ? getPalikas(districtCode) : [];
+        const wards = palikaCode ? getPalikaWards(palikaCode) : [];
+        const postalCode = palikaCode
+          ? ward ? getWardPostalCode(palikaCode, ward) : getPostalCode(palikaCode)
+          : undefined;
+        const json = {
+          province,
+          districts,
+          district,
+          palikas,
+          palika,
+          wards,
+          ward: ward || undefined,
+          postalScheme: 'GPO-derived palika/ward code; not legacy post-office postal codes',
+          postalCode,
+        };
+        const imports = [
+          'getProvince',
+          'getDistricts',
+          ...(districtCode ? ['getDistrict', 'getPalikas'] : []),
+          ...(palikaCode ? ['getPalika', 'getPalikaWards', ...(ward ? ['getWardPostalCode'] : ['getPostalCode'])] : []),
+        ];
+        const lines = [
+          importLine(mode, imports),
+          '',
+          `const provinceCode = ${literal(provinceCode)};`,
+          'const province = getProvince(provinceCode);',
+          'const districts = getDistricts(provinceCode);',
+        ];
+        if (districtCode) {
+          lines.push(
+            `const districtCode = ${literal(districtCode)};`,
+            'const district = getDistrict(districtCode);',
+            'const palikas = getPalikas(districtCode);',
+          );
+        }
+        if (palikaCode) {
+          lines.push(
+            `const palikaCode = ${literal(palikaCode)};`,
+            'const palika = getPalika(palikaCode);',
+            'const wards = getPalikaWards(palikaCode);',
+          );
+          if (ward) lines.push(`const wardNo = ${ward};`, 'const postalCode = getWardPostalCode(palikaCode, wardNo);');
+          else lines.push('const postalCode = getPostalCode(palikaCode);');
+        }
+        return {
+          kind: 'value',
+          text: [
+            province?.nameEn,
+            district?.nameEn,
+            palika?.nameEn,
+            ward ? `Ward ${ward}` : '',
+            postalCode ? `GPO code ${postalCode}` : '',
+          ].filter(Boolean).join(' · '),
+          json,
+          snippet: lines.join('\n'),
+        };
+      }
       if (query === '') {
         const provinces = getProvinces();
         return {
           kind: 'list',
           items: provinces.map(describe),
+          json: provinces,
           snippet: [
             importLine(mode, ['getProvinces']),
             '',
@@ -1061,13 +1682,15 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
     return html + escapeSnippetHtml(source.slice(cursor));
   }
 
-  type Painted = { result: string; snippet: string };
+  type Painted = { result: string; snippet: string; json: string };
 
   // Seeded from the served markup, which already holds a real build-time result.
   let painted: Painted = {
     result: valueSlot.textContent ?? '',
-    snippet: snippet.textContent ?? '',
+    snippet: snippet.textContent ?? '', json: '',
   };
+  let currentIsList = false;
+  let resultView: 'preview' | 'json' = 'preview';
 
   function setState(state: 'ready' | 'loading' | 'error' | 'empty', message: string): void {
     root.dataset.state = state;
@@ -1083,6 +1706,11 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
     return outcome.text;
   }
 
+  /** JSON view is portable: exact bigint values are represented as decimal strings. */
+  function serializeResult(value: unknown): string {
+    return JSON.stringify(value, (_key, item) => typeof item === 'bigint' ? item.toString() : item, 2);
+  }
+
   function paint(outcome: Outcome): void {
     const isError = outcome.kind === 'error';
     // Raw source stays in `painted` so Copy copies clean code, not HTML.
@@ -1090,11 +1718,19 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
     const nextSnippet = isError ? '' : (outcome.snippet ?? '');
 
     snippet.innerHTML = nextSnippet === '' ? '' : highlightSnippet(nextSnippet);
-    painted = { result: isError ? '' : scalarOf(outcome), snippet: nextSnippet };
+    const json = !isError && (outcome.kind === 'value' || outcome.kind === 'list') && outcome.json !== undefined
+      ? serializeResult(outcome.json) : '';
+    currentIsList = outcome.kind === 'list';
+    painted = { result: isError ? '' : scalarOf(outcome), snippet: nextSnippet, json };
+    viewToggle.hidden = json === '';
+    copyJson.hidden = json === '';
+    jsonSlot.hidden = json === '' || resultView !== 'json';
+    valueSlot.hidden = outcome.kind === 'list' || (json !== '' && resultView === 'json');
+    jsonSlot.textContent = json;
 
     if (outcome.kind === 'list') {
       valueSlot.hidden = true;
-      listSlot.hidden = false;
+      listSlot.hidden = resultView === 'json';
       // Values come from the packaged dataset, but textContent is used so no
       // path can ever interpret a value as markup.
       listSlot.replaceChildren(
@@ -1107,13 +1743,14 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
     } else {
       listSlot.hidden = true;
       listSlot.replaceChildren();
-      valueSlot.hidden = false;
+      valueSlot.hidden = json !== '' && resultView === 'json';
       valueSlot.textContent = isError ? '—' : outcome.text;
     }
 
     // A list has no single scalar to copy and an empty state has no result
     // worth copying, but an empty state may still have a complete snippet.
     copyResult.disabled = outcome.kind === 'list' || outcome.kind === 'empty';
+    copyResult.textContent = json !== '' && resultView === 'json' ? 'Copy value' : 'Copy result';
     copySnippet.disabled = outcome.snippet === undefined;
 
     const message =
@@ -1147,7 +1784,21 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
         chip.setAttribute('aria-label', `Try example ${example}`);
         chip.addEventListener('click', () => {
           inputField.value = example;
-          memory.set(mode.id, example);
+          if (mode.id.startsWith('date-')) {
+            const fields = example.split('-');
+            ['year', 'month', 'day'].forEach((name, index) => {
+              const target = document.querySelector<HTMLInputElement>(`#playground-${name}`);
+              if (target) target.value = fields[index] ?? '';
+            });
+          } else if (mode.id === 'land') {
+            const system = selectedValue('playground-land-system', 'hill');
+            const firstUnit = system === 'hill' ? 'ropani' : 'bigha';
+            const target = document.querySelector<HTMLInputElement>(`[data-land-unit="${firstUnit}"]`);
+            if (target) target.value = example;
+          } else if (mode.id === 'collation') {
+            const text = document.querySelector<HTMLTextAreaElement>('#playground-collation-text');
+            if (text) text.value = example;
+          }
           void run();
           inputField.focus();
         });
@@ -1156,16 +1807,372 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
     );
   }
 
+  function renderOptions(mode: ClientMode): void {
+    optionFields.replaceChildren();
+    inputLabel.textContent = mode.id.startsWith('date-')
+      ? 'Date (year-month-day)'
+      : mode.id === 'land' ? 'Land area' : 'Input';
+    const addSelect = (
+      label: string,
+      id: string,
+      options: Array<[string, string]>,
+      value: string,
+    ): HTMLSelectElement => {
+      const wrapper = document.createElement('div');
+      const caption = document.createElement('label');
+      caption.htmlFor = id;
+      caption.textContent = label;
+      const select = document.createElement('select');
+      select.id = id;
+      for (const [optionValue, optionLabel] of options) {
+        const option = document.createElement('option');
+        option.value = optionValue;
+        option.textContent = optionLabel;
+        select.append(option);
+      }
+      const remembered = savedControl(mode, id, value);
+      select.value = options.some(([candidate]) => candidate === remembered) ? remembered : value;
+      wrapper.append(caption, select);
+      optionFields.append(wrapper);
+      return select;
+    };
+    if (mode.id.startsWith('date-')) {
+      const [year = '2082', month = '4', day = '7'] = inputField.value.split('-');
+      const values: HTMLInputElement[] = [];
+      for (const [label, value, id] of [['Year', year, 'year'], ['Month', month, 'month'], ['Day', day, 'day']]) {
+        const wrap = document.createElement('div'), caption = document.createElement('label'), field = document.createElement('input');
+        field.id = `playground-${id}`;
+        caption.htmlFor = field.id;
+        caption.textContent = label;
+        field.type = 'number';
+        field.min = '1';
+        field.max = id === 'month' ? '12' : id === 'day' ? '31' : '9999';
+        field.value = value;
+        field.inputMode = 'numeric';
+        wrap.append(caption, field); optionFields.append(wrap); values.push(field);
+      }
+      const sync = () => {
+        inputField.value = values.map((value) => value.value).join('-');
+        void run();
+      };
+      values.forEach(v => v.addEventListener('input', sync));
+      inputField.hidden = true;
+      const dateOperations: Array<[string, string]> = mode.id === 'date-bs-to-ad'
+        ? [['convert', 'Convert BS to AD'], ['parse-format', 'Parse / format BS'], ['add', 'Add days'], ['difference', 'Difference in days'], ['fiscal', 'Fiscal year']]
+        : [['convert', 'Convert AD to BS'], ['parse-format', 'Parse / format AD'], ['add', 'Add days'], ['difference', 'Difference in days']];
+      const task = addSelect('Date operation', 'playground-date-task', dateOperations, 'convert');
+
+      const daysWrap = document.createElement('div');
+      const daysLabel = document.createElement('label');
+      const days = document.createElement('input');
+      days.id = 'playground-date-days';
+      daysLabel.htmlFor = days.id;
+      daysLabel.textContent = 'Days to add';
+      days.type = 'number';
+      days.value = savedControl(mode, days.id, '1');
+      daysWrap.append(daysLabel, days);
+      optionFields.append(daysWrap);
+
+      const secondary = document.createElement('fieldset');
+      secondary.className = 'date-secondary';
+      const legend = document.createElement('legend');
+      legend.textContent = 'Compare with date';
+      secondary.append(legend);
+      for (const [label, id, value] of [['Year', 'year', year], ['Month', 'month', month], ['Day', 'day', day]]) {
+        const wrap = document.createElement('label');
+        wrap.textContent = label;
+        const field = document.createElement('input');
+        field.id = `playground-date-secondary-${id}`;
+        field.type = 'number';
+        field.value = savedControl(mode, field.id, value);
+        field.min = '1';
+        field.dataset.dateSecondary = id;
+        wrap.append(field);
+        secondary.append(wrap);
+      }
+      optionFields.append(secondary);
+
+      const updateDateOptions = () => {
+        daysWrap.hidden = task.value !== 'add';
+        secondary.hidden = task.value !== 'difference';
+      };
+      task.addEventListener('change', () => {
+        updateDateOptions();
+        void run();
+      });
+      days.addEventListener('input', () => void run());
+      secondary.querySelectorAll('input').forEach(field => field.addEventListener('input', () => void run()));
+      updateDateOptions();
+    } else if (mode.id === 'number') {
+      inputField.hidden = false;
+      const task = addSelect(
+        'Number operation',
+        'playground-number-operation',
+        [['format', 'Format number'], ['parse', 'Parse number']],
+        'format',
+      );
+      const grouping = addSelect(
+        'Grouping',
+        'playground-number-grouping',
+        [['nepali', 'Nepali'], ['western', 'Western'], ['none', 'None']],
+        'nepali',
+      );
+      const numerals = addSelect(
+        'Digits',
+        'playground-number-numerals',
+        [['ascii', 'ASCII'], ['devanagari', 'Devanagari']],
+        'ascii',
+      );
+      const updateNumberOptions = () => {
+        grouping.disabled = numerals.disabled = task.value === 'parse';
+      };
+      task.addEventListener('change', () => {
+        updateNumberOptions();
+        void run();
+      });
+      [grouping, numerals].forEach((select) => select.addEventListener('change', () => void run()));
+      updateNumberOptions();
+    } else if (mode.id === 'words') {
+      inputField.hidden = false;
+      const task = addSelect(
+        'Words operation',
+        'playground-words-task',
+        [['nepali', 'Number in Nepali'], ['english', 'Number in English'], ['npr', 'NPR amount in Nepali']],
+        'nepali',
+      );
+      task.addEventListener('change', () => void run());
+    } else if (mode.id === 'currency') {
+      inputField.hidden = false;
+      const placement = addSelect(
+        'Symbol placement',
+        'playground-currency-placement',
+        [['before', 'Before amount'], ['after', 'After amount']],
+        'before',
+      );
+      const numerals = addSelect(
+        'Digits',
+        'playground-currency-digits',
+        [['devanagari', 'Devanagari'], ['ascii', 'ASCII']],
+        'devanagari',
+      );
+      const symbol = addSelect(
+        'Currency symbol',
+        'playground-currency-symbol',
+        [['रु', 'रु'], ['रू', 'रू'], ['नेरू', 'नेरू'], ['NPR', 'NPR']],
+        'रु',
+      );
+      [placement, numerals, symbol].forEach((select) => select.addEventListener('change', () => void run()));
+    } else if (mode.id === 'land') {
+      inputField.hidden = true;
+      const unit = addSelect(
+        'Land system',
+        'playground-land-system',
+        [['hill', 'Hill (ropani/aana/paisa/daam)'], ['terai', 'Terai (bigha/kattha/dhur)']],
+        'hill',
+      );
+      const fields = document.createElement('div');
+      fields.className = 'land-fields';
+      const unitDefinitions: Array<[string, string]> = [
+        ['ropani', ''], ['aana', '15'], ['paisa', '3'], ['daam', '3'],
+        ['bigha', ''], ['kattha', '19'], ['dhur', '19'],
+      ];
+      for (const [name, max] of unitDefinitions) {
+        const wrap = document.createElement('label');
+        wrap.textContent = name;
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.min = '0';
+        if (max) input.max = max;
+        input.step = '1';
+        input.dataset.landUnit = name;
+        input.value = savedControl(mode, `land:${name}`, name === 'ropani' ? inputField.value : '0');
+        wrap.append(input);
+        fields.append(wrap);
+      }
+      optionFields.append(fields);
+      const refresh = () => {
+        fields.querySelectorAll<HTMLInputElement>('[data-land-unit]').forEach((field) => {
+          const hillUnit = ['ropani', 'aana', 'paisa', 'daam'].includes(field.dataset.landUnit!);
+          field.parentElement!.hidden = unit.value === 'hill' ? !hillUnit : hillUnit;
+        });
+      };
+      unit.addEventListener('change', () => {
+        refresh();
+        void run();
+      });
+      fields.querySelectorAll('input').forEach((field) => field.addEventListener('input', () => {
+        inputField.value = field.value;
+        void run();
+      }));
+      refresh();
+    } else if (mode.id === 'admin') {
+      inputField.hidden = false;
+      const caption = document.createElement('p'); caption.textContent = 'Postal codes here follow the GPO-derived scheme (palika code; ward number appended), not legacy post-office codes.'; optionFields.append(caption);
+    } else if (mode.id === 'collation') {
+      inputField.hidden = true;
+      const wrap = document.createElement('div');
+      const label = document.createElement('label');
+      const select = document.createElement('select');
+      label.htmlFor = 'playground-collation-task';
+      label.textContent = 'Text operation';
+      select.id = 'playground-collation-task';
+      for (const [value, title] of [['stats','Count text'],['sort','Sort lines'],['search','Search text']]) {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = title;
+        select.append(option);
+      }
+      select.value = savedControl(mode, select.id, 'stats');
+      wrap.append(label, select);
+
+      const fieldLabel = document.createElement('label');
+      const text = document.createElement('textarea');
+      fieldLabel.htmlFor = 'playground-collation-text';
+      fieldLabel.textContent = 'Text';
+      text.id = 'playground-collation-text';
+      text.value = modeStates.get(mode.id)?.input ?? inputField.value;
+      text.rows = 4;
+      optionFields.append(wrap,fieldLabel,text);
+      const queryValue = savedControl(mode, 'playground-collation-query', 'नेपाल');
+      inputField.dataset.searchQuery = queryValue;
+      const ensureSearchField = () => {
+        if (optionFields.querySelector<HTMLInputElement>('#playground-collation-query')) return;
+        const queryLabel = document.createElement('label');
+        const queryField = document.createElement('input');
+        queryLabel.htmlFor = 'playground-collation-query';
+        queryLabel.textContent = 'Search phrase';
+        queryField.id = 'playground-collation-query';
+        queryField.value = inputField.dataset.searchQuery ?? 'नेपाल';
+        optionFields.append(queryLabel, queryField);
+        queryField.addEventListener('input', () => {
+          inputField.dataset.searchQuery = queryField.value;
+          void run();
+        });
+      };
+      if (select.value === 'search') ensureSearchField();
+      text.addEventListener('input', () => void run());
+      select.addEventListener('change', () => {
+        if (select.value === 'search') ensureSearchField();
+        void run();
+      });
+    }
+    if (!mode.id.startsWith('date-') && mode.id !== 'land') inputField.hidden = false;
+  }
+
+  async function populateAdmin(
+    restoredControls: Record<string, string> = {},
+    isCurrent: () => boolean = () => true,
+  ): Promise<void> {
+    const mod = await load('nepali-toolkit/admin') as {
+      getProvinces: () => readonly { code: string; nameEn: string; nameNe: string }[];
+      getDistricts: (province?: string) => readonly { code: string; nameEn: string; nameNe: string }[];
+      getPalikas: (district?: string) => readonly { code: string; nameEn: string; nameNe: string; wards: number }[];
+    };
+    if (!isCurrent()) return;
+
+    const selected = (id: string) => (document.querySelector(`#${id}`) as HTMLSelectElement | null)?.value ?? '';
+    const make = (
+      id: string,
+      label: string,
+      rows: readonly { code: string; nameEn: string; nameNe: string }[],
+      chosen: string,
+      onChange: () => void,
+    ): HTMLSelectElement => {
+      let select = optionFields.querySelector<HTMLSelectElement>(`#${id}`);
+      const isMounted = select !== null;
+      if (!select) {
+        const wrap = document.createElement('div');
+        const caption = document.createElement('label');
+        caption.htmlFor = id;
+        caption.textContent = label;
+        select = document.createElement('select');
+        select.id = id;
+        wrap.append(caption, select);
+        optionFields.append(wrap);
+      }
+
+      const previous = isMounted ? chosen : (restoredControls[id] ?? chosen);
+      select.replaceChildren();
+      const empty = document.createElement('option');
+      empty.value = '';
+      empty.textContent = `Choose ${label.toLocaleLowerCase()}`;
+      select.append(empty);
+      for (const row of rows) {
+        const option = document.createElement('option');
+        option.value = row.code;
+        option.textContent = `${row.nameEn} · ${row.nameNe}`;
+        select.append(option);
+      }
+      select.value = previous;
+      select.onchange = onChange;
+      return select;
+    };
+    const fill = () => {
+      const onChange = () => {
+        fill();
+        void run();
+      };
+      const province = make('playground-province', 'Province', mod.getProvinces(), selected('playground-province'), onChange);
+      const districts = make(
+        'playground-district',
+        'District',
+        mod.getDistricts(province.value || undefined),
+        selected('playground-district'),
+        onChange,
+      );
+      const palikas = make(
+        'playground-palika',
+        'Palika',
+        mod.getPalikas(districts.value || undefined),
+        selected('playground-palika'),
+        onChange,
+      );
+      const palikaRow = mod.getPalikas(districts.value || undefined).find(row => row.code === palikas.value);
+      const wards = palikaRow ? Array.from({ length: palikaRow.wards }, (_, index) => index + 1) : [];
+
+      let ward = optionFields.querySelector<HTMLSelectElement>('#playground-ward');
+      const wardIsMounted = ward !== null;
+      if (!ward) {
+        const wrap = document.createElement('div');
+        const caption = document.createElement('label');
+        caption.htmlFor = 'playground-ward';
+        caption.textContent = 'Ward (optional)';
+        ward = document.createElement('select');
+        ward.id = 'playground-ward';
+        wrap.append(caption, ward);
+        optionFields.append(wrap);
+      }
+      const previousWard = wardIsMounted ? ward.value : (restoredControls['playground-ward'] ?? '');
+      ward.replaceChildren();
+      const palikaCodeOption = document.createElement('option');
+      palikaCodeOption.value = '';
+      palikaCodeOption.textContent = 'Palika postal code';
+      ward.append(palikaCodeOption);
+      for (const value of wards) {
+        const option = document.createElement('option');
+        option.value = String(value);
+        option.textContent = `Ward ${value}`;
+        ward.append(option);
+      }
+      ward.value = previousWard;
+      ward.onchange = () => void run();
+    };
+    fill();
+  }
+
   /** Stops a slow earlier run from overwriting a newer one. */
   let revision = 0;
 
   async function run(): Promise<void> {
     const current = ++revision;
     const mode = modeById(modeField.value);
-    const raw = inputField.value;
-    memory.set(mode.id, raw);
+    const isCurrent = () => current === revision && modeField.value === mode.id;
+    const raw = activeInput(mode);
+    rememberModeState(mode);
     const shortName = mode.entrypoint.split('/').pop() ?? mode.entrypoint;
 
+    taskTitle.textContent = selectedTaskTitle(mode);
+    taskDescription.textContent = mode.description;
     hint.textContent = mode.hint;
     inputField.placeholder = mode.placeholder;
     inputField.inputMode = mode.inputMode;
@@ -1173,6 +2180,15 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
     docsLink.href = `${siteBase}${mode.docs.slice(1)}`;
     docsLink.textContent = `Read the ${mode.reference} reference →`;
     note.hidden = true;
+    if (mode.id === 'admin') {
+      await populateAdmin(modeStates.get(mode.id)?.controls, isCurrent);
+      if (!isCurrent()) return;
+    }
+
+    if (!isCurrent()) return;
+    const url = new URL(window.location.href);
+    url.searchParams.set('tool', mode.id);
+    history.replaceState({ ...(history.state ?? {}), playgroundTool: mode.id }, '', url);
 
     // A cleared required field is a prompt, not a failure.
     if (raw.trim() === '' && !mode.optional) {
@@ -1190,7 +2206,7 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
 
     try {
       const outcome = await handlers[mode.id](mode, raw);
-      if (current !== revision) return;
+      if (!isCurrent()) return;
 
       if (mode.id === 'date-bs-to-ad' || mode.id === 'date-ad-to-bs') {
         // A range note is supplementary, so a failure here must not turn a
@@ -1198,7 +2214,7 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
         const resolved = await rangeNote(mode.id === 'date-bs-to-ad' ? 'bs' : 'ad').catch(
           () => undefined,
         );
-        if (current !== revision) return;
+        if (!isCurrent()) return;
         if (resolved !== undefined) {
           note.textContent = resolved;
           note.hidden = false;
@@ -1207,7 +2223,7 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
 
       paint(outcome);
     } catch (error) {
-      if (current !== revision) return;
+      if (!isCurrent()) return;
       paint({ kind: 'error', message: describeError(error) });
     }
   }
@@ -1215,20 +2231,72 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
   // --- Wiring -------------------------------------------------------------
 
   modeField.addEventListener('change', () => {
-    // Restore what was typed for the new mode, else its deterministic sample.
+    rememberModeState(modeById(activeModeId));
     const next = modeById(modeField.value);
-    inputField.value = memory.get(next.id) ?? next.sample;
+    markActiveNav(next.id);
+    inputField.value = modeStates.get(next.id)?.input ?? next.sample;
+    activeModeId = next.id;
     renderExamples(next);
+    renderOptions(next);
+    const nextUrl = new URL(window.location.href); nextUrl.searchParams.set('tool', next.id);
+    history.pushState({ playgroundTool: next.id }, '', nextUrl);
     run();
   });
   inputField.addEventListener('input', run);
-  reset.addEventListener('click', () => {
-    const mode = modeById(modeField.value);
-    inputField.value = mode.sample;
-    memory.set(mode.id, mode.sample);
-    run();
+  searchField.addEventListener('input', () => {
+    const query = searchField.value.trim().toLocaleLowerCase();
+    for (const item of navItems) item.hidden = !item.textContent!.toLocaleLowerCase().includes(query);
+    for (const group of document.querySelectorAll<HTMLElement>('.playground-nav-group')) group.hidden = !group.querySelector('.playground-nav-item:not([hidden])');
+    for (const option of modeField.options) option.hidden = !option.textContent!.toLocaleLowerCase().includes(query);
   });
+  function markActiveNav(id: string): void {
+    navItems.forEach(item => { if (item.dataset.tool === id) item.setAttribute('aria-current','true'); else item.removeAttribute('aria-current'); });
+  }
+  navItems.forEach(item => item.addEventListener('click', () => {
+    if (modeField.value === item.dataset.tool) return;
+    modeField.value = item.dataset.tool!;
+    modeField.dispatchEvent(new Event('change'));
+  }));
+  viewToggle.addEventListener('click', event => {
+    const target = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-result-view]');
+    if (!target || !painted.json) return;
+    resultView = target.dataset.resultView as 'preview' | 'json';
+    viewToggle.querySelectorAll('[data-result-view]').forEach(button => button.setAttribute('aria-pressed', String(button === target)));
+    jsonSlot.hidden = resultView !== 'json'; valueSlot.hidden = resultView === 'json'; listSlot.hidden = resultView === 'json' || !currentIsList;
+  });
+  function resetActiveMode(): void {
+    const mode = modeById(modeField.value);
+    modeStates.delete(mode.id);
+    if (mode.id === 'collation') delete inputField.dataset.searchQuery;
+    inputField.value = mode.sample;
+    renderExamples(mode);
+    renderOptions(mode);
+    void run();
+  }
+  reset.addEventListener('click', resetActiveMode);
+  const initialTool = new URL(window.location.href).searchParams.get('tool');
+  if (initialTool && config.modes.some(mode => mode.id === initialTool)) {
+    modeField.value = initialTool;
+    inputField.value = modeById(initialTool).sample;
+    activeModeId = initialTool as ModeId;
+  }
   renderExamples(modeById(modeField.value));
+  renderOptions(modeById(modeField.value));
+  markActiveNav(modeField.value);
+  void run();
+  window.addEventListener('popstate', () => {
+    rememberModeState(modeById(activeModeId));
+    const tool = new URL(window.location.href).searchParams.get('tool');
+    const restored = tool && config.modes.some(mode => mode.id === tool) ? tool : config.modes[0].id;
+    modeField.value = restored;
+    const mode = modeById(restored);
+    activeModeId = mode.id;
+    inputField.value = modeStates.get(mode.id)?.input ?? mode.sample;
+    renderExamples(mode);
+    renderOptions(mode);
+    markActiveNav(restored);
+    void run();
+  });
 
   /**
    * Copies text and confirms in the button label and the live region, because
@@ -1257,4 +2325,5 @@ const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
 
   wireCopy(copyResult, () => painted.result, 'Result');
   wireCopy(copySnippet, () => painted.snippet, 'Snippet');
+  wireCopy(copyJson, () => painted.json, 'JSON');
 </script>
